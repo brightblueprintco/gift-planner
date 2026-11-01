@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2F4A3A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gift Planner">
+<title>The Christmas Gift Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F6F0E4;--paper:#FCF9F3;--brass:#B08D57;--pine:#2F4A3A;--berry:#8E2F3A;--ink:#2A2622;--rule:#E3D5BA;--soft:#EFE5D2;--ok:#4F7A5C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"DM Sans",system-ui,sans-serif;font-weight:300;color:var(--ink);background:var(--cream);font-size:16px;line-height:1.45;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+header.top{background:var(--pine);color:var(--cream);padding:22px 0 18px}
+header.top .wrap{padding-bottom:0}
+.kick{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#D9BE8C;font-weight:500}
+h1{font-family:"Playfair Display",serif;font-weight:700;font-size:30px;line-height:1.1;margin-top:6px}
+h1 em{font-weight:500;color:#E7CF9C}
+.count{font-family:"Playfair Display",serif;font-style:italic;color:#E7CF9C;font-size:16px;margin-top:4px}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.sum div{background:rgba(255,255,255,.07);border:1px solid rgba(217,190,140,.35);border-radius:10px;padding:10px 12px}
+.sum span{display:block;font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:#D9BE8C;font-weight:500}
+.sum b{font-family:"Playfair Display",serif;font-size:22px;font-weight:500}
+.sum .neg b{color:#F0A4A4}
+.bar{height:8px;background:rgba(255,255,255,.12);border-radius:8px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brass);border-radius:8px;transition:width .3s}
+.bar.over i{background:#E07A7A}
+nav{position:sticky;top:0;z-index:5;background:var(--cream);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+nav .wrap::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;font-size:14px;font-weight:500;color:var(--pine);padding:7px 13px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);white-space:nowrap}
+nav a.on{background:var(--pine);color:var(--cream);border-color:var(--pine)}
+section{display:none;padding-top:20px}
+section.on{display:block}
+h2{font-family:"Playfair Display",serif;font-weight:700;color:var(--pine);font-size:25px}
+.sub{font-family:"Playfair Display",serif;font-style:italic;color:var(--berry);margin:2px 0 16px}
+h3{font-family:"Playfair Display",serif;font-weight:500;color:var(--pine);font-size:19px;margin:22px 0 10px}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:14px;margin-bottom:10px}
+.card.done{opacity:.62}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.f{display:flex;flex-direction:column;gap:3px;flex:1 1 140px;min-width:0}
+.f.sm{flex:1 1 80px;max-width:150px}
+.f.md{flex:1 1 130px}
+.f.full{flex:1 1 100%}
+label,.lab{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--brass);font-weight:500}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:9px 10px;font-size:16px;font-weight:400;min-height:42px}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--brass);outline-offset:0;border-color:var(--brass)}
+.ticks{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.tick{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule);background:#fff;border-radius:999px;padding:7px 13px;font-size:14px;cursor:pointer;user-select:none;font-weight:400}
+.tick::before{content:"";width:16px;height:16px;border:1.5px solid var(--brass);border-radius:4px;background:#fff;flex:none}
+.tick.y{background:var(--pine);color:var(--cream);border-color:var(--pine)}
+.tick.y::before{background:var(--brass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--brass)}
+.btn{border:none;background:var(--pine);color:var(--cream);font-weight:500;border-radius:8px;padding:11px 16px;font-size:15px;cursor:pointer;min-height:44px}
+.btn.alt{background:#fff;color:var(--pine);border:1px solid var(--pine)}
+.btn.warn{background:var(--berry)}
+.btn.sm{padding:7px 12px;font-size:13px;min-height:34px}
+.x{margin-left:auto;background:none;border:none;color:var(--berry);font-size:13px;cursor:pointer;padding:6px;text-decoration:underline;text-underline-offset:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--rule);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-weight:500;color:var(--pine)}
+.chip.on{background:var(--brass);color:#fff;border-color:var(--brass)}
+.add{background:var(--soft);border:1px dashed var(--brass);border-radius:12px;padding:14px;margin-bottom:16px}
+.add .btn{margin-top:10px;width:100%}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--pine);font-weight:500;text-align:left;padding:6px 4px;border-bottom:1.5px solid var(--pine)}
+td{padding:6px 4px;border-bottom:1px solid var(--rule);vertical-align:middle}
+td input{min-height:38px;padding:6px 8px}
+td.n,th.n{text-align:right;white-space:nowrap}
+.neg{color:var(--berry);font-weight:500}
+.mini{height:5px;background:var(--soft);border-radius:5px;margin-top:4px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--brass)}
+.mini.over i{background:var(--berry)}
+.person{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.person b{font-family:"Playfair Display",serif;font-weight:500;font-size:18px;color:var(--pine)}
+.meta{font-size:13px;color:#7A6E62}
+.pill{display:inline-block;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:3px 8px;border-radius:6px;background:var(--soft);color:var(--pine)}
+.pill.r{background:#F5DADA;color:var(--berry)}
+.empty{text-align:center;color:#8A7E70;font-style:italic;font-family:"Playfair Display",serif;padding:22px}
+.note{background:var(--soft);border-left:3px solid var(--berry);padding:12px 14px;font-size:14px;border-radius:0 8px 8px 0;margin:12px 0}
+.cat-name{font-family:"Playfair Display",serif;font-size:16px}
+.saved{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--pine);color:var(--cream);padding:9px 16px;border-radius:999px;font-size:13px;transition:transform .25s;z-index:20}
+.saved.show{transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:rgba(42,38,34,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}
+.modal.on{display:flex}
+.modal .card{max-width:380px;width:100%;padding:20px}
+.modal p{margin:8px 0 16px}
+.modal .row{justify-content:flex-end}
+.foot{text-align:center;color:var(--brass);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;margin-top:40px}
+@media (max-width:480px){h1{font-size:26px}.sum b{font-size:19px}.f.sm{flex:1 1 64px}.f{flex-basis:120px}}
+@media print{nav,.add,.x,.btn,.chips,header .bar{display:none!important}section{display:block!important;page-break-after:always}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<div class="kick">BrightBlueprintCo</div>
+<h1>The Christmas Gift Planner <em>&amp; budget tracker</em></h1>
+<div class="count" id="count"></div>
+<div class="sum">
+<div><span>Budget</span><b id="sB">0</b></div>
+<div><span>Spent</span><b id="sS">0</b></div>
+<div id="sLwrap"><span>Left</span><b id="sL">0</b></div>
+</div>
+<div class="bar" id="sBar"><i style="width:0"></i></div>
+</div></header>
+
+<nav><div class="wrap" id="nav"></div></nav>
+
+<main class="wrap">
+
+<section id="budget">
+<h2>Budget at a glance</h2>
+<p class="sub">Decide the number first. Shop second.</p>
+<div class="card"><div class="row">
+<div class="f"><label for="total">My total budget</label><input type="number" inputmode="decimal" id="total" placeholder="e.g. 600"></div>
+<div class="f sm"><label for="cur">Currency</label><select id="cur"><option>£</option><option>$</option><option>€</option><option value="">None</option></select></div>
+</div>
+<p class="meta" style="margin-top:8px" id="allocNote"></p></div>
+<h3>By category</h3>
+<div class="card" style="padding:8px 10px"><table><thead><tr><th>Category</th><th class="n" style="width:28%">Budget</th><th class="n">Spent</th><th class="n">Left</th></tr></thead><tbody id="catRows"></tbody></table></div>
+<h3>By person</h3>
+<div id="people"></div>
+</section>
+
+<section id="gifts">
+<h2>The gift list</h2>
+<p class="sub">One line per present. Two ticks and it's done.</p>
+<div class="add" id="addGift"></div>
+<div class="chips" id="gFilter"></div>
+<div id="giftList"></div>
+</section>
+
+<section id="kids">
+<h2>Kids &amp; stockings</h2>
+<p class="sub">Wish lists, the big one, and the little bits that fill a stocking.</p>
+<div class="add" id="addKid"></div>
+<div id="kidList"></div>
+</section>
+
+<section id="orders">
+<h2>Online orders</h2>
+<p class="sub">What's coming, when, and the last day to send it back.</p>
+<div class="add" id="addOrder"></div>
+<div id="orderList"></div>
+</section>
+
+<section id="cards">
+<h2>Cards &amp; posting</h2>
+<p class="sub">Miss the last posting date and it's a New Year present.</p>
+<div class="card"><div class="lab" style="margin-bottom:8px">Last posting dates <span class="meta" style="text-transform:none;letter-spacing:0;font-weight:300">— check your postal service and fill these in early</span></div>
+<div class="row" id="postDates"></div></div>
+<div class="add" id="addCard"></div>
+<div id="cardList"></div>
+</section>
+
+<section id="ideas">
+<h2>Gift ideas bank</h2>
+<p class="sub">Things they've mentioned. Write them down the moment you hear them.</p>
+<div class="add" id="addIdea"></div>
+<div id="ideaList"></div>
+</section>
+
+<section id="eve">
+<h2>Christmas Eve checklist</h2>
+<p class="sub">Tick these before you sit down.</p>
+<div id="eveList"></div>
+<div class="add" style="margin-top:14px"><div class="row"><div class="f"><label for="eveNew">Add your own</label><input type="text" id="eveNew" placeholder="e.g. Carrot for the reindeer"></div></div><button class="btn" id="eveAdd">Add to checklist</button></div>
+</section>
+
+<section id="thanks">
+<h2>Thank-you tracker</h2>
+<p class="sub">Who gave what, and whether you've said thank you.</p>
+<div class="add" id="addThanks"></div>
+<div id="thanksList"></div>
+</section>
+
+<section id="next">
+<h2>Notes for next year</h2>
+<p class="sub">Future you will thank you for this page.</p>
+<div class="card" id="nextBox"></div>
+</section>
+
+<section id="backup">
+<h2>Save &amp; back up</h2>
+<p class="sub">Your planner saves itself on this device, every time you type.</p>
+<div class="note"><b>Worth knowing:</b> your planner lives in this browser on this device. Clearing your browsing data, or opening it on another phone or laptop, starts a blank planner. Make a backup now and then, and you can always bring it back.</div>
+<h3>Make a backup</h3>
+<div class="card">
+<p style="margin-bottom:10px">Copy your backup code and paste it into a note or email to yourself.</p>
+<div class="row"><button class="btn" id="copyB">Copy backup code</button><button class="btn alt" id="dlB">Download backup file</button></div>
+<textarea id="bOut" readonly style="margin-top:10px;font-size:12px;min-height:70px" aria-label="Backup code"></textarea>
+</div>
+<h3>Restore or move to another device</h3>
+<div class="card">
+<p style="margin-bottom:10px">Paste a backup code here, or choose a backup file.</p>
+<textarea id="bIn" placeholder="Paste your backup code" style="font-size:12px" aria-label="Paste backup code"></textarea>
+<div class="row" style="margin-top:10px"><button class="btn" id="restoreB">Restore from code</button><label class="btn alt" style="display:inline-flex;align-items:center;font-size:15px;letter-spacing:0;text-transform:none;cursor:pointer">Choose file<input type="file" id="bFile" accept=".json,.txt,application/json" hidden></label></div>
+<p class="meta" id="bMsg" style="margin-top:8px"></p>
+</div>
+<h3>Add it to your home screen</h3>
+<div class="card"><p><b>iPhone / iPad:</b> tap Share, then <i>Add to Home Screen</i>.<br><b>Android:</b> tap the ⋮ menu, then <i>Add to Home screen</i>.<br>It opens like an app, with everything still saved.</p></div>
+<h3>Start again</h3>
+<div class="card"><p style="margin-bottom:10px">Wipes everything on this device. Make a backup first if you might want it.</p><button class="btn warn" id="wipe">Start a fresh planner</button></div>
+</section>
+
+<div class="foot">✦ BrightBlueprintCo ✦</div>
+</main>
+
+<div class="saved" id="saved">Saved ✓</div>
+<div class="modal" id="modal"><div class="card"><h3 style="margin-top:0" id="mT"></h3><p id="mP"></p><div class="row"><button class="btn alt sm" id="mNo">Cancel</button><button class="btn warn sm" id="mYes">Yes, do it</button></div></div></div>
+
+<script>
+const KEY = "bbc-gift-planner-v1";
+const TABS = [["budget","Budget"],["gifts","Gift list"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["ideas","Ideas"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save & back up"]];
+const CATS = ["Partner","Children","Parents","Brothers & sisters","Wider family","Friends","Work & Secret Santa","Teachers & thank-yous","Stocking fillers","Wrapping, cards & postage","Just in case"];
+const EVE = ["All presents wrapped and labelled","Labels checked: right name, right present","Batteries bought (AA, AAA, the odd ones)","Screwdriver for battery compartments","Spare tape, scissors and tags in one place","Hiding places emptied","Stockings filled","Presents for visitors set aside","Last-minute gift for the person you forgot","Phones and devices charged","Receipts and gift receipts filed","Thank-you list started"];
+const uid = () => Math.random().toString(36).slice(2, 9);
+const fresh = () => ({v:1, cur:"£", total:"", cats:CATS.map(n=>({id:uid(),name:n,budget:""})), gifts:[], kids:[], orders:[], cards:[], ideas:[], thanks:[],
+  postDates:{second:"",first:"",special:"",intl:"",other:""}, eve:EVE.map(t=>({id:uid(),text:t,done:false})), notes:{worked:"",diff:"",earlier:""}, filter:"all"});
+
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)) || fresh(); } catch(e) { S = fresh(); }
+S = Object.assign(fresh(), S);
+
+let tSave;
+function save(quiet){
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
+  if(!quiet){ const el=$("#saved"); el.classList.add("show"); clearTimeout(tSave); tSave=setTimeout(()=>el.classList.remove("show"),1100); }
+}
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g,"")); return isNaN(n) ? 0 : n; };
+const money = n => (S.cur||"") + (Math.round(n*100)/100).toLocaleString(undefined,{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+
+/* ---------- confirm dialog ---------- */
+function ask(title, text, yes){
+  $("#mT").textContent=title; $("#mP").textContent=text; $("#modal").classList.add("on");
+  $("#mYes").onclick=()=>{ $("#modal").classList.remove("on"); yes(); };
+  $("#mNo").onclick=()=>$("#modal").classList.remove("on");
+}
+
+/* ---------- generic list collections ---------- */
+const SCHEMA = {
+  gifts:{fields:[["who","For","text","Mum"],["idea","Gift","text","Cashmere scarf"],["cat","Category","cat"],["budget","Budget","num","",true],["spent","Spent","num","",true]],
+         ticks:[["bought","Bought"],["wrapped","Wrapped"]], doneIf:g=>g.bought&&g.wrapped, empty:"No presents on the list yet. Add your first one above."},
+  kids:{fields:[["name","Name","text","Child's name"],["budget","Budget","num","",true],["wish","On their wish list","area"],["big","The big present","text"],["stocking","Stocking fillers","area"]], ticks:[], empty:"Add each child to plan their wish list and stocking."},
+  orders:{fields:[["item","Item","text","What you ordered"],["from","From","text","Shop"],["due","Due","date","",true],["ret","Return by","date","",true]], ticks:[["arrived","Arrived"]], doneIf:o=>o.arrived, empty:"No orders tracked yet."},
+  cards:{fields:[["name","Name","text","Who it's for"],["postedOn","Posted on","date","",true]], ticks:[["card","Card"],["post","Gift to post"],["arrived","Arrived"]], empty:"Add everyone getting a card or a posted present."},
+  ideas:{fields:[["who","For","text","Who"],["idea","Idea","area","What they mentioned"]], ticks:[], empty:"Nothing in the bank yet. Next time someone says “I'd love one of those”, write it here."},
+  thanks:{fields:[["from","From","text","Who"],["gift","What they gave","text"]], ticks:[["done","Thanked"]], doneIf:t=>t.done, empty:"After Christmas, list who gave what here."}
+};
+
+function fieldHTML(coll, item, f){
+  const [k,lab,type,ph,sm] = f; const id = coll+"-"+item.id+"-"+k; const v = item[k] ?? "";
+  const data = `data-c="${coll}" data-i="${item.id}" data-k="${k}"`;
+  let ctl;
+  if(type==="cat") ctl = `<select id="${id}" ${data}>${S.cats.map(c=>`<option ${c.name===v?"selected":""}>${esc(c.name)}</option>`).join("")}</select>`;
+  else if(type==="area") ctl = `<textarea id="${id}" ${data} placeholder="${esc(ph||"")}">${esc(v)}</textarea>`;
+  else ctl = `<input id="${id}" ${data} type="${type==="num"?"number":type}" ${type==="num"?'inputmode="decimal" step="0.01"':""} value="${esc(v)}" placeholder="${esc(ph||"")}">`;
+  return `<div class="f ${sm?"sm":""} ${type==="cat"?"md":""} ${type==="area"?"full":""}"><label for="${id}">${lab}</label>${ctl}</div>`;
+}
+
+function renderList(coll){
+  const sc = SCHEMA[coll], box = $("#"+({gifts:"giftList",kids:"kidList",orders:"orderList",cards:"cardList",ideas:"ideaList",thanks:"thanksList"}[coll]));
+  let items = S[coll];
+  if(coll==="gifts"){
+    const f=S.filter; items = items.filter(g => f==="all" || (f==="buy"&&!g.bought) || (f==="wrap"&&g.bought&&!g.wrapped) || (f==="done"&&g.bought&&g.wrapped));
+    items = [...items].sort((a,b)=>String(a.who).localeCompare(String(b.who)));
+  }
+  if(coll==="orders") items=[...items].sort((a,b)=>(a.arrived-b.arrived)||String(a.due||"9").localeCompare(String(b.due||"9")));
+  if(!items.length){ box.innerHTML = `<div class="empty">${S[coll].length?"Nothing here with that filter.":sc.empty}</div>`; return; }
+  box.innerHTML = items.map(it => {
+    let extra = "";
+    if(coll==="orders" && it.ret){ const d=daysTo(it.ret); if(d>=0&&d<=7) extra=`<span class="pill r">Return in ${d} day${d===1?"":"s"}</span>`; else if(d<0) extra=`<span class="pill">Return window closed</span>`; }
+    if(coll==="gifts" && num(it.spent)>num(it.budget)&&num(it.budget)>0) extra=`<span class="pill r">Over by ${money(num(it.spent)-num(it.budget))}</span>`;
+    if(coll==="kids"){ const sp=S.gifts.filter(g=>g.cat==="Children"&&String(g.who).trim().toLowerCase()===String(it.name).trim().toLowerCase()).reduce((a,g)=>a+num(g.spent),0); if(sp) extra=`<span class="pill">${money(sp)} spent on the gift list</span>`; }
+    const ticks = sc.ticks.map(([k,l])=>`<span role="checkbox" tabindex="0" aria-checked="${!!it[k]}" class="tick ${it[k]?"y":""}" data-c="${coll}" data-i="${it.id}" data-t="${k}">${l}</span>`).join("");
+    const move = coll==="ideas" ? `<button class="btn alt sm" data-move="${it.id}">Move to gift list</button>` : "";
+    return `<div class="card ${sc.doneIf&&sc.doneIf(it)?"done":""}"><div class="row">${sc.fields.map(f=>fieldHTML(coll,it,f)).join("")}</div>
+      <div class="ticks">${ticks}${extra}${move}<button class="x" data-del="${coll}" data-i="${it.id}">Remove</button></div></div>`;
+  }).join("");
+}
+
+function renderAdd(coll, boxId, btnLabel){
+  const sc = SCHEMA[coll];
+  const blank = {id:"new"};
+  $("#"+boxId).innerHTML = `<div class="row">${sc.fields.map(f=>fieldHTML(coll+"New",blank,f)).join("")}</div><button class="btn" data-add="${coll}">${btnLabel}</button>`;
+}
+function addItem(coll){
+  const sc=SCHEMA[coll], it={id:uid()}; let any=false;
+  sc.fields.forEach(([k])=>{ const el=document.getElementById(coll+"New-new-"+k); it[k]=el.value; if(el.value&&el.tagName!=="SELECT") any=true; if(el.tagName!=="SELECT") el.value=""; });
+  if(!any){ const first=document.getElementById(coll+"New-new-"+sc.fields[0][0]); first.focus(); first.placeholder="Type something first"; return; }
+  sc.ticks.forEach(([k])=>it[k]=false);
+  S[coll].push(it); save(); renderAll();
+  const first=document.getElementById(coll+"New-new-"+sc.fields[0][0]); if(first) first.focus();
+}
+
+/* ---------- budget ---------- */
+function totals(){
+  const spent = S.gifts.reduce((a,g)=>a+num(g.spent),0);
+  const catBudget = S.cats.reduce((a,c)=>a+num(c.budget),0);
+  const budget = num(S.total) || catBudget;
+  return {spent, budget, catBudget, left: budget-spent};
+}
+function renderSummary(){
+  const t = totals();
+  $("#sB").textContent=money(t.budget); $("#sS").textContent=money(t.spent); $("#sL").textContent=money(t.left);
+  $("#sLwrap").classList.toggle("neg", t.left<0);
+  const pct = t.budget ? Math.min(100, t.spent/t.budget*100) : 0;
+  $("#sBar i").style.width=pct+"%"; $("#sBar").classList.toggle("over", t.budget && t.spent>t.budget);
+  const n = $("#allocNote");
+  if(num(S.total)){ const d=num(S.total)-t.catBudget; n.innerHTML = d>0.004?`You've shared out ${money(t.catBudget)}. <b>${money(d)}</b> still to allocate.`:d<-0.004?`<span class="neg">Your categories add up to ${money(-d)} more than your total.</span>`:"Every penny allocated. Nice."; }
+  else n.textContent = "Set a total, or just fill in the categories and we'll add them up.";
+  S.cats.forEach(c=>{ const sp=S.gifts.filter(g=>g.cat===c.name).reduce((a,g)=>a+num(g.spent),0); const l=num(c.budget)-sp;
+    const sEl=document.getElementById("cs-"+c.id), lEl=document.getElementById("cl-"+c.id), m=document.getElementById("cm-"+c.id);
+    if(sEl){ sEl.textContent=money(sp); lEl.textContent=num(c.budget)||sp?money(l):"–"; lEl.className="n"+(l<0?" neg":"");
+      m.style.width=(num(c.budget)?Math.min(100,sp/num(c.budget)*100):0)+"%"; m.parentNode.classList.toggle("over",l<0&&num(c.budget)>0);} });
+  renderPeople();
+}
+function renderCats(){
+  $("#catRows").innerHTML = S.cats.map(c=>`<tr><td><span class="cat-name">${esc(c.name)}</span><div class="mini"><i id="cm-${c.id}"></i></div></td>
+  <td class="n"><input type="number" inputmode="decimal" step="0.01" aria-label="${esc(c.name)} budget" data-cat="${c.id}" value="${esc(c.budget)}" style="text-align:right"></td>
+  <td class="n" id="cs-${c.id}"></td><td class="n" id="cl-${c.id}"></td></tr>`).join("");
+}
+function renderPeople(){
+  const m = {};
+  S.gifts.forEach(g=>{ const k=String(g.who||"").trim()||"Not set"; (m[k]=m[k]||{n:0,b:0,s:0,bought:0,wrapped:0}); const p=m[k]; p.n++; p.b+=num(g.budget); p.s+=num(g.spent); p.bought+=g.bought?1:0; p.wrapped+=g.wrapped?1:0; });
+  const keys = Object.keys(m).sort();
+  $("#people").innerHTML = keys.length ? keys.map(k=>{ const p=m[k]; const over=p.b&&p.s>p.b;
+    return `<div class="card"><div class="person"><b>${esc(k)}</b><span class="meta">${p.n} present${p.n>1?"s":""} · ${p.bought}/${p.n} bought · ${p.wrapped}/${p.n} wrapped</span></div>
+    <div class="person" style="margin-top:6px"><span class="meta">Spent ${money(p.s)}${p.b?` of ${money(p.b)}`:""}</span>${over?`<span class="pill r">Over by ${money(p.s-p.b)}</span>`:p.n===p.wrapped?'<span class="pill">All done</span>':""}</div>
+    <div class="mini ${over?"over":""}"><i style="width:${p.b?Math.min(100,p.s/p.b*100):0}%"></i></div></div>`; }).join("")
+    : `<div class="empty">Add presents to the gift list and each person's total appears here.</div>`;
+}
+
+/* ---------- other sections ---------- */
+function renderFilter(){
+  const g=S.gifts, c={all:g.length, buy:g.filter(x=>!x.bought).length, wrap:g.filter(x=>x.bought&&!x.wrapped).length, done:g.filter(x=>x.bought&&x.wrapped).length};
+  $("#gFilter").innerHTML=[["all","All"],["buy","To buy"],["wrap","To wrap"],["done","Done"]].map(([k,l])=>`<button class="chip ${S.filter===k?"on":""}" data-f="${k}">${l} · ${c[k]}</button>`).join("");
+}
+function renderPost(){
+  $("#postDates").innerHTML=[["second","Second class"],["first","First class"],["special","Special delivery"],["intl","International"],["other","Courier / other"]]
+    .map(([k,l])=>`<div class="f sm"><label for="pd-${k}">${l}</label><input type="date" id="pd-${k}" data-pd="${k}" value="${esc(S.postDates[k])}"></div>`).join("");
+}
+function renderEve(){
+  const d=S.eve.filter(e=>e.done).length;
+  $("#eveList").innerHTML=`<p class="meta" style="margin-bottom:10px">${d} of ${S.eve.length} done${d===S.eve.length&&d?" — go and sit down.":""}</p>`+
+   S.eve.map(e=>`<div class="card" style="padding:10px 12px;display:flex;align-items:center;gap:8px;${e.done?"opacity:.6":""}"><span role="checkbox" tabindex="0" aria-checked="${e.done}" class="tick ${e.done?"y":""}" data-eve="${e.id}" style="border:none;padding:4px 0;background:none;color:var(--ink)">${esc(e.text)}</span><button class="x" data-evedel="${e.id}">Remove</button></div>`).join("");
+}
+function renderNext(){
+  const t=totals();
+  $("#nextBox").innerHTML=`<p class="meta" style="margin-bottom:12px">This year: budgeted <b>${money(t.budget)}</b>, spent <b>${money(t.spent)}</b>.</p>`+
+   [["worked","What worked"],["diff","Do differently"],["earlier","Start earlier on…"]].map(([k,l])=>`<div class="f full" style="margin-bottom:12px"><label for="nt-${k}">${l}</label><textarea id="nt-${k}" data-note="${k}">${esc(S.notes[k])}</textarea></div>`).join("");
+}
+function daysTo(iso){ const d=new Date(iso+"T00:00:00"), n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/864e5); }
+function renderCount(){
+  const n=new Date(); let x=new Date(n.getFullYear(),11,25); if(n>new Date(n.getFullYear(),11,25,23,59)) x=new Date(n.getFullYear()+1,11,25);
+  const t=new Date(n.getFullYear(),n.getMonth(),n.getDate()); const d=Math.round((x-t)/864e5);
+  $("#count").textContent = d===0?"It's Christmas Day. Put the planner down.":d===1?"Christmas is tomorrow.":`${d} days until Christmas`;
+}
+
+function renderAll(){
+  renderCats(); renderFilter(); ["gifts","kids","orders","cards","ideas","thanks"].forEach(renderList);
+  renderPost(); renderEve(); renderNext(); renderSummary(); renderCount();
+  $("#total").value=S.total; $("#cur").value=S.cur;
+}
+
+/* ---------- tabs ---------- */
+$("#nav").innerHTML = TABS.map(([k,l])=>`<a href="#${k}" data-tab="${k}">${l}</a>`).join("");
+function show(){ const h=(location.hash||"#budget").slice(1); const k=TABS.some(t=>t[0]===h)?h:"budget";
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===k));
+  document.querySelectorAll("nav a").forEach(a=>{ a.classList.toggle("on",a.dataset.tab===k); if(a.dataset.tab===k) a.scrollIntoView({block:"nearest",inline:"center"}); });
+  if(k==="backup") $("#bOut").value=code(); if(k==="next") renderNext(); }
+window.addEventListener("hashchange", show);
+
+/* ---------- events ---------- */
+document.addEventListener("input", e=>{
+  const t=e.target, d=t.dataset;
+  if(d.c && d.i && d.i!=="new"){ const it=S[d.c].find(x=>x.id===d.i); if(it){ it[d.k]=t.value; save(true); if(d.c==="gifts") renderSummary(); } }
+  else if(d.cat){ S.cats.find(c=>c.id===d.cat).budget=t.value; save(true); renderSummary(); }
+  else if(d.pd){ S.postDates[d.pd]=t.value; save(true); }
+  else if(d.note){ S.notes[d.note]=t.value; save(true); }
+  else if(t.id==="total"){ S.total=t.value; save(true); renderSummary(); }
+});
+document.addEventListener("change", e=>{
+  const t=e.target, d=t.dataset;
+  if(t.id==="cur"){ S.cur=t.value; save(); renderAll(); return; }
+  if((d.c&&d.i!=="new")||d.cat||d.pd||d.note||t.id==="total"){ save(); if(d.c==="gifts"&&d.k==="cat") renderSummary(); if(d.c==="gifts"&&d.k==="who") renderSummary(); if(d.c==="orders") renderList("orders"); }
+});
+function toggle(el){
+  const d=el.dataset;
+  if(d.t){ const it=S[d.c].find(x=>x.id===d.i); it[d.t]=!it[d.t]; save(); renderList(d.c); if(d.c==="gifts"){ renderFilter(); renderSummary(); } }
+  else if(d.eve){ const e=S.eve.find(x=>x.id===d.eve); e.done=!e.done; save(); renderEve(); }
+}
+document.addEventListener("keydown", e=>{
+  if((e.key===" "||e.key==="Enter") && e.target.getAttribute("role")==="checkbox"){ e.preventDefault(); toggle(e.target); }
+  if(e.key==="Enter" && e.target.id==="eveNew"){ $("#eveAdd").click(); }
+  if(e.key==="Enter" && e.target.dataset && e.target.dataset.i==="new" && e.target.tagName==="INPUT"){ addItem(e.target.dataset.c.replace("New","")); }
+});
+document.addEventListener("click", e=>{
+  const t=e.target.closest("[data-t],[data-eve],[data-add],[data-del],[data-f],[data-move],[data-evedel]"); if(!t) return;
+  const d=t.dataset;
+  if(d.t||d.eve) return toggle(t);
+  if(d.add) return addItem(d.add);
+  if(d.f){ S.filter=d.f; save(true); renderFilter(); renderList("gifts"); return; }
+  if(d.del){ const it=S[d.del].find(x=>x.id===d.i); const name=it.idea||it.item||it.name||it.who||it.from||"this";
+    return ask("Remove this?", `“${name}” will be taken off the list.`, ()=>{ S[d.del]=S[d.del].filter(x=>x.id!==d.i); save(); renderAll(); }); }
+  if(d.evedel){ S.eve=S.eve.filter(x=>x.id!==d.evedel); save(); renderEve(); return; }
+  if(d.move){ const i=S.ideas.find(x=>x.id===d.move); S.gifts.push({id:uid(),who:i.who,idea:i.idea,cat:S.cats[0].name,budget:"",spent:"",bought:false,wrapped:false}); S.ideas=S.ideas.filter(x=>x.id!==d.move); save(); renderAll(); location.hash="#gifts"; }
+});
+$("#eveAdd").onclick=()=>{ const v=$("#eveNew").value.trim(); if(!v){ $("#eveNew").placeholder="Type something first"; $("#eveNew").focus(); return; } S.eve.push({id:uid(),text:v,done:false}); $("#eveNew").value=""; save(); renderEve(); };
+
+/* ---------- backup ---------- */
+function code(){ const o={...S}; return "BBCGP1:"+btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }
+function load(str){
+  str=String(str).trim(); let o;
+  if(str.startsWith("BBCGP1:")) o=JSON.parse(decodeURIComponent(escape(atob(str.slice(7)))));
+  else o=JSON.parse(str);
+  if(!o||!Array.isArray(o.gifts)) throw new Error("bad");
+  S=Object.assign(fresh(),o); save(); renderAll(); show();
+}
+$("#copyB").onclick=async()=>{ const c=code(); $("#bOut").value=c; try{ await navigator.clipboard.writeText(c); $("#bMsg").textContent="Backup code copied. Paste it somewhere safe."; }catch(e){ $("#bOut").select(); $("#bMsg").textContent="Couldn't copy automatically. Press and hold the code box to copy it."; } };
+$("#dlB").onclick=()=>{ try{ const b=new Blob([code()],{type:"text/plain"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="gift-planner-backup-"+new Date().toISOString().slice(0,10)+".txt"; document.body.appendChild(a); a.click(); a.remove(); $("#bMsg").textContent="Backup file downloaded."; }catch(e){ $("#bMsg").textContent="Download isn't available here. Use Copy backup code instead."; } };
+$("#restoreB").onclick=()=>{ const v=$("#bIn").value; if(!v.trim()){ $("#bMsg").textContent="Paste a backup code first."; return; }
+  ask("Restore this backup?","It replaces what's on this device right now.",()=>{ try{ load(v); $("#bIn").value=""; $("#bMsg").textContent="Restored. Welcome back."; }catch(e){ $("#bMsg").textContent="That code didn't work. Check you copied all of it."; } }); };
+$("#bFile").onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>ask("Restore this backup?","It replaces what's on this device right now.",()=>{ try{ load(r.result); $("#bMsg").textContent="Restored from file."; }catch(err){ $("#bMsg").textContent="That file isn't a gift planner backup."; } }); r.readAsText(f); e.target.value=""; };
+$("#wipe").onclick=()=>ask("Start a fresh planner?","Everything on this device will be wiped. This can't be undone.",()=>{ S=fresh(); save(); renderAll(); location.hash="#budget"; });
+
+/* ---------- boot ---------- */
+renderAdd("gifts","addGift","Add to gift list");
+renderAdd("kids","addKid","Add child");
+renderAdd("orders","addOrder","Track this order");
+renderAdd("cards","addCard","Add to card list");
+renderAdd("ideas","addIdea","Save idea");
+renderAdd("thanks","addThanks","Add");
+renderAll(); show();
+setInterval(renderCount, 60*60*1000);
+</script>
+</body>
+</html>
