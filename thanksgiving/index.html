@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#E9DCC3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thanksgiving">
+<title>The Thanksgiving Host Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Courier+Prime:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces.ttf) format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces-Italic.ttf) format("truetype");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Regular.ttf) format("truetype");font-weight:400}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Bold.ttf) format("truetype");font-weight:700}
+@font-face{font-family:"ReenieL";src:url(fonts/ReenieBeanie.ttf) format("truetype")}
+:root{
+  --oat:#E9DCC3;--card:#FCF7EC;--card2:#F7EEDB;--ink:#3A2A1F;--ink2:#6B5544;
+  --cran:#97302F;--pump:#C4672A;--sage:#6F7448;--mustard:#C9963A;
+  --rule:#B9CCDB;--redrule:#D27A70;--line:#DCCBAB;
+  --serif:"FrauncesL","Fraunces",Georgia,serif;
+  --type:"CourierL","Courier Prime","Courier New",monospace;
+  --hand:"ReenieL","Reenie Beanie","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--serif);font-variation-settings:"SOFT" 50,"opsz" 14;color:var(--ink);background:var(--oat);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  min-height:100vh;padding-bottom:96px;font-size:16px;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 24px}
+button,input,select,textarea{font:inherit;color:inherit}
+/* ---------- header ---------- */
+.masthead{text-align:center;padding:14px 4px 6px;position:relative}
+.kitchen{font-family:var(--type);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap}
+.kitchen input{font-family:var(--hand);font-size:28px;letter-spacing:0;text-transform:none;color:var(--cran);border:0;border-bottom:1.5px dashed var(--ink2);background:transparent;width:13ch;text-align:center;padding:0 4px;line-height:1}
+.kitchen input:focus{outline:none;border-bottom-style:solid}
+h1{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;font-size:clamp(50px,15vw,74px);line-height:.95;letter-spacing:-.02em;color:var(--cran);margin:10px 0 2px}
+.sub{font-family:var(--type);font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.togo{font-family:var(--hand);font-size:30px;color:var(--pump);transform:rotate(-3deg);display:inline-block;margin-top:6px;line-height:1}
+.sprig{width:120px;height:26px;display:block;margin:8px auto 0;color:var(--sage)}
+/* ---------- cards ---------- */
+.card{background:var(--card);border-radius:3px;padding:20px 18px 18px;margin:22px 0;position:relative;
+  box-shadow:0 1px 0 rgba(58,42,31,.06),0 10px 18px -12px rgba(58,42,31,.45),0 2px 4px -2px rgba(58,42,31,.15)}
+.card.tilt-l{transform:rotate(-.6deg)}.card.tilt-r{transform:rotate(.5deg)}
+.card.tape::before{content:"";position:absolute;top:-11px;left:50%;width:92px;height:22px;margin-left:-46px;background:rgba(214,196,160,.72);transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.card.ruled{border-left:0;background-image:linear-gradient(to right,transparent 0 30px,rgba(210,122,112,.35) 30px 31px,transparent 31px);padding-left:44px}
+.card h2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 0,"opsz" 60;font-size:25px;line-height:1.1;color:var(--ink);padding-bottom:9px;margin-bottom:12px;border-bottom:1.5px solid var(--redrule)}
+.card h2 em{font-style:italic;color:var(--cran);font-weight:500}
+.label{font-family:var(--type);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.note{font-family:var(--hand);font-size:23px;line-height:1.05;color:var(--cran)}
+.small{font-size:14px;color:var(--ink2)}
+p+p{margin-top:8px}
+/* ---------- form bits ---------- */
+.field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dotted var(--line)}
+.field:last-child{border-bottom:0}
+.field input[type=time],.field input[type=number],.field select{background:transparent;border:0;border-bottom:1.5px solid var(--ink2);padding:2px 4px;font-family:var(--hand);font-size:26px;line-height:1;color:var(--cran);text-align:right;width:120px;border-radius:0;-webkit-appearance:none;appearance:none}
+.field input:focus,.field select:focus{outline:none;border-bottom-color:var(--cran)}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:6px 12px;font-family:var(--type);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--card)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);background:transparent;padding:9px 16px;font-family:var(--type);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.btn.fill{background:var(--cran);border-color:var(--cran);color:#FCF7EC}
+.btn.sm{padding:6px 11px;font-size:11.5px}
+.btn:active{transform:translateY(1px)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.add{display:flex;gap:8px;margin-top:12px}
+.add input,.add select{flex:1;min-width:0;background:transparent;border:0;border-bottom:1.5px solid var(--ink2);font-family:var(--hand);font-size:25px;line-height:1.1;padding:2px 2px;color:var(--ink)}
+.add select{flex:0 0 auto;font-family:var(--type);font-size:13px}
+.add input:focus{outline:none;border-bottom-color:var(--cran)}
+/* ---------- tick list ---------- */
+.day{margin-top:16px}
+.day:first-child{margin-top:0}
+.dayname{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 40;font-size:20px;color:var(--pump);display:flex;justify-content:space-between;align-items:baseline}
+.dayname span{font-family:var(--type);font-style:normal;font-size:11px;letter-spacing:.14em;color:var(--ink2);text-transform:uppercase}
+.item{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px dotted var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.item:last-child{border-bottom:0}
+.box{flex:0 0 22px;height:22px;margin-top:2px;border:1.7px solid var(--ink);border-radius:3px 5px 2px 6px;position:relative;background:#fffdf7}
+.item.done .box::after{content:"";position:absolute;left:3px;top:-5px;width:9px;height:17px;border:solid var(--cran);border-width:0 3.5px 3.5px 0;transform:rotate(40deg);border-radius:0 0 3px 0}
+.item.done .txt{text-decoration:line-through;text-decoration-color:var(--cran);text-decoration-thickness:1.5px;color:var(--ink2)}
+.txt{flex:1;min-width:0}
+.time{font-family:var(--type);font-weight:700;font-size:13px;color:var(--cran);white-space:nowrap;min-width:66px;margin-top:3px}
+.txt small{display:block;font-size:13.5px;color:var(--ink2);line-height:1.35;margin-top:1px}
+.x{border:0;background:transparent;font-family:var(--type);font-size:18px;color:var(--ink2);padding:0 4px;cursor:pointer;opacity:.6}
+.chip{font-family:var(--type);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1.2px solid currentColor;padding:1px 7px;border-radius:10px 3px 10px 3px;color:var(--sage);white-space:nowrap}
+.chip.no{color:var(--cran)}.chip.maybe{color:var(--mustard)}
+.who{font-family:var(--hand);font-size:22px;color:var(--pump);line-height:1}
+.stat{display:flex;gap:10px;margin:4px 0 2px}
+.stat div{flex:1;text-align:center;padding:8px 4px;border:1.5px dashed var(--line);border-radius:4px}
+.stat b{display:block;font-family:var(--serif);font-weight:600;font-size:30px;font-variation-settings:"SOFT" 100,"opsz" 72;color:var(--cran);line-height:1.1}
+.empty{font-family:var(--hand);font-size:24px;color:var(--ink2);padding:8px 0}
+/* ---------- games ---------- */
+.games{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.gtile{background:var(--card);padding:16px 12px 14px;text-align:left;border:0;cursor:pointer;box-shadow:0 8px 14px -10px rgba(58,42,31,.5),0 1px 0 rgba(58,42,31,.06);border-radius:3px;position:relative;min-height:128px;display:flex;flex-direction:column;justify-content:space-between}
+.gtile:nth-child(odd){transform:rotate(-1deg)}.gtile:nth-child(even){transform:rotate(.8deg)}
+.gtile b{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 40;font-size:20px;line-height:1.1;display:block}
+.gtile .label{margin-bottom:6px;display:block}
+.gtile .note{font-size:21px}
+.gtile.wide{grid-column:1/-1;min-height:0}
+.big{font-family:var(--serif);font-weight:500;font-variation-settings:"SOFT" 100,"opsz" 60;font-size:26px;line-height:1.22;margin:8px 0 16px;min-height:96px}
+.answer{font-family:var(--hand);font-size:30px;line-height:1.05;color:var(--cran);margin:-4px 0 16px}
+.back{border:0;background:transparent;font-family:var(--type);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);cursor:pointer;padding:8px 0}
+.bingo{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:6px 0 14px}
+.bingo button{aspect-ratio:1;border:1.2px solid var(--ink);background:#fffdf7;font-family:var(--serif);font-size:9.6px;hyphens:auto;-webkit-hyphens:auto;line-height:1.15;padding:3px;cursor:pointer;border-radius:2px;position:relative;font-variation-settings:"opsz" 9;color:var(--ink);overflow:hidden}
+.bingo button.on::after{content:"";position:absolute;inset:8%;border:3px solid var(--cran);border-radius:50% 46% 52% 44%;opacity:.8;transform:rotate(-8deg)}
+.bingo button.free{background:var(--cran);color:#FCF7EC;font-family:var(--type);font-weight:700;font-size:10px;letter-spacing:.06em}
+.bingo-head{display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font-family:var(--serif);font-style:italic;font-weight:700;font-size:22px;color:var(--pump)}
+/* ---------- grace ---------- */
+.grace{padding:12px 0;border-bottom:1px dotted var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.grace:last-child{border-bottom:0}
+.grace b{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 30;font-size:19px;display:block;line-height:1.2}
+.grace .arrow{font-family:var(--type);color:var(--cran);font-size:18px}
+.reader{position:fixed;inset:0;background:var(--card);z-index:50;display:none;flex-direction:column;padding:22px 24px calc(24px + env(safe-area-inset-bottom));overflow:auto}
+.reader.open{display:flex}
+.reader .rtext{font-family:var(--serif);font-weight:400;font-variation-settings:"SOFT" 100,"opsz" 72;font-size:clamp(26px,7.4vw,36px);line-height:1.32;margin:auto 0;white-space:pre-line;padding:20px 0}
+.reader h3{font-family:var(--serif);font-style:italic;font-weight:600;font-size:22px;color:var(--cran);font-variation-settings:"SOFT" 100,"WONK" 1}
+.reader .rnav{display:flex;justify-content:space-between;align-items:center;gap:10px}.reader .btn{white-space:nowrap}.reader h3{text-align:center;font-size:18px;line-height:1.15}
+/* ---------- tabs ---------- */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#D9C7A5;border-top:1.5px solid rgba(58,42,31,.25);padding:0 6px env(safe-area-inset-bottom);display:flex;justify-content:center}
+nav.tabs .in{display:flex;max-width:560px;width:100%;gap:4px;padding-top:0}
+nav.tabs button{flex:1;border:0;background:#E7D7B8;font-family:var(--type);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:12px 2px 14px;cursor:pointer;color:var(--ink2);border-radius:0 0 10px 10px;position:relative;top:-1px;box-shadow:inset 0 1px 0 rgba(58,42,31,.12)}
+nav.tabs button.on{background:var(--card);color:var(--cran);font-weight:700;box-shadow:0 4px 10px -6px rgba(58,42,31,.6)}
+nav.tabs svg{display:block;margin:0 auto 4px;width:22px;height:22px}
+.foot{text-align:center;font-family:var(--type);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:34px 0 8px}
+textarea{width:100%;min-height:70px;background:#fffdf7;border:1.2px solid var(--line);padding:8px;font-family:var(--type);font-size:12px;margin-top:8px;border-radius:3px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) rotate(-1deg);background:var(--ink);color:var(--card);font-family:var(--type);font-size:13px;letter-spacing:.06em;padding:9px 16px;border-radius:3px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60}
+.toast.show{opacity:1}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kitchen">From the kitchen of <input id="host" placeholder="your name" maxlength="24" autocomplete="off"></div>
+    <h1>Thanksgiving</h1>
+    <div class="sub" id="dateline">Thursday, November 26</div>
+    <div class="togo" id="togo"></div>
+    <svg class="sprig" viewBox="0 0 120 26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 13h108"/><path d="M60 13c-4-6-10-8-14-7 2 5 8 7 14 7zm0 0c4-6 10-8 14-7-2 5-8 7-14 7zM44 13c-4 5-9 7-13 6 2-4 7-6 13-6zm32 0c4 5 9 7 13 6-2-4-7-6-13-6zM30 13c-3-4-7-6-10-5 1 3 5 5 10 5zm60 0c3-4 7-6 10-5-1 3-5 5-10 5z"/></svg>
+  </header>
+  <main id="main"></main>
+  <div class="foot">Made with love by BrightBlueprintCo</div>
+</div>
+
+<nav class="tabs"><div class="in">
+  <button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 3h6"/></svg>Plan</button>
+  <button data-tab="table"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3 19c0-3 2.5-5 5-5s5 2 5 5M13.5 18.5c.3-2.4 1.6-4 3-4s3.2 1.4 3.5 4"/></svg>Guests</button>
+  <button data-tab="food"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 15h18c0 3-3 5-9 5s-9-2-9-5zM5 15c0-5 3-8 7-8s7 3 7 8M12 7V5"/></svg>Food</button>
+  <button data-tab="games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="15" r="1" fill="currentColor"/></svg>Games</button>
+  <button data-tab="grace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>Grace</button>
+</div></nav>
+
+<div class="reader" id="reader">
+  <div class="rnav"><button class="back" id="rclose">&larr; Back</button><span class="label" id="rcount"></span></div>
+  <div class="rtext" id="rtext"></div>
+  <div class="rnav"><button class="btn sm" id="rprev">&larr; Prev</button><h3 id="rtitle"></h3><button class="btn sm" id="rnext">Next &rarr;</button></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY="bbco-thanksgiving-v1";
+var uid=function(){return Math.random().toString(36).slice(2,9)};
+
+/* ---------------- content ---------------- */
+var TRIVIA=[
+ ["Which president issued the 1863 proclamation that made Thanksgiving a national holiday?","Abraham Lincoln"],
+ ["Which magazine editor campaigned for decades to make Thanksgiving national, and also wrote “Mary Had a Little Lamb”?","Sarah Josepha Hale"],
+ ["Which president proclaimed the first Thanksgiving under the new Constitution, in 1789?","George Washington"],
+ ["In 1939, FDR moved Thanksgiving a week earlier to give shoppers more time before Christmas. What did critics nickname it?","“Franksgiving”"],
+ ["Since 1941, which Thursday in November has Thanksgiving fallen on, by law?","The fourth Thursday"],
+ ["Which NFL team has hosted a game on Thanksgiving almost every year since 1934?","The Detroit Lions"],
+ ["What is a male turkey called?","A tom (or a gobbler)"],
+ ["Only one kind of turkey gobbles. Toms or hens?","Toms. Hens cluck and purr."],
+ ["What’s the floppy red skin hanging under a turkey’s chin called?","The wattle"],
+ ["Which Founding Father wrote to his daughter that the turkey was a “more respectable bird” than the bald eagle?","Benjamin Franklin"],
+ ["How many days did the 1621 harvest feast at Plymouth last?","About three days"],
+ ["Which Native nation joined the Pilgrims at that 1621 feast?","The Wampanoag"],
+ ["Which company’s test kitchen created green bean casserole in 1955?","Campbell’s"],
+ ["How are most cranberries harvested?","By flooding the bog, so the berries float"],
+ ["In what month does Canada celebrate Thanksgiving?","October (the second Monday)"],
+ ["Which president made the White House turkey pardon an official tradition in 1989?","George H. W. Bush"],
+ ["Botanically speaking, is a pumpkin a fruit or a vegetable?","A fruit"],
+ ["What’s the proper name for the wishbone?","The furcula"]
+];
+var GRATITUDE=["Something small that made this year better.","Someone at this table who helped you this year, and how.","A meal you’ll never forget.","Something you’re thankful for that you wouldn’t have guessed a year ago.","A skill you’re glad somebody taught you.","A place that feels like home.","A song that got you through something.","A family tradition you hope we never drop.","A kindness from a stranger.","Someone who isn’t here today that you’re thankful for.","The best advice you got this year.","A mistake you’re now glad you made.","The best part of today so far.","Something a kid taught you.","A smell that instantly reminds you of family.","Something you’re looking forward to next year.","Who you’d call to say thank you, if you could call anyone right now.","Something about where you live that you love.","A hard thing that turned out OK.","Something you have now that you once wished for."];
+var WYR=["Only eat stuffing or only eat pie for the rest of the day?","Do all the cooking or do all the dishes?","Host 30 people or be a guest at 5 different Thanksgivings?","Win the wishbone every year or always get the last slice of pie?","Watch the parade in person in the cold or on the couch in pajamas?","Give a five-minute toast or sing grace solo?","Turkey with no gravy or mashed potatoes with no butter?","Sit at the kids’ table forever or next to the chattiest relative forever?","Black Friday at 5am or dishes at midnight?","Only pumpkin pie or only apple pie, for life?","Be famous for your pie or famous for your gravy?","A week of leftovers or no leftovers but no dishes?","Cook a 25-lb turkey with no recipe or follow one in a language you can’t read?","Nap through dessert or skip the nap and get seconds?","Lose the remote during the game or lose the gravy boat?","Drive six hours for dinner or host for three days?"];
+var LIKELY=["…fall asleep on the couch first?","…go back for seconds before everyone’s finished firsts?","…bring up politics and get shushed?","…burn the rolls?","…tear up during grace?","…make a leftover sandwich before 8pm?","…win this game?","…bring store-bought pie and call it homemade?","…ask for the Wi-Fi password first?","…offer to do the dishes and then vanish?","…take 40 photos of the table?","…still be eating at 9pm?","…host next year?","…start talking about Christmas before the pie’s served?"];
+var BINGO=["Someone says “I’m so full”","Someone asks for the recipe","A drink gets spilled","Someone dozes off","The wishbone gets pulled","The weather comes up","Someone yells at the football","Food photo before eating","“Just a sliver”","The gravy runs out","The dog gets a scrap","A belt gets undone","“Remember when…”","“What’s in this?”","A dish is still in the oven","Someone arrives late","Leftover containers come out","“I shouldn’t, but…”","Someone makes a toast","Someone offers to do dishes","Someone hums a Christmas song","Black Friday deals come up","Smoke alarm goes off","The last roll gets taken","A video call to family","Canned cranberry, ridges and all","Someone eats dessert first","A second helping of pie","“Who made this?”","A kid escapes their seat"];
+var GRACES=[
+ {t:"A Simple Table Grace",k:"Christian · short",x:"Lord, thank you for this food,\nfor the hands that made it,\nand for the people gathered around it.\n\nMake us grateful for what we have\nand generous with it.\n\nBless this table and everyone at it.\nAmen."},
+ {t:"For the Little Ones",k:"Christian · for kids to read",x:"Thank you, God, for food to eat,\nfor family and friends, and something sweet,\nfor turkey, pie and all we share.\nThank you, God, for always being there.\nAmen."},
+ {t:"The Harvest Grace",k:"Christian",x:"Father, we thank you for the harvest:\nfor seed and soil, rain and sun,\nand for the people who worked in the cold and the dark\nso that we could eat in the warm.\n\nBless the food before us,\nand keep us mindful of those who have less.\nMay our thanks not end when the plates are cleared.\n\nIn Jesus’ name, Amen."},
+ {t:"For the Empty Chair",k:"Christian · remembering",x:"Lord, as we gather,\nwe remember the ones who aren’t at this table this year:\nthose who are far away, and those we have lost.\n\nHold them close.\nThank you for every Thanksgiving we shared with them,\nand for the love they left in us.\nHelp us carry it well.\n\nAmen."},
+ {t:"A First Thanksgiving Together",k:"Christian · new home, new family",x:"God, thank you for new beginnings:\nfor a new home, new faces at the table,\nand a new chapter in our story.\n\nBless this first Thanksgiving,\nand the many we hope will follow.\nLet this be a table where everyone is welcome,\nand no one leaves hungry.\n\nAmen."},
+ {t:"The 30-Second Grace",k:"Christian · for when the food’s getting cold",x:"Thank you for the food,\nthe cooks,\nand the company.\n\nBless all three.\nAmen."},
+ {t:"Friendsgiving Grace",k:"Christian · for friends",x:"Lord, thank you for the friends\nwho turned into family along the way.\nFor the ones who showed up,\nthe ones who stayed late,\nand the ones who brought the good pie.\n\nBless this food and this crew.\nAmen."},
+ {t:"Words of Thanks",k:"Non-religious",x:"Before we eat, let’s take a breath.\n\nLet’s be thankful for the food on this table,\nand for the hands that grew it, carried it and cooked it.\n\nFor the people here,\nand the people we’re missing.\n\nFor a year that gave us some good days,\nand taught us something on the hard ones.\n\nHere’s to us, and to the cook."},
+ {t:"A Gratitude Circle",k:"Non-religious · everyone joins in",x:"Let’s go around the table.\n\nOne at a time, finish this sentence:\n“This year, I’m thankful for…”\n\nNo speeches. One thing each.\nThe little ones go first.\n\nWhen we’ve gone all the way round,\neveryone raise a glass and say:\n“To all of it.”"},
+ {t:"A Toast to the Table",k:"Non-religious · raise a glass",x:"To the people around this table,\nthe ones who traveled and the ones who cooked,\nthe ones who’ll do the dishes (you know who you are).\n\nTo another year of being together.\n\nHappy Thanksgiving."}
+];
+var COURSES=["Main","Side","Bread","Dessert","Drinks","Starter"];
+
+/* ---------------- state ---------------- */
+function defaults(){
+  var d=[["Turkey","Main"],["Gravy","Side"],["Stuffing","Side"],["Mashed potatoes","Side"],["Cranberry sauce","Side"],["Green bean casserole","Side"],["Sweet potatoes","Side"],["Rolls","Bread"],["Pumpkin pie","Dessert"],["Apple pie","Dessert"]];
+  var s=["Turkey","Butter (lots)","Potatoes","Fresh cranberries","Celery & onions","Stock","Fresh sage & thyme","Pie crust","Pumpkin purée","Heavy cream","Foil & leftover containers"];
+  return {host:"",dinner:"15:00",weight:16,stuffed:false,frozen:true,ticks:{},
+    guests:[],dishes:d.map(function(x){return{id:uid(),name:x[0],course:x[1],by:"me",done:false}}),
+    shop:s.map(function(x){return{id:uid(),name:x,got:false}}),tab:"plan"};
+}
+var S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+if(!S||typeof S!=="object")S=defaults();
+var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
+var canSave=true;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){canSave=false}}
+var ui={game:null,gi:0,reveal:false,order:{},bingo:null,bingoOn:{},wipe:false};
+
+/* ---------------- helpers ---------------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function $(s){return document.querySelector(s)}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove("show")},1800)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+var DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function tgDate(y){var d=new Date(y,10,1);var off=(4-d.getDay()+7)%7;return new Date(y,10,1+off+21)}
+function thanksgiving(){var now=new Date();var t=tgDate(now.getFullYear());var end=new Date(t);end.setDate(end.getDate()+1);return now<end?t:tgDate(now.getFullYear()+1)}
+var TG=thanksgiving();
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function dayLabel(d){return DAYS[d.getDay()].slice(0,3)+", "+MON[d.getMonth()].slice(0,3)+" "+d.getDate()}
+function fmtTime(mins){mins=((mins%1440)+1440)%1440;var h=Math.floor(mins/60),m=Math.round(mins%60);if(m===60){h++;m=0}var ap=h>=12?"pm":"am";var hh=h%12||12;return hh+":"+(m<10?"0":"")+m+" "+ap}
+function roundDown15(m){return Math.floor(m/15)*15}
+function roastHrs(w,stuffed){
+  var U=[[8,3.25],[12,3],[14,3.75],[18,4.25],[20,4.5],[24,5],[999,5.25]];
+  var St=[[8,3.5],[12,3.5],[14,4],[18,4.25],[20,4.75],[24,5.25],[999,6.25]];
+  var t=stuffed?St:U;for(var i=0;i<t.length;i++){if(w<=t[i][0])return t[i][1]}return 5.25;
+}
+function hrsTxt(h){var H=Math.floor(h),M=Math.round((h-H)*60);return H+" hr"+(H===1?"":"s")+(M?" "+M+" min":"")}
+function peopleCount(){return S.guests.filter(function(g){return g.rsvp!=="no"}).reduce(function(a,g){return a+(parseInt(g.n,10)||1)},0)}
+
+/* ---------------- timeline ---------------- */
+function buildTimeline(){
+  var w=Math.max(4,Math.min(30,parseFloat(S.weight)||16));
+  var dm=(S.dinner||"15:00").split(":");var T=parseInt(dm[0],10)*60+parseInt(dm[1]||0,10);
+  var roast=roastHrs(w,S.stuffed);var out=T-45;var inn=roundDown15(out-roast*60);
+  var thawDays=Math.ceil(w/4);
+  var ev=[];
+  function add(off,id,txt,sub,time){ev.push({d:addDays(TG,off),off:off,id:id,txt:txt,sub:sub||"",time:time})}
+  add(-14,"invite","Invite everyone and confirm numbers","Add them on the Guests tab and it works out how big a turkey you need.");
+  add(-14,"menu","Plan the menu and hand out dishes","Who’s bringing what goes on the Food tab.");
+  if(S.frozen)add(-10,"buyt","Buy your turkey (frozen)","About 1–1½ lb per person, more if you want leftovers.");
+  add(-7,"shop1","Big shop: everything that keeps","Cans, flour, sugar, stock, foil, drinks. Check you’ve got a roasting pan and a meat thermometer.");
+  if(S.frozen)add(-thawDays,"thaw","Move the turkey to the fridge to thaw",thawDays+" days for a "+w+" lb bird (24 hrs per 4–5 lb). Keep it wrapped, on a tray. A thawed turkey keeps 1–2 days in the fridge, so early is fine.");
+  else add(-2,"fresh","Pick up your fresh turkey","Fresh birds should be bought 1–2 days before cooking.");
+  add(-3,"shop2","Top-up shop: fresh stuff","Herbs, dairy, potatoes, salad, bread.");
+  add(-3,"dishes","Count plates, chairs and serving dishes","Borrow now, not on Thursday morning.");
+  add(-2,"cran","Make the cranberry sauce","It’s better made ahead.");
+  add(-2,"dough","Make the pie dough","Wrap and chill.");
+  add(-1,"pies","Bake the pies");
+  add(-1,"veg","Chop onions and celery, peel potatoes","Keep peeled potatoes covered in cold water in the fridge.");
+  add(-1,"bread","Cube and dry the bread for stuffing");
+  add(-1,"table","Set the table","Place cards out and chill the drinks. Future you will be grateful.");
+  if(S.frozen)add(-1,"check","Check the turkey has fully thawed","No ice crystals in the cavity. Take the neck and giblets out.");
+  add(0,"prep","Turkey prep",(S.stuffed?"Stuff it loosely, right before it goes in. ":"")+"Pat dry, butter and season.",inn-60);
+  add(0,"preheat","Preheat the oven to 325°F","",inn-30);
+  add(0,"oven","Turkey goes in the oven","About "+hrsTxt(roast)+" for "+w+" lb"+(S.stuffed?", stuffed":"")+" at 325°F.",inn);
+  add(0,"baste","Check it and cover the breast with foil if it’s browning fast","",roundDown15(inn+roast*60/2));
+  add(0,"temp","Start checking the temperature","Done at 165°F in the thickest part of the thigh"+(S.stuffed?" and in the center of the stuffing":"")+". Don’t go by the pop-up timer.",out-45);
+  add(0,"out","Turkey out, tent with foil and let it rest","30 minutes resting makes it juicier. Now turn the oven up for the sides.",out);
+  add(0,"sides","Sides go in the hot oven","Stuffing, casseroles, sweet potatoes.",out+5);
+  add(0,"gravy","Make the gravy from the drippings","",out+10);
+  add(0,"rolls","Warm the rolls, carve the turkey","",T-15);
+  add(0,"dinner","Dinner’s on the table","Grace first (see the Grace tab), then dig in.",T);
+  add(0,"pie","Pie and coffee","Pull out the games while everyone’s too full to move.",T+90);
+  add(1,"left","Leftovers","Turkey sandwiches, and eat or freeze leftovers within 3–4 days.");
+  var today=new Date();today.setHours(0,0,0,0);
+  ev=ev.filter(function(e){return e.d>=today||e.off===0||S.ticks[e.id]});
+  ev.sort(function(a,b){return a.off-b.off||((a.time||0)-(b.time||0))});
+  return {ev:ev,roast:roast,inn:inn,thawDays:thawDays,w:w};
+}
+
+/* ---------------- render ---------------- */
+function head(){
+  $("#host").value=S.host||"";
+  $("#dateline").textContent=DAYS[TG.getDay()]+", "+MON[TG.getMonth()]+" "+TG.getDate()+", "+TG.getFullYear();
+  var now=new Date();now.setHours(0,0,0,0);var n=Math.round((TG-now)/864e5);
+  $("#togo").textContent=n>1?n+" sleeps to go!":n===1?"Tomorrow! You’ve got this.":n===0?"It’s today! Happy Thanksgiving.":"";
+}
+function tick(id,label,sub,time){
+  var on=!!S.ticks[id];
+  return '<div class="item'+(on?" done":"")+'" data-tick="'+id+'">'+(time!=null?'<div class="time">'+fmtTime(time)+'</div>':'<div class="box"></div>')+'<div class="txt">'+esc(label)+(sub?'<small>'+esc(sub)+'</small>':'')+'</div>'+(time!=null?'<div class="box"></div>':'')+'</div>';
+}
+function rPlan(){
+  var tl=buildTimeline();var ppl=peopleCount();
+  var h='<section class="card tape tilt-l"><h2>Your <em>countdown</em></h2>'+
+  '<div class="field"><span class="label">Dinner time</span><input type="time" id="dinner" value="'+esc(S.dinner)+'"></div>'+
+  '<div class="field"><span class="label">Turkey weight (lb)</span><input type="number" id="weight" min="4" max="30" step="0.5" inputmode="decimal" value="'+esc(S.weight)+'"></div>'+
+  '<div class="field"><span class="label">Turkey is</span><div class="seg"><button data-set="frozen" data-v="1" class="'+(S.frozen?"on":"")+'">Frozen</button><button data-set="frozen" data-v="0" class="'+(!S.frozen?"on":"")+'">Fresh</button></div></div>'+
+  '<div class="field"><span class="label">Stuffed?</span><div class="seg"><button data-set="stuffed" data-v="0" class="'+(!S.stuffed?"on":"")+'">No</button><button data-set="stuffed" data-v="1" class="'+(S.stuffed?"on":"")+'">Yes</button></div></div>'+
+  (ppl?'<p class="note" style="margin-top:10px">'+ppl+' coming, so aim for a '+Math.ceil(ppl*1)+'–'+Math.ceil(ppl*1.5)+' lb bird.</p>':'')+
+  '<p class="small" style="margin-top:10px">In the oven at <b>'+fmtTime(tl.inn)+'</b>, about '+hrsTxt(tl.roast)+' at 325°F.'+(S.frozen?' Start thawing <b>'+tl.thawDays+' days</b> before.':'')+' Times are a guide. The thermometer has the final say.</p></section>';
+  h+='<section class="card ruled tilt-r"><h2>The <em>plan</em></h2>';
+  var lastOff=null;
+  tl.ev.forEach(function(e){
+    if(e.off!==lastOff){if(lastOff!==null)h+='</div>';h+='<div class="day"><div class="dayname">'+(e.off===0?"Thanksgiving Day":e.off===1?"The day after":dayLabel(e.d))+'<span>'+(e.off===0?dayLabel(e.d):e.off<0?(-e.off)+" day"+(e.off===-1?"":"s")+" before":"")+'</span></div>';lastOff=e.off}
+    h+=tick(e.id,e.txt,e.sub,e.off===0?e.time:null);
+  });
+  if(lastOff!==null)h+='</div>';
+  h+='</section>';
+  h+='<section class="card tilt-l"><h2>Keep it <em>safe</em></h2>'+
+  '<p class="small">Everything saves on this device as you go, with no account needed. If you clear your browser history or switch phones it’s lost, so save a backup now and then.</p>'+
+  (canSave?'':'<p class="note">Heads up: this browser isn’t letting us save. Try opening the link in Safari or Chrome.</p>')+
+  '<div class="row" style="margin-top:12px"><button class="btn sm" id="bcopy">Copy backup code</button><button class="btn sm" id="bdl">Download backup</button></div>'+
+  '<textarea id="bin" placeholder="Paste a backup code here to restore…"></textarea>'+
+  '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button><button class="btn sm" id="bwipe" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to wipe":"Start fresh")+'</button></div>'+
+  '<p class="small" style="margin-top:12px">On iPhone: tap Share, then <b>Add to Home Screen</b>, and it’ll open like an app.</p></section>';
+  return h;
+}
+function rTable(){
+  var yes=0,maybe=0,no=0;S.guests.forEach(function(g){var n=parseInt(g.n,10)||1;if(g.rsvp==="yes")yes+=n;else if(g.rsvp==="maybe")maybe+=n;else no+=n});
+  var h='<section class="card tape tilt-r"><h2>Who’s <em>coming</em></h2><div class="stat"><div><b>'+yes+'</b><span class="label">Coming</span></div><div><b>'+maybe+'</b><span class="label">Maybe</span></div><div><b>'+no+'</b><span class="label">Can’t</span></div></div></section>';
+  h+='<section class="card ruled tilt-l"><h2>The <em>guest list</em></h2>';
+  if(!S.guests.length)h+='<div class="empty">No one yet. Add your first guest below.</div>';
+  S.guests.forEach(function(g){
+    var dishes=S.dishes.filter(function(d){return d.by===g.id}).map(function(d){return d.name});
+    h+='<div class="item" style="cursor:default"><div class="txt"><span style="font-weight:600">'+esc(g.name)+'</span>'+(parseInt(g.n,10)>1?' <span class="small">+'+(parseInt(g.n,10)-1)+'</span>':'')+
+      '<small>'+(dishes.length?'Bringing: '+esc(dishes.join(", ")):'Not bringing anything yet')+(g.note?' · '+esc(g.note):'')+'</small></div>'+
+      '<button class="chip '+g.rsvp+'" data-rsvp="'+g.id+'">'+(g.rsvp==="yes"?"Coming":g.rsvp==="maybe"?"Maybe":"Can’t")+'</button><button class="x" data-delg="'+g.id+'" aria-label="Remove">&times;</button></div>';
+  });
+  h+='<form class="add" id="addg"><input id="gname" placeholder="Name" maxlength="40" autocomplete="off"><select id="gn" aria-label="How many">'+[1,2,3,4,5,6,7,8].map(function(n){return'<option value="'+n+'">'+(n===1?"Just them":"Party of "+n)+'</option>'}).join("")+'</select><button class="btn sm fill">Add</button></form>'+
+  '<form class="add" id="addnote" style="margin-top:6px"><select id="gsel" aria-label="Guest">'+S.guests.map(function(g){return'<option value="'+g.id+'">'+esc(g.name)+'</option>'}).join("")+'</select><input id="gnote" placeholder="Note: vegetarian, nut allergy, bringing the baby…" maxlength="60"><button class="btn sm">Save</button></form>'+
+  '<p class="small" style="margin-top:10px">Tap the badge to switch between Coming, Maybe and Can’t.</p></section>';
+  return h;
+}
+function rFood(){
+  var opts=function(sel){return'<option value="me"'+(sel==="me"?" selected":"")+'>'+esc(S.host||"Me")+' (host)</option>'+S.guests.map(function(g){return'<option value="'+g.id+'"'+(sel===g.id?" selected":"")+'>'+esc(g.name)+'</option>'}).join("")};
+  var h='<section class="card ruled tape tilt-l"><h2>The <em>menu</em></h2>';
+  COURSES.forEach(function(c){
+    var list=S.dishes.filter(function(d){return d.course===c});if(!list.length)return;
+    h+='<div class="day"><div class="dayname">'+c+(c==="Main"||c==="Bread"||c==="Drinks"?"":"s")+'</div>';
+    list.forEach(function(d){
+      h+='<div class="item'+(d.done?" done":"")+'"><div class="box" data-dish="'+d.id+'"></div><div class="txt" data-dish="'+d.id+'">'+esc(d.name)+'</div><select class="who" data-by="'+d.id+'" style="border:0;background:transparent;max-width:42%;text-align:right" aria-label="Who’s making it">'+opts(d.by)+'</select><button class="x" data-deld="'+d.id+'" aria-label="Remove">&times;</button></div>';
+    });h+='</div>';
+  });
+  h+='<form class="add" id="addd"><input id="dname" placeholder="Add a dish…" maxlength="40" autocomplete="off"><select id="dc" aria-label="Course">'+COURSES.map(function(c){return'<option>'+c+'</option>'}).join("")+'</select><button class="btn sm fill">Add</button></form>'+
+  '<p class="small" style="margin-top:10px">Pick who’s making each dish and it shows up next to their name on the Guests tab. Tick it off when it’s made or has arrived.</p></section>';
+  var got=S.shop.filter(function(s){return s.got}).length;
+  h+='<section class="card tilt-r"><h2>Shopping <em>list</em> <span class="label" style="float:right;margin-top:8px">'+got+'/'+S.shop.length+'</span></h2>';
+  S.shop.forEach(function(s){h+='<div class="item'+(s.got?" done":"")+'"><div class="box" data-shop="'+s.id+'"></div><div class="txt" data-shop="'+s.id+'">'+esc(s.name)+'</div><button class="x" data-dels="'+s.id+'" aria-label="Remove">&times;</button></div>'});
+  h+='<form class="add" id="adds"><input id="sname" placeholder="Add an item…" maxlength="40" autocomplete="off"><button class="btn sm fill">Add</button></form>'+
+  (got?'<div class="row" style="margin-top:10px"><button class="btn sm" id="clrshop">Clear ticked items</button></div>':'')+'</section>';
+  return h;
+}
+var GAMES={
+  trivia:{n:"Thanksgiving Trivia",k:"Quiz",d:"Read it out. First right answer wins a point.",a:TRIVIA},
+  grat:{n:"Gratitude Shuffle",k:"Around the table",d:"Pass the phone. Read your prompt out loud and answer it.",a:GRATITUDE},
+  wyr:{n:"Would You Rather",k:"Debate",d:"Everyone picks a side and defends it. No fence-sitting.",a:WYR},
+  likely:{n:"Who’s Most Likely To…",k:"Point & laugh",d:"Read it out, count to three, and everyone points at someone.",a:LIKELY},
+  bingo:{n:"Table Bingo",k:"Plays all day",d:"Mark a square when it happens. Five in a row, shout BINGO.",a:BINGO}
+};
+function rGames(){
+  if(!ui.game){
+    var h='<section class="card tape tilt-r"><h2>After-dinner <em>games</em></h2><p class="small">Five games for a full, sleepy table. They all work from one phone, so pass it round.</p></section><div class="games">';
+    Object.keys(GAMES).forEach(function(k,i){var g=GAMES[k];h+='<button class="gtile'+(k==="bingo"?" wide":"")+'" data-game="'+k+'"><div><span class="label">'+g.k+'</span><b>'+g.n+'</b></div><span class="note">'+(k==="trivia"?TRIVIA.length+" questions":k==="bingo"?"Deal a card →":g.a.length+" cards")+'</span></button>'});
+    return h+'</div>';
+  }
+  var g=GAMES[ui.game];var h='<button class="back" data-game="">&larr; All games</button><section class="card '+(ui.game==="bingo"?"":"ruled ")+'tape tilt-l"><h2>'+g.n+'</h2><p class="small">'+g.d+'</p>';
+  if(ui.game==="bingo"){
+    if(!ui.bingo)dealBingo();
+    h+='<div class="bingo-head" style="margin-top:12px"><span>T</span><span>H</span><span>A</span><span>N</span><span>K</span></div><div class="bingo">';
+    ui.bingo.forEach(function(s,i){h+=i===12?'<button class="free" disabled>FREE</button>':'<button data-sq="'+i+'" class="'+(ui.bingoOn[i]?"on":"")+'">'+esc(s)+'</button>'});
+    h+='</div><div class="row"><button class="btn fill" id="deal">Deal a new card</button></div><p class="small" style="margin-top:10px">Everyone deals their own card on their own phone, or print the bingo cards from your printable pack.</p></section>';
+    return h;
+  }
+  var ord=ui.order[ui.game];if(!ord){ord=ui.order[ui.game]=shuffle(g.a.map(function(_,i){return i}))}
+  var item=g.a[ord[ui.gi%ord.length]];
+  var q=ui.game==="trivia"?item[0]:ui.game==="likely"?"Who’s most likely to "+item:item;
+  h+='<div class="label" style="margin-top:14px">'+((ui.gi%ord.length)+1)+' of '+ord.length+'</div><div class="big">'+esc(q)+'</div>';
+  if(ui.game==="trivia")h+=ui.reveal?'<div class="answer">'+esc(item[1])+'</div>':'';
+  h+='<div class="row">'+(ui.game==="trivia"&&!ui.reveal?'<button class="btn fill" id="reveal">Show answer</button>':'<button class="btn fill" id="gnext">Next →</button>')+'<button class="btn" id="gshuf">Shuffle</button></div></section>';
+  return h;
+}
+function dealBingo(){var p=shuffle(BINGO).slice(0,24);p.splice(12,0,"FREE");ui.bingo=p;ui.bingoOn={}}
+function rGrace(){
+  var h='<section class="card tape tilt-l"><h2>Words for the <em>table</em></h2><p class="small">Ten graces and readings, from a thirty-second grace for when the food’s getting cold to a gratitude circle that gets the whole table involved. Tap one to read it out in big print.</p></section><section class="card ruled tilt-r">';
+  GRACES.forEach(function(g,i){h+='<div class="grace" data-grace="'+i+'"><div><b>'+esc(g.t)+'</b><span class="label">'+esc(g.k)+'</span></div><span class="arrow">→</span></div>'});
+  return h+'</section>';
+}
+var R={plan:rPlan,table:rTable,food:rFood,games:rGames,grace:rGrace};
+function render(){
+  head();
+  if(!R[S.tab])S.tab="plan";
+  $("#main").innerHTML=R[S.tab]();
+  document.querySelectorAll("nav.tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===S.tab)});
+}
+
+/* ---------------- reader ---------------- */
+var gi=0;
+function openGrace(i){gi=(i+GRACES.length)%GRACES.length;var g=GRACES[gi];$("#rtext").textContent=g.x;$("#rtitle").textContent=g.t;$("#rcount").textContent=(gi+1)+" / "+GRACES.length;$("#reader").classList.add("open");$("#reader").scrollTop=0}
+$("#rclose").onclick=function(){$("#reader").classList.remove("open")};
+$("#rprev").onclick=function(){openGrace(gi-1)};
+$("#rnext").onclick=function(){openGrace(gi+1)};
+
+/* ---------------- events ---------------- */
+$("#host").addEventListener("input",function(e){S.host=e.target.value;save()});
+$("#host").addEventListener("change",function(){if(S.tab==="food")render()});
+document.querySelector("nav.tabs").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;S.tab=b.dataset.tab;ui.game=null;ui.wipe=false;save();render();window.scrollTo(0,0)});
+var main=$("#main");
+main.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.id==="dinner"){S.dinner=t.value||"15:00";save();render()}
+  else if(t.id==="weight"){var v=parseFloat(t.value);if(v>=4&&v<=30){S.weight=v;save();render()}else toast("Pick a weight between 4 and 30 lb")}
+  else if(t.dataset.by){var d=S.dishes.find(function(x){return x.id===t.dataset.by});if(d){d.by=t.value;save()}}
+});
+main.addEventListener("submit",function(e){
+  e.preventDefault();var f=e.target;
+  if(f.id==="addg"){var n=$("#gname").value.trim();if(!n)return;S.guests.push({id:uid(),name:n,n:$("#gn").value,rsvp:"yes",note:""});save();render();$("#gname").focus()}
+  if(f.id==="addnote"){var id=$("#gsel").value;var g=S.guests.find(function(x){return x.id===id});if(g){g.note=$("#gnote").value.trim();save();render();toast("Note saved")}}
+  if(f.id==="addd"){var dn=$("#dname").value.trim();if(!dn)return;S.dishes.push({id:uid(),name:dn,course:$("#dc").value,by:"me",done:false});save();render();$("#dname").focus()}
+  if(f.id==="adds"){var sn=$("#sname").value.trim();if(!sn)return;S.shop.push({id:uid(),name:sn,got:false});save();render();$("#sname").focus()}
+});
+main.addEventListener("click",function(e){
+  var t=e.target.closest("[data-tick],[data-set],[data-rsvp],[data-delg],[data-dish],[data-deld],[data-shop],[data-dels],[data-game],[data-sq],[data-grace],button");
+  if(!t)return;var ds=t.dataset;
+  if(ds.tick){S.ticks[ds.tick]=!S.ticks[ds.tick];save();t.classList.toggle("done");return}
+  if(ds.set){S[ds.set]=ds.v==="1";save();render();return}
+  if(ds.rsvp){var g=S.guests.find(function(x){return x.id===ds.rsvp});g.rsvp=g.rsvp==="yes"?"maybe":g.rsvp==="maybe"?"no":"yes";save();render();return}
+  if(ds.delg){S.guests=S.guests.filter(function(x){return x.id!==ds.delg});S.dishes.forEach(function(d){if(d.by===ds.delg)d.by="me"});save();render();return}
+  if(ds.dish){var d=S.dishes.find(function(x){return x.id===ds.dish});d.done=!d.done;save();render();return}
+  if(ds.deld){S.dishes=S.dishes.filter(function(x){return x.id!==ds.deld});save();render();return}
+  if(ds.shop){var s=S.shop.find(function(x){return x.id===ds.shop});s.got=!s.got;save();render();return}
+  if(ds.dels){S.shop=S.shop.filter(function(x){return x.id!==ds.dels});save();render();return}
+  if(ds.game!==undefined){ui.game=ds.game||null;ui.gi=0;ui.reveal=false;render();window.scrollTo(0,0);return}
+  if(ds.sq!==undefined){ui.bingoOn[ds.sq]=!ui.bingoOn[ds.sq];t.classList.toggle("on");return}
+  if(ds.grace!==undefined){openGrace(parseInt(ds.grace,10));return}
+  switch(t.id){
+    case "reveal":ui.reveal=true;render();break;
+    case "gnext":ui.gi++;ui.reveal=false;render();break;
+    case "gshuf":ui.order[ui.game]=null;ui.gi=0;ui.reveal=false;render();toast("Shuffled");break;
+    case "deal":dealBingo();render();toast("New card dealt");break;
+    case "clrshop":S.shop=S.shop.filter(function(x){return!x.got});save();render();break;
+    case "bcopy":var code=btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+      try{navigator.clipboard.writeText(code).then(function(){toast("Backup code copied")},function(){$("#bin").value=code;toast("Copy the code from the box")})}catch(err){$("#bin").value=code;toast("Copy the code from the box")}break;
+    case "bdl":try{var blob=new Blob([JSON.stringify(S)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="thanksgiving-planner-backup.json";document.body.appendChild(a);a.click();a.remove();toast("Backup downloaded")}catch(err){toast("Download blocked here. Use Copy instead")}break;
+    case "brestore":try{var raw=$("#bin").value.trim();var obj=raw.charAt(0)==="{"?JSON.parse(raw):JSON.parse(decodeURIComponent(escape(atob(raw))));if(!obj||!obj.dishes)throw 0;S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}save();render();toast("Restored")}catch(err){toast("That code didn’t work. Check you copied all of it")}break;
+    case "bwipe":if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(S.tab==="plan")render()},4000)}else{S=defaults();ui.wipe=false;save();render();toast("Fresh start")}break;
+  }
+});
+render();
+})();
+</script>
+</body>
+</html>
