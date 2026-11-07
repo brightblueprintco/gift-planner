@@ -514,7 +514,7 @@ function groupCard(stage){
   $("#ov").classList.add("open");
 }
 function openGroup(code,text){
-  if(!code){openWA("",text);return}
+  openWA("",text);return;
   ui.grp={code:code,text:text};ui.lastText=text;groupCard("ready");
 }
 function postGroup(){
