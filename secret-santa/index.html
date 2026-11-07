@@ -115,6 +115,9 @@ h1{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-set
 .toast.show{opacity:1}
 textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);font-size:12px;background:#fffdf7;border:1.2px solid var(--line);padding:8px;border-radius:3px}
 .hide{display:none!important}
+.saved{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:45;background:var(--pine);color:#FCF7EC;font-family:var(--type);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:12px 4px 12px 4px;opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:0 4px 10px -4px rgba(0,0,0,.4)}
+.saved.show{opacity:1;transform:none}
+.person .lnk{display:block;margin-top:2px}
 </style>
 </head>
 <body>
@@ -130,6 +133,7 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 </div>
 <div class="overlay" id="ov"><div class="tag" id="ovc"></div></div>
 <div class="toast" id="toast"></div>
+<div class="saved" id="saved">✔ Saved</div>
 
 <script>
 (function(){
@@ -180,7 +184,7 @@ function ideasFor(b){b=parseFloat(b)||20;return IDEAS[b<=10?10:b<=20?20:b<=35?35
 /* ---------- state ---------- */
 function defaults(){return{group:"",budget:"20",cur:"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
 var S=load(KEY)||defaults();var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
-function save(){if(!store(KEY,S))canSave=false}
+function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
 var canSave=true;
 var ui={openHint:null,wipe:false};
 
@@ -226,7 +230,7 @@ function rOrganiser(){
       (p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
       (open?'<input class="hintbox" style="min-height:0;font-family:var(--type)" type="tel" inputmode="tel" data-phone="'+p.id+'" placeholder="Mobile number (optional)" value="'+esc(p.phone||"")+'" autocomplete="off">'+
         '<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
-      '<button class="lnk" data-togglehint="'+p.id+'">'+(open?"Done":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
+      '<button class="'+(open?"btn sm fill":"lnk")+'" style="'+(open?"margin-top:8px":"")+'" data-togglehint="'+p.id+'">'+(open?"Save":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
   h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="30" autocomplete="off" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="off" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
@@ -430,7 +434,7 @@ main.addEventListener("click",function(e){
     else if(ds.g){G[ds.g]=!G[ds.g];store(RK,G);render()}
     return;
   }
-  if(ds.togglehint){ui.openHint=ui.openHint===ds.togglehint?null:ds.togglehint;render();var tb=document.querySelector('[data-hint="'+ds.togglehint+'"]');if(tb)tb.focus();return}
+  if(ds.togglehint){var closing=ui.openHint===ds.togglehint;ui.openHint=closing?null:ds.togglehint;if(closing)save();render();if(!closing){var tb=document.querySelector('[data-phone="'+ds.togglehint+'"]');if(tb)tb.focus()}return}
   if(ds.delp){S.people=S.people.filter(function(p){return p.id!==ds.delp});S.rules=S.rules.filter(function(r){return r[0]!==ds.delp&&r[1]!==ds.delp});save();render();return}
   if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
   if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
