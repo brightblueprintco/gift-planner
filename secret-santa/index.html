@@ -205,6 +205,7 @@ function intl(raw){
   if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,"");
   if(d.indexOf("+")===0)d=d.slice(1);else if(d.indexOf("00")===0)d=d.slice(2);
   else if(d.charAt(0)==="0"){if(S.cur==="£")d="44"+d.slice(1);else return "";}
+  else if(S.cur==="£"&&d.charAt(0)==="7"&&d.length===10)d="44"+d;
   else if(S.cur==="$"&&d.length===10)d="1"+d;
   d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
 }
@@ -214,7 +215,20 @@ function addDays(d,n){var x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);ret
 function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
 
 /* ---------- organiser view ---------- */
+function syncDraw(){
+  if(!S.draw)return;
+  var ids=S.people.map(function(p){return p.id});
+  var stale=S.draw.ids.join()!==ids.join()||S.draw.rk!==JSON.stringify(S.rules);
+  if(!stale)return;
+  var anySent=Object.keys(S.draw.sent||{}).some(function(k){return S.draw.sent[k]})||Object.keys(S.draw.seen||{}).length>0;
+  if(anySent)return;
+  if(ids.length<3){S.draw=null;save();return}
+  var m=drawNames(ids,S.rules);
+  if(m){S.draw={pairs:m,at:Date.now(),sent:{},seen:{},posted:S.draw.posted||{},ids:ids,rk:JSON.stringify(S.rules)}}else{S.draw=null}
+  save();
+}
 function rOrganiser(){
+  syncDraw();
   var h="";
   if(!isStandalone&&!S.hsDone){
     h+='<section class="tag r" style="border:2px solid var(--pine)"><div class="step"><div class="stamp" style="border-color:var(--pine);color:var(--pine)">0</div><h2>First, put it on your <em>home screen</em></h2></div>'+
@@ -240,12 +254,12 @@ function rOrganiser(){
     h+='<div class="person"><div class="grow"><span class="nm">'+esc(p.name)+'</span>'+
       (!open&&p.phone?'<span class="hint"><span class="label" style="font-size:10px">Mobile</span> '+(ph?esc(prettyNum(ph)):'<span style="color:var(--cran)">Check this number: '+esc(p.phone)+'</span>')+'</span>':'')+
       (p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
-      (open?'<input class="hintbox" style="min-height:0;font-family:var(--type)" type="tel" inputmode="tel" data-phone="'+p.id+'" placeholder="Mobile number (optional)" value="'+esc(p.phone||"")+'" autocomplete="off">'+
+      (open?'<input class="hintbox" style="min-height:0;font-family:var(--type)" type="tel" inputmode="tel" autocomplete="tel" data-phone="'+p.id+'" placeholder="Mobile number (optional)" value="'+esc(p.phone||"")+'" autocomplete="off">'+
         '<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
       '<button class="'+(open?"btn sm fill":"lnk")+'" style="'+(open?"margin-top:8px":"")+'" data-togglehint="'+p.id+'">'+(open?"Save":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
-  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="30" autocomplete="off" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="off" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="30" autocomplete="off" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
    (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
    '<p class="small" style="margin-top:10px">Add a mobile number and the WhatsApp and Text buttons go straight to that person. Numbers stay on this phone and are never put in anyone\u2019s link. Gift hints are optional too, and whoever draws that person gets to see them.</p></section>';
 
@@ -272,7 +286,8 @@ function rOrganiser(){
      (n<3?'<p class="note" style="margin-top:8px">Need at least 3 people</p>':'');
   }else{
     var stale=S.draw.ids.join()!==S.people.map(function(p){return p.id}).join()||S.draw.rk!==JSON.stringify(S.rules);
-    if(stale)h+='<div class="warn"><b>The names or rules have changed since the draw.</b> Redraw before sending, or some people won’t be included.</div>';
+    if(stale){var missing=S.people.filter(function(p){return !S.draw.pairs[p.id]}).map(function(p){return p.name});
+      h+='<div class="warn"><b>The group has changed since you started sending links.</b> '+(missing.length?esc(missing.join(", "))+(missing.length===1?" isn\u2019t":" aren\u2019t")+' in the draw yet. ':'')+'Redraw to include everyone, then resend <b>all</b> the links (the old ones will point to the wrong people).<div class="row" style="margin-top:8px"><button class="btn sm fill" id="redraw2">Redraw everyone</button></div></div>';}
     var sentN=S.people.filter(function(p){return S.draw.sent[p.id]}).length;
     h+='<p class="small">Names drawn ✔ Now send everyone their private link, or use <b>pass the phone</b> if you’re all in the same room.</p>'+
      '<p class="note" style="margin-top:8px;color:var(--pine)">Tip: copy a backup code now (bottom of the page)</p>'+'<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
@@ -334,6 +349,7 @@ function rReveal(){
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
    [["bought","Bought it"],["wrapped","Wrapped it"],["tag","Written the tag (“From Santa”)"]].map(function(x){return'<div class="item'+(G[x[0]]?" done":"")+'" data-g="'+x[0]+'"><div class="box"></div><span>'+x[1]+'</span></div>'}).join("")+
+   (G.bought?'<div class="row" style="margin-top:12px"><button class="btn pine" id="tellgroup">Tell the group I\u2019m sorted</button></div><p class="small" style="margin-top:6px">Posts \u201cI\u2019m sorted\u201d to the group chat. No clues about who you got.</p>':'')+
    '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
   return h;
 }
@@ -445,6 +461,7 @@ main.addEventListener("click",function(e){
   if(R){
     if(t.id==="openit"){G.opened=true;store(RK,G);render();window.scrollTo(0,0)}
     else if(t.id==="nextidea"){gi++;render()}
+    else if(t.id==="tellgroup"){var tm="\uD83C\uDF81 Secret Santa update: I\u2019m sorted! Gift bought"+(G.wrapped?" and wrapped":"")+" \u2705\n\nNo clues though \uD83D\uDE09";openWA("",tm)}
     else if(t.id==="keepidea"){var list=ideasFor(R.b);G.idea=list[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
     else if(ds.g){G[ds.g]=!G[ds.g];store(RK,G);render()}
     return;
@@ -457,6 +474,9 @@ main.addEventListener("click",function(e){
     S.draw.posted[ds.post]=true;save();openWA("",m);return}
   if(ds.send){send(ds.send,ds.id);return}
   switch(t.id){
+    case "redraw2":S.draw=null;save();var ids2=S.people.map(function(p){return p.id});var m2=drawNames(ids2,S.rules);
+      if(!m2){toast("Can\u2019t make a fair draw with these rules. Remove one");render();break}
+      S.draw={pairs:m2,at:Date.now(),sent:{},seen:{},ids:ids2,rk:JSON.stringify(S.rules)};save();render();toast("Redrawn. Send everyone their new link");break;
     case "drawbtn":
       var ids=S.people.map(function(p){return p.id});var m=drawNames(ids,S.rules);
       if(!m){toast("Can’t make a fair draw with these rules. Remove one");return}
