@@ -499,18 +499,29 @@ function send(kind,id){
   var a=document.createElement("a");a.href=url;a.target="_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
   markSent(id);
 }
+function groupCard(stage){
+  var g=ui.grp;
+  $("#ovc").innerHTML=(stage==="ready"?
+    '<div class="step"><div class="stamp">✉</div><h2>Tell your <em>group</em></h2></div>'+
+    '<p style="font-size:16px">Here’s your message. Tap below and we’ll copy it and open your Secret Santa group. Then just <b>paste and send.</b></p>'+
+    '<textarea class="copy" readonly>'+esc(g.text)+'</textarea>'+
+    '<button class="amz" id="postgroup" style="margin-top:14px">Post to my WhatsApp group →</button>'+
+    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn sm" id="fbdone">Not now</button></div>'
+   :'<div class="step"><div class="stamp">✔</div><h2>Now <em>paste &amp; send</em></h2></div>'+
+    '<p style="font-size:16px">Your message is copied. In the group, <b>tap the message box → Paste → Send.</b></p>'+
+    '<p class="small" style="margin-top:8px">Didn’t open? <a href="https://chat.whatsapp.com/'+esc(g.code)+'" target="_blank" rel="noopener" style="color:var(--cran)">Open the group</a> or <a href="#" id="pickchat" style="color:var(--cran)">pick the chat instead</a>.</p>'+
+    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done</button></div>');
+  $("#ov").classList.add("open");
+}
 function openGroup(code,text){
   if(!code){openWA("",text);return}
-  var copied=false;
-  try{navigator.clipboard.writeText(text).then(function(){copied=true},function(){})}catch(e){}
-  ui.lastText=text;
-  $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Opening your <em>group</em>…</h2></div>'+
-    '<p style="font-size:16px">Your message is copied. In the group, <b>tap the message box → Paste → Send.</b></p>'+
-    '<textarea class="copy" readonly>'+esc(text)+'</textarea>'+
-    '<p class="small" style="margin-top:8px">Didn’t open? <a href="https://chat.whatsapp.com/'+esc(code)+'" target="_blank" rel="noopener" style="color:var(--cran)">Open the group</a> or <a href="#" id="pickchat" style="color:var(--cran)">pick the chat instead</a>.</p>'+
-    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done</button></div>';
-  $("#ov").classList.add("open");
-  window.location.href="whatsapp://chat?code="+code;
+  ui.grp={code:code,text:text};ui.lastText=text;groupCard("ready");
+}
+function postGroup(){
+  var g=ui.grp;if(!g)return;
+  try{navigator.clipboard.writeText(g.text).catch(function(){})}catch(e){}
+  groupCard("sent");
+  window.location.href="whatsapp://chat?code="+g.code;
 }
 function openWA(num,text){
   var q=encodeURIComponent(text);
@@ -608,6 +619,7 @@ $("#ov").addEventListener("click",function(e){
   var t=e.target.closest("button");if(e.target.id==="ov"){if(!pt.shown)closeOv();return}if(!t)return;
   if(t.dataset.pt){pt.who=t.dataset.pt;pt.shown=false;openOv();return}
   switch(t.id){
+    case "postgroup":postGroup();break;
     case "ptclose":case "fbdone":closeOv();break;
     case "ptback":pt.who=null;openOv();break;
     case "ptshow":pt.shown=true;openOv();break;
