@@ -375,9 +375,21 @@ function send(kind,id){
     return;
   }
   var num=intl(p.phone);
-  var url=kind==="wa"?"https://wa.me/"+(num||"")+"?text="+encodeURIComponent(m):kind==="sms"?"sms:"+(num?"+"+num:"")+"&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" \u2013 "+S.group:""))+"&body="+encodeURIComponent(m);
-  var a=document.createElement("a");a.href=url;a.target=kind==="wa"?"_blank":"_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+  if(kind==="wa"){S.draw.sent[id]=true;save();openWA(num,m);return}
+  var url=kind==="sms"?"sms:"+(num?"+"+num:"")+"&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" \u2013 "+S.group:""))+"&body="+encodeURIComponent(m);
+  var a=document.createElement("a");a.href=url;a.target="_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
   markSent(id);
+}
+function openWA(num,text){
+  var q=encodeURIComponent(text);
+  var app="whatsapp://send?"+(num?"phone="+num+"&":"")+"text="+q;
+  var web="https://wa.me/"+(num||"")+"?text="+q;
+  $("#ovc").innerHTML='<div class="step"><div class="stamp">\u2709</div><h2>Opening <em>WhatsApp</em>\u2026</h2></div>'+
+    '<p class="small">'+(num?'It should open their chat with the message ready. Just tap send.':'Pick the chat or group, and the message will be ready. Just tap send.')+'</p>'+
+    '<p class="small" style="margin-top:8px">Nothing happened? <a href="'+web+'" target="_blank" rel="noopener" style="color:var(--cran)">Try WhatsApp Web instead</a>, or use the Copy button.</p>'+
+    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done, next</button></div>';
+  $("#ov").classList.add("open");
+  window.location.href=app;
 }
 function fallback(m,id){
   $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Copy this <em>message</em></h2></div><p class="small">Select it all and copy, then paste it to them.</p><textarea class="copy" readonly>'+esc(m)+'</textarea><div class="row" style="margin-top:12px"><button class="btn fill" id="fbdone">Done</button></div>';
@@ -423,8 +435,7 @@ main.addEventListener("click",function(e){
   if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
   if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
     if(ds.via==="copy"){try{navigator.clipboard.writeText(m).then(function(){toast("Copied. Paste it in the group");S.draw.posted[ds.post]=true;save();render()},function(){fallback(m,null)})}catch(err){fallback(m,null)}return}
-    var a=document.createElement("a");a.href="https://wa.me/?text="+encodeURIComponent(m);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
-    S.draw.posted[ds.post]=true;save();render();return}
+    S.draw.posted[ds.post]=true;save();openWA("",m);return}
   if(ds.send){send(ds.send,ds.id);return}
   switch(t.id){
     case "drawbtn":
