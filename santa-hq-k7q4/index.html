@@ -482,7 +482,7 @@ function rReveal(){
   var h='<div class="reveal '+(G.opened?"unsealed":"sealed")+(ui.burst?" justopen":"")+'">'+
    '<div class="closed"><div class="bigtag"><div class="hole"></div><div class="label">Secret Santa · '+esc(R.g)+'</div><div class="forwho" style="margin-top:14px">For</div><div class="who" style="color:var(--pine)">'+esc(R.n)+'</div><div class="forwho">eyes only</div></div>'+
      '<p class="small" style="margin:10px 0 16px">Not '+esc(R.n)+'? Close this now, no peeking!</p><button class="btn fill big" id="openit">Open my tag</button></div>'+
-   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div>'+bu+'</div></div>';
+   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div>'+bu+'</div></div>'+(G.opened?'<p class="small" style="text-align:center;margin:-6px 0 10px;opacity:.7">Tap the tag to see it again</p>':'');
   if(!G.opened)return h;
   h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>The <em>details</em></h2></div><div class="facts">'+
     '<div><span class="label">Budget</span><b>'+esc((R.c||"")+(R.b||"–"))+'</b></div>'+
@@ -681,6 +681,7 @@ main.addEventListener("submit",function(e){
     save();render()}
 });
 main.addEventListener("click",function(e){
+  if(R&&G&&G.opened&&e.target.closest(".opened .bigtag")){ui.burst=true;render();ui.burst=false;return}
   var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
   if(ds.help!==undefined){toggleHelp(t);return}
   if(R){
