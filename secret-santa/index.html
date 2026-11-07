@@ -131,6 +131,10 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .helpq{margin-left:auto;margin-right:26px;flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:1.6px solid var(--ink2);background:transparent;color:var(--ink2);font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1}
 .helpq.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
 .helpbox{background:#EEF2EA;border-left:3px solid var(--pine);padding:10px 12px;font-size:14.5px;line-height:1.45;margin:-2px 0 12px;border-radius:0}
+.steps3{margin:10px 0 0 20px;font-size:15px;line-height:1.5}
+.steps3 li{margin:4px 0}
+.chatok{background:#EEF2EA;border:2px solid var(--pine);border-radius:4px;padding:12px 14px;color:var(--pine)}
+.chatok span{display:block;color:var(--ink2);font-size:14px;margin-top:2px}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
 .chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
@@ -322,6 +326,17 @@ function rOrganiser(){
    (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
    '<p class="small" style="margin-top:10px">Add a mobile number and the WhatsApp and Text buttons go straight to that person. Numbers stay on this phone and are never put in anyone\u2019s link. Gift hints are optional too, and whoever draws that person gets to see them.</p></section>';
 
+  h+='<section class="tag l"><div class="step"><div class="stamp">✉</div><h2>Group <em>chat</em> <span class="label" style="font-size:10px">optional</span></h2></div>'+
+   (validChat()?
+     '<div class="chatok"><b>✔ Group chat linked</b><span>Everyone’s message will include the link to join.</span></div>'+
+     '<div class="row" style="margin-top:10px"><button class="btn sm" id="pastechat">Paste a different link</button><button class="lnk" id="clearchat" style="color:var(--cran)">Remove</button></div>'
+   :
+     '<p class="small">Running it in a WhatsApp group? Link it here and everyone’s private message will include an invite to join.</p>'+
+     '<ol class="steps3"><li>Open your Secret Santa group in WhatsApp (just you in it is fine)</li><li>Tap the group name → <b>Invite via link</b> → <b>Copy link</b></li><li>Come back here and tap the button</li></ol>'+
+     '<button class="amz" id="pastechat" style="background:var(--pine);color:#FCF7EC;margin-top:12px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Paste</b> my group chat link</button>'+
+     '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Or type it in</summary><input id="f-chat" placeholder="https://chat.whatsapp.com/…" value="'+esc(S.chat)+'" inputmode="url" autocomplete="off" class="hintbox" style="min-height:0;font-family:var(--type);font-size:14px"></details>'+
+     (S.chat?'<p class="note" style="margin-top:6px">That doesn’t look like a WhatsApp invite link. It should start https://chat.whatsapp.com/</p>':''))+
+  '</section>';
   h+='<section class="tag l"><div class="step"><div class="stamp">3</div><h2>House <em>rules</em></h2></div>'+
    '<p class="small">Anyone who shouldn’t draw each other? Couples usually. The rule works both ways.</p>';
   S.rules.forEach(function(r,i){h+='<div class="rule"><span class="grow"><b>'+esc(nameOf(r[0]))+'</b> &amp; <b>'+esc(nameOf(r[1]))+'</b> can’t draw each other</span><button class="x" data-delr="'+i+'" aria-label="Remove rule">&times;</button></div>'});
@@ -332,11 +347,6 @@ function rOrganiser(){
   h+='</section>';
 
   var n=S.people.length;
-  h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>Group <em>chat</em> <span class="label" style="font-size:10px">optional</span></h2></div>'+
-   '<p class="small">Want everyone in one WhatsApp chat for reminders and banter? Make the group in WhatsApp (just you is fine to start), then tap the group name, <b>Invite via link</b>, and <b>Copy link</b>. Paste it here and everyone\u2019s private message will include it.</p>'+
-   '<div class="field" style="display:block;margin-top:8px"><span class="label">Group invite link</span><input id="f-chat" placeholder="https://chat.whatsapp.com/\u2026" value="'+esc(S.chat)+'" inputmode="url" autocomplete="off" style="width:100%;text-align:left;margin-top:4px;font-family:var(--type);font-size:14px"></div>'+
-   (S.chat&&!validChat()?'<p class="note" style="margin-top:6px">That doesn\u2019t look like a WhatsApp invite link. It should start https://chat.whatsapp.com/</p>':S.chat?'<p class="note" style="margin-top:6px;color:var(--pine)">\u2714 Chat link added</p>':'')+
-  '</section>';
 
   h+='<section class="tag r"><div class="step"><div class="stamp">4</div><h2>Draw the <em>names</em></h2></div>';
   if(!S.draw){
@@ -627,6 +637,11 @@ main.addEventListener("click",function(e){
     case "redraw":
       if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(!R)render()},4000)}else{ui.wipe=false;S.draw=null;save();render();toast("Draw cleared. Draw again when ready")}break;
     case "ptp":openOv();break;
+    case "pastechat":
+      try{navigator.clipboard.readText().then(function(tx){tx=(tx||"").trim();var m=tx.match(/https:\/\/chat\.whatsapp\.com\/\S+/);
+        if(m){S.chat=m[0];save();render();toast("Group chat linked ✔")}else{toast("No group link copied yet. Copy it from WhatsApp first")}},function(){toast("Couldn’t paste. Use “Or type it in”")})}catch(err){toast("Couldn’t paste. Use “Or type it in”")}
+      break;
+    case "clearchat":S.chat="";save();render();break;
     case "showall":if(!ui.showConfirm){ui.showConfirm=true;render();setTimeout(function(){ui.showConfirm=false;if(!R&&!ui.showAll)render()},4000)}else{ui.showConfirm=false;ui.showAll=true;render()}break;
     case "hideall":ui.showAll=false;render();break;
     case "hsdone":S.hsDone=true;save();render();break;
