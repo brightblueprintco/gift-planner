@@ -178,7 +178,7 @@ var IDEAS={
 function ideasFor(b){b=parseFloat(b)||20;return IDEAS[b<=10?10:b<=20?20:b<=35?35:99]}
 
 /* ---------- state ---------- */
-function defaults(){return{group:"",budget:"20",cur:"£",date:"",place:"",note:"",people:[],rules:[],draw:null}}
+function defaults(){return{group:"",budget:"20",cur:"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
 var S=load(KEY)||defaults();var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
 function save(){if(!store(KEY,S))canSave=false}
 var canSave=true;
@@ -186,12 +186,14 @@ var ui={openHint:null,wipe:false};
 
 function link(giverId){
   var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
-  var payload={v:1,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",s:S.draw.at};
+  var payload={v:1,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():"",s:S.draw.at};
   return location.href.split("#")[0]+"#"+enc(payload);
 }
 function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
 function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
 function money(){return (S.cur||"")+(S.budget||"")}
+function validChat(){return /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/.test((S.chat||"").trim())}
+function addDays(d,n){var x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
 function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
 
 /* ---------- organiser view ---------- */
@@ -227,6 +229,12 @@ function rOrganiser(){
   h+='</section>';
 
   var n=S.people.length;
+  h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>Group <em>chat</em> <span class="label" style="font-size:10px">optional</span></h2></div>'+
+   '<p class="small">Want everyone in one WhatsApp chat for reminders and banter? Make the group in WhatsApp (just you is fine to start), then tap the group name, <b>Invite via link</b>, and <b>Copy link</b>. Paste it here and everyone\u2019s private message will include it.</p>'+
+   '<div class="field" style="display:block;margin-top:8px"><span class="label">Group invite link</span><input id="f-chat" placeholder="https://chat.whatsapp.com/\u2026" value="'+esc(S.chat)+'" inputmode="url" autocomplete="off" style="width:100%;text-align:left;margin-top:4px;font-family:var(--type);font-size:14px"></div>'+
+   (S.chat&&!validChat()?'<p class="note" style="margin-top:6px">That doesn\u2019t look like a WhatsApp invite link. It should start https://chat.whatsapp.com/</p>':S.chat?'<p class="note" style="margin-top:6px;color:var(--pine)">\u2714 Chat link added</p>':'')+
+  '</section>';
+
   h+='<section class="tag r"><div class="step"><div class="stamp">4</div><h2>Draw the <em>names</em></h2></div>';
   if(!S.draw){
     h+='<p class="small">Nobody sees who got who, not even you. Everyone gets their own private link.</p>'+
@@ -247,6 +255,20 @@ function rOrganiser(){
      '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>';
   }
   h+='</section>';
+
+  if(S.draw){
+    var R3=[["announce","Names drawn: the announcement",null],["week","1 week to go",-7],["eve","The day before",-1],["day","On the day: Guess Your Santa",0]];
+    h+='<section class="tag r"><div class="step"><div class="stamp">5</div><h2>Keep it <em>going</em></h2></div>'+
+     '<p class="small">Ready-made messages for the group chat. Tap one, then pick your group in WhatsApp. None of them give away who got who.</p>';
+    R3.forEach(function(x){
+      var done=S.draw.posted&&S.draw.posted[x[0]];
+      var when=x[2]===null?"Send now":S.date?"Send "+fmtDate(addDays(S.date,x[2])):"Set a swap day";
+      h+='<div class="sendrow"><div class="top"><span class="nm" style="font-size:16px">'+x[1]+'</span><span class="sent'+(done?"":" no")+'">'+(done?"Posted":when)+'</span></div>'+
+        '<div class="row"><button class="btn sm pine" data-post="'+x[0]+'" data-via="wa">WhatsApp</button><button class="btn sm" data-post="'+x[0]+'" data-via="copy">Copy</button></div></div>';
+    });
+    if(validChat())h+='<div class="row" style="margin-top:12px"><a class="btn sm" href="'+esc(S.chat.trim())+'" target="_blank" rel="noopener">Open the group chat</a></div>';
+    h+='</section>';
+  }
 
   h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Good to <em>know</em></h2></div>'+
    '<p class="small">Everything saves on this phone as you go. No accounts, no emails collected. Each link only shows that person who they’re buying for. Just don’t open other people’s links yourself, or you’ll spoil it!</p>'+
@@ -271,6 +293,7 @@ function rReveal(){
     (R.p?'<p style="margin-top:10px"><span class="label">Where</span><br>'+esc(R.p)+'</p>':'')+
     (d!=null&&d>0?'<p class="note" style="margin-top:10px">'+d+' day'+(d===1?"":"s")+' to go!</p>':'')+
     (R.m?'<p style="margin-top:10px"><span class="label">From the organiser</span><br><span style="font-style:italic">“'+esc(R.m)+'”</span></p>':'')+'</section>';
+  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="'+esc(R.w)+'" target="_blank" rel="noopener">Join on WhatsApp</a></div></section>';
   if(R.h)h+='<section class="tag r"><div class="step"><div class="stamp">!</div><h2>'+esc(R.r)+'’s <em>hints</em></h2></div><p style="white-space:pre-line">'+esc(R.h)+'</p></section>';
   var list=ideasFor(R.b);if(!order)order=shuffle(list.map(function(_,i){return i}));
   h+='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Stuck? <em>Ideas</em></h2></div><p class="label">Around '+esc((R.c||"")+(R.b||""))+'</p>'+
@@ -315,9 +338,19 @@ function render(){
 }
 
 /* ---------- sending ---------- */
+function post(kind){
+  var g=S.group?": "+S.group:"",d=S.date?fmtDate(S.date):"TBC";
+  var T={
+    announce:"\uD83C\uDF85 Secret Santa"+g+"\n\nNames are drawn! Everyone's been sent their own private link. Open yours on your own, no peeking \uD83E\uDD2B\n\n\uD83C\uDF81 Budget: "+money()+"\n\uD83D\uDCC5 Swap day: "+d+(S.place?"\n\uD83D\uDCCD Where: "+S.place:"")+(S.note?"\n\n"+S.note:"")+"\n\nStick to the budget, wrap it, tag it \"From: Santa\", and tell NOBODY who you got.",
+    week:"\u23F0 One week until Secret Santa"+g+"!\n\nBought yours yet? \uD83D\uDC40 Budget's "+money()+".\n\nLost your link? Message me and I'll send it again.",
+    eve:"\uD83C\uDF84 Secret Santa is TOMORROW!\n\nBring your gift wrapped and tagged \"From: Santa\""+(S.place?"\n\uD83D\uDCCD "+S.place:"")+"\n\nNo handwriting clues \uD83D\uDE09",
+    day:"\uD83C\uDF85 It's Secret Santa day!\n\nBefore anything gets opened: everyone guess who YOUR Santa is. Write it down or shout it out.\n\nMost right guesses wins \uD83C\uDFC6"
+  };
+  return T[kind];
+}
 function msg(id){
   var p=S.people.find(function(x){return x.id===id});
-  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"");
+  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"")+(validChat()?"\n\nJoin the Secret Santa group chat: "+S.chat.trim():"");
 }
 function markSent(id){S.draw.sent[id]=true;save();render()}
 function send(kind,id){
@@ -333,7 +366,7 @@ function send(kind,id){
 }
 function fallback(m,id){
   $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Copy this <em>message</em></h2></div><p class="small">Select it all and copy, then paste it to them.</p><textarea class="copy" readonly>'+esc(m)+'</textarea><div class="row" style="margin-top:12px"><button class="btn fill" id="fbdone">Done</button></div>';
-  $("#ov").classList.add("open");S.draw.sent[id]=true;save();
+  $("#ov").classList.add("open");if(id)S.draw.sent[id]=true;save();
 }
 
 /* ---------- events ---------- */
@@ -341,11 +374,11 @@ var main=$("#main");
 main.addEventListener("input",function(e){
   var t=e.target,id=t.id;
   if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}return}
-  var map={"f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
+  var map={"f-chat":"chat","f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
   if(map[id]){S[map[id]]=t.value;save()}
   if(t.dataset.hint){var p=S.people.find(function(x){return x.id===t.dataset.hint});if(p){p.hint=t.value;save()}}
 });
-main.addEventListener("change",function(e){if(e.target.id==="f-cur"){S.cur=e.target.value;save()}});
+main.addEventListener("change",function(e){if(e.target.id==="f-cur"){S.cur=e.target.value;save()}if(e.target.id==="f-chat"){S.chat=e.target.value.trim();save();render()}});
 main.addEventListener("submit",function(e){
   e.preventDefault();var f=e.target;
   if(f.id==="addp"){var n=$("#pname").value.trim();if(!n)return;
@@ -371,6 +404,10 @@ main.addEventListener("click",function(e){
   if(ds.togglehint){ui.openHint=ui.openHint===ds.togglehint?null:ds.togglehint;render();var tb=document.querySelector('[data-hint="'+ds.togglehint+'"]');if(tb)tb.focus();return}
   if(ds.delp){S.people=S.people.filter(function(p){return p.id!==ds.delp});S.rules=S.rules.filter(function(r){return r[0]!==ds.delp&&r[1]!==ds.delp});save();render();return}
   if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
+  if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
+    if(ds.via==="copy"){try{navigator.clipboard.writeText(m).then(function(){toast("Copied. Paste it in the group");S.draw.posted[ds.post]=true;save();render()},function(){fallback(m,null)})}catch(err){fallback(m,null)}return}
+    var a=document.createElement("a");a.href="https://wa.me/?text="+encodeURIComponent(m);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+    S.draw.posted[ds.post]=true;save();render();return}
   if(ds.send){send(ds.send,ds.id);return}
   switch(t.id){
     case "drawbtn":
