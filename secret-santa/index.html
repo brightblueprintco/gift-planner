@@ -499,6 +499,19 @@ function send(kind,id){
   var a=document.createElement("a");a.href=url;a.target="_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
   markSent(id);
 }
+function openGroup(code,text){
+  if(!code){openWA("",text);return}
+  var copied=false;
+  try{navigator.clipboard.writeText(text).then(function(){copied=true},function(){})}catch(e){}
+  ui.lastText=text;
+  $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Opening your <em>group</em>…</h2></div>'+
+    '<p style="font-size:16px">Your message is copied. In the group, <b>tap the message box → Paste → Send.</b></p>'+
+    '<textarea class="copy" readonly>'+esc(text)+'</textarea>'+
+    '<p class="small" style="margin-top:8px">Didn’t open? <a href="https://chat.whatsapp.com/'+esc(code)+'" target="_blank" rel="noopener" style="color:var(--cran)">Open the group</a> or <a href="#" id="pickchat" style="color:var(--cran)">pick the chat instead</a>.</p>'+
+    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done</button></div>';
+  $("#ov").classList.add("open");
+  window.location.href="whatsapp://chat?code="+code;
+}
 function openWA(num,text){
   var q=encodeURIComponent(text);
   var app="whatsapp://send?"+(num?"phone="+num+"&":"")+"text="+q;
@@ -547,7 +560,7 @@ main.addEventListener("click",function(e){
     else if(t.id==="nextidea"){gi++;render()}
     else if(t.id==="refine"){ui.refine=!ui.refine;render()}
     else if(t.id==="keepidea2"){var l2=poolFor(R.b,G.ints,G.age);G.idea=l2[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
-    else if(t.id==="tellgroup"){var tm="\uD83C\uDF81 Secret Santa update: I\u2019m sorted! Gift bought"+(G.wrapped?" and wrapped":"")+" \u2705\n\nNo clues though \uD83D\uDE09";openWA("",tm)}
+    else if(t.id==="tellgroup"){var tm="\uD83C\uDF81 Secret Santa update: I\u2019m sorted! Gift bought"+(G.wrapped?" and wrapped":"")+" \u2705\n\nNo clues though \uD83D\uDE09";openGroup(R.w?chatCode(R.w):"",tm)}
     else if(t.id==="keepidea"){var list=poolFor(R.b,G.ints,G.age);G.idea=list[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
     else if(ds.age){G.age=ds.age;G.ints=(G.ints||[]).filter(function(k){return LIB[G.age][k]});store(RK,G);order=null;gi=0;render()}
     else if(ds.int){G.ints=G.ints||[];var ix=G.ints.indexOf(ds.int);if(ix>=0)G.ints.splice(ix,1);else G.ints.push(ds.int);store(RK,G);order=null;gi=0;render()}
@@ -559,7 +572,7 @@ main.addEventListener("click",function(e){
   if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
   if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
     if(ds.via==="copy"){try{navigator.clipboard.writeText(m).then(function(){toast("Copied. Paste it in the group");S.draw.posted[ds.post]=true;save();render()},function(){fallback(m,null)})}catch(err){fallback(m,null)}return}
-    S.draw.posted[ds.post]=true;save();openWA("",m);return}
+    S.draw.posted[ds.post]=true;save();openGroup(validChat()?chatCode(S.chat):"",m);return}
   if(ds.send){send(ds.send,ds.id);return}
   switch(t.id){
     case "redraw2":S.draw=null;save();var ids2=S.people.map(function(p){return p.id});var m2=drawNames(ids2,S.rules);
@@ -591,6 +604,7 @@ main.addEventListener("click",function(e){
   }
 });
 $("#ov").addEventListener("click",function(e){
+  if(e.target.id==="pickchat"){e.preventDefault();var tx=ui.lastText||"";closeOv();openWA("",tx);return}
   var t=e.target.closest("button");if(e.target.id==="ov"){if(!pt.shown)closeOv();return}if(!t)return;
   if(t.dataset.pt){pt.who=t.dataset.pt;pt.shown=false;openOv();return}
   switch(t.id){
