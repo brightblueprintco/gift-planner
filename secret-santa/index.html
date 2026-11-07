@@ -127,6 +127,10 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .refine b{float:right;color:#FCF7EC;background:var(--pine);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px}
 .refine .rs{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
 .refine.open{background:#E3EADD}
+.step{position:relative}
+.helpq{margin-left:auto;margin-right:26px;flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:1.6px solid var(--ink2);background:transparent;color:var(--ink2);font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1}
+.helpq.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.helpbox{background:#EEF2EA;border-left:3px solid var(--pine);padding:10px 12px;font-size:14.5px;line-height:1.45;margin:-2px 0 12px;border-radius:0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
 .chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
@@ -450,6 +454,31 @@ function openOv(){$("#ovc").innerHTML=rPass();$("#ov").classList.add("open")}
 function closeOv(){$("#ov").classList.remove("open");pt={who:null,shown:false};render()}
 
 /* ---------- render ---------- */
+var HELP=[
+ [/^The group$/,"Give it a name, pick your country (that sets the currency and how phone numbers work), the budget per gift, the swap day and where. Everyone sees these on their tag."],
+ [/^Who.s in$/,"Add everyone taking part, including you if you’re playing. A mobile number makes the WhatsApp and Text buttons go straight to that person. Gift hints are optional, and only their Santa sees them."],
+ [/^House rules$/,"Stop certain people drawing each other, usually couples or people who live together. Pick two names and tap Add. It works both ways."],
+ [/^Group chat/,"Optional. Got a WhatsApp group for this? Paste its invite link here and everyone’s message will include it. In WhatsApp: tap the group name → Invite via link → Copy link."],
+ [/^Draw the names$/,"Tap Draw names and the app secretly decides who buys for who. Then send each person their own link. Each link only shows that person who they’ve got. All in one room? Use Pass the phone instead."],
+ [/^Keep it going$/,"Ready-made messages for your group chat: the announcement, a one-week reminder, a nudge the day before, and a game for the day itself. Tap WhatsApp, pick your group, send."],
+ [/^Keep it safe$/,"Your group lives on this phone. Copy a backup code and send it to yourself. If anything goes wrong, paste it into Restore and it all comes back."],
+ [/^The details$/,"The important bits: how much to spend, when the swap is, and where."],
+ [/hints$/,"Clues from the organiser about the person you’re buying for. Use them!"],
+ [/^Gift ideas/,"Ideas that fit the budget. Tap Help me choose to tell us their age and what they’re into for better ideas. Find it on Amazon searches for it; Save this one pops it into My gift."],
+ [/^The group chat$/,"Join the Secret Santa WhatsApp group for reminders and banter. Just don’t give away who you got!"],
+ [/^My gift$/,"Keep track of your present: write what you’re getting and tick things off. Once it’s bought, let the group know you’re sorted (no clues!)."]
+];
+function addHelp(root){
+  (root||document).querySelectorAll(".step").forEach(function(st){
+    if(st.querySelector(".helpq"))return;var h2=st.querySelector("h2");if(!h2)return;var txt=h2.textContent.trim();
+    for(var i=0;i<HELP.length;i++){if(HELP[i][0].test(txt)){var b=document.createElement("button");b.className="helpq";b.setAttribute("aria-label","How this works");b.dataset.help=i;b.textContent="?";st.appendChild(b);break}}
+  });
+}
+function toggleHelp(btn){
+  var st=btn.closest(".step"),nx=st.nextElementSibling;
+  if(nx&&nx.classList.contains("helpbox")){nx.remove();btn.classList.remove("on");return}
+  var p=document.createElement("p");p.className="helpbox";p.textContent=HELP[+btn.dataset.help][1];st.parentNode.insertBefore(p,st.nextSibling);btn.classList.add("on");
+}
 function render(){
   if(R){
     $("#kicker").textContent=R.g||"Secret Santa";$("#subline").textContent="your private tag";
@@ -459,6 +488,7 @@ function render(){
     $("#main").innerHTML=rOrganiser();
     var rb=$("#rb");if(rb&&rb.options.length>1)rb.selectedIndex=1;
   }
+  addHelp(document.getElementById("main"));
 }
 
 /* ---------- sending ---------- */
@@ -505,7 +535,7 @@ function groupCard(stage){
     '<div class="step"><div class="stamp">✉</div><h2>Tell your <em>group</em></h2></div>'+
     '<p style="font-size:16px">Here’s your message. Tap below and we’ll copy it and open your Secret Santa group. Then just <b>paste and send.</b></p>'+
     '<textarea class="copy" readonly>'+esc(g.text)+'</textarea>'+
-    '<button class="amz" id="postgroup" style="margin-top:14px">Post to my WhatsApp group →</button>'+
+    '<button class="amz" id="postgroup" style="margin-top:14px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Paste</b> this in my group chat →</button>'+
     '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn sm" id="fbdone">Not now</button></div>'
    :'<div class="step"><div class="stamp">✔</div><h2>Now <em>paste &amp; send</em></h2></div>'+
     '<p style="font-size:16px">Your message is copied. In the group, <b>tap the message box → Paste → Send.</b></p>'+
@@ -514,7 +544,7 @@ function groupCard(stage){
   $("#ov").classList.add("open");
 }
 function openGroup(code,text){
-  openWA("",text);return;
+  if(!code){openWA("",text);return}
   ui.grp={code:code,text:text};ui.lastText=text;groupCard("ready");
 }
 function postGroup(){
@@ -566,6 +596,7 @@ main.addEventListener("submit",function(e){
 });
 main.addEventListener("click",function(e){
   var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
+  if(ds.help!==undefined){toggleHelp(t);return}
   if(R){
     if(t.id==="openit"){G.opened=true;store(RK,G);render();window.scrollTo(0,0)}
     else if(t.id==="nextidea"){gi++;render()}
