@@ -262,7 +262,7 @@ function defaults(){return{country:guessCountry(),group:"",budget:"20",cur:CTRY[
 var S=load(KEY)||defaults();if(!S.countrySet){var gc=guessCountry();if(S.country!==gc){S.country=gc;if(CTRY[gc].cur)S.cur=CTRY[gc].cur}}var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
 function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
 var canSave=true;
-var ui={openHint:null,wipe:false};
+var ui={openHint:null,wipe:false,pend:null};
 
 function link(giverId){
   var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
@@ -275,6 +275,14 @@ function money(){return (S.cur||"")+(S.budget||"")}
 var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches);
 var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 function backupCode(){return "SS1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))))}
+function backupLink(){return location.origin+location.pathname+"#r"+btoa(unescape(encodeURIComponent(JSON.stringify(S)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function readBackup(tx){tx=String(tx||"");var m=tx.match(/#r([A-Za-z0-9_\-]+)/),b64;
+  if(m)b64=m[1];else{var i=tx.indexOf("SS1:");if(i<0)return null;b64=tx.slice(i+4)}
+  b64=b64.replace(/[^A-Za-z0-9+\/=_\-]/g,"").replace(/-/g,"+").replace(/_/g,"/").replace(/=+$/,"");
+  for(var cut=0;cut<4;cut++){var t=b64.slice(0,b64.length-cut);while(t.length%4)t+="=";
+    try{var o=JSON.parse(decodeURIComponent(escape(atob(t))));if(o&&Array.isArray(o.people))return o}catch(e){}}
+  return null}
+function applyBackup(obj){S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}S.hsDone=true;S.backedUp=true;save()}
 function hasWork(){return S.people.length>0||!!S.group}
 var SHARE_SVG='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Share icon"><path d="M8 9H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2"/><path d="M12 15V3M8 7l4-4 4 4"/></svg>';
 var DOTS_SVG='<svg class="ico" viewBox="0 0 24 24" aria-label="More button"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.7" fill="#fff"/><circle cx="12" cy="12" r="1.7" fill="#fff"/><circle cx="17" cy="12" r="1.7" fill="#fff"/></svg>';
@@ -327,6 +335,7 @@ function syncDraw(){
 function rOrganiser(){
   syncDraw();
   var h="";
+  if(ui.pend){h+='<section class="tag l"><div class="step"><div class="stamp">\u21BA</div><h2>Bring back <em>your group</em></h2></div><p class="small">This backup has <b>'+esc(ui.pend.group||"your group")+'</b> with '+ui.pend.people.length+' people. Restoring replaces what\u2019s on this phone'+(S.people.length?' (<b>'+esc(S.group||"current group")+'</b>, '+S.people.length+' people)':'')+'.</p><div class="row" style="margin-top:12px"><button class="btn sm pine" id="dorestore">Restore it</button><button class="lnk" id="norestore">Cancel</button></div></section>'}
   if(isStandalone&&!S.people.length&&!S.group){
     h+='<section class="tag r" style="border:2px solid var(--pine)"><div class="step"><div class="stamp" style="border-color:var(--pine);color:var(--pine)">\u2192</div><h2>Moving your group <em>over?</em></h2></div>'+
      '<p class="small">Started in Safari? One tap brings everything across: names, numbers and the draw.</p>'+
@@ -356,19 +365,19 @@ function rOrganiser(){
       '<button class="'+(open?"btn sm fill":"lnk")+'" style="'+(open?"margin-top:8px":"")+'" data-togglehint="'+p.id+'">'+(open?"Save":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
-  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="30" autocomplete="off" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="40" autocomplete="name" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
    '<p class="label" style="margin-top:8px;text-transform:none;letter-spacing:.02em">'+(C().cc?esc(C().n)+' numbers (+'+C().cc+'). Wrong country? Change it in step 1.':'Type numbers with the country code, e.g. +33\u2026')+'</p>'+
    (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
-   '<p class="small" style="margin-top:10px">Add a mobile number and the WhatsApp and Text buttons go straight to that person. Numbers stay on this phone and are never put in anyone\u2019s link. Gift hints are optional too, and whoever draws that person gets to see them.</p></section>';
+   '<p class="small" style="margin-top:10px">Add their mobile and you can send each person their name on WhatsApp in one tap. Numbers stay on this phone. Gift hints are optional, and only whoever draws that person sees them.</p></section>';
 
-  h+='<section class="tag l"><div class="step"><div class="stamp">✉</div><h2>Group <em>chat</em> <span class="label" style="font-size:10px">optional</span></h2></div>'+
+  h+='<section class="tag l"><div class="step"><div class="stamp">✉</div><h2>'+(validChat()?'Group <em>chat</em>':'Create <em>group chat</em>')+' <span class="label" style="font-size:10px">optional</span></h2></div>'+
    (validChat()?
      '<div class="chatok"><b>✔ Group chat linked</b><span>Everyone’s message will include the link to join.</span></div>'+
      '<div class="row" style="margin-top:10px"><button class="btn sm" id="pastechat">Paste a different link</button><button class="lnk" id="clearchat" style="color:var(--cran)">Remove</button></div>'
    :
      '<p class="small">Running it in a WhatsApp group? Link it here and everyone’s private message will include an invite to join.</p>'+
-     '<ol class="steps3"><li><b>No group yet?</b> Tap <b>Open WhatsApp</b>, then tap <b>New chat</b> (the \uFF0B or pencil) \u2192 <b>New group</b>. Add people or just yourself, and call it something like \u201cSecret Santa \uD83C\uDF85\u201d.</li><li>In the group, tap the group name \u2192 <b>Invite via link</b> \u2192 <b>Copy link</b></li><li>Come back here and tap <b>Paste my group chat link</b></li></ol>'+
-     '<div class="row" style="margin-top:10px"><a class="btn sm" href="whatsapp://" id="openwa">Open WhatsApp</a><span class="small">Got a group already? Skip to step 2.</span></div>'+
+     '<a class="amz" href="whatsapp://" id="openwa" style="margin-top:12px;text-align:center;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px">Open WhatsApp &amp; create <b style="font-weight:700">Secret Santa \uD83C\uDF85</b> group</a>'+
+     '<p class="small" style="margin-top:10px">Then in the group tap its name \u2192 <b>Invite via link</b> \u2192 <b>Copy link</b>, and come back here.</p>'+
      '<button class="amz" id="pastechat" style="background:var(--pine);color:#FCF7EC;margin-top:12px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Paste</b> my group chat link</button>'+
      '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Or type it in</summary><input id="f-chat" placeholder="https://chat.whatsapp.com/…" value="'+esc(S.chat)+'" inputmode="url" autocomplete="off" class="hintbox" style="min-height:0;font-family:var(--type);font-size:14px"></details>'+
      (S.chat?'<p class="note" style="margin-top:6px">That doesn’t look like a WhatsApp invite link. It should start https://chat.whatsapp.com/</p>':''))+
@@ -424,12 +433,12 @@ function rOrganiser(){
     h+='</section>';
   }
 
-  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Keep it <em>safe</em></h2></div>'+
-   '<p class="small">Everything saves on this phone as you go. No accounts, no emails collected. To be extra safe, or to move to another phone, copy a backup code and send it to yourself.</p>'+
+  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Save my <em>page</em></h2></div>'+
+   '<p class="small">Everything saves on this phone as you go. To be extra secure, send yourself a backup link. Tap it any time and your whole group comes back.</p>'+
    (canSave?'':'<p class="note" style="margin-top:8px">This browser isn\u2019t letting us save. Try Safari or Chrome, and not a private tab.</p>')+
-   '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bcopy">Copy backup code</button><button class="btn sm" id="bwa">WhatsApp it to me</button>'+(deferredInstall&&!isStandalone?'<button class="btn sm" id="installapp">Add to home screen</button>':'')+'</div>'+
-   '<textarea class="copy" id="bin" placeholder="To restore, paste a backup code here\u2026"></textarea>'+
-   '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button></div>'+
+   '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bwa">Send me a backup link</button>'+(deferredInstall&&!isStandalone?'<button class="btn sm" id="installapp">Add to home screen</button>':'')+'</div>'+
+   '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Restore from a backup</summary><textarea class="copy" id="bin" placeholder="Paste your backup link or message here\u2026"></textarea>'+
+   '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button></div></details>'+
    '<p class="small" style="margin-top:12px">Each link only shows that person who they\u2019re buying for. Don\u2019t open other people\u2019s links yourself, or you\u2019ll spoil it!</p>'+
    '<div class="row" style="margin-top:12px"><button class="btn sm" id="newgroup">'+(ui.newg?"Tap again to start over":"Start a new group")+'</button></div></section>';
   return h;
@@ -504,10 +513,10 @@ var HELP=[
  [/^The group$/,"Give it a name, pick your country (that sets the currency and how phone numbers work), the budget per gift, the swap day and where. Everyone sees these on their tag."],
  [/^Who.s in$/,"Add everyone taking part, including you if you’re playing. A mobile number makes the WhatsApp and Text buttons go straight to that person. Gift hints are optional, and only their Santa sees them."],
  [/^House rules$/,"Stop certain people drawing each other, usually couples or people who live together. Pick two names and tap Add. It works both ways."],
- [/^Group chat/,"Optional. Got a WhatsApp group for this? Paste its invite link here and everyone’s message will include it. In WhatsApp: tap the group name → Invite via link → Copy link."],
+ [/group chat/i,"Optional. Got a WhatsApp group for this? Paste its invite link here and everyone’s message will include it. In WhatsApp: tap the group name → Invite via link → Copy link."],
  [/^Draw the names$/,"Tap Draw names and the app secretly decides who buys for who. Then send each person their own link. Each link only shows that person who they’ve got. All in one room? Use Pass the phone instead."],
  [/^Keep it going$/,"Ready-made messages for your group chat: the announcement, a one-week reminder, a nudge the day before, and a game for the day itself. Tap WhatsApp, pick your group, send."],
- [/^Keep it safe$/,"Your group lives on this phone. Copy a backup code and send it to yourself. If anything goes wrong, paste it into Restore and it all comes back."],
+ [/^Save my page$/,"Your group lives on this phone. Send yourself a backup link on WhatsApp. If anything goes wrong, or you change phone, just tap the link and it all comes back."],
  [/^The details$/,"The important bits: how much to spend, when the swap is, and where."],
  [/hints$/,"Clues from the organiser about the person you’re buying for. Use them!"],
  [/^Gift ideas/,"Ideas that fit the budget. Tap Help me choose to tell us their age and what they’re into for better ideas. Find it on Amazon searches for it; Save this one pops it into My gift."],
@@ -690,12 +699,12 @@ main.addEventListener("click",function(e){
     case "bskip":S.backedUp=true;save();render();break;
     case "bcopy":var bc=backupCode();
       try{navigator.clipboard.writeText(bc).then(function(){toast("Backup code copied. Send it to yourself")},function(){fallback(bc,null)})}catch(err){fallback(bc,null)}break;
-    case "bwa":S.backedUp=true;save();openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Paste this into Restore if I ever need it:\n\n"+backupCode());break;
-    case "brestore":
-      try{var raw=($("#bin").value||"").trim().replace(/^[\s\S]*?(SS1:)/,"$1");if(raw.indexOf("SS1:")!==0)throw 0;
-        var obj=JSON.parse(decodeURIComponent(escape(atob(raw.slice(4).replace(/\s/g,"")))));if(!obj||!Array.isArray(obj.people))throw 0;
-        S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}S.hsDone=true;save();render();window.scrollTo(0,0);toast("Restored! Welcome back")}
-      catch(err){toast("That code didn\u2019t work. Check you copied all of it")}break;
+    case "bwa":S.backedUp=true;save();var bl=backupLink();try{navigator.clipboard.writeText(bl).catch(function(){})}catch(err){}
+      openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Tap to bring my group back:\n"+bl);break;
+    case "brestore":var ob2=readBackup($("#bin").value);
+      if(ob2){applyBackup(ob2);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}else toast("That didn\u2019t work. Copy the whole backup message and try again");break;
+    case "dorestore":if(ui.pend){applyBackup(ui.pend);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}break;
+    case "norestore":ui.pend=null;render();break;
     case "pickc":
       try{navigator.contacts.select(["name","tel"],{multiple:true}).then(function(list){var added=0;(list||[]).forEach(function(c){var nm=(c.name&&c.name[0]||"").trim();if(!nm||S.people.length>=60)return;if(S.people.some(function(p){return p.name.toLowerCase()===nm.toLowerCase()}))return;S.people.push({id:uid(),name:nm,hint:"",phone:(c.tel&&c.tel[0])||""});added++});save();render();if(added)toast("Added "+added+" from contacts")}).catch(function(){toast("Contacts not available here")})}catch(err){toast("Contacts not available here")}
       break;
@@ -719,6 +728,9 @@ $("#ov").addEventListener("click",function(e){
 /* ---------- boot ---------- */
 function boot(){
   var hsh=location.hash.slice(1);R=null;
+  if(hsh.charAt(0)==="r"){var ob=readBackup("#"+hsh);try{history.replaceState(null,"",location.pathname)}catch(e){}
+    if(ob){if(!S.people.length){applyBackup(ob);render();toast("Restored! Welcome back");return}ui.pend=ob;render();window.scrollTo(0,0);return}
+    $("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>That backup link\u2019s <em>broken</em></h2></div><p class="small">Part of it may have been cut off. Copy the whole message and paste it into Restore on the Save my page card.</p></section>';return}
   if(hsh){try{R=hsh.charAt(0)==="~"?dec2(hsh):dec(hsh);if(!R||!R.n||!R.r)R=null}catch(e){R=null}
     if(R){RK="bbco-ss-gift-"+hash(hsh);G=load(RK)||{opened:false};gi=0;order=null}
     else{$("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Hmm, that link’s <em>broken</em></h2></div><p class="small">Part of it may have been cut off when it was copied. Ask your organiser to send it again.</p></section>';return}
