@@ -181,12 +181,12 @@ function unescF(f){return decodeURIComponent(f.replace(/_/g,"%20"))}
 var CUR={"£":"g","$":"d","€":"e"},CURR={g:"£",d:"$",e:"€"};
 function chatCode(u){var m=String(u||"").match(/chat\.whatsapp\.com\/(?:invite\/)?([A-Za-z0-9]+)/);return m?m[1]:""}
 function enc2(o){var d=(o.d||"").replace(/^20(\d\d)-(\d\d)-(\d\d)$/,"$1$2$3");
-  var f=[o.n,o.r,o.g,o.b,CUR[o.c]||"",d,o.p,o.m,o.h,chatCode(o.w)].map(escF);
+  var f=[o.n,o.r,o.g,o.b,CUR[o.c]||"",d,o.p,o.m,o.h,chatCode(o.w),o.k||""].map(escF);
   while(f.length&&f[f.length-1]==="")f.pop();
   return "~"+cipher(f.join("~"),1)+"~z"}
 function dec2(s){var t=cipher(s.replace(/^~/,"").replace(/~z$/,""),-1).split("~").map(unescF);
   var d=t[5]||"";if(/^\d{6}$/.test(d))d="20"+d.slice(0,2)+"-"+d.slice(2,4)+"-"+d.slice(4,6);
-  return {v:2,n:t[0]||"",r:t[1]||"",g:t[2]||"Secret Santa",b:t[3]||"",c:CURR[t[4]]||"",d:d,p:t[6]||"",m:t[7]||"",h:t[8]||"",w:t[9]?"https://chat.whatsapp.com/"+t[9]:""}}
+  return {v:2,n:t[0]||"",r:t[1]||"",g:t[2]||"Secret Santa",b:t[3]||"",c:CURR[t[4]]||"",d:d,p:t[6]||"",m:t[7]||"",h:t[8]||"",w:t[9]?"https://chat.whatsapp.com/"+t[9]:"",k:t[10]||""}}
 function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)}
 
 /* ---------- the draw ---------- */
@@ -212,24 +212,34 @@ var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperie
 function findUrl(idea){
   var q=String(idea||"").replace(/\([^)]*\)/g,"").replace(/\b(a|an|the|some|with a (handwritten )?(note|card)|they love|they've (been eyeing|wishlisted)|from their wishlist|from a series they're into)\b/gi," ").replace(/\s+/g," ").trim();
   if(!q)return "";
-  if(R&&R.c==="£")return "https://www.amazon.co.uk/s?k="+encodeURIComponent(q)+"&tag="+AMZ_TAG;
-  return "https://www.amazon.com/s?k="+encodeURIComponent(q);
+  var k=(R&&R.k)||(R&&R.c==="$"?"US":"GB"),c=CTRY[k]||CTRY.GB;
+  return "https://"+c.amz+"/s?k="+encodeURIComponent(q)+(c.tag?"&tag="+AMZ_TAG:"");
 }
 function findBtn(idea,cls){if(!idea||(EXPERIENCE.test(idea)&&!PRODUCT.test(idea)))return "";var u=findUrl(idea);return u?'<a class="btn '+(cls||"")+'" href="'+esc(u)+'" target="_blank" rel="sponsored noopener">Find it on Amazon</a>':""}
 var AMZ_NOTE='<p class="small" style="margin-top:10px;font-size:12.5px">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
 function tierOf(b){b=parseFloat(b)||20;return b<=10?0:b<=20?1:b<=35?2:3}
 function poolFor(b,ints,age){var tier=tierOf(b),L=LIB[age]||LIB.adult,out=[];(ints||[]).forEach(function(k){if(L[k])out=out.concat(L[k][tier])});if(!out.length)out=L.general[tier].slice();return out}
 
+var CTRY={
+  GB:{n:"UK",cur:"£",cc:"44",trunk:true,local:/^7\d{9}$/,amz:"www.amazon.co.uk",tag:true},
+  IE:{n:"Ireland",cur:"€",cc:"353",trunk:true,local:/^8\d{8}$/,amz:"www.amazon.co.uk",tag:true},
+  US:{n:"US",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.com",tag:false},
+  CA:{n:"Canada",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.ca",tag:true},
+  AU:{n:"Australia",cur:"$",cc:"61",trunk:true,local:/^4\d{8}$/,amz:"www.amazon.com.au",tag:false},
+  XX:{n:"Elsewhere",cur:"",cc:"",trunk:false,local:null,amz:"www.amazon.co.uk",tag:true}
+};
+function guessCountry(){var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";var m=l.match(/-([A-Za-z]{2})$/);var r=m?m[1].toUpperCase():"";if(r==="GB"||r==="UK")return "GB";if(CTRY[r])return r;if(/^en$/i.test(l))return "GB";return "XX"}
+function C(){return CTRY[S.country]||CTRY.GB}
 /* ---------- state ---------- */
-function defaults(){return{group:"",budget:"20",cur:"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
-var S=load(KEY)||defaults();var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
+function defaults(){return{country:guessCountry(),group:"",budget:"20",cur:CTRY[guessCountry()].cur||"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
+var S=load(KEY)||defaults();if(!S.country){S.country=S.cur==="$"?"US":S.cur==="€"?"XX":"GB"}var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
 function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
 var canSave=true;
 var ui={openHint:null,wipe:false};
 
 function link(giverId){
   var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
-  var payload={g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():""};
+  var payload={k:S.country,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():""};
   return location.href.split("#")[0]+"#"+enc2(payload);
 }
 function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
@@ -241,14 +251,16 @@ function backupCode(){return "SS1:"+btoa(unescape(encodeURIComponent(JSON.string
 function hasWork(){return S.people.length>0||!!S.group}
 var canPick=!!(navigator.contacts&&window.ContactsManager);
 function intl(raw){
-  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,"");
-  if(d.indexOf("+")===0)d=d.slice(1);else if(d.indexOf("00")===0)d=d.slice(2);
-  else if(d.charAt(0)==="0"){if(S.cur==="£")d="44"+d.slice(1);else return "";}
-  else if(S.cur==="£"&&d.charAt(0)==="7"&&d.length===10)d="44"+d;
-  else if(S.cur==="$"&&d.length===10)d="1"+d;
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
+  if(d.indexOf("+")===0)d=d.slice(1);
+  else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(c.cc&&c.trunk)d=c.cc+d.slice(1);else return "";}
+  else if(c.cc&&c.local&&c.local.test(d))d=c.cc+d;
+  else if(c.cc==="1"&&d.length===11&&d.charAt(0)==="1"){}
+  else if(!c.cc){if(d.length<11)return "";}
   d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
 }
-function prettyNum(d){if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
+function prettyNum(d){if(d.indexOf("353")===0)return "+353 "+d.slice(3,5)+" "+d.slice(5);if(d.indexOf("61")===0&&d.length===11)return "+61 "+d.slice(2,5)+" "+d.slice(5,8)+" "+d.slice(8);if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
 function validChat(){return /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/.test((S.chat||"").trim())}
 function addDays(d,n){var x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
 function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
@@ -279,7 +291,8 @@ function rOrganiser(){
   }
   h+='<section class="tag l"><div class="step"><div class="stamp">1</div><h2>The <em>group</em></h2></div>'+
    '<div class="field"><span class="label">Group name</span><input id="f-group" placeholder="Office, family…" maxlength="40" value="'+esc(S.group)+'"></div>'+
-   '<div class="field"><span class="label">Budget</span><div class="money"><select id="f-cur" aria-label="Currency">'+["£","$","€"].map(function(c){return'<option'+(S.cur===c?" selected":"")+'>'+c+'</option>'}).join("")+'</select><input id="f-budget" inputmode="decimal" maxlength="6" value="'+esc(S.budget)+'" aria-label="Budget"></div></div>'+
+   '<div class="field"><span class="label">Country</span><select id="f-country" aria-label="Country" style="font-family:var(--type);font-size:15px;width:58%">'+Object.keys(CTRY).map(function(k){return'<option value="'+k+'"'+(S.country===k?" selected":"")+'>'+CTRY[k].n+'</option>'}).join("")+'</select></div>'+
+   '<div class="field"><span class="label">Budget</span><div class="money">'+(S.country==="XX"?'<select id="f-cur" aria-label="Currency">'+["£","$","€"].map(function(c){return'<option'+(S.cur===c?" selected":"")+'>'+c+'</option>'}).join("")+'</select>':'<span style="font-family:var(--hand);font-size:25px;color:var(--cran);align-self:flex-end">'+esc(C().cur)+'</span>')+'<input id="f-budget" inputmode="decimal" maxlength="6" value="'+esc(S.budget)+'" aria-label="Budget"></div></div>'+
    '<div class="field"><span class="label">Swap day</span><input id="f-date" type="date" value="'+esc(S.date)+'"></div>'+
    '<div class="field"><span class="label">Where</span><input id="f-place" placeholder="Mum’s, the pub…" maxlength="40" value="'+esc(S.place)+'"></div>'+
    '<div class="field" style="display:block"><span class="label">A note from you (optional)</span><input id="f-note" placeholder="Wrap it nicely, no socks!" maxlength="90" value="'+esc(S.note)+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
@@ -509,7 +522,7 @@ main.addEventListener("input",function(e){
   if(t.dataset.phone){var pp=S.people.find(function(x){return x.id===t.dataset.phone});if(pp){pp.phone=t.value.trim();save()}}
   if(t.dataset.hint){var p=S.people.find(function(x){return x.id===t.dataset.hint});if(p){p.hint=t.value;save()}}
 });
-main.addEventListener("change",function(e){if(e.target.id==="f-cur"){S.cur=e.target.value;save()}if(e.target.id==="f-chat"){S.chat=e.target.value.trim();save();render()}});
+main.addEventListener("change",function(e){if(e.target.id==="f-country"){S.country=e.target.value;if(C().cur)S.cur=C().cur;save();render();toast("Set to "+C().n+": numbers and Amazon links updated")}if(e.target.id==="f-cur"){S.cur=e.target.value;save()}if(e.target.id==="f-chat"){S.chat=e.target.value.trim();save();render()}});
 main.addEventListener("submit",function(e){
   e.preventDefault();var f=e.target;
   if(f.id==="addp"){var n=$("#pname").value.trim();if(!n)return;
