@@ -186,6 +186,16 @@ function detectInts(t){t=(t||"").toLowerCase();return INTS.map(function(x){retur
 function detectAge(t){t=(t||"").toLowerCase();var m=t.match(/\b(?:is|aged?|turning|turns)\s*(\d{1,2})\b|\b(\d{1,2})\s*(?:yo|y\/o|yrs?|years?)\b/);var n=m?parseInt(m[1]||m[2],10):null;
   if(n!==null&&n>=13&&n<=17)return "teen";if(n!==null&&n>=1&&n<=12)return "kid";
   if(/\bteen|year (7|8|9|10|11)\b|gcse/.test(t))return "teen";if(/\bkids?\b|child|toddler|year [1-6]\b|primary school/.test(t))return "kid";return "adult"}
+var AMZ_TAG="brightbluepri-21";
+var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperience\b|\bsessions?\b|\bcourse\b|\btour\b|\bday out\b|\btrip\b|\bworkshop\b|\bmembership\b|\bsubscription\b|\bpass\b|\bcamp\b|\bphoto shoot\b|\bvisit\b|\btaster\b|\bspa day\b|\bvolunteer\b|\bevent\b|\bmasterclass\b|\bparty\b(?! box)/i,PRODUCT=/\b(kit|set|box|print|frame|book|bag|poster|mug|strip|bundle|hamper)\b/i;
+function findUrl(idea){
+  var q=String(idea||"").replace(/\([^)]*\)/g,"").replace(/\b(a|an|the|some|with a (handwritten )?(note|card)|they love|they've (been eyeing|wishlisted)|from their wishlist|from a series they're into)\b/gi," ").replace(/\s+/g," ").trim();
+  if(!q)return "";
+  if(R&&R.c==="£")return "https://www.amazon.co.uk/s?k="+encodeURIComponent(q)+"&tag="+AMZ_TAG;
+  return "https://www.amazon.com/s?k="+encodeURIComponent(q);
+}
+function findBtn(idea,cls){if(!idea||(EXPERIENCE.test(idea)&&!PRODUCT.test(idea)))return "";var u=findUrl(idea);return u?'<a class="btn '+(cls||"")+'" href="'+esc(u)+'" target="_blank" rel="sponsored noopener">Find it on Amazon</a>':""}
+var AMZ_NOTE='<p class="small" style="margin-top:10px;font-size:12.5px">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
 function tierOf(b){b=parseFloat(b)||20;return b<=10?0:b<=20?1:b<=35?2:3}
 function poolFor(b,ints,age){var tier=tierOf(b),L=LIB[age]||LIB.adult,out=[];(ints||[]).forEach(function(k){if(L[k])out=out.concat(L[k][tier])});if(!out.length)out=L.general[tier].slice();return out}
 
@@ -359,9 +369,11 @@ function rReveal(){
    '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
    (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'\u2019s hints. Change them if you like.</p>':'')+
    '<p class="label" style="margin-top:14px">Idea '+((gi%order.length)+1)+' of '+order.length+' \u00b7 around '+esc((R.c||"")+(R.b||""))+'</p>'+
-   '<div class="idea">'+esc(list[order[gi%order.length]])+'</div><div class="row"><button class="btn fill" id="nextidea">Another idea</button><button class="btn" id="keepidea">Use this one</button></div></section>';
+   '<div class="idea">'+esc(list[order[gi%order.length]])+'</div><div class="row"><button class="btn fill" id="nextidea">Another idea</button><button class="btn" id="keepidea">Use this one</button></div>'+
+   (findBtn(list[order[gi%order.length]])?'<div class="row" style="margin-top:10px">'+findBtn(list[order[gi%order.length]],"sm")+'</div>'+AMZ_NOTE:'')+'</section>';
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
+   (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
    [["bought","Bought it"],["wrapped","Wrapped it"],["tag","Written the tag (“From Santa”)"]].map(function(x){return'<div class="item'+(G[x[0]]?" done":"")+'" data-g="'+x[0]+'"><div class="box"></div><span>'+x[1]+'</span></div>'}).join("")+
    (G.bought?'<div class="row" style="margin-top:12px"><button class="btn pine" id="tellgroup">Tell the group I\u2019m sorted</button></div><p class="small" style="margin-top:6px">Posts \u201cI\u2019m sorted\u201d to the group chat. No clues about who you got.</p>':'')+
    '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
