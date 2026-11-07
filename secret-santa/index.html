@@ -166,6 +166,21 @@ function dec(s){
   for(var i=0;i<r.length;i++)b[i]=r.charCodeAt(i)^k[i%k.length];
   return JSON.parse(new TextDecoder().decode(b));
 }
+/* v2 links: short, readable-only-to-the-app format */
+var AL="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",KY="bbcosanta";
+function shift(i){return (KY.charCodeAt(i%KY.length)*7+i*13)%62}
+function cipher(t,dir){var o="",k=0;for(var i=0;i<t.length;i++){var c=t.charAt(i);if(c==="%"){o+=t.substr(i,3);i+=2;continue}var x=AL.indexOf(c);if(x<0){o+=c;continue}o+=AL.charAt((x+dir*shift(k)+62*4)%62);k++}return o}
+function escF(f){return encodeURIComponent(String(f==null?"":f)).replace(/[!'()*]/g,function(c){return "%"+c.charCodeAt(0).toString(16).toUpperCase()}).replace(/_/g,"%5F").replace(/~/g,"%7E").replace(/%20/g,"_")}
+function unescF(f){return decodeURIComponent(f.replace(/_/g,"%20"))}
+var CUR={"£":"g","$":"d","€":"e"},CURR={g:"£",d:"$",e:"€"};
+function chatCode(u){var m=String(u||"").match(/chat\.whatsapp\.com\/(?:invite\/)?([A-Za-z0-9]+)/);return m?m[1]:""}
+function enc2(o){var d=(o.d||"").replace(/^20(\d\d)-(\d\d)-(\d\d)$/,"$1$2$3");
+  var f=[o.n,o.r,o.g,o.b,CUR[o.c]||"",d,o.p,o.m,o.h,chatCode(o.w)].map(escF);
+  while(f.length&&f[f.length-1]==="")f.pop();
+  return "~"+cipher(f.join("~"),1)+"~z"}
+function dec2(s){var t=cipher(s.replace(/^~/,"").replace(/~z$/,""),-1).split("~").map(unescF);
+  var d=t[5]||"";if(/^\d{6}$/.test(d))d="20"+d.slice(0,2)+"-"+d.slice(2,4)+"-"+d.slice(4,6);
+  return {v:2,n:t[0]||"",r:t[1]||"",g:t[2]||"Secret Santa",b:t[3]||"",c:CURR[t[4]]||"",d:d,p:t[6]||"",m:t[7]||"",h:t[8]||"",w:t[9]?"https://chat.whatsapp.com/"+t[9]:""}}
 function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)}
 
 /* ---------- the draw ---------- */
@@ -208,8 +223,8 @@ var ui={openHint:null,wipe:false};
 
 function link(giverId){
   var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
-  var payload={v:1,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():"",s:S.draw.at};
-  return location.href.split("#")[0]+"#"+enc(payload);
+  var payload={g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():""};
+  return location.href.split("#")[0]+"#"+enc2(payload);
 }
 function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
 function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
@@ -425,7 +440,7 @@ function post(kind){
 }
 function msg(id){
   var p=S.people.find(function(x){return x.id===id});
-  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"")+(validChat()?"\n\nJoin the Secret Santa group chat: "+S.chat.trim():"");
+  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"")+(validChat()?"\n\nJoin the Secret Santa group chat: https://chat.whatsapp.com/"+chatCode(S.chat):"");
 }
 function markSent(id){S.draw.sent[id]=true;save();render()}
 function send(kind,id){
@@ -542,7 +557,7 @@ $("#ov").addEventListener("click",function(e){
 /* ---------- boot ---------- */
 function boot(){
   var hsh=location.hash.slice(1);R=null;
-  if(hsh){try{R=dec(hsh);if(!R||!R.n||!R.r)R=null}catch(e){R=null}
+  if(hsh){try{R=hsh.charAt(0)==="~"?dec2(hsh):dec(hsh);if(!R||!R.n||!R.r)R=null}catch(e){R=null}
     if(R){RK="bbco-ss-gift-"+hash(hsh);G=load(RK)||{opened:false};gi=0;order=null}
     else{$("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Hmm, that link’s <em>broken</em></h2></div><p class="small">Part of it may have been cut off when it was copied. Ask your organiser to send it again.</p></section>';return}
   }
