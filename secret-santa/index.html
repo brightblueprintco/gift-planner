@@ -392,7 +392,9 @@ function rOrganiser(){
       '<button class="'+(open?"btn sm fill":"lnk")+'" style="'+(open?"margin-top:8px":"")+'" data-togglehint="'+p.id+'">'+(open?"Save":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
-  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="40" autocomplete="name" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+  var ME=S.people.length?null:(load("bbco-ss-me")||null);
+  if(!S.people.length)h+='<p class="small" style="margin:6px 0 2px">Start with you'+(ME?'. Tap Add':'')+', then everyone else.</p>';
+  h+='<form class="add" id="addp"><input id="pname" placeholder="'+(S.people.length?'Name\u2026':'Your name')+'" maxlength="40" autocomplete="name" style="flex:1.2"'+(ME&&ME.name?' value="'+esc(ME.name)+'"':'')+'><input id="pphone" type="tel" inputmode="tel" placeholder="'+(S.people.length?'Mobile':'Your mobile')+'"'+(ME&&ME.phone?' value="'+esc(ME.phone)+'"':'')+' aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
    '<p class="label" style="margin-top:8px;text-transform:none;letter-spacing:.02em">'+(C().cc?esc(C().n)+' numbers (+'+C().cc+'). Wrong country? Change it in step 1.':'Type numbers with the country code, e.g. +33\u2026')+'</p>'+
    (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
    '<p class="small" style="margin-top:10px">Add their mobile and you can send each person their name on WhatsApp in one tap. Numbers stay on this phone. Gift hints are optional, and only whoever draws that person sees them.</p></section>';
@@ -437,8 +439,8 @@ function rOrganiser(){
       h+='<div class="sendrow"><div class="top"><span class="nm">'+esc(p.name)+'’s link</span><span class="sent'+(S.draw.sent[p.id]?"":" no")+'">'+(S.draw.sent[p.id]?"Sent":"Not sent")+'</span></div>'+
         '<div class="row"><button class="btn sm pine" data-send="wa" data-id="'+p.id+'">WhatsApp</button><button class="btn sm" data-send="sms" data-id="'+p.id+'">Text</button><button class="btn sm" data-send="mail" data-id="'+p.id+'">Email</button><button class="btn sm" data-send="copy" data-id="'+p.id+'">Copy</button></div></div>';
     });
-    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="slips">'+(ui.printWarn?"Print now":"Print name slips")+'</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
-     (ui.printWarn?'<p class="note" style="margin-top:8px">Not on WhatsApp? Print a slip for each person, cut them out and fold the bottom up so the name\u2019s hidden. Heads up: the print preview shows who got who, so look away or hand it to someone who isn\u2019t playing.</p>':'')+
+    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
+     '<p class="small" style="margin-top:10px">Someone not on WhatsApp? Use the hat-draw slips in your printable pack.</p>'+
      '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>'+
      '<div style="margin-top:16px;padding-top:12px;border-top:1.5px dashed var(--line)">'+
      (ui.showAll?'<p class="label">Who’s buying for who</p>'+S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return '<div class="rule"><span class="grow"><b>'+esc(p.name)+'</b> → '+esc(nameOf(S.draw.pairs[p.id]))+'</span></div>'}).join("")+'<div class="row" style="margin-top:10px"><button class="btn sm" id="hideall">Hide the list</button></div>'
@@ -672,6 +674,7 @@ main.addEventListener("submit",function(e){
     if(S.people.some(function(p){return p.name.toLowerCase()===n.toLowerCase()})){toast("Already on the list. Add a surname or initial");return}
     if(S.people.length>=60){toast("That’s a big group! Max 60");return}
     var pn=($("#pphone").value||"").trim();if(pn&&!intl(pn))toast(S.cur==="£"?"Added, but check that number":"Added. Use the full international number, e.g. +1\u2026");
+    if(!S.people.length)store("bbco-ss-me",{name:n,phone:pn});
     S.people.push({id:uid(),name:n,hint:"",phone:pn});save();render();$("#pname").focus()}
   if(f.id==="addr"){var a=$("#ra").value,b=$("#rb").value;if(a===b){toast("Pick two different people");return}
     if(banned(S.rules,a,b)){toast("That rule’s already there");return}
