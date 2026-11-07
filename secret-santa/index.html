@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#E6D5B8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Secret Santa">
+<meta name="robots" content="noindex">
+<title>Secret Santa Organiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Courier+Prime:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces.ttf) format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces-Italic.ttf) format("truetype");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Regular.ttf) format("truetype");font-weight:400}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Bold.ttf) format("truetype");font-weight:700}
+@font-face{font-family:"ReenieL";src:url(fonts/ReenieBeanie.ttf) format("truetype")}
+:root{
+  --kraft:#E6D5B8;--card:#FCF7EC;--ink:#33261D;--ink2:#6B5544;
+  --cran:#9A2B2E;--pine:#3D5A45;--gold:#B98A3C;--line:#DDCBAA;--string:#B8483F;
+  --serif:"FrauncesL","Fraunces",Georgia,serif;
+  --type:"CourierL","Courier Prime","Courier New",monospace;
+  --hand:"ReenieL","Reenie Beanie","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--serif);font-variation-settings:"SOFT" 50,"opsz" 14;color:var(--ink);background:var(--kraft);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  min-height:100vh;font-size:16px;line-height:1.5;padding-bottom:40px}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 24px}
+button,input,select,textarea{font:inherit;color:inherit}
+.masthead{text-align:center;padding:16px 4px 4px}
+.kicker{font-family:var(--type);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+h1{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;font-size:clamp(46px,14vw,70px);line-height:.95;letter-spacing:-.02em;color:var(--cran);margin:8px 0 4px}
+.sub{font-family:var(--hand);font-size:28px;color:var(--pine);transform:rotate(-2deg);display:inline-block;line-height:1}
+.holly{display:block;margin:8px auto 0;width:110px;height:26px;color:var(--pine)}
+/* gift-tag cards */
+.tag{background:var(--card);border-radius:4px 4px 4px 4px;padding:22px 18px 18px 18px;margin:26px 0;position:relative;
+  box-shadow:0 1px 0 rgba(51,38,29,.06),0 10px 18px -12px rgba(51,38,29,.45),0 2px 4px -2px rgba(51,38,29,.15)}
+.tag::before{content:"";position:absolute;top:14px;right:16px;width:14px;height:14px;border-radius:50%;background:var(--kraft);box-shadow:inset 0 1px 2px rgba(0,0,0,.25);border:2px solid var(--line)}
+.tag.l{transform:rotate(-.5deg)}.tag.r{transform:rotate(.45deg)}
+.step{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1.5px dashed var(--line)}
+.stamp{flex:0 0 40px;height:40px;border:2.2px solid var(--cran);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--type);font-weight:700;color:var(--cran);transform:rotate(-8deg);font-size:17px}
+.step h2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 60;font-size:24px;line-height:1.1}
+.step h2 em{font-style:italic;color:var(--cran);font-weight:500}
+.label{font-family:var(--type);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.small{font-size:14px;color:var(--ink2)}
+.note{font-family:var(--hand);font-size:23px;line-height:1.05;color:var(--cran)}
+.field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dotted var(--line)}
+.field:last-child{border-bottom:0}
+.field input,.field select{background:transparent;border:0;border-bottom:1.5px solid var(--ink2);padding:2px 4px;font-family:var(--hand);font-size:25px;line-height:1.05;color:var(--cran);text-align:right;min-width:0;width:58%;border-radius:0;-webkit-appearance:none;appearance:none}
+.field input[type=date]{font-family:var(--type);font-size:15px;color:var(--cran)}
+.field input:focus,.field select:focus{outline:none;border-bottom-color:var(--cran)}
+.money{display:flex;gap:6px;width:58%;justify-content:flex-end}
+.money select{width:52px;text-align:center;font-family:var(--type);font-size:16px}
+.money input{width:90px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--ink);background:transparent;padding:9px 15px;font-family:var(--type);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none;color:var(--ink)}
+.btn.fill{background:var(--cran);border-color:var(--cran);color:#FCF7EC}
+.btn.pine{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.btn.sm{padding:6px 10px;font-size:11px}
+.btn.big{width:100%;padding:15px;font-size:15px}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.add{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
+.add input,.add select{flex:1;min-width:0;background:transparent;border:0;border-bottom:1.5px solid var(--ink2);font-family:var(--hand);font-size:25px;line-height:1.1;padding:2px;color:var(--ink)}
+.add select{font-family:var(--type);font-size:13.5px;padding:6px 2px}
+.add input:focus{outline:none;border-bottom-color:var(--cran)}
+.person{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dotted var(--line)}
+.person:last-child{border-bottom:0}
+.person .nm{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 24}
+.person .hint{display:block;font-size:13.5px;color:var(--ink2)}
+.person .grow{flex:1;min-width:0}
+.x{border:0;background:transparent;font-family:var(--type);font-size:19px;color:var(--ink2);padding:0 4px;cursor:pointer;opacity:.65}
+.lnk{border:0;background:transparent;font-family:var(--type);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pine);text-decoration:underline;cursor:pointer;padding:2px 0}
+.hintbox{width:100%;margin-top:6px;background:#fffdf7;border:1.2px solid var(--line);border-radius:3px;padding:7px 8px;font-size:14px;font-family:var(--serif);resize:vertical;min-height:54px}
+.rule{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dotted var(--line);font-size:15px}
+.rule .grow{flex:1}
+.rule b{font-weight:600}
+.empty{font-family:var(--hand);font-size:24px;color:var(--ink2);padding:6px 0}
+.warn{background:#F6E4D4;border-left:3px solid var(--cran);padding:9px 12px;font-size:14px;margin-top:10px;border-radius:2px}
+.sendrow{padding:12px 0;border-bottom:1px dotted var(--line)}
+.sendrow:last-child{border-bottom:0}
+.sendrow .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sendrow .nm{font-weight:600;font-size:18px;font-variation-settings:"SOFT" 100,"opsz" 30}
+.sent{font-family:var(--type);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pine);border:1.3px solid var(--pine);padding:1px 7px;border-radius:10px 3px 10px 3px}
+.sent.no{color:var(--ink2);border-color:var(--line)}
+.ptgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ptgrid button{background:#fffdf7;border:1.5px solid var(--ink);border-radius:4px;padding:14px 8px;font-family:var(--hand);font-size:27px;line-height:1;cursor:pointer;color:var(--ink)}
+.ptgrid button.done{opacity:.35;text-decoration:line-through}
+/* reveal */
+.reveal{text-align:center}
+.bigtag{background:var(--card);margin:28px auto 10px;max-width:340px;padding:46px 22px 30px;position:relative;border-radius:6px;clip-path:polygon(14% 0,86% 0,100% 12%,100% 100%,0 100%,0 12%);box-shadow:0 14px 26px -14px rgba(51,38,29,.6)}
+.bigtag .hole{position:absolute;top:16px;left:50%;margin-left:-9px;width:18px;height:18px;border-radius:50%;background:var(--kraft);border:2px solid var(--line)}
+.who{font-family:var(--hand);font-size:clamp(56px,17vw,84px);line-height:.95;color:var(--cran);margin:8px 0 6px;word-break:break-word}
+.forwho{font-family:var(--serif);font-style:italic;font-weight:500;font-size:22px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
+.sealed .opened{display:none}.unsealed .closed{display:none}
+.unsealed .bigtag{animation:pop .55s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{0%{transform:scale(.7) rotate(-6deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.facts div{border:1.5px dashed var(--line);border-radius:4px;padding:8px 6px;text-align:center}
+.facts b{display:block;font-family:var(--serif);font-weight:600;font-size:22px;font-variation-settings:"SOFT" 100,"opsz" 48;color:var(--cran);line-height:1.15;word-break:break-word}
+.idea{font-family:var(--serif);font-weight:500;font-variation-settings:"SOFT" 100,"opsz" 40;font-size:22px;line-height:1.25;margin:8px 0 14px;min-height:56px}
+.item{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dotted var(--line);cursor:pointer}
+.box{flex:0 0 22px;height:22px;border:1.7px solid var(--ink);border-radius:3px 5px 2px 6px;position:relative;background:#fffdf7}
+.item.done .box::after{content:"";position:absolute;left:3px;top:-5px;width:9px;height:17px;border:solid var(--cran);border-width:0 3.5px 3.5px 0;transform:rotate(40deg);border-radius:0 0 3px 0}
+.foot{text-align:center;font-family:var(--type);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:30px 0 6px}
+.foot a{color:var(--cran)}
+.overlay{position:fixed;inset:0;background:rgba(51,38,29,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.overlay .tag{width:100%;max-width:420px;margin:0;max-height:90vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) rotate(-1deg);background:var(--ink);color:var(--card);font-family:var(--type);font-size:13px;letter-spacing:.06em;padding:9px 16px;border-radius:3px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);font-size:12px;background:#fffdf7;border:1.2px solid var(--line);padding:8px;border-radius:3px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker" id="kicker">The organiser</div>
+    <h1>Secret Santa</h1>
+    <div class="sub" id="subline">no peeking, no spreadsheets</div>
+    <svg class="holly" viewBox="0 0 110 26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13h34M68 13h34"/><path d="M55 13c-6-8-15-9-19-6 3 2 1 5 4 6-3 1-1 4-4 6 4 3 13 2 19-6zm0 0c6-8 15-9 19-6-3 2-1 5-4 6 3 1 1 4 4 6-4 3-13 2-19-6z"/><circle cx="55" cy="9" r="2.3" fill="#9A2B2E" stroke="none"/><circle cx="51" cy="14" r="2.3" fill="#9A2B2E" stroke="none"/><circle cx="59" cy="14" r="2.3" fill="#9A2B2E" stroke="none"/></svg>
+  </header>
+  <main id="main"></main>
+  <div class="foot" id="foot">Made with love by BrightBlueprintCo</div>
+</div>
+<div class="overlay" id="ov"><div class="tag" id="ovc"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY="bbco-secret-santa-v1", SHOP="https://brightblueprintco.etsy.com";
+var XK="bbco-santa-2026";
+var uid=function(){return Math.random().toString(36).slice(2,9)};
+function $(s){return document.querySelector(s)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove("show")},2000)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+
+/* ---------- link encoding (keeps the name hidden from a casual glance) ---------- */
+function enc(obj){
+  var b=new TextEncoder().encode(JSON.stringify(obj)),k=new TextEncoder().encode(XK),o="";
+  for(var i=0;i<b.length;i++)o+=String.fromCharCode(b[i]^k[i%k.length]);
+  return btoa(o).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function dec(s){
+  s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";
+  var r=atob(s),k=new TextEncoder().encode(XK),b=new Uint8Array(r.length);
+  for(var i=0;i<r.length;i++)b[i]=r.charCodeAt(i)^k[i%k.length];
+  return JSON.parse(new TextDecoder().decode(b));
+}
+function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)}
+
+/* ---------- the draw ---------- */
+function banned(rules,a,b){for(var i=0;i<rules.length;i++){var r=rules[i];if((r[0]===a&&r[1]===b)||(r[0]===b&&r[1]===a))return true}return false}
+function drawNames(ids,rules){
+  var n=ids.length;
+  for(var t=0;t<20000;t++){var p=shuffle(ids),ok=true;for(var i=0;i<n;i++){if(p[i]===ids[i]||banned(rules,ids[i],p[i])){ok=false;break}}if(ok){var m={};ids.forEach(function(id,i){m[id]=p[i]});return m}}
+  var order=shuffle(ids),used={},res={};
+  function dfs(i){if(i===n)return true;var g=order[i];var c=shuffle(ids);for(var j=0;j<c.length;j++){var r=c[j];if(r===g||used[r]||banned(rules,g,r))continue;used[r]=1;res[g]=r;if(dfs(i+1))return true;used[r]=0;delete res[g]}return false}
+  return dfs(0)?res:null;
+}
+
+/* ---------- gift ideas ---------- */
+var IDEAS={
+  10:["A really good hot chocolate kit","Fancy socks with a terrible pun on them","A mini bottle of their favourite tipple","A small plant in a nice pot","A posh bar of chocolate and a handwritten card","A pocket notebook and a decent pen","Bath bombs or a nice soap","A pack of cards or a travel game","A festive mug filled with sweets","A keyring that's an inside joke","Hand cream for the cold months","A candle that smells like Christmas"],
+  20:["A cosy pair of slipper socks","A paperback you loved this year","Local honey, jam or chutney","A desk plant and a funny card","A nice scented candle","A board game for two","A coffee or tea sampler","A photo printed and framed","A reusable water bottle","Gloves or a beanie","A cocktail kit for one drink, done properly","Gourmet popcorn and a film night"],
+  35:["A cosy throw for the sofa","A hardback cookbook","A craft or hobby starter kit","A decent pair of headphones","A personalised mug or print","A cheese or charcuterie box","A plant they can't kill, with a nice pot","A day-out voucher (cinema, climbing, café)","A good bottle of wine or gin","A puzzle with 1,000 pieces","A leather card holder","A bird feeder for the garden"],
+  99:["Experience for two: a cooking class or a tasting","A really nice jumper","A framed print of a place they love","A weighted blanket","A wireless speaker","A subscription box for three months","A spa or massage voucher","A quality knife or a kitchen gadget","A smart plug and some fairy lights","A personalised star map or song print","A good backpack","A record or a book bundle"]
+};
+function ideasFor(b){b=parseFloat(b)||20;return IDEAS[b<=10?10:b<=20?20:b<=35?35:99]}
+
+/* ---------- state ---------- */
+function defaults(){return{group:"",budget:"20",cur:"£",date:"",place:"",note:"",people:[],rules:[],draw:null}}
+var S=load(KEY)||defaults();var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
+function save(){if(!store(KEY,S))canSave=false}
+var canSave=true;
+var ui={openHint:null,wipe:false};
+
+function link(giverId){
+  var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
+  var payload={v:1,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",s:S.draw.at};
+  return location.href.split("#")[0]+"#"+enc(payload);
+}
+function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
+function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
+function money(){return (S.cur||"")+(S.budget||"")}
+function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
+
+/* ---------- organiser view ---------- */
+function rOrganiser(){
+  var h="";
+  h+='<section class="tag l"><div class="step"><div class="stamp">1</div><h2>The <em>group</em></h2></div>'+
+   '<div class="field"><span class="label">Group name</span><input id="f-group" placeholder="Office, family…" maxlength="40" value="'+esc(S.group)+'"></div>'+
+   '<div class="field"><span class="label">Budget</span><div class="money"><select id="f-cur" aria-label="Currency">'+["£","$","€"].map(function(c){return'<option'+(S.cur===c?" selected":"")+'>'+c+'</option>'}).join("")+'</select><input id="f-budget" inputmode="decimal" maxlength="6" value="'+esc(S.budget)+'" aria-label="Budget"></div></div>'+
+   '<div class="field"><span class="label">Swap day</span><input id="f-date" type="date" value="'+esc(S.date)+'"></div>'+
+   '<div class="field"><span class="label">Where</span><input id="f-place" placeholder="Mum’s, the pub…" maxlength="40" value="'+esc(S.place)+'"></div>'+
+   '<div class="field" style="display:block"><span class="label">A note from you (optional)</span><input id="f-note" placeholder="Wrap it nicely, no socks!" maxlength="90" value="'+esc(S.note)+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
+  '</section>';
+
+  h+='<section class="tag r"><div class="step"><div class="stamp">2</div><h2>Who’s <em>in</em></h2></div>';
+  if(!S.people.length)h+='<div class="empty">Add at least 3 names below.</div>';
+  S.people.forEach(function(p){
+    var open=ui.openHint===p.id;
+    h+='<div class="person"><div class="grow"><span class="nm">'+esc(p.name)+'</span>'+(p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
+      (open?'<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
+      '<button class="lnk" data-togglehint="'+p.id+'">'+(open?"Done":p.hint?"Edit hints":"+ Add gift hints")+'</button></div>'+
+      '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
+  });
+  h+='<form class="add" id="addp"><input id="pname" placeholder="Add a name…" maxlength="30" autocomplete="off"><button class="btn sm fill">Add</button></form>'+
+   '<p class="small" style="margin-top:10px">Gift hints are optional. Whoever draws that person gets to see them.</p></section>';
+
+  h+='<section class="tag l"><div class="step"><div class="stamp">3</div><h2>House <em>rules</em></h2></div>'+
+   '<p class="small">Anyone who shouldn’t draw each other? Couples usually. The rule works both ways.</p>';
+  S.rules.forEach(function(r,i){h+='<div class="rule"><span class="grow"><b>'+esc(nameOf(r[0]))+'</b> &amp; <b>'+esc(nameOf(r[1]))+'</b> can’t draw each other</span><button class="x" data-delr="'+i+'" aria-label="Remove rule">&times;</button></div>'});
+  if(S.people.length>=2){
+    var o=S.people.map(function(p){return'<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join("");
+    h+='<form class="add" id="addr"><select id="ra" aria-label="Person one">'+o+'</select><span class="label" style="padding-bottom:8px">&amp;</span><select id="rb" aria-label="Person two">'+o.replace('<option ','<option ')+'</select><button class="btn sm">Add</button></form>';
+  }
+  h+='</section>';
+
+  var n=S.people.length;
+  h+='<section class="tag r"><div class="step"><div class="stamp">4</div><h2>Draw the <em>names</em></h2></div>';
+  if(!S.draw){
+    h+='<p class="small">Nobody sees who got who, not even you. Everyone gets their own private link.</p>'+
+     '<button class="btn fill big" id="drawbtn" style="margin-top:14px"'+(n<3?" disabled":"")+'>Draw names</button>'+
+     (n<3?'<p class="note" style="margin-top:8px">Need at least 3 people</p>':'');
+  }else{
+    var stale=S.draw.ids.join()!==S.people.map(function(p){return p.id}).join()||S.draw.rk!==JSON.stringify(S.rules);
+    if(stale)h+='<div class="warn"><b>The names or rules have changed since the draw.</b> Redraw before sending, or some people won’t be included.</div>';
+    var sentN=S.people.filter(function(p){return S.draw.sent[p.id]}).length;
+    h+='<p class="small">Names drawn ✔ Now send everyone their private link, or use <b>pass the phone</b> if you’re all in the same room.</p>'+
+     '<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
+    S.people.forEach(function(p){
+      if(!S.draw.pairs[p.id])return;
+      h+='<div class="sendrow"><div class="top"><span class="nm">'+esc(p.name)+'’s link</span><span class="sent'+(S.draw.sent[p.id]?"":" no")+'">'+(S.draw.sent[p.id]?"Sent":"Not sent")+'</span></div>'+
+        '<div class="row"><button class="btn sm pine" data-send="wa" data-id="'+p.id+'">WhatsApp</button><button class="btn sm" data-send="sms" data-id="'+p.id+'">Text</button><button class="btn sm" data-send="mail" data-id="'+p.id+'">Email</button><button class="btn sm" data-send="copy" data-id="'+p.id+'">Copy</button></div></div>';
+    });
+    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
+     '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>';
+  }
+  h+='</section>';
+
+  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Good to <em>know</em></h2></div>'+
+   '<p class="small">Everything saves on this phone as you go. No accounts, no emails collected. Each link only shows that person who they’re buying for. Just don’t open other people’s links yourself, or you’ll spoil it!</p>'+
+   (canSave?'':'<p class="note" style="margin-top:8px">This browser isn’t letting us save. Try Safari or Chrome.</p>')+
+   '<p class="small" style="margin-top:8px">On iPhone: tap Share, then <b>Add to Home Screen</b>.</p>'+
+   '<div class="row" style="margin-top:12px"><button class="btn sm" id="newgroup">'+(ui.newg?"Tap again to start over":"Start a new group")+'</button></div></section>';
+  return h;
+}
+
+/* ---------- reveal view ---------- */
+var R=null,RK=null,G=null,gi=0,order=null;
+function rReveal(){
+  var d=daysTo(R.d);
+  var h='<div class="reveal '+(G.opened?"unsealed":"sealed")+'">'+
+   '<div class="closed"><div class="bigtag"><div class="hole"></div><div class="label">Secret Santa · '+esc(R.g)+'</div><div class="forwho" style="margin-top:14px">For</div><div class="who" style="color:var(--pine)">'+esc(R.n)+'</div><div class="forwho">eyes only</div></div>'+
+     '<p class="small" style="margin:10px 0 16px">Not '+esc(R.n)+'? Close this now, no peeking!</p><button class="btn fill big" id="openit">Open my tag</button></div>'+
+   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div></div></div>';
+  if(!G.opened)return h;
+  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>The <em>details</em></h2></div><div class="facts">'+
+    '<div><span class="label">Budget</span><b>'+esc((R.c||"")+(R.b||"–"))+'</b></div>'+
+    '<div><span class="label">Swap day</span><b>'+esc(R.d?fmtDate(R.d):"TBC")+'</b></div></div>'+
+    (R.p?'<p style="margin-top:10px"><span class="label">Where</span><br>'+esc(R.p)+'</p>':'')+
+    (d!=null&&d>0?'<p class="note" style="margin-top:10px">'+d+' day'+(d===1?"":"s")+' to go!</p>':'')+
+    (R.m?'<p style="margin-top:10px"><span class="label">From the organiser</span><br><span style="font-style:italic">“'+esc(R.m)+'”</span></p>':'')+'</section>';
+  if(R.h)h+='<section class="tag r"><div class="step"><div class="stamp">!</div><h2>'+esc(R.r)+'’s <em>hints</em></h2></div><p style="white-space:pre-line">'+esc(R.h)+'</p></section>';
+  var list=ideasFor(R.b);if(!order)order=shuffle(list.map(function(_,i){return i}));
+  h+='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Stuck? <em>Ideas</em></h2></div><p class="label">Around '+esc((R.c||"")+(R.b||""))+'</p>'+
+   '<div class="idea">'+esc(list[order[gi%order.length]])+'</div><div class="row"><button class="btn fill" id="nextidea">Another idea</button><button class="btn" id="keepidea">Use this one</button></div></section>';
+  h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
+   '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
+   [["bought","Bought it"],["wrapped","Wrapped it"],["tag","Written the tag (“From Santa”)"]].map(function(x){return'<div class="item'+(G[x[0]]?" done":"")+'" data-g="'+x[0]+'"><div class="box"></div><span>'+x[1]+'</span></div>'}).join("")+
+   '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
+  return h;
+}
+
+/* ---------- pass the phone ---------- */
+var pt={who:null,shown:false};
+function rPass(){
+  var h='<div class="step" style="border:0"><div class="stamp">☺</div><h2>Pass the <em>phone</em></h2></div>';
+  if(!pt.who){
+    h+='<p class="small">Hand the phone round. Each person taps their own name, looks, then hides it again.</p><div class="ptgrid">'+
+    S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return'<button data-pt="'+p.id+'" class="'+(S.draw.seen&&S.draw.seen[p.id]?"done":"")+'">'+esc(p.name)+'</button>'}).join("")+
+    '</div><div class="row" style="margin-top:16px"><button class="btn" id="ptclose">Close</button></div>';
+  }else if(!pt.shown){
+    h+='<p style="font-size:20px;margin:10px 0">Is this <b>'+esc(nameOf(pt.who))+'</b>? Make sure nobody’s looking.</p><div class="row"><button class="btn fill" id="ptshow">Show me</button><button class="btn" id="ptback">Not me</button></div>';
+  }else{
+    h+='<div style="text-align:center"><span class="label">You’re buying for</span><div class="who">'+esc(nameOf(S.draw.pairs[pt.who]))+'</div><p class="small">Budget '+esc(money())+(S.date?' · '+esc(fmtDate(S.date)):'')+'</p>'+
+    (function(){var r=S.people.find(function(p){return p.id===S.draw.pairs[pt.who]});return r&&r.hint?'<p class="small" style="margin-top:6px">Hints: '+esc(r.hint)+'</p>':''})()+
+    '<button class="btn fill big" id="pthide" style="margin-top:18px">Got it, hide it</button></div>';
+  }
+  return h;
+}
+function openOv(){$("#ovc").innerHTML=rPass();$("#ov").classList.add("open")}
+function closeOv(){$("#ov").classList.remove("open");pt={who:null,shown:false};render()}
+
+/* ---------- render ---------- */
+function render(){
+  if(R){
+    $("#kicker").textContent=R.g||"Secret Santa";$("#subline").textContent="your private tag";
+    $("#main").innerHTML=rReveal();
+    $("#foot").innerHTML='Organising your own? <a href="'+SHOP+'" target="_blank" rel="noopener">Get the organiser</a><br><br>Made with love by BrightBlueprintCo';
+  }else{
+    $("#main").innerHTML=rOrganiser();
+    var rb=$("#rb");if(rb&&rb.options.length>1)rb.selectedIndex=1;
+  }
+}
+
+/* ---------- sending ---------- */
+function msg(id){
+  var p=S.people.find(function(x){return x.id===id});
+  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"");
+}
+function markSent(id){S.draw.sent[id]=true;save();render()}
+function send(kind,id){
+  var m=msg(id),p=S.people.find(function(x){return x.id===id});
+  if(kind==="copy"){
+    var done=function(){toast("Copied! Paste it to "+p.name);markSent(id)};
+    try{navigator.clipboard.writeText(m).then(done,function(){fallback(m,id)})}catch(e){fallback(m,id)}
+    return;
+  }
+  var url=kind==="wa"?"https://wa.me/?text="+encodeURIComponent(m):kind==="sms"?"sms:&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" – "+S.group:""))+"&body="+encodeURIComponent(m);
+  var a=document.createElement("a");a.href=url;a.target=kind==="wa"?"_blank":"_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+  markSent(id);
+}
+function fallback(m,id){
+  $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Copy this <em>message</em></h2></div><p class="small">Select it all and copy, then paste it to them.</p><textarea class="copy" readonly>'+esc(m)+'</textarea><div class="row" style="margin-top:12px"><button class="btn fill" id="fbdone">Done</button></div>';
+  $("#ov").classList.add("open");S.draw.sent[id]=true;save();
+}
+
+/* ---------- events ---------- */
+var main=$("#main");
+main.addEventListener("input",function(e){
+  var t=e.target,id=t.id;
+  if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}return}
+  var map={"f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
+  if(map[id]){S[map[id]]=t.value;save()}
+  if(t.dataset.hint){var p=S.people.find(function(x){return x.id===t.dataset.hint});if(p){p.hint=t.value;save()}}
+});
+main.addEventListener("change",function(e){if(e.target.id==="f-cur"){S.cur=e.target.value;save()}});
+main.addEventListener("submit",function(e){
+  e.preventDefault();var f=e.target;
+  if(f.id==="addp"){var n=$("#pname").value.trim();if(!n)return;
+    if(S.people.some(function(p){return p.name.toLowerCase()===n.toLowerCase()})){toast("Already on the list. Add a surname or initial");return}
+    if(S.people.length>=60){toast("That’s a big group! Max 60");return}
+    S.people.push({id:uid(),name:n,hint:""});save();render();$("#pname").focus()}
+  if(f.id==="addr"){var a=$("#ra").value,b=$("#rb").value;if(a===b){toast("Pick two different people");return}
+    if(banned(S.rules,a,b)){toast("That rule’s already there");return}
+    S.rules.push([a,b]);
+    var test=drawNames(S.people.map(function(p){return p.id}),S.rules);
+    if(!test&&S.people.length>=3){S.rules.pop();toast("Too many rules. Nobody could be drawn. Remove one first");return}
+    save();render()}
+});
+main.addEventListener("click",function(e){
+  var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
+  if(R){
+    if(t.id==="openit"){G.opened=true;store(RK,G);render();window.scrollTo(0,0)}
+    else if(t.id==="nextidea"){gi++;render()}
+    else if(t.id==="keepidea"){var list=ideasFor(R.b);G.idea=list[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
+    else if(ds.g){G[ds.g]=!G[ds.g];store(RK,G);render()}
+    return;
+  }
+  if(ds.togglehint){ui.openHint=ui.openHint===ds.togglehint?null:ds.togglehint;render();var tb=document.querySelector('[data-hint="'+ds.togglehint+'"]');if(tb)tb.focus();return}
+  if(ds.delp){S.people=S.people.filter(function(p){return p.id!==ds.delp});S.rules=S.rules.filter(function(r){return r[0]!==ds.delp&&r[1]!==ds.delp});save();render();return}
+  if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
+  if(ds.send){send(ds.send,ds.id);return}
+  switch(t.id){
+    case "drawbtn":
+      var ids=S.people.map(function(p){return p.id});var m=drawNames(ids,S.rules);
+      if(!m){toast("Can’t make a fair draw with these rules. Remove one");return}
+      S.draw={pairs:m,at:Date.now(),sent:{},seen:{},ids:ids,rk:JSON.stringify(S.rules)};save();render();toast("Names drawn! Nobody’s seen them");break;
+    case "redraw":
+      if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(!R)render()},4000)}else{ui.wipe=false;S.draw=null;save();render();toast("Draw cleared. Draw again when ready")}break;
+    case "ptp":openOv();break;
+    case "newgroup":
+      if(!ui.newg){ui.newg=true;render();setTimeout(function(){ui.newg=false;if(!R)render()},4000)}else{ui.newg=false;S=defaults();save();render();window.scrollTo(0,0)}break;
+  }
+});
+$("#ov").addEventListener("click",function(e){
+  var t=e.target.closest("button");if(e.target.id==="ov"){if(!pt.shown)closeOv();return}if(!t)return;
+  if(t.dataset.pt){pt.who=t.dataset.pt;pt.shown=false;openOv();return}
+  switch(t.id){
+    case "ptclose":case "fbdone":closeOv();break;
+    case "ptback":pt.who=null;openOv();break;
+    case "ptshow":pt.shown=true;openOv();break;
+    case "pthide":S.draw.seen=S.draw.seen||{};S.draw.seen[pt.who]=true;save();pt={who:null,shown:false};openOv();break;
+  }
+});
+
+/* ---------- boot ---------- */
+function boot(){
+  var hsh=location.hash.slice(1);R=null;
+  if(hsh){try{R=dec(hsh);if(!R||!R.n||!R.r)R=null}catch(e){R=null}
+    if(R){RK="bbco-ss-gift-"+hash(hsh);G=load(RK)||{opened:false};gi=0;order=null}
+    else{$("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Hmm, that link’s <em>broken</em></h2></div><p class="small">Part of it may have been cut off when it was copied. Ask your organiser to send it again.</p></section>';return}
+  }
+  render();
+}
+window.addEventListener("hashchange",boot);
+boot();
+})();
+</script>
+</body>
+</html>
