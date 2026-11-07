@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-title" content="Secret Santa">
 <meta name="robots" content="noindex">
 <title>Secret Santa Organiser</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Courier+Prime:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
@@ -135,6 +138,14 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .steps3 li{margin:4px 0}
 .chatok{background:#EEF2EA;border:2px solid var(--pine);border-radius:4px;padding:12px 14px;color:var(--pine)}
 .chatok span{display:block;color:var(--ink2);font-size:14px;margin-top:2px}
+.homestrip,.backstrip{background:#EEF2EA;border:2px solid var(--pine);border-radius:4px;padding:12px 14px;margin-top:14px}
+.backstrip{background:#FBF1DE;border-color:var(--gold)}
+.homestrip>b,.backstrip>b{display:block;font-family:var(--serif);font-size:18px;color:var(--pine)}
+.backstrip>b{color:#7A5A1E}
+.homestrip>span,.backstrip>span{display:block;font-size:14px;color:var(--ink2);margin-top:2px}
+.hsguide{margin:10px 0 0 20px;font-size:15px;line-height:1.55}
+.hsguide li{margin:8px 0}
+.ico{width:26px;height:26px;vertical-align:middle;margin:0 2px;display:inline-block;background:#fff;border-radius:6px;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
 .chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
@@ -260,6 +271,25 @@ var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&windo
 var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 function backupCode(){return "SS1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))))}
 function hasWork(){return S.people.length>0||!!S.group}
+var SHARE_SVG='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Share icon"><path d="M8 9H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2"/><path d="M12 15V3M8 7l4-4 4 4"/></svg>';
+var DOTS_SVG='<svg class="ico" viewBox="0 0 24 24" aria-label="More button"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.7" fill="#fff"/><circle cx="12" cy="12" r="1.7" fill="#fff"/><circle cx="17" cy="12" r="1.7" fill="#fff"/></svg>';
+var PLUS_SVG='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round" aria-label="Add icon"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+var deferredInstall=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(!R)render()});
+window.addEventListener("appinstalled",function(){deferredInstall=null;S.hsDone=true;save();if(!R)render();toast("Added to your home screen ✔")});
+function homeStrip(){
+  if(isStandalone||S.hsDone||!S.draw)return "";
+  if(deferredInstall)return '<div class="homestrip"><b>Keep your group safe</b><span>Add Secret Santa to your home screen so it’s always there.</span><div class="row" style="margin-top:10px"><button class="btn sm pine" id="installapp">Add to home screen</button><button class="lnk" id="hsdone">Not now</button></div></div>';
+  if(!isIOS)return "";
+  return '<div class="homestrip"><b>Keep your group safe</b><span>Add it to your home screen so it opens like an app.</span>'+
+    (ui.hsGuide?'<ol class="hsguide">'+
+      '<li>Tap '+DOTS_SVG+' <b>(the three dots, bottom right)</b>. On older iPhones, skip to step 2.</li>'+
+      '<li>Tap '+SHARE_SVG+' <b>Share</b>, the box with an arrow pointing up.</li>'+
+      '<li>Scroll down and tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li>'+
+      '<li>Open <b>Secret Santa</b> from your home screen and tap <b>Bring my group over</b>. We\u2019ve already copied it for you.</li></ol>'
+      :'')+
+    '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide">'+(ui.hsGuide?"Hide steps":"Show me how")+'</button><button class="lnk" id="hsdone">Done, or not now</button></div></div>';
+}
 var canPick=!!(navigator.contacts&&window.ContactsManager);
 function intl(raw){
   if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
@@ -292,14 +322,13 @@ function syncDraw(){
 function rOrganiser(){
   syncDraw();
   var h="";
-  if(!isStandalone&&!S.hsDone){
-    h+='<section class="tag r" style="border:2px solid var(--pine)"><div class="step"><div class="stamp" style="border-color:var(--pine);color:var(--pine)">0</div><h2>First, put it on your <em>home screen</em></h2></div>'+
-     '<p class="small">Your group saves on this phone. Opening it from your home screen keeps it safe for the whole run-up to Christmas. Safari can clear websites you haven\u2019t opened for a week, but home-screen apps are kept.</p>'+
-     (isIOS?'<p style="margin-top:10px;font-size:15px">Tap <b>Share</b> (the square with the arrow) \u2192 <b>Add to Home Screen</b> \u2192 <b>Add</b>. Then open <b>Secret Santa</b> from your home screen and set up there.</p>'
-           :'<p style="margin-top:10px;font-size:15px">Tap the <b>\u22EE menu</b> \u2192 <b>Add to Home screen</b> (or <b>Install app</b>). Then open <b>Secret Santa</b> from your home screen and set up there.</p>')+
-     (hasWork()?'<div class="warn"><b>Already started here?</b> The home-screen version starts blank. Tap <b>Copy backup code</b> below first, then paste it into <b>Restore</b> in the home-screen version.</div><div class="row" style="margin-top:10px"><button class="btn sm pine" id="bcopy">Copy backup code</button></div>':'')+
-     '<div class="row" style="margin-top:12px"><button class="lnk" id="hsdone">Done, or I\u2019ll skip it</button></div></section>';
+  if(isStandalone&&!S.people.length&&!S.group){
+    h+='<section class="tag r" style="border:2px solid var(--pine)"><div class="step"><div class="stamp" style="border-color:var(--pine);color:var(--pine)">\u2192</div><h2>Moving your group <em>over?</em></h2></div>'+
+     '<p class="small">Started in Safari? One tap brings everything across: names, numbers and the draw.</p>'+
+     '<button class="amz" id="bringover" style="background:var(--pine);color:#FCF7EC;margin-top:12px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Bring my group over</b></button>'+
+     '<p class="small" style="margin-top:8px">Starting fresh? Just carry on below.</p></section>';
   }
+
   h+='<section class="tag l"><div class="step"><div class="stamp">1</div><h2>The <em>group</em></h2></div>'+
    '<div class="field"><span class="label">Group name</span><input id="f-group" placeholder="Office, family…" maxlength="40" value="'+esc(S.group)+'"></div>'+
    '<div class="field"><span class="label">Country</span><select id="f-country" aria-label="Country" style="font-family:var(--type);font-size:15px;width:58%">'+Object.keys(CTRY).map(function(k){return'<option value="'+k+'"'+(S.country===k?" selected":"")+'>'+CTRY[k].n+'</option>'}).join("")+'</select></div>'+
@@ -359,7 +388,7 @@ function rOrganiser(){
       h+='<div class="warn"><b>The group has changed since you started sending links.</b> '+(missing.length?esc(missing.join(", "))+(missing.length===1?" isn\u2019t":" aren\u2019t")+' in the draw yet. ':'')+'Redraw to include everyone, then resend <b>all</b> the links (the old ones will point to the wrong people).<div class="row" style="margin-top:8px"><button class="btn sm fill" id="redraw2">Redraw everyone</button></div></div>';}
     var sentN=S.people.filter(function(p){return S.draw.sent[p.id]}).length;
     h+='<p class="small">Names drawn ✔ Now send everyone their private link, or use <b>pass the phone</b> if you’re all in the same room.</p>'+
-     '<p class="note" style="margin-top:8px;color:var(--pine)">Tip: copy a backup code now (bottom of the page)</p>'+'<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
+     (S.backedUp?'':'<div class="backstrip"><b>Back it up in one tap</b><span>Send yourself a backup on WhatsApp. If anything ever goes wrong, it brings your whole group back.</span><div class="row" style="margin-top:10px"><button class="btn sm pine" id="bwa">WhatsApp myself a backup</button><button class="lnk" id="bskip">Skip</button></div></div>')+homeStrip()+'<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
     S.people.forEach(function(p){
       if(!S.draw.pairs[p.id])return;
       h+='<div class="sendrow"><div class="top"><span class="nm">'+esc(p.name)+'’s link</span><span class="sent'+(S.draw.sent[p.id]?"":" no")+'">'+(S.draw.sent[p.id]?"Sent":"Not sent")+'</span></div>'+
@@ -391,7 +420,7 @@ function rOrganiser(){
   h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Keep it <em>safe</em></h2></div>'+
    '<p class="small">Everything saves on this phone as you go. No accounts, no emails collected. To be extra safe, or to move to another phone, copy a backup code and send it to yourself.</p>'+
    (canSave?'':'<p class="note" style="margin-top:8px">This browser isn\u2019t letting us save. Try Safari or Chrome, and not a private tab.</p>')+
-   '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bcopy">Copy backup code</button><button class="btn sm" id="bwa">WhatsApp it to me</button></div>'+
+   '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bcopy">Copy backup code</button><button class="btn sm" id="bwa">WhatsApp it to me</button>'+(deferredInstall&&!isStandalone?'<button class="btn sm" id="installapp">Add to home screen</button>':'')+'</div>'+
    '<textarea class="copy" id="bin" placeholder="To restore, paste a backup code here\u2026"></textarea>'+
    '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button></div>'+
    '<p class="small" style="margin-top:12px">Each link only shows that person who they\u2019re buying for. Don\u2019t open other people\u2019s links yourself, or you\u2019ll spoil it!</p>'+
@@ -645,9 +674,16 @@ main.addEventListener("click",function(e){
     case "showall":if(!ui.showConfirm){ui.showConfirm=true;render();setTimeout(function(){ui.showConfirm=false;if(!R&&!ui.showAll)render()},4000)}else{ui.showConfirm=false;ui.showAll=true;render()}break;
     case "hideall":ui.showAll=false;render();break;
     case "hsdone":S.hsDone=true;save();render();break;
+    case "hsguide":ui.hsGuide=!ui.hsGuide;if(ui.hsGuide){try{navigator.clipboard.writeText(backupCode()).catch(function(){})}catch(err){}}render();break;
+    case "bringover":
+      try{navigator.clipboard.readText().then(function(tx){var m=(tx||"").match(/SS1:[A-Za-z0-9+\/=]+/);if(!m){toast("Nothing to bring over. Open the Safari version and tap Show me how again");return}
+        try{var obj=JSON.parse(decodeURIComponent(escape(atob(m[0].slice(4)))));if(!obj||!Array.isArray(obj.people))throw 0;S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}S.hsDone=true;save();render();window.scrollTo(0,0);toast("Your group is here \u2714")}catch(err){toast("That didn\u2019t work. Try Restore at the bottom")}},function(){toast("Couldn\u2019t paste. Try Restore at the bottom")})}catch(err){toast("Couldn\u2019t paste. Try Restore at the bottom")}
+      break;
+    case "installapp":if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.then(function(r){if(r&&r.outcome==="accepted"){S.hsDone=true;save()}deferredInstall=null;render()})}break;
+    case "bskip":S.backedUp=true;save();render();break;
     case "bcopy":var bc=backupCode();
       try{navigator.clipboard.writeText(bc).then(function(){toast("Backup code copied. Send it to yourself")},function(){fallback(bc,null)})}catch(err){fallback(bc,null)}break;
-    case "bwa":openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Paste this into Restore if I ever need it:\n\n"+backupCode());break;
+    case "bwa":S.backedUp=true;save();openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Paste this into Restore if I ever need it:\n\n"+backupCode());break;
     case "brestore":
       try{var raw=($("#bin").value||"").trim().replace(/^[\s\S]*?(SS1:)/,"$1");if(raw.indexOf("SS1:")!==0)throw 0;
         var obj=JSON.parse(decodeURIComponent(escape(atob(raw.slice(4).replace(/\s/g,"")))));if(!obj||!Array.isArray(obj.people))throw 0;
