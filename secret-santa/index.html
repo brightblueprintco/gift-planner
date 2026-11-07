@@ -122,8 +122,11 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .idea2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 72;font-size:30px;line-height:1.15;color:var(--ink);margin:10px 0 16px}
 .amz{display:block;width:100%;background:var(--gold);color:#2A1E14;border:0;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:16px 12px;font-family:var(--type);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;box-shadow:0 6px 12px -6px rgba(120,80,20,.7)}
 .amz:active{transform:translateY(1px)}
-.refine{display:block;width:100%;text-align:left;background:transparent;border:1.3px dashed var(--line);border-radius:4px;padding:10px 12px;font-size:14px;color:var(--ink);cursor:pointer}
-.refine b{float:right;color:var(--pine)}
+.refine{display:block;width:100%;text-align:left;background:#EEF2EA;border:2px solid var(--pine);border-radius:255px 14px 225px 14px/14px 225px 14px 255px;padding:13px 16px;color:var(--ink);cursor:pointer;box-shadow:0 6px 12px -8px rgba(61,90,69,.7)}
+.refine .rt{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 36;font-style:italic;font-size:20px;color:var(--pine)}
+.refine b{float:right;color:#FCF7EC;background:var(--pine);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.refine .rs{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
+.refine.open{background:#E3EADD}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
 .chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
@@ -397,7 +400,6 @@ function rReveal(){
     (R.p?'<p style="margin-top:10px"><span class="label">Where</span><br>'+esc(R.p)+'</p>':'')+
     (d!=null&&d>0?'<p class="note" style="margin-top:10px">'+d+' day'+(d===1?"":"s")+' to go!</p>':'')+
     (R.m?'<p style="margin-top:10px"><span class="label">From the organiser</span><br><span style="font-style:italic">“'+esc(R.m)+'”</span></p>':'')+'</section>';
-  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="'+esc(R.w)+'" target="_blank" rel="noopener">Join on WhatsApp</a></div></section>';
   if(R.h)h+='<section class="tag r"><div class="step"><div class="stamp">!</div><h2>'+esc(R.r)+'’s <em>hints</em></h2></div><p style="white-space:pre-line">'+esc(R.h)+'</p></section>';
   if(!G.age){G.age=detectAge(R.h);G.ints=detectInts(R.h);store(RK,G)}
   var list=poolFor(R.b,G.ints,G.age);if(!order||order.length!==list.length)order=shuffle(list.map(function(_,i){return i}));
@@ -412,11 +414,12 @@ function rReveal(){
      (fu?'<a class="amz" href="'+esc(fu)+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>':'<button class="amz" id="keepidea2">Save this idea →</button>')+
      '<div class="row" style="justify-content:center;margin-top:12px"><button class="btn sm" id="nextidea">↻ Another idea</button>'+(fu?'<button class="btn sm" id="keepidea">Save this one</button>':'')+'</div>'+
    '</div>'+
-   '<button class="refine" id="refine"><span class="label" style="color:var(--pine)">Tailor ideas</span><br><span>'+esc(ageLbl)+(intLbl.length?' · '+esc(intLbl.join(", ")):' · tap to add what they’re into')+'</span> <b>'+(ui.refine?"▴":"▾")+'</b></button>'+
+   '<button class="refine'+(ui.refine?' open':'')+'" id="refine"><b>'+(ui.refine?"▴":"▾")+'</b><span class="rt">Help me choose for '+esc(R.r)+'</span><span class="rs">'+esc(ageLbl)+(intLbl.length?' · '+esc(intLbl.join(", ")):' · tap to tell us what they’re into')+'</span></button>'+
    (ui.refine?'<div style="margin-top:10px"><div class="seg" style="margin:0 0 12px">'+[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(function(x){return'<button data-age="'+x[0]+'" class="'+(G.age===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
      '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
      (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'’s hints. Change them if you like.</p>':'')+'</div>':'')+
    (fu?AMZ_NOTE:'')+'</section>';
+  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="'+esc(R.w)+'" target="_blank" rel="noopener">Join on WhatsApp</a></div></section>';
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
    (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
