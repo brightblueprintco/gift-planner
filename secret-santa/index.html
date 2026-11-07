@@ -192,6 +192,15 @@ function link(giverId){
 function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
 function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
 function money(){return (S.cur||"")+(S.budget||"")}
+var canPick=!!(navigator.contacts&&window.ContactsManager);
+function intl(raw){
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,"");
+  if(d.indexOf("+")===0)d=d.slice(1);else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(S.cur==="£")d="44"+d.slice(1);else return "";}
+  else if(S.cur==="$"&&d.length===10)d="1"+d;
+  d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
+}
+function prettyNum(d){if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
 function validChat(){return /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/.test((S.chat||"").trim())}
 function addDays(d,n){var x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
 function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
@@ -211,13 +220,18 @@ function rOrganiser(){
   if(!S.people.length)h+='<div class="empty">Add at least 3 names below.</div>';
   S.people.forEach(function(p){
     var open=ui.openHint===p.id;
-    h+='<div class="person"><div class="grow"><span class="nm">'+esc(p.name)+'</span>'+(p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
-      (open?'<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
-      '<button class="lnk" data-togglehint="'+p.id+'">'+(open?"Done":p.hint?"Edit hints":"+ Add gift hints")+'</button></div>'+
+    var ph=intl(p.phone);
+    h+='<div class="person"><div class="grow"><span class="nm">'+esc(p.name)+'</span>'+
+      (!open&&p.phone?'<span class="hint"><span class="label" style="font-size:10px">Mobile</span> '+(ph?esc(prettyNum(ph)):'<span style="color:var(--cran)">Check this number: '+esc(p.phone)+'</span>')+'</span>':'')+
+      (p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
+      (open?'<input class="hintbox" style="min-height:0;font-family:var(--type)" type="tel" inputmode="tel" data-phone="'+p.id+'" placeholder="Mobile number (optional)" value="'+esc(p.phone||"")+'" autocomplete="off">'+
+        '<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
+      '<button class="lnk" data-togglehint="'+p.id+'">'+(open?"Done":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
-  h+='<form class="add" id="addp"><input id="pname" placeholder="Add a name…" maxlength="30" autocomplete="off"><button class="btn sm fill">Add</button></form>'+
-   '<p class="small" style="margin-top:10px">Gift hints are optional. Whoever draws that person gets to see them.</p></section>';
+  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="30" autocomplete="off" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="off" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+   (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
+   '<p class="small" style="margin-top:10px">Add a mobile number and the WhatsApp and Text buttons go straight to that person. Numbers stay on this phone and are never put in anyone\u2019s link. Gift hints are optional too, and whoever draws that person gets to see them.</p></section>';
 
   h+='<section class="tag l"><div class="step"><div class="stamp">3</div><h2>House <em>rules</em></h2></div>'+
    '<p class="small">Anyone who shouldn’t draw each other? Couples usually. The rule works both ways.</p>';
@@ -360,7 +374,8 @@ function send(kind,id){
     try{navigator.clipboard.writeText(m).then(done,function(){fallback(m,id)})}catch(e){fallback(m,id)}
     return;
   }
-  var url=kind==="wa"?"https://wa.me/?text="+encodeURIComponent(m):kind==="sms"?"sms:&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" – "+S.group:""))+"&body="+encodeURIComponent(m);
+  var num=intl(p.phone);
+  var url=kind==="wa"?"https://wa.me/"+(num||"")+"?text="+encodeURIComponent(m):kind==="sms"?"sms:"+(num?"+"+num:"")+"&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" \u2013 "+S.group:""))+"&body="+encodeURIComponent(m);
   var a=document.createElement("a");a.href=url;a.target=kind==="wa"?"_blank":"_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
   markSent(id);
 }
@@ -376,6 +391,7 @@ main.addEventListener("input",function(e){
   if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}return}
   var map={"f-chat":"chat","f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
   if(map[id]){S[map[id]]=t.value;save()}
+  if(t.dataset.phone){var pp=S.people.find(function(x){return x.id===t.dataset.phone});if(pp){pp.phone=t.value.trim();save()}}
   if(t.dataset.hint){var p=S.people.find(function(x){return x.id===t.dataset.hint});if(p){p.hint=t.value;save()}}
 });
 main.addEventListener("change",function(e){if(e.target.id==="f-cur"){S.cur=e.target.value;save()}if(e.target.id==="f-chat"){S.chat=e.target.value.trim();save();render()}});
@@ -384,7 +400,8 @@ main.addEventListener("submit",function(e){
   if(f.id==="addp"){var n=$("#pname").value.trim();if(!n)return;
     if(S.people.some(function(p){return p.name.toLowerCase()===n.toLowerCase()})){toast("Already on the list. Add a surname or initial");return}
     if(S.people.length>=60){toast("That’s a big group! Max 60");return}
-    S.people.push({id:uid(),name:n,hint:""});save();render();$("#pname").focus()}
+    var pn=($("#pphone").value||"").trim();if(pn&&!intl(pn))toast(S.cur==="£"?"Added, but check that number":"Added. Use the full international number, e.g. +1\u2026");
+    S.people.push({id:uid(),name:n,hint:"",phone:pn});save();render();$("#pname").focus()}
   if(f.id==="addr"){var a=$("#ra").value,b=$("#rb").value;if(a===b){toast("Pick two different people");return}
     if(banned(S.rules,a,b)){toast("That rule’s already there");return}
     S.rules.push([a,b]);
@@ -417,6 +434,9 @@ main.addEventListener("click",function(e){
     case "redraw":
       if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(!R)render()},4000)}else{ui.wipe=false;S.draw=null;save();render();toast("Draw cleared. Draw again when ready")}break;
     case "ptp":openOv();break;
+    case "pickc":
+      try{navigator.contacts.select(["name","tel"],{multiple:true}).then(function(list){var added=0;(list||[]).forEach(function(c){var nm=(c.name&&c.name[0]||"").trim();if(!nm||S.people.length>=60)return;if(S.people.some(function(p){return p.name.toLowerCase()===nm.toLowerCase()}))return;S.people.push({id:uid(),name:nm,hint:"",phone:(c.tel&&c.tel[0])||""});added++});save();render();if(added)toast("Added "+added+" from contacts")}).catch(function(){toast("Contacts not available here")})}catch(err){toast("Contacts not available here")}
+      break;
     case "newgroup":
       if(!ui.newg){ui.newg=true;render();setTimeout(function(){ui.newg=false;if(!R)render()},4000)}else{ui.newg=false;S=defaults();save();render();window.scrollTo(0,0)}break;
   }
