@@ -440,8 +440,17 @@ function post(kind){
 }
 function msg(id){
   var p=S.people.find(function(x){return x.id===id});
-  return "🎅 Secret Santa"+(S.group?": "+S.group:"")+"!\n\nHi "+p.name+", here's your private link. Open it on your own, no peeking:\n"+link(id)+"\n\nBudget "+money()+(S.date?" · swap day "+fmtDate(S.date):"")+(validChat()?"\n\nJoin the Secret Santa group chat: https://chat.whatsapp.com/"+chatCode(S.chat):"");
+  var first=p.name.trim().split(/\s+/)[0];
+  return "🎅🎄 Secret Santa"+(S.group?": "+S.group:"")+"! 🎄🎅\n\n"+
+    "Hi "+first+" 👋 Names have been drawn and here's YOUR private link 🤫\n\n"+
+    "👇 Open it on your own, no peeking 👀\n"+link(id)+"\n\n"+
+    "🎁 Budget: "+money()+
+    (S.date?"\n📅 Swap day: "+fmtDate(S.date):"")+
+    (S.place?"\n📍 Where: "+S.place:"")+
+    (validChat()?"\n\n💬 Join the Secret Santa group chat:\nhttps://chat.whatsapp.com/"+chatCode(S.chat):"")+
+    "\n\nHo ho ho! ✨";
 }
+
 function markSent(id){S.draw.sent[id]=true;save();render()}
 function send(kind,id){
   var m=msg(id),p=S.people.find(function(x){return x.id===id});
