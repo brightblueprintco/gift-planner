@@ -330,7 +330,11 @@ function rOrganiser(){
         '<div class="row"><button class="btn sm pine" data-send="wa" data-id="'+p.id+'">WhatsApp</button><button class="btn sm" data-send="sms" data-id="'+p.id+'">Text</button><button class="btn sm" data-send="mail" data-id="'+p.id+'">Email</button><button class="btn sm" data-send="copy" data-id="'+p.id+'">Copy</button></div></div>';
     });
     h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
-     '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>';
+     '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>'+
+     '<div style="margin-top:16px;padding-top:12px;border-top:1.5px dashed var(--line)">'+
+     (ui.showAll?'<p class="label">Who’s buying for who</p>'+S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return '<div class="rule"><span class="grow"><b>'+esc(p.name)+'</b> → '+esc(nameOf(S.draw.pairs[p.id]))+'</span></div>'}).join("")+'<div class="row" style="margin-top:10px"><button class="btn sm" id="hideall">Hide the list</button></div>'
+       :'<button class="lnk" id="showall" style="color:var(--cran)">'+(ui.showConfirm?"Sure? Tap again to see everyone’s match":"I’m not taking part: show me the full list")+'</button><p class="small" style="margin-top:4px">Only for organisers who aren’t playing. It spoils the surprise if you are!</p>')+
+     '</div>';
   }
   h+='</section>';
 
@@ -536,6 +540,8 @@ main.addEventListener("click",function(e){
     case "redraw":
       if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(!R)render()},4000)}else{ui.wipe=false;S.draw=null;save();render();toast("Draw cleared. Draw again when ready")}break;
     case "ptp":openOv();break;
+    case "showall":if(!ui.showConfirm){ui.showConfirm=true;render();setTimeout(function(){ui.showConfirm=false;if(!R&&!ui.showAll)render()},4000)}else{ui.showConfirm=false;ui.showAll=true;render()}break;
+    case "hideall":ui.showAll=false;render();break;
     case "hsdone":S.hsDone=true;save();render();break;
     case "bcopy":var bc=backupCode();
       try{navigator.clipboard.writeText(bc).then(function(){toast("Backup code copied. Send it to yourself")},function(){fallback(bc,null)})}catch(err){fallback(bc,null)}break;
