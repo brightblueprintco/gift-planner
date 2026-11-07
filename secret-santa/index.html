@@ -101,6 +101,13 @@ h1{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-set
 .forwho{font-family:var(--serif);font-style:italic;font-weight:500;font-size:22px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
 .sealed .opened{display:none}.unsealed .closed{display:none}
 .unsealed .bigtag{animation:pop .55s cubic-bezier(.2,1.4,.4,1)}
+.opened{position:relative}
+.justopen .opened .bigtag{animation:flipin .9s cubic-bezier(.3,1.3,.5,1) both}
+@keyframes flipin{0%{transform:perspective(900px) rotateY(-180deg) scale(.85);opacity:0}45%{opacity:1}100%{transform:perspective(900px) rotateY(0) scale(1)}}
+.burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;z-index:3}
+.burst i{position:absolute;left:0;top:0;font-style:normal;font-size:var(--s);color:var(--c);opacity:0;animation:fly 1.5s cubic-bezier(.15,.8,.3,1) var(--d) forwards}
+@keyframes fly{0%{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:0}15%{opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.justopen .opened .bigtag,.burst i{animation:none}.burst{display:none}}
 @keyframes pop{0%{transform:scale(.7) rotate(-6deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
 .facts div{border:1.5px dashed var(--line);border-radius:4px;padding:8px 6px;text-align:center}
@@ -152,6 +159,22 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .saved{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:45;background:var(--pine);color:#FCF7EC;font-family:var(--type);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:12px 4px 12px 4px;opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:0 4px 10px -4px rgba(0,0,0,.4)}
 .saved.show{opacity:1;transform:none}
 .person .lnk{display:block;margin-top:2px}
+#slipsheet{display:none}
+@media print{
+ @page{size:A4;margin:10mm}
+ body{background:#fff!important}
+ body>*:not(#slipsheet){display:none!important}
+ #slipsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0;font-family:var(--serif);color:#2A1E14}
+ .slip{border:1px dashed #999;height:90mm;display:grid;grid-template-rows:1fr 1fr 1fr;break-inside:avoid;page-break-inside:avoid}
+ .slip>div{padding:3mm 5mm;display:flex;flex-direction:column;justify-content:center;text-align:center}
+ .slip .top .k{font-family:var(--type);font-size:8pt;letter-spacing:.15em;text-transform:uppercase;color:#9A2B2E}
+ .slip .top .nm{font-size:22pt;font-weight:700;line-height:1.1}
+ .slip .top .sm,.slip .bot .sm{font-family:var(--type);font-size:7.5pt;color:#6B5544}
+ .slip .mid{border-top:1px dashed #bbb;border-bottom:1px dashed #9A2B2E;font-family:var(--type);font-size:7pt;color:#aaa;justify-content:flex-end!important}
+ .slip .bot .nm{font-size:18pt;font-weight:700;color:#9A2B2E;line-height:1.1}
+ .slip .bot .h{font-size:8.5pt;font-style:italic;margin-top:1mm}
+ .slip .bot .k{font-family:var(--type);font-size:8pt;letter-spacing:.1em;text-transform:uppercase}
+}
 </style>
 </head>
 <body>
@@ -165,7 +188,7 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
   <main id="main"></main>
   <div class="foot" id="foot">Made with love by BrightBlueprintCo</div>
 </div>
-<div class="overlay" id="ov"><div class="tag" id="ovc"></div></div>
+<div id="slipsheet"></div><div class="overlay" id="ov"><div class="tag" id="ovc"></div></div>
 <div class="toast" id="toast"></div>
 <div class="saved" id="saved">✔ Saved</div>
 
@@ -267,8 +290,12 @@ var ui={openHint:null,wipe:false,pend:null};
 function link(giverId){
   var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
   var payload={k:S.country,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():""};
-  return location.href.split("#")[0]+"#"+enc2(payload);
+  return tagBase()+"#"+enc2(payload);
 }
+function dirUrl(){return location.href.split("#")[0].split("?")[0].replace(/\/[^\/]*$/,"/")}
+function tagBase(){return dirUrl().replace(/[^\/]+\/$/,"")+"secret-santa/"}
+function orgBase(){return dirUrl().replace(/[^\/]+\/$/,"")+atob("c2FudGEtaHEtazdxNA==")+"/"}
+var TAG_ONLY=/\/secret-santa\/$/.test(dirUrl());
 function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
 function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
 function money(){return (S.cur||"")+(S.budget||"")}
@@ -404,13 +431,14 @@ function rOrganiser(){
       h+='<div class="warn"><b>The group has changed since you started sending links.</b> '+(missing.length?esc(missing.join(", "))+(missing.length===1?" isn\u2019t":" aren\u2019t")+' in the draw yet. ':'')+'Redraw to include everyone, then resend <b>all</b> the links (the old ones will point to the wrong people).<div class="row" style="margin-top:8px"><button class="btn sm fill" id="redraw2">Redraw everyone</button></div></div>';}
     var sentN=S.people.filter(function(p){return S.draw.sent[p.id]}).length;
     h+='<p class="small">Names drawn ✔ Now send everyone their private link, or use <b>pass the phone</b> if you’re all in the same room.</p>'+
-     (S.backedUp?'':'<div class="backstrip"><b>Back it up in one tap</b><span>Send yourself a backup on WhatsApp. If anything ever goes wrong, it brings your whole group back.</span><div class="row" style="margin-top:10px"><button class="btn sm pine" id="bwa">WhatsApp myself a backup</button><button class="lnk" id="bskip">Skip</button></div></div>')+homeStrip()+'<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
+     '<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
     S.people.forEach(function(p){
       if(!S.draw.pairs[p.id])return;
       h+='<div class="sendrow"><div class="top"><span class="nm">'+esc(p.name)+'’s link</span><span class="sent'+(S.draw.sent[p.id]?"":" no")+'">'+(S.draw.sent[p.id]?"Sent":"Not sent")+'</span></div>'+
         '<div class="row"><button class="btn sm pine" data-send="wa" data-id="'+p.id+'">WhatsApp</button><button class="btn sm" data-send="sms" data-id="'+p.id+'">Text</button><button class="btn sm" data-send="mail" data-id="'+p.id+'">Email</button><button class="btn sm" data-send="copy" data-id="'+p.id+'">Copy</button></div></div>';
     });
-    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
+    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="slips">'+(ui.printWarn?"Print now":"Print name slips")+'</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
+     (ui.printWarn?'<p class="note" style="margin-top:8px">Not on WhatsApp? Print a slip for each person, cut them out and fold the bottom up so the name\u2019s hidden. Heads up: the print preview shows who got who, so look away or hand it to someone who isn\u2019t playing.</p>':'')+
      '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>'+
      '<div style="margin-top:16px;padding-top:12px;border-top:1.5px dashed var(--line)">'+
      (ui.showAll?'<p class="label">Who’s buying for who</p>'+S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return '<div class="rule"><span class="grow"><b>'+esc(p.name)+'</b> → '+esc(nameOf(S.draw.pairs[p.id]))+'</span></div>'}).join("")+'<div class="row" style="margin-top:10px"><button class="btn sm" id="hideall">Hide the list</button></div>'
@@ -437,6 +465,7 @@ function rOrganiser(){
    '<p class="small">Everything saves on this phone as you go. To be extra secure, send yourself a backup link. Tap it any time and your whole group comes back.</p>'+
    (canSave?'':'<p class="note" style="margin-top:8px">This browser isn\u2019t letting us save. Try Safari or Chrome, and not a private tab.</p>')+
    '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bwa">Send me a backup link</button>'+(deferredInstall&&!isStandalone?'<button class="btn sm" id="installapp">Add to home screen</button>':'')+'</div>'+
+   homeStrip()+
    '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Restore from a backup</summary><textarea class="copy" id="bin" placeholder="Paste your backup link or message here\u2026"></textarea>'+
    '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button></div></details>'+
    '<p class="small" style="margin-top:12px">Each link only shows that person who they\u2019re buying for. Don\u2019t open other people\u2019s links yourself, or you\u2019ll spoil it!</p>'+
@@ -448,10 +477,12 @@ function rOrganiser(){
 var R=null,RK=null,G=null,gi=0,order=null;
 function rReveal(){
   var d=daysTo(R.d);
-  var h='<div class="reveal '+(G.opened?"unsealed":"sealed")+'">'+
+  var bu="";if(ui.burst){var cols=["var(--gold)","var(--cran)","var(--pine)","var(--gold)"],gl=["\u2605","\u2726","\u2605","\u2727","\u2022"];
+    for(var bi=0;bi<26;bi++){var an=bi/26*6.283+Math.random()*.3,ds=110+Math.random()*90;bu+='<i style="--x:'+Math.round(Math.cos(an)*ds)+'px;--y:'+Math.round(Math.sin(an)*ds*.8)+'px;--r:'+Math.round(Math.random()*360-180)+'deg;--s:'+(12+Math.round(Math.random()*16))+'px;--c:'+cols[bi%4]+';--d:'+(.35+Math.random()*.25).toFixed(2)+'s">'+gl[bi%5]+'</i>'}bu='<div class="burst">'+bu+'</div>'}
+  var h='<div class="reveal '+(G.opened?"unsealed":"sealed")+(ui.burst?" justopen":"")+'">'+
    '<div class="closed"><div class="bigtag"><div class="hole"></div><div class="label">Secret Santa · '+esc(R.g)+'</div><div class="forwho" style="margin-top:14px">For</div><div class="who" style="color:var(--pine)">'+esc(R.n)+'</div><div class="forwho">eyes only</div></div>'+
      '<p class="small" style="margin:10px 0 16px">Not '+esc(R.n)+'? Close this now, no peeking!</p><button class="btn fill big" id="openit">Open my tag</button></div>'+
-   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div></div></div>';
+   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div>'+bu+'</div></div>';
   if(!G.opened)return h;
   h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>The <em>details</em></h2></div><div class="facts">'+
     '<div><span class="label">Budget</span><b>'+esc((R.c||"")+(R.b||"–"))+'</b></div>'+
@@ -464,7 +495,7 @@ function rReveal(){
   var list=poolFor(R.b,G.ints,G.age);if(!order||order.length!==list.length)order=shuffle(list.map(function(_,i){return i}));
   var avail=INTS.filter(function(x){return LIB[G.age]&&LIB[G.age][x[0]]});
   var cur=list[order[gi%order.length]],fu=findBtn(cur)?findUrl(cur):"";
-  if(ui.refine===undefined)ui.refine=!(G.ints&&G.ints.length);
+  if(ui.refine===undefined)ui.refine=false;
   var ageLbl={kid:"A kid",teen:"A teen",adult:"A grown-up"}[G.age];
   var intLbl=(G.ints||[]).map(function(k){var f=INTS.find(function(x){return x[0]===k});return f?f[1]:""}).filter(Boolean);
   h+='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Gift <em>ideas</em> for '+esc(R.r)+'</h2></div>'+
@@ -478,7 +509,7 @@ function rReveal(){
      '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
      (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'’s hints. Change them if you like.</p>':'')+'</div>':'')+
    (fu?AMZ_NOTE:'')+'</section>';
-  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="'+esc(R.w)+'" target="_blank" rel="noopener">Join on WhatsApp</a></div></section>';
+  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="whatsapp://chat?code='+esc(R.w.split("/").pop())+'">Join on WhatsApp</a></div><p class="small" style="margin-top:8px">No WhatsApp app? <a href="'+esc(R.w)+'" style="color:var(--cran)">Open it in the browser</a></p></section>';
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
    (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
@@ -653,7 +684,7 @@ main.addEventListener("click",function(e){
   var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
   if(ds.help!==undefined){toggleHelp(t);return}
   if(R){
-    if(t.id==="openit"){G.opened=true;store(RK,G);render();window.scrollTo(0,0)}
+    if(t.id==="openit"){G.opened=true;store(RK,G);ui.burst=true;render();ui.burst=false;window.scrollTo(0,0)}
     else if(t.id==="nextidea"){gi++;render()}
     else if(t.id==="refine"){ui.refine=!ui.refine;render()}
     else if(t.id==="keepidea2"){var l2=poolFor(R.b,G.ints,G.age);G.idea=l2[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
@@ -703,6 +734,13 @@ main.addEventListener("click",function(e){
       openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Tap to bring my group back:\n"+bl);break;
     case "brestore":var ob2=readBackup($("#bin").value);
       if(ob2){applyBackup(ob2);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}else toast("That didn\u2019t work. Copy the whole backup message and try again");break;
+    case "slips":if(!ui.printWarn){ui.printWarn=true;render();break}
+      var sh=S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){var r=S.people.find(function(x){return x.id===S.draw.pairs[p.id]})||{};
+        var det=[money()?money()+" budget":"",S.date?fmtDate(S.date):"",S.place||""].filter(Boolean).join(" \u00b7 ");
+        return '<div class="slip"><div class="top"><span class="k">Secret Santa'+(S.group?" \u00b7 "+esc(S.group):"")+'</span><span class="nm">'+esc(p.name)+'</span><span class="sm">Open when no one\u2019s looking</span></div>'+
+          '<div class="mid">\u2702 fold the bottom up along this line</div>'+
+          '<div class="bot"><span class="k">You\u2019re buying for</span><span class="nm">'+esc(r.name||"")+'</span>'+(r.hint?'<span class="h">\u201c'+esc(r.hint.slice(0,90))+'\u201d</span>':'')+(det?'<span class="sm" style="margin-top:1mm">'+esc(det)+'</span>':'')+'</div></div>'}).join("");
+      $("#slipsheet").innerHTML=sh;ui.printWarn=false;render();setTimeout(function(){window.print()},50);break;
     case "dorestore":if(ui.pend){applyBackup(ui.pend);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}break;
     case "norestore":ui.pend=null;render();break;
     case "pickc":
@@ -728,6 +766,12 @@ $("#ov").addEventListener("click",function(e){
 /* ---------- boot ---------- */
 function boot(){
   var hsh=location.hash.slice(1);R=null;
+  if(TAG_ONLY&&(!hsh||hsh.charAt(0)==="r")){
+    if(hsh||(S.people&&S.people.length)){location.replace(orgBase()+(hsh?"#"+hsh:""));return}
+    $("#kicker").textContent="Secret Santa";$("#subline").textContent="your private tag";
+    $("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>Looking for <em>your tag?</em></h2></div><p class="small">Your organiser sends everyone their own private link. Open that one and your name tag is waiting.</p></section>'+
+     '<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>Run your <em>own</em></h2></div><p class="small">Draw names in seconds, send everyone a private link on WhatsApp, and get gift ideas that fit the budget.</p><a class="amz" href="'+SHOP+'" target="_blank" rel="noopener" style="margin-top:12px;text-align:center">Get the organiser \u2192</a></section>';
+    $("#foot").innerHTML='Made with love by BrightBlueprintCo';return}
   if(hsh.charAt(0)==="r"){var ob=readBackup("#"+hsh);try{history.replaceState(null,"",location.pathname)}catch(e){}
     if(ob){if(!S.people.length){applyBackup(ob);render();toast("Restored! Welcome back");return}ui.pend=ob;render();window.scrollTo(0,0);return}
     $("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>That backup link\u2019s <em>broken</em></h2></div><p class="small">Part of it may have been cut off. Copy the whole message and paste it into Restore on the Save my page card.</p></section>';return}

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#E6D5B8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Secret Santa">
+<meta name="robots" content="noindex">
+<title>Secret Santa Organiser</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Courier+Prime:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces.ttf) format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces-Italic.ttf) format("truetype");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Regular.ttf) format("truetype");font-weight:400}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Bold.ttf) format("truetype");font-weight:700}
+@font-face{font-family:"ReenieL";src:url(fonts/ReenieBeanie.ttf) format("truetype")}
+:root{
+  --kraft:#E6D5B8;--card:#FCF7EC;--ink:#33261D;--ink2:#6B5544;
+  --cran:#9A2B2E;--pine:#3D5A45;--gold:#B98A3C;--line:#DDCBAA;--string:#B8483F;
+  --serif:"FrauncesL","Fraunces",Georgia,serif;
+  --type:"CourierL","Courier Prime","Courier New",monospace;
+  --hand:"ReenieL","Reenie Beanie","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--serif);font-variation-settings:"SOFT" 50,"opsz" 14;color:var(--ink);background:var(--kraft);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  min-height:100vh;font-size:16px;line-height:1.5;padding-bottom:40px}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 24px}
+button,input,select,textarea{font:inherit;color:inherit}
+.masthead{text-align:center;padding:16px 4px 4px}
+.kicker{font-family:var(--type);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+h1{font-family:var(--serif);font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;font-size:clamp(46px,14vw,70px);line-height:.95;letter-spacing:-.02em;color:var(--cran);margin:8px 0 4px}
+.sub{font-family:var(--hand);font-size:28px;color:var(--pine);transform:rotate(-2deg);display:inline-block;line-height:1}
+.holly{display:block;margin:8px auto 0;width:110px;height:26px;color:var(--pine)}
+/* gift-tag cards */
+.tag{background:var(--card);border-radius:4px 4px 4px 4px;padding:22px 18px 18px 18px;margin:26px 0;position:relative;
+  box-shadow:0 1px 0 rgba(51,38,29,.06),0 10px 18px -12px rgba(51,38,29,.45),0 2px 4px -2px rgba(51,38,29,.15)}
+.tag::before{content:"";position:absolute;top:14px;right:16px;width:14px;height:14px;border-radius:50%;background:var(--kraft);box-shadow:inset 0 1px 2px rgba(0,0,0,.25);border:2px solid var(--line)}
+.tag.l{transform:rotate(-.5deg)}.tag.r{transform:rotate(.45deg)}
+.step{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1.5px dashed var(--line)}
+.stamp{flex:0 0 40px;height:40px;border:2.2px solid var(--cran);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--type);font-weight:700;color:var(--cran);transform:rotate(-8deg);font-size:17px}
+.step h2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 60;font-size:24px;line-height:1.1}
+.step h2 em{font-style:italic;color:var(--cran);font-weight:500}
+.label{font-family:var(--type);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.small{font-size:14px;color:var(--ink2)}
+.note{font-family:var(--hand);font-size:23px;line-height:1.05;color:var(--cran)}
+.field{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dotted var(--line)}
+.field:last-child{border-bottom:0}
+.field input,.field select{background:transparent;border:0;border-bottom:1.5px solid var(--ink2);padding:2px 4px;font-family:var(--hand);font-size:25px;line-height:1.05;color:var(--cran);text-align:right;min-width:0;width:58%;border-radius:0;-webkit-appearance:none;appearance:none}
+.field input[type=date]{font-family:var(--type);font-size:15px;color:var(--cran)}
+.field input:focus,.field select:focus{outline:none;border-bottom-color:var(--cran)}
+.money{display:flex;gap:6px;width:58%;justify-content:flex-end}
+.money select{width:52px;text-align:center;font-family:var(--type);font-size:16px}
+.money input{width:90px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--ink);background:transparent;padding:9px 15px;font-family:var(--type);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none;color:var(--ink)}
+.btn.fill{background:var(--cran);border-color:var(--cran);color:#FCF7EC}
+.btn.pine{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.btn.sm{padding:6px 10px;font-size:11px}
+.btn.big{width:100%;padding:15px;font-size:15px}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.add{display:flex;gap:8px;margin-top:12px;align-items:flex-end}
+.add input,.add select{flex:1;min-width:0;background:transparent;border:0;border-bottom:1.5px solid var(--ink2);font-family:var(--hand);font-size:25px;line-height:1.1;padding:2px;color:var(--ink)}
+.add select{font-family:var(--type);font-size:13.5px;padding:6px 2px}
+.add input:focus{outline:none;border-bottom-color:var(--cran)}
+.person{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dotted var(--line)}
+.person:last-child{border-bottom:0}
+.person .nm{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 24}
+.person .hint{display:block;font-size:13.5px;color:var(--ink2)}
+.person .grow{flex:1;min-width:0}
+.x{border:0;background:transparent;font-family:var(--type);font-size:19px;color:var(--ink2);padding:0 4px;cursor:pointer;opacity:.65}
+.lnk{border:0;background:transparent;font-family:var(--type);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pine);text-decoration:underline;cursor:pointer;padding:2px 0}
+.hintbox{width:100%;margin-top:6px;background:#fffdf7;border:1.2px solid var(--line);border-radius:3px;padding:7px 8px;font-size:14px;font-family:var(--serif);resize:vertical;min-height:54px}
+.rule{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dotted var(--line);font-size:15px}
+.rule .grow{flex:1}
+.rule b{font-weight:600}
+.empty{font-family:var(--hand);font-size:24px;color:var(--ink2);padding:6px 0}
+.warn{background:#F6E4D4;border-left:3px solid var(--cran);padding:9px 12px;font-size:14px;margin-top:10px;border-radius:2px}
+.sendrow{padding:12px 0;border-bottom:1px dotted var(--line)}
+.sendrow:last-child{border-bottom:0}
+.sendrow .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sendrow .nm{font-weight:600;font-size:18px;font-variation-settings:"SOFT" 100,"opsz" 30}
+.sent{font-family:var(--type);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pine);border:1.3px solid var(--pine);padding:1px 7px;border-radius:10px 3px 10px 3px}
+.sent.no{color:var(--ink2);border-color:var(--line)}
+.ptgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ptgrid button{background:#fffdf7;border:1.5px solid var(--ink);border-radius:4px;padding:14px 8px;font-family:var(--hand);font-size:27px;line-height:1;cursor:pointer;color:var(--ink)}
+.ptgrid button.done{opacity:.35;text-decoration:line-through}
+/* reveal */
+.reveal{text-align:center}
+.bigtag{background:var(--card);margin:28px auto 10px;max-width:340px;padding:46px 22px 30px;position:relative;border-radius:6px;clip-path:polygon(14% 0,86% 0,100% 12%,100% 100%,0 100%,0 12%);box-shadow:0 14px 26px -14px rgba(51,38,29,.6)}
+.bigtag .hole{position:absolute;top:16px;left:50%;margin-left:-9px;width:18px;height:18px;border-radius:50%;background:var(--kraft);border:2px solid var(--line)}
+.who{font-family:var(--hand);font-size:clamp(56px,17vw,84px);line-height:.95;color:var(--cran);margin:8px 0 6px;word-break:break-word}
+.forwho{font-family:var(--serif);font-style:italic;font-weight:500;font-size:22px;color:var(--pine);font-variation-settings:"SOFT" 100,"WONK" 1}
+.sealed .opened{display:none}.unsealed .closed{display:none}
+.unsealed .bigtag{animation:pop .55s cubic-bezier(.2,1.4,.4,1)}
+.opened{position:relative}
+.justopen .opened .bigtag{animation:flipin .9s cubic-bezier(.3,1.3,.5,1) both}
+@keyframes flipin{0%{transform:perspective(900px) rotateY(-180deg) scale(.85);opacity:0}45%{opacity:1}100%{transform:perspective(900px) rotateY(0) scale(1)}}
+.burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;z-index:3}
+.burst i{position:absolute;left:0;top:0;font-style:normal;font-size:var(--s);color:var(--c);opacity:0;animation:fly 1.5s cubic-bezier(.15,.8,.3,1) var(--d) forwards}
+@keyframes fly{0%{transform:translate(-50%,-50%) scale(.2) rotate(0);opacity:0}15%{opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.justopen .opened .bigtag,.burst i{animation:none}.burst{display:none}}
+@keyframes pop{0%{transform:scale(.7) rotate(-6deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.facts div{border:1.5px dashed var(--line);border-radius:4px;padding:8px 6px;text-align:center}
+.facts b{display:block;font-family:var(--serif);font-weight:600;font-size:22px;font-variation-settings:"SOFT" 100,"opsz" 48;color:var(--cran);line-height:1.15;word-break:break-word}
+.idea{font-family:var(--serif);font-weight:500;font-variation-settings:"SOFT" 100,"opsz" 40;font-size:22px;line-height:1.25;margin:8px 0 14px;min-height:56px}
+.item{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dotted var(--line);cursor:pointer}
+.box{flex:0 0 22px;height:22px;border:1.7px solid var(--ink);border-radius:3px 5px 2px 6px;position:relative;background:#fffdf7}
+.item.done .box::after{content:"";position:absolute;left:3px;top:-5px;width:9px;height:17px;border:solid var(--cran);border-width:0 3.5px 3.5px 0;transform:rotate(40deg);border-radius:0 0 3px 0}
+.foot{text-align:center;font-family:var(--type);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin:30px 0 6px}
+.foot a{color:var(--cran)}
+.overlay{position:fixed;inset:0;background:rgba(51,38,29,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.overlay .tag{width:100%;max-width:420px;margin:0;max-height:90vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) rotate(-1deg);background:var(--ink);color:var(--card);font-family:var(--type);font-size:13px;letter-spacing:.06em;padding:9px 16px;border-radius:3px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);font-size:12px;background:#fffdf7;border:1.2px solid var(--line);padding:8px;border-radius:3px}
+.hide{display:none!important}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:7px 12px;font-family:var(--type);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--ink);color:var(--card)}
+.ideabox{background:#FFFDF8;border:1.5px solid var(--line);border-top:7px solid var(--cran);border-radius:4px;padding:16px 16px 18px;text-align:center;margin:4px 0 14px;box-shadow:0 8px 16px -12px rgba(51,38,29,.5)}
+.idea2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 72;font-size:30px;line-height:1.15;color:var(--ink);margin:10px 0 16px}
+.amz{display:block;width:100%;background:var(--gold);color:#2A1E14;border:0;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:16px 12px;font-family:var(--type);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;box-shadow:0 6px 12px -6px rgba(120,80,20,.7)}
+.amz:active{transform:translateY(1px)}
+.refine{display:block;width:100%;text-align:left;background:#EEF2EA;border:2px solid var(--pine);border-radius:255px 14px 225px 14px/14px 225px 14px 255px;padding:13px 16px;color:var(--ink);cursor:pointer;box-shadow:0 6px 12px -8px rgba(61,90,69,.7)}
+.refine .rt{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 36;font-style:italic;font-size:20px;color:var(--pine)}
+.refine b{float:right;color:#FCF7EC;background:var(--pine);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.refine .rs{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
+.refine.open{background:#E3EADD}
+.step{position:relative}
+.helpq{margin-left:auto;margin-right:26px;flex:0 0 28px;width:28px;height:28px;border-radius:50%;border:1.6px solid var(--ink2);background:transparent;color:var(--ink2);font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1}
+.helpq.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.helpbox{background:#EEF2EA;border-left:3px solid var(--pine);padding:10px 12px;font-size:14.5px;line-height:1.45;margin:-2px 0 12px;border-radius:0}
+.steps3{margin:10px 0 0 20px;font-size:15px;line-height:1.5}
+.steps3 li{margin:4px 0}
+.chatok{background:#EEF2EA;border:2px solid var(--pine);border-radius:4px;padding:12px 14px;color:var(--pine)}
+.chatok span{display:block;color:var(--ink2);font-size:14px;margin-top:2px}
+.homestrip,.backstrip{background:#EEF2EA;border:2px solid var(--pine);border-radius:4px;padding:12px 14px;margin-top:14px}
+.backstrip{background:#FBF1DE;border-color:var(--gold)}
+.homestrip>b,.backstrip>b{display:block;font-family:var(--serif);font-size:18px;color:var(--pine)}
+.backstrip>b{color:#7A5A1E}
+.homestrip>span,.backstrip>span{display:block;font-size:14px;color:var(--ink2);margin-top:2px}
+.hsguide{margin:10px 0 0 20px;font-size:15px;line-height:1.55}
+.hsguide li{margin:8px 0}
+.ico{width:26px;height:26px;vertical-align:middle;margin:0 2px;display:inline-block;background:#fff;border-radius:6px;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
+.chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.saved{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:45;background:var(--pine);color:#FCF7EC;font-family:var(--type);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:12px 4px 12px 4px;opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none;box-shadow:0 4px 10px -4px rgba(0,0,0,.4)}
+.saved.show{opacity:1;transform:none}
+.person .lnk{display:block;margin-top:2px}
+#slipsheet{display:none}
+@media print{
+ @page{size:A4;margin:10mm}
+ body{background:#fff!important}
+ body>*:not(#slipsheet){display:none!important}
+ #slipsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0;font-family:var(--serif);color:#2A1E14}
+ .slip{border:1px dashed #999;height:90mm;display:grid;grid-template-rows:1fr 1fr 1fr;break-inside:avoid;page-break-inside:avoid}
+ .slip>div{padding:3mm 5mm;display:flex;flex-direction:column;justify-content:center;text-align:center}
+ .slip .top .k{font-family:var(--type);font-size:8pt;letter-spacing:.15em;text-transform:uppercase;color:#9A2B2E}
+ .slip .top .nm{font-size:22pt;font-weight:700;line-height:1.1}
+ .slip .top .sm,.slip .bot .sm{font-family:var(--type);font-size:7.5pt;color:#6B5544}
+ .slip .mid{border-top:1px dashed #bbb;border-bottom:1px dashed #9A2B2E;font-family:var(--type);font-size:7pt;color:#aaa;justify-content:flex-end!important}
+ .slip .bot .nm{font-size:18pt;font-weight:700;color:#9A2B2E;line-height:1.1}
+ .slip .bot .h{font-size:8.5pt;font-style:italic;margin-top:1mm}
+ .slip .bot .k{font-family:var(--type);font-size:8pt;letter-spacing:.1em;text-transform:uppercase}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker" id="kicker">The organiser</div>
+    <h1>Secret Santa</h1>
+    <div class="sub" id="subline">no peeking, no spreadsheets</div>
+    <svg class="holly" viewBox="0 0 110 26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13h34M68 13h34"/><path d="M55 13c-6-8-15-9-19-6 3 2 1 5 4 6-3 1-1 4-4 6 4 3 13 2 19-6zm0 0c6-8 15-9 19-6-3 2-1 5-4 6 3 1 1 4 4 6-4 3-13 2-19-6z"/><circle cx="55" cy="9" r="2.3" fill="#9A2B2E" stroke="none"/><circle cx="51" cy="14" r="2.3" fill="#9A2B2E" stroke="none"/><circle cx="59" cy="14" r="2.3" fill="#9A2B2E" stroke="none"/></svg>
+  </header>
+  <main id="main"></main>
+  <div class="foot" id="foot">Made with love by BrightBlueprintCo</div>
+</div>
+<div id="slipsheet"></div><div class="overlay" id="ov"><div class="tag" id="ovc"></div></div>
+<div class="toast" id="toast"></div>
+<div class="saved" id="saved">✔ Saved</div>
+
+<script>
+(function(){
+"use strict";
+var KEY="bbco-secret-santa-v1", SHOP="https://brightblueprintco.etsy.com";
+var XK="bbco-santa-2026";
+var uid=function(){return Math.random().toString(36).slice(2,9)};
+function $(s){return document.querySelector(s)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove("show")},2000)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+
+/* ---------- link encoding (keeps the name hidden from a casual glance) ---------- */
+function enc(obj){
+  var b=new TextEncoder().encode(JSON.stringify(obj)),k=new TextEncoder().encode(XK),o="";
+  for(var i=0;i<b.length;i++)o+=String.fromCharCode(b[i]^k[i%k.length]);
+  return btoa(o).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function dec(s){
+  s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";
+  var r=atob(s),k=new TextEncoder().encode(XK),b=new Uint8Array(r.length);
+  for(var i=0;i<r.length;i++)b[i]=r.charCodeAt(i)^k[i%k.length];
+  return JSON.parse(new TextDecoder().decode(b));
+}
+/* v2 links: short, readable-only-to-the-app format */
+var AL="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",KY="bbcosanta";
+function shift(i){return (KY.charCodeAt(i%KY.length)*7+i*13)%62}
+function cipher(t,dir){var o="",k=0;for(var i=0;i<t.length;i++){var c=t.charAt(i);if(c==="%"){o+=t.substr(i,3);i+=2;continue}var x=AL.indexOf(c);if(x<0){o+=c;continue}o+=AL.charAt((x+dir*shift(k)+62*4)%62);k++}return o}
+function escF(f){return encodeURIComponent(String(f==null?"":f)).replace(/[!'()*]/g,function(c){return "%"+c.charCodeAt(0).toString(16).toUpperCase()}).replace(/_/g,"%5F").replace(/~/g,"%7E").replace(/%20/g,"_")}
+function unescF(f){return decodeURIComponent(f.replace(/_/g,"%20"))}
+var CUR={"£":"g","$":"d","€":"e"},CURR={g:"£",d:"$",e:"€"};
+function chatCode(u){var m=String(u||"").match(/chat\.whatsapp\.com\/(?:invite\/)?([A-Za-z0-9]+)/);return m?m[1]:""}
+function enc2(o){var d=(o.d||"").replace(/^20(\d\d)-(\d\d)-(\d\d)$/,"$1$2$3");
+  var f=[o.n,o.r,o.g,o.b,CUR[o.c]||"",d,o.p,o.m,o.h,chatCode(o.w),o.k||""].map(escF);
+  while(f.length&&f[f.length-1]==="")f.pop();
+  return "~"+cipher(f.join("~"),1)+"~z"}
+function dec2(s){var t=cipher(s.replace(/^~/,"").replace(/~z$/,""),-1).split("~").map(unescF);
+  var d=t[5]||"";if(/^\d{6}$/.test(d))d="20"+d.slice(0,2)+"-"+d.slice(2,4)+"-"+d.slice(4,6);
+  return {v:2,n:t[0]||"",r:t[1]||"",g:t[2]||"Secret Santa",b:t[3]||"",c:CURR[t[4]]||"",d:d,p:t[6]||"",m:t[7]||"",h:t[8]||"",w:t[9]?"https://chat.whatsapp.com/"+t[9]:"",k:t[10]||""}}
+function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return(h>>>0).toString(36)}
+
+/* ---------- the draw ---------- */
+function banned(rules,a,b){for(var i=0;i<rules.length;i++){var r=rules[i];if((r[0]===a&&r[1]===b)||(r[0]===b&&r[1]===a))return true}return false}
+function drawNames(ids,rules){
+  var n=ids.length;
+  for(var t=0;t<20000;t++){var p=shuffle(ids),ok=true;for(var i=0;i<n;i++){if(p[i]===ids[i]||banned(rules,ids[i],p[i])){ok=false;break}}if(ok){var m={};ids.forEach(function(id,i){m[id]=p[i]});return m}}
+  var order=shuffle(ids),used={},res={};
+  function dfs(i){if(i===n)return true;var g=order[i];var c=shuffle(ids);for(var j=0;j<c.length;j++){var r=c[j];if(r===g||used[r]||banned(rules,g,r))continue;used[r]=1;res[g]=r;if(dfs(i+1))return true;used[r]=0;delete res[g]}return false}
+  return dfs(0)?res:null;
+}
+
+/* ---------- gift ideas ---------- */
+var LIB={"adult":{"cook":[["Flaky sea salt in a nice tin","Spice blend trio","Silicone spatula set","Herb-infused olive oil","Pack of vanilla pods"],["Proper pepper grinder","Hot sauce tasting set","Linen apron","Microplane grater","Small-batch pesto and pasta set"],["Hardback cookbook from a chef they love","Mortar and pestle","Cast iron skillet","Fresh pasta making kit","Instant-read meat thermometer"],["Cooking class for one","Quality chef's knife","Dutch oven casserole dish","Pizza stone and peel set","Stand-mixer attachment they've been eyeing"]],"drinks":[["Mini bottle of craft gin","Cocktail bitters","Fancy tonic four-pack","Set of beer mats with a pun","Dried citrus garnish pack"],["Copper jigger and bar spoon","Craft beer tasting box","Infuse-your-own gin kit","Wine stopper and pourer set","Cocktail recipe card deck"],["Bottle of a gin they've never tried","Decent bottle of wine with a note","Cocktail shaker set","Whisky stones and tumbler","Brewery tour voucher"],["Gin or whisky tasting experience","Wine subscription for two months","Home cocktail masterclass","Premium spirit with nice glasses","Vineyard tour for two"]],"coffee":[["Bag of local roast coffee beans","Fancy hot chocolate stirrers","Loose-leaf tea sampler","Reusable coffee filter","Biscotti for dunking"],["Insulated travel mug","Cafetière for one","Specialty tea tin collection","Coffee-scented candle","Pour-over cone and filters"],["Hand coffee grinder","Milk frother","Coffee subscription for a month","Japanese teapot set","Barista-style latte mugs"],["Barista course","Moka pot plus beans","Premium tea ceremony set","Coffee scales and gooseneck kettle","Three-month coffee subscription"]],"garden":[["Seed packets for unusual veg","Plant labels and a marker","Gardening gloves","Herb seed tin","Hand cream for gardeners"],["Pruning snips","Bird feeder and seed","Kneeling pad","Indoor herb kit","Bulbs for spring"],["Bonsai starter kit","Stylish watering can","Raised planter","Bee hotel","Hardback gardening book"],["Garden tool set in a roll","Garden centre voucher","Self-watering planter","Bird box camera","Fruit tree to plant"]],"fitness":[["Resistance bands","Sports water bottle","Protein snack bundle","Sweat-wicking socks","Muscle rub"],["Jump rope with counter","Yoga block and strap","Foam roller","Gym towel set","Running armband for their phone"],["Massage gun (compact)","Yoga mat","Adjustable kettlebell","Running belt and gels","Fitness class pass"],["Sports massage voucher","Smart skipping rope","Quality running jacket","Climbing taster session","Month at a boutique gym class"]],"gaming":[["Gaming-themed mug","Controller grip covers","Retro sticker pack","Gaming snack box","Cable organiser"],["Game-themed socks","Glow-in-the-dark mousemat","Small console game download","Pixel-art keyring","Controller phone clip"],["Indie game they've wishlisted","LED light strip for their setup","Gaming headset stand","Board game version of a video game","Retro handheld console"],["New release game","Comfortable gaming headset","Spare controller","Gaming chair cushion and lumbar support","Escape room for their crew"]],"books":[["Secondhand copy of a classic","Leather bookmark","Book-scented candle","Bookish enamel pin","Literary quote tote bag"],["Paperback from their wishlist","Book light","Reading journal","Bookish socks","Blind date with a book"],["Hardback new release","Book subscription for a month","Bookends","Signed copy from a local shop","Cosy reading blanket"],["E-reader","Three-month book subscription","Bookshop voucher plus coffee","Collector's edition of a favourite","Literary walking tour"]],"music":[["Guitar picks set","Vinyl cleaning cloth","Music-themed mug","Gig-ticket frame","Earplugs for gigs"],["Second-hand vinyl from their favourite band","Band t-shirt","Lyric print","Music trivia game","Capo for their guitar"],["Bluetooth speaker (small)","New vinyl record","Turntable cleaning kit","Ukulele","Gig tickets for a local band"],["Wireless headphones","Gig tickets for someone big","Record player","Music lessons taster","Studio recording session"]],"beauty":[["Sheet mask set","Lip balm trio","Nail polish in a nice shade","Hair scrunchies set","Mini hand cream"],["Bath oil","Jade roller","Silk scrunchies","Fancy shower gel","Mini perfume"],["Skincare set from a good brand","Silk pillowcase","Makeup brush set","Luxury candle","Hair treatment set"],["Spa day voucher","Perfume they love","Facial treatment","Hair styling tool","Luxury skincare bundle"]],"diy":[["Tape measure with a joke on it","Pencil and spirit level set","Work gloves","Assorted screws organiser","Multi-bit screwdriver"],["Multi-tool","Headtorch","Stud finder","Toolbox organiser","Wood glue and clamps kit"],["Cordless screwdriver","Tool roll","Woodworking class taster","Laser measure","Quality hammer and saw"],["Cordless drill set","Woodworking course","Workbench accessories","DIY store voucher","Rotary multi-tool kit"]],"sport":[["Team scarf","Football card packs","Sports quiz book","Match-day snack pack","Team keyring"],["Team mug and coaster set","Retro shirt pin badges","Mini football goal for the desk","Sports biography","Club socks"],["Retro football shirt","Stadium tour voucher","Team print or poster","Sports documentary box set","Padel or tennis balls and grip"],["Match tickets","Official shirt","Stadium tour for two","Golf lesson","Signed memorabilia"]],"travel":[["Passport cover","Packing cubes","Travel-size toiletries set","Luggage tag","Travel journal"],["Scratch map","Neck pillow","Universal adapter","Travel guidebook","Travel jewellery case"],["Weekend bag","Noise-cancelling earbuds (budget)","Travel photo book voucher","Portable charger","Packable rain jacket"],["Hotel or experience voucher","Quality cabin suitcase","Afternoon tea somewhere new","Train day trip for two","Polaroid camera"]],"pets":[["Pet treats","Toy for their dog or cat","Pet-themed socks","Poo bag holder","Pet birthday card"],["Custom pet keyring","Pet bandana","Puzzle feeder","Pet-shaped mug","Grooming brush"],["Custom pet portrait print","Pet bed","Engraved pet tag and lead","Pet camera treat toy","Doggy day out kit"],["Pet photo shoot","Custom pet painting","Smart feeder","Dog-friendly cottage voucher","Premium pet bed"]],"home":[["Scented candle","Hand-poured soap","Fairy lights","Coaster set","Small plant"],["Cosy socks","Throw cushion","Reed diffuser","Nice mug and hot chocolate","Photo frame"],["Cosy throw","Luxury candle","Ceramic vase with dried flowers","Plant with nice pot","Coffee table book"],["Weighted blanket","Smart lamp","Quality bedding","Art print framed","Indoor plant collection"]],"crafts":[["Fancy pens set","Washi tape set","Embroidery floss pack","Sketchbook","Origami paper"],["Embroidery starter kit","Watercolour set","Candle-making kit","Knitting kit for a beanie","Calligraphy pens"],["Pottery painting voucher","Macramé kit","Quality art supplies","Sewing kit with fabric","Lino printing kit"],["Pottery class","Sewing machine starter","Art class course","Craft workshop for two","Premium paint set and easel"]],"tech":[["Cable organiser","Phone stand","Screen cleaning kit","Webcam cover","Fun USB stick"],["Wireless charger","Phone grip","Bluetooth tracker tag","Smart plug","Laptop sleeve"],["Portable power bank","Small Bluetooth speaker","Smart bulb starter kit","Mechanical keyboard keycaps","Ring light"],["Wireless earbuds","Smartwatch strap set plus charger","Mechanical keyboard","Smart speaker","Portable projector (mini)"]],"film":[["Movie night popcorn kit","Film quote mug","Cinema snack box","Film trivia cards","Retro film poster postcard"],["Film night hamper","Classic DVD box","Popcorn maker (mini)","Movie-themed socks","Film soundtrack vinyl (secondhand)"],["Cinema voucher for two","Film poster print","Blu-ray collector's edition","Film quiz board game","Cosy blanket and snacks"],["Projector for movie nights","Cinema membership month","Film studio tour","Premium streaming gift card","Film-themed escape room"]],"sweet":[["Posh chocolate bar","Retro sweets bag","Fudge box","Gourmet marshmallows","Honey tasting set"],["Chocolate truffle selection","Brownie box","Hot sauce sampler","Popcorn flavour set","Cheese and crackers set"],["Luxury chocolate hamper","Afternoon tea box","Cheese board set","Baklava box","Doughnut delivery"],["Chocolate making class","Gourmet food hamper","Afternoon tea for two","Cheese tasting experience","Monthly treat subscription"]],"outdoors":[["Headtorch","Hand warmers","Carabiner keyring","Trail snack pack","Waterproof map case"],["Insulated flask","Walking socks","Pocket knife multi-tool","Camping mug","Trail guidebook"],["Hammock","Waterproof jacket (lightweight)","Camping stove","Trekking poles","Paddleboard taster"],["Wild camping kit","Quality walking boots","Outdoor adventure experience","Kayak tour","Down jacket"]],"fashion":[["Fun socks","Hair claw clip","Bandana","Sunglasses case","Pin badge"],["Beanie","Silk scarf","Tote bag with personality","Statement earrings","Leather card holder"],["Cashmere-blend scarf","Leather wallet","Quality gloves","Watch strap","Jewellery dish and earrings"],["Cashmere jumper","Quality watch","Leather bag","Personal styling session","Designer sunglasses"]],"general":[["Posh chocolate and a handwritten card","Fancy socks","A candle that smells like Christmas","Hand cream","Mini bottle of something nice","A really good hot chocolate kit"],["Cosy slipper socks","A paperback you loved this year","Local honey or chutney","A nice notebook and pen","Gloves or a beanie","A plant and a funny card"],["A cosy throw","A hardback cookbook","A cheese or treat box","A 1,000-piece puzzle","A leather card holder","A day-out voucher"],["An experience for two","A really nice jumper","A framed print of a place they love","A wireless speaker","A spa voucher","A subscription box for three months"]]},"teen":{"cook":[["Fun-shaped cookie cutters","Mug cake mix set","Sprinkles collection","Bubble tea kit","Silly apron"],["Baking set with recipes","Ramen bowl and chopsticks","Pancake art kit","Waffle-themed mug","Easy recipes book for teens"],["Mini waffle maker","Sushi-making kit","Doughnut-making kit","Cake decorating set","Air fryer cookbook and tools"],["Teen cooking class","Bubble tea making set deluxe","Mini air fryer","Baking class for two","Chocolate making workshop"]],"coffee":[["Iced coffee syrups","Bubble tea pearls kit","Cute reusable straw","Hot chocolate bombs","Matcha sample"],["Cute travel cup","Glass iced coffee cup with lid","Hot chocolate gift set","Flavoured tea tins","Matcha whisk kit"],["Milk frother","Cold brew bottle","Café voucher","Bubble tea voucher","Cute ceramic mug set"],["Café gift card bundle","Coffee bar starter kit","Barista class taster","Mini espresso machine (manual)","Bubble tea shop voucher plus bottle"]],"garden":[["Grow-your-own sunflower kit","Cactus in a cute pot","Seed bombs","Plant stickers","Mini terrarium stones"],["Terrarium kit","Mushroom grow kit","Hanging air plants","Herb grow kit","Plant-themed tote"],["Self-watering plant pot","Bonsai kit","Carnivorous plant kit","Plant care book","Mini greenhouse"],["Indoor smart garden (small)","Terrarium workshop","Plant shop voucher","Large statement plant","Hydroponic grow kit"]],"fitness":[["Resistance bands","Sweatband set","Water bottle with time markers","Grip socks","Skipping rope"],["Yoga mat (light)","Gym bag","Foam roller (small)","Sports headphones (wired)","Fitness journal"],["Climbing taster session","Trampoline park pass","Dance class pass","Fitness tracker band (budget)","Insulated gym bottle"],["Climbing course","Fitness tracker","Running trainers voucher","Martial arts taster block","Surf or skate lesson"]],"gaming":[["Gaming sticker pack","Controller skin","Gaming socks","Game-themed keyring","Pixel art sticky notes"],["Gaming-themed hoodie voucher","LED desk light","Game currency gift card (small)","Gaming mousemat (large)","Controller charging cable"],["Indie game download","LED strip for their room","Gaming mouse","Headset stand with lights","Retro mini console"],["New release game","Gaming headset","Spare controller","Gaming chair cushion","Esports arena session"]],"books":[["Bookmark set","Bookish stickers","Manga volume (secondhand)","Book-themed badge","Mini reading light"],["Paperback from a series they're into","Manga volume","Reading journal","Book sleeve","Bookish hoodie pin set"],["Box set of a series","Graphic novel","Bookshop voucher","Book subscription month","Cosy reading pillow"],["E-reader (basic)","Manga box set","Bookshop voucher plus café","Signed book","Author event tickets"]],"music":[["Guitar picks","Music-themed stickers","Earplugs for gigs","Lyric bookmark","Band badge"],["Band tee","Vinyl of a favourite album (secondhand)","Lyric poster","Headphone stand","Music-themed phone case"],["Bluetooth speaker","Ukulele","Vinyl record","Karaoke microphone","Concert poster print"],["Wireless headphones","Gig tickets","Record player (portable)","Music lessons block","Beginner guitar"]],"beauty":[["Lip gloss set","Scrunchies","Sheet masks","Nail stickers","Hair clips set"],["Mini skincare set","Glitter nail kit","Bath bombs","Hair accessories box","Body mist"],["Silk pillowcase","Makeup bag with goodies","Hair styling tool (basic)","Skincare starter kit","Nail polish collection"],["Beauty advent-style box","Hair straightener or curler","Pamper day voucher","Premium skincare set","Makeup lesson"]],"diy":[["Pocket multi-tool (age-appropriate)","Sticky glow stars","Mini screwdriver set","Puzzle cube","Sticker-bomb kit"],["Model building kit","3D puzzle","Electronics starter kit","Paint-your-own trainers kit","Room decor DIY kit"],["Lego set","Robotics kit","Soldering starter kit (supervised)","Woodcraft kit","Neon sign DIY kit"],["Large Lego set","Coding robot","3D printing pen kit","Electronics project box","Makerspace workshop"]],"sport":[["Team badge","Sports socks","Football cards","Sweatbands","Team keyring"],["Team scarf","Football (size 5)","Sports water bottle","Team poster","Basketball"],["Retro team shirt","Padel or tennis racket (basic)","Skateboard accessories","Trampoline park pass","Football boots voucher"],["Match tickets","Official shirt","Skateboard","Stadium tour","Coaching session"]],"travel":[["Fun luggage tag","Travel journal","Packing cubes (mini)","Passport sticker","Travel games pack"],["Scratch map","Neck pillow","Travel bingo","Polaroid film","Cute backpack keyring"],["Instant camera film bundle","Portable charger","Small backpack","Travel diary kit","Waterproof phone pouch"],["Instant camera","Theme park tickets","Day trip voucher","Quality backpack","Adventure experience"]],"pets":[["Pet treats","Pet toy","Pet stickers","Cute pet socks","Pet charm keyring"],["Pet portrait sticker","Pet bandana","Cat or dog plush","Puzzle feeder","Pet-themed hoodie pin"],["Custom pet portrait","Pet bed","Engraved tag","Pet camera toy","Pet photo book"],["Pet photo shoot","Custom pet plush","Zoo or farm experience","Animal handling session","Volunteer day at a shelter"]],"home":[["Fairy lights","Cute candle","Room spray","Photo clips string","Mini plant"],["LED neon light","Fluffy socks","Cushion","Photo prints","Wall stickers"],["Sunset lamp","Cosy throw","Bean bag cover","Room decor set","Bluetooth light bulb"],["Smart LED room lights","Bean bag","Star projector","Room makeover voucher","Weighted blanket (small)"]],"crafts":[["Gel pens set","Stickers book","Friendship bracelet thread","Mini sketchbook","Washi tape"],["Jewellery-making kit","Embroidery kit","Clay modelling kit","Watercolour set","Tie-dye kit"],["Polymer clay kit","Paint-by-numbers","Crochet starter kit","Calligraphy kit","Resin art kit"],["Art class block","Digital drawing tablet (basic)","Pottery class","Quality art supplies set","Sewing machine (mini)"]],"tech":[["Phone grip","Cable protectors","Screen cleaner","Phone charm","Cable tidy"],["Phone stand","Wireless charger","Earbuds case","Bluetooth tracker tag","Selfie light"],["Portable power bank","Bluetooth speaker","Ring light","Smart bulb","Gaming earbuds"],["Wireless earbuds","Smartwatch (basic)","Instant camera","Mini projector","Tablet accessories bundle"]],"film":[["Popcorn seasoning","Movie snacks box","Film quote stickers","Film trivia cards","Cinema-style ticket"],["Movie night kit","Fan merch keyring","Poster of a favourite film","Film-themed socks","Popcorn bowl"],["Cinema voucher for two","Film merch","Popcorn maker","Poster print","Blanket for movie nights"],["Projector","Studio tour","Cinema pass","Fan convention tickets","Film-themed escape room"]],"sweet":[["Retro sweets","Sour sweets bag","Novelty chocolate","Candy floss","Lollipop bouquet"],["American candy box","Pick-and-mix tub","Cookie dough box","Chocolate-dipped strawberries kit","Gourmet popcorn"],["Sweet hamper","Doughnut box","Milkshake voucher","Chocolate making kit","Cookie decorating kit"],["Chocolate workshop","Giant sweet hamper","Dessert café voucher","Candy subscription","Afternoon tea"]],"outdoors":[["Torch","Carabiner","Trail snacks","Compass","Glow sticks"],["Hammock (lightweight)","Water bottle","Survival bracelet","Walking socks","Binoculars (mini)"],["Camping lantern","Waterproof jacket (light)","Day bag","Paddleboard taster","Nature guidebook"],["High ropes course","Kayak session","Camping trip kit","Walking boots","Wild swim experience"]],"fashion":[["Fun socks","Hair claw clip","Phone charm","Bandana","Cute keyring"],["Bucket hat","Beanie","Tote bag","Statement earrings","Mini crossbody pouch"],["Hoodie","Sunglasses","Watch (basic)","Jewellery set","Trainers voucher"],["Trainers","Designer-style bag","Quality jacket","Personalised jewellery","Clothing voucher"]],"general":[["Fun socks","Sour sweets","Phone charm","Stickers pack","Lip balm or lip gloss","Mini plant"],["LED lights","Bucket hat","Paperback","Cute mug and hot chocolate","Pick-and-mix","Phone stand"],["Hoodie","Bluetooth speaker","Instant camera film","Cinema voucher for two","Sunset lamp","Bubble tea voucher"],["Wireless earbuds","Gig or event tickets","Trainers voucher","Instant camera","Experience day","Gaming gift card"]]},"kid":{"cook":[["Cookie cutter set","Kids' apron","Cupcake cases and sprinkles","Pizza kit","Mini rolling pin"],["Kids' baking set","Cupcake decorating kit","Junior cookbook","Gingerbread house kit","Chef's hat and utensils"],["Kids' cooking kit with real tools","Cake pop maker","Pancake set","Pretend kitchen accessories","Mini baking class"],["Kids' cooking class","Play kitchen set","Baking party box","Chocolate making workshop","Junior chef camp"]],"garden":[["Sunflower seed kit","Cress head kit","Bug viewer","Watering can (small)","Seed bombs"],["Kids' gardening tools","Grow-a-rainbow kit","Bug hotel","Wormery mini","Ladybird house"],["Mini greenhouse","Butterfly garden kit","Bird box to paint","Kids' gardening set with gloves","Garden explorer kit"],["Kids' wheelbarrow and tools","Butterfly release kit","Garden playhouse decor","Zoo or farm day","Nature club membership"]],"fitness":[["Skipping rope","Bouncy ball","Hula hoop","Frisbee","Sports stickers"],["Football","Swingball","Kids' yoga cards","Mini trampoline accessories","Hopscotch mat"],["Scooter accessories","Kids' badminton set","Trampoline park pass","Swim gear set","Balance board"],["Scooter","Trampoline park party","Climbing wall session","Swimming lessons","Bike accessories bundle"]],"gaming":[["Gaming stickers","Mini puzzle game","Controller keyring","Card game","Gaming-themed socks"],["Kids' card game","Small console game","Gaming plush","Pixel art kit","Handheld puzzle"],["Console game","Kids' gaming headset","Board game version of a video game","Character plush","Gaming room light"],["New console game","Kids' controller","Gaming party","Retro console","Arcade voucher"]],"books":[["Activity book","Comic","Bookmark","Puzzle book","Joke book"],["Picture book","First chapter book","Sticker storybook","Kids' comic subscription issue","Fact book"],["Book box set","Pop-up book","Kids' encyclopedia","Personalised storybook","Audiobook player"],["Personalised book set","Book subscription","Library of a favourite series","Author event","Reading tent and books"]],"music":[["Kazoo","Shaker eggs","Music stickers","Harmonica","Recorder"],["Kids' karaoke mic","Xylophone","Tambourine","Music book","Kids' headphones"],["Ukulele","Keyboard (mini)","Bluetooth karaoke mic","Drum pad","Music box"],["Kids' guitar","Electronic keyboard","Music lessons","Kids' concert tickets","Karaoke machine"]],"diy":[["Mini model kit","Glow-in-the-dark stars","Magnifying glass","Science sticker pack","Puzzle"],["Science experiment kit","Volcano kit","Crystal growing kit","Kids' tool set","Marble run (small)"],["Lego set","Build-your-own robot","Circuit kit","Marble run","Magnetic tiles set"],["Large Lego set","Coding robot","Science lab set","Telescope","Magnetic tiles big set"]],"sport":[["Football cards","Sports stickers","Team socks","Sweatbands","Medal keyring"],["Football","Team mini kit voucher","Basketball","Goalkeeper gloves","Team poster"],["Football goal (pop-up)","Team shirt","Kids' tennis set","Shin pads and boots voucher","Sports bag"],["Match tickets","Football camp","Official kit","Stadium tour","Coaching session"]],"pets":[["Animal stickers","Pet toy","Animal fact cards","Pet plush keyring","Animal mask"],["Animal plush","Pet-care play set","Animal colouring kit","Pet treats to give","Farm animal figures"],["Interactive pet toy","Animal encyclopedia","Pet portrait to colour","Zoo membership card","Stuffed animal vet set"],["Zoo or aquarium day","Animal experience","Farm visit","Adopt-an-animal pack","Interactive robot pet"]],"home":[["Night light","Glow stars","Name sign stickers","Mini cushion","Room door sign"],["Fairy lights","Bean bag cover","Wall stickers","Photo frame","Fluffy slippers"],["Star projector","Den kit","Character bedding","Reading nook cushion","Play tent"],["Teepee play tent","Bean bag","Light-up room decor","Personalised bedroom set","Weighted blanket (kids)"]],"crafts":[["Crayons set","Sticker book","Colouring book","Play-Doh pots","Stencils"],["Slime kit","Bead kit","Paint set","Craft box","Scratch art kit"],["Jewellery kit","Clay kit","Tie-dye kit","Paint-your-own pottery kit","Big craft box"],["Pottery painting party","Art class","Easel and paint set","Craft subscription","Mega craft kit"]],"tech":[["Kids' torch","Walkie-talkie stickers","Fun USB stick","Calculator","Light-up pen"],["Walkie-talkies","Kids' headphones","Night light speaker","Digital timer","Spy kit"],["Kids' camera","Coding toy","Kids' smartwatch (basic)","Walkie-talkie set","Robot kit"],["Kids' tablet case and apps","Coding robot","Instant camera","Kids' smartwatch","Drone (mini)"]],"film":[["Character stickers","Popcorn pack","Film colouring book","Character keyring","Movie trivia cards"],["Character plush","Movie night kit","Character DVD","Popcorn bowl","Character mug"],["Cinema trip for two","Character playset","Movie merch bundle","Blanket and snacks","Film-themed game"],["Cinema party","Character experience","Theme park trip","Projector for kids","Studio tour"]],"sweet":[["Lollipops","Chocolate coins","Sweet necklace","Gummy bears","Candy cane"],["Pick-and-mix bag","Chocolate lolly","Hot chocolate kit","Cookie kit","Candy floss maker (mini)"],["Sweet hamper","Chocolate making kit","Doughnut box","Cupcake kit","Ice cream maker (mini)"],["Chocolate factory visit","Sweet workshop","Dessert café trip","Giant sweet hamper","Candy subscription"]],"outdoors":[["Bubble wand","Chalk","Bug net","Magnifying glass","Torch"],["Binoculars (kids)","Explorer kit","Bug catching kit","Nature spotter book","Kite"],["Kids' camping kit","Walkie-talkies","Den building kit","Pond dipping kit","Kids' backpack"],["Outdoor adventure day","Treehouse kit","Kids' tent","Forest school session","Bike accessories"]],"fashion":[["Fun socks","Hair clips","Character badge","Bracelet","Sunglasses"],["Character t-shirt","Beanie","Backpack keyring","Jewellery set","Hair accessories box"],["Dressing-up outfit","Light-up trainers voucher","Kids' backpack","Character hoodie","Jewellery box"],["Dressing-up box","Personalised jacket","Trainers","Kids' watch","Personalised jewellery"]],"general":[["Colouring book and pens","Slime","Chocolate coins","Bubble wand","Joke book","Stickers"],["Lego mini set","Card game","Plush toy","Craft kit","Glow-in-the-dark stars","Kids' headphones"],["Lego set","Board game","Science kit","Personalised book","Dressing-up outfit","Kids' camera"],["Big Lego set","Scooter","Experience day","Coding robot","Theme park trip","Kids' tent"]]}};
+var INTS=[["cook","Cooking & baking"],["drinks","Gin, wine & beer"],["coffee","Coffee & tea"],["garden","Plants & garden"],["fitness","Fitness"],["gaming","Gaming"],["books","Books"],["music","Music"],["beauty","Pampering"],["diy","Making & building"],["sport","Football & sport"],["travel","Travel"],["pets","Pets & animals"],["home","Cosy home"],["crafts","Arts & crafts"],["tech","Tech & gadgets"],["film","Film & TV"],["sweet","Sweet treats"],["outdoors","Outdoors"],["fashion","Style"]];
+var KW={cook:/cook|bak(e|ing)|chef|kitchen|foodie/,drinks:/\bgin\b|wine|beer|cocktail|whisk(e)?y|prosecco|\brum\b|vodka|ale\b/,coffee:/coffee|\btea\b|latte|matcha|espresso/,garden:/garden|plant|flower|\bgrow/,fitness:/\bgym|yoga|running|\brun\b|fitness|pilates|workout|cycl|crossfit/,gaming:/gam(e|er|ing)|xbox|playstation|nintendo|switch|ps5|fortnite|minecraft|roblox/,books:/book|read|novel|manga|kindle/,music:/music|guitar|vinyl|band|concert|gig|sing|piano|drum/,beauty:/skin ?care|make ?up|beauty|nails|pamper|perfume|\bspa\b/,diy:/\bdiy|tools|lego|woodwork|building|maker/,sport:/football|sport|rugby|tennis|golf|cricket|padel|basketball|\bf1\b|arsenal|chelsea|united|liverpool|spurs/,travel:/travel|holiday|trips?\b|explor/,pets:/\bdogs?\b|\bcats?\b|\bpets?\b|pupp|kitten|horse|animal/,home:/cosy|cozy|candle|blanket|interior/,crafts:/\bcraft|\bart\b|drawing|paint|knit|sew|crochet/,tech:/tech|gadget|computer|coding|\bcode\b|apple|android/,film:/film|movie|\btv\b|netflix|marvel|disney|cinema|anime/,sweet:/chocolate|sweets|snack|treats|candy|\bcake/,outdoors:/hik(e|ing)|walking|camp|outdoor|climb|swim|nature/,fashion:/fashion|style|clothes|jewel|trainers|sneaker|outfit/};
+function detectInts(t){t=(t||"").toLowerCase();return INTS.map(function(x){return x[0]}).filter(function(k){return KW[k].test(t)})}
+function detectAge(t){t=(t||"").toLowerCase();var m=t.match(/\b(?:is|aged?|turning|turns)\s*(\d{1,2})\b|\b(\d{1,2})\s*(?:yo|y\/o|yrs?|years?)\b/);var n=m?parseInt(m[1]||m[2],10):null;
+  if(n!==null&&n>=13&&n<=17)return "teen";if(n!==null&&n>=1&&n<=12)return "kid";
+  if(/\bteen|year (7|8|9|10|11)\b|gcse/.test(t))return "teen";if(/\bkids?\b|child|toddler|year [1-6]\b|primary school/.test(t))return "kid";return "adult"}
+var AMZ_TAG="brightbluepri-21";
+var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperience\b|\bsessions?\b|\bcourse\b|\btour\b|\bday out\b|\btrip\b|\bworkshop\b|\bmembership\b|\bsubscription\b|\bpass\b|\bcamp\b|\bphoto shoot\b|\bvisit\b|\btaster\b|\bspa day\b|\bvolunteer\b|\bevent\b|\bmasterclass\b|\bparty\b(?! box)/i,PRODUCT=/\b(kit|set|box|print|frame|book|bag|poster|mug|strip|bundle|hamper)\b/i;
+function findUrl(idea){
+  var q=String(idea||"").replace(/\([^)]*\)/g,"").replace(/\b(a|an|the|some|with a (handwritten )?(note|card)|they love|they've (been eyeing|wishlisted)|from their wishlist|from a series they're into)\b/gi," ").replace(/\s+/g," ").trim();
+  if(!q)return "";
+  var k=(R&&R.k)||(R&&R.c==="$"?"US":"GB"),c=CTRY[k]||CTRY.GB;
+  return "https://"+c.amz+"/s?k="+encodeURIComponent(q)+(c.tag?"&tag="+AMZ_TAG:"");
+}
+function findBtn(idea,cls){if(!idea||(EXPERIENCE.test(idea)&&!PRODUCT.test(idea)))return "";var u=findUrl(idea);return u?'<a class="btn '+(cls||"")+'" href="'+esc(u)+'" target="_blank" rel="sponsored noopener">Find it on Amazon</a>':""}
+var AMZ_NOTE='<p class="small" style="margin-top:10px;font-size:12.5px">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
+function tierOf(b){b=parseFloat(b)||20;return b<=10?0:b<=20?1:b<=35?2:3}
+function poolFor(b,ints,age){var tier=tierOf(b),L=LIB[age]||LIB.adult,out=[];(ints||[]).forEach(function(k){if(L[k])out=out.concat(L[k][tier])});if(!out.length)out=L.general[tier].slice();return out}
+
+var CTRY={
+  GB:{n:"UK",cur:"£",cc:"44",trunk:true,local:/^7\d{9}$/,amz:"www.amazon.co.uk",tag:true},
+  IE:{n:"Ireland",cur:"€",cc:"353",trunk:true,local:/^8\d{8}$/,amz:"www.amazon.co.uk",tag:true},
+  US:{n:"US",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.com",tag:false},
+  CA:{n:"Canada",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.ca",tag:true},
+  AU:{n:"Australia",cur:"$",cc:"61",trunk:true,local:/^4\d{8}$/,amz:"www.amazon.com.au",tag:false},
+  XX:{n:"Elsewhere",cur:"",cc:"",trunk:false,local:null,amz:"www.amazon.co.uk",tag:true}
+};
+function guessCountry(){var tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  if(/^Europe\/(London|Belfast|Guernsey|Jersey|Isle_of_Man)$/.test(tz))return "GB";if(tz==="Europe/Dublin")return "IE";
+  if(/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)$/.test(tz))return "CA";
+  if(/^(America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana|Kentucky|North_Dakota|Menominee)|Pacific\/Honolulu)/.test(tz))return "US";
+  if(/^Australia\//.test(tz))return "AU";if(tz)return "XX";
+  var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";var m=l.match(/-([A-Za-z]{2})$/);var r=m?m[1].toUpperCase():"";if(r==="GB"||r==="UK")return "GB";if(CTRY[r])return r;return "GB"}
+function C(){return CTRY[S.country]||CTRY.GB}
+/* ---------- state ---------- */
+function defaults(){return{country:guessCountry(),group:"",budget:"20",cur:CTRY[guessCountry()].cur||"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
+var S=load(KEY)||defaults();if(!S.countrySet){var gc=guessCountry();if(S.country!==gc){S.country=gc;if(CTRY[gc].cur)S.cur=CTRY[gc].cur}}var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
+function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
+var canSave=true;
+var ui={openHint:null,wipe:false,pend:null};
+
+function link(giverId){
+  var g=S.people.find(function(p){return p.id===giverId}),r=S.people.find(function(p){return p.id===S.draw.pairs[giverId]});
+  var payload={k:S.country,g:S.group||"Secret Santa",b:S.budget,c:S.cur,d:S.date,p:S.place,m:S.note,n:g.name,r:r.name,h:r.hint||"",w:validChat()?S.chat.trim():""};
+  return tagBase()+"#"+enc2(payload);
+}
+function dirUrl(){return location.href.split("#")[0].split("?")[0].replace(/\/[^\/]*$/,"/")}
+function tagBase(){return dirUrl().replace(/[^\/]+\/$/,"")+"secret-santa/"}
+function orgBase(){return dirUrl().replace(/[^\/]+\/$/,"")+atob("c2FudGEtaHEtazdxNA==")+"/"}
+var TAG_ONLY=/\/secret-santa\/$/.test(dirUrl());
+function fmtDate(d){if(!d)return"";var x=new Date(d+"T12:00:00");if(isNaN(x))return d;return x.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
+function daysTo(d){if(!d)return null;var x=new Date(d+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((x-n)/864e5)}
+function money(){return (S.cur||"")+(S.budget||"")}
+var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches);
+var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function backupCode(){return "SS1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S))))}
+function backupLink(){return location.origin+location.pathname+"#r"+btoa(unescape(encodeURIComponent(JSON.stringify(S)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function readBackup(tx){tx=String(tx||"");var m=tx.match(/#r([A-Za-z0-9_\-]+)/),b64;
+  if(m)b64=m[1];else{var i=tx.indexOf("SS1:");if(i<0)return null;b64=tx.slice(i+4)}
+  b64=b64.replace(/[^A-Za-z0-9+\/=_\-]/g,"").replace(/-/g,"+").replace(/_/g,"/").replace(/=+$/,"");
+  for(var cut=0;cut<4;cut++){var t=b64.slice(0,b64.length-cut);while(t.length%4)t+="=";
+    try{var o=JSON.parse(decodeURIComponent(escape(atob(t))));if(o&&Array.isArray(o.people))return o}catch(e){}}
+  return null}
+function applyBackup(obj){S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}S.hsDone=true;S.backedUp=true;save()}
+function hasWork(){return S.people.length>0||!!S.group}
+var SHARE_SVG='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Share icon"><path d="M8 9H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-2"/><path d="M12 15V3M8 7l4-4 4 4"/></svg>';
+var DOTS_SVG='<svg class="ico" viewBox="0 0 24 24" aria-label="More button"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.7" fill="#fff"/><circle cx="12" cy="12" r="1.7" fill="#fff"/><circle cx="17" cy="12" r="1.7" fill="#fff"/></svg>';
+var PLUS_SVG='<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round" aria-label="Add icon"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+var deferredInstall=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(!R)render()});
+window.addEventListener("appinstalled",function(){deferredInstall=null;S.hsDone=true;save();if(!R)render();toast("Added to your home screen ✔")});
+function homeStrip(){
+  if(isStandalone||S.hsDone||!S.draw)return "";
+  if(deferredInstall)return '<div class="homestrip"><b>Keep your group safe</b><span>Add Secret Santa to your home screen so it’s always there.</span><div class="row" style="margin-top:10px"><button class="btn sm pine" id="installapp">Add to home screen</button><button class="lnk" id="hsdone">Not now</button></div></div>';
+  if(!isIOS)return "";
+  return '<div class="homestrip"><b>Keep your group safe</b><span>Add it to your home screen so it opens like an app.</span>'+
+    (ui.hsGuide?'<ol class="hsguide">'+
+      '<li>Tap '+DOTS_SVG+' <b>(the three dots, bottom right)</b>. On older iPhones, skip to step 2.</li>'+
+      '<li>Tap '+SHARE_SVG+' <b>Share</b>, the box with an arrow pointing up.</li>'+
+      '<li>Scroll down and tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li>'+
+      '<li>Open <b>Secret Santa</b> from your home screen and tap <b>Bring my group over</b>. We\u2019ve already copied it for you.</li></ol>'
+      :'')+
+    '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide">'+(ui.hsGuide?"Hide steps":"Show me how")+'</button><button class="lnk" id="hsdone">Done, or not now</button></div></div>';
+}
+var canPick=!!(navigator.contacts&&window.ContactsManager);
+function intl(raw){
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
+  if(d.indexOf("+")===0)d=d.slice(1);
+  else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(c.cc&&c.trunk)d=c.cc+d.slice(1);else return "";}
+  else if(c.cc&&c.local&&c.local.test(d))d=c.cc+d;
+  else if(c.cc==="1"&&d.length===11&&d.charAt(0)==="1"){}
+  else if(!c.cc){if(d.length<11)return "";}
+  d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
+}
+function prettyNum(d){if(d.indexOf("353")===0)return "+353 "+d.slice(3,5)+" "+d.slice(5);if(d.indexOf("61")===0&&d.length===11)return "+61 "+d.slice(2,5)+" "+d.slice(5,8)+" "+d.slice(8);if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
+function validChat(){return /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/.test((S.chat||"").trim())}
+function addDays(d,n){var x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
+function nameOf(id){var p=S.people.find(function(p){return p.id===id});return p?p.name:""}
+
+/* ---------- organiser view ---------- */
+function syncDraw(){
+  if(!S.draw)return;
+  var ids=S.people.map(function(p){return p.id});
+  var stale=S.draw.ids.join()!==ids.join()||S.draw.rk!==JSON.stringify(S.rules);
+  if(!stale)return;
+  var anySent=Object.keys(S.draw.sent||{}).some(function(k){return S.draw.sent[k]})||Object.keys(S.draw.seen||{}).length>0;
+  if(anySent)return;
+  if(ids.length<3){S.draw=null;save();return}
+  var m=drawNames(ids,S.rules);
+  if(m){S.draw={pairs:m,at:Date.now(),sent:{},seen:{},posted:S.draw.posted||{},ids:ids,rk:JSON.stringify(S.rules)}}else{S.draw=null}
+  save();
+}
+function rOrganiser(){
+  syncDraw();
+  var h="";
+  if(ui.pend){h+='<section class="tag l"><div class="step"><div class="stamp">\u21BA</div><h2>Bring back <em>your group</em></h2></div><p class="small">This backup has <b>'+esc(ui.pend.group||"your group")+'</b> with '+ui.pend.people.length+' people. Restoring replaces what\u2019s on this phone'+(S.people.length?' (<b>'+esc(S.group||"current group")+'</b>, '+S.people.length+' people)':'')+'.</p><div class="row" style="margin-top:12px"><button class="btn sm pine" id="dorestore">Restore it</button><button class="lnk" id="norestore">Cancel</button></div></section>'}
+  if(isStandalone&&!S.people.length&&!S.group){
+    h+='<section class="tag r" style="border:2px solid var(--pine)"><div class="step"><div class="stamp" style="border-color:var(--pine);color:var(--pine)">\u2192</div><h2>Moving your group <em>over?</em></h2></div>'+
+     '<p class="small">Started in Safari? One tap brings everything across: names, numbers and the draw.</p>'+
+     '<button class="amz" id="bringover" style="background:var(--pine);color:#FCF7EC;margin-top:12px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Bring my group over</b></button>'+
+     '<p class="small" style="margin-top:8px">Starting fresh? Just carry on below.</p></section>';
+  }
+
+  h+='<section class="tag l"><div class="step"><div class="stamp">1</div><h2>The <em>group</em></h2></div>'+
+   '<div class="field"><span class="label">Group name</span><input id="f-group" placeholder="Office, family…" maxlength="40" value="'+esc(S.group)+'"></div>'+
+   '<div class="field"><span class="label">Country</span><select id="f-country" aria-label="Country" style="font-family:var(--type);font-size:15px;width:58%">'+Object.keys(CTRY).map(function(k){return'<option value="'+k+'"'+(S.country===k?" selected":"")+'>'+CTRY[k].n+'</option>'}).join("")+'</select></div>'+
+   '<div class="field"><span class="label">Budget</span><div class="money">'+(S.country==="XX"?'<select id="f-cur" aria-label="Currency">'+["£","$","€"].map(function(c){return'<option'+(S.cur===c?" selected":"")+'>'+c+'</option>'}).join("")+'</select>':'<span style="font-family:var(--hand);font-size:25px;color:var(--cran);align-self:flex-end">'+esc(C().cur)+'</span>')+'<input id="f-budget" inputmode="decimal" maxlength="6" value="'+esc(S.budget)+'" aria-label="Budget"></div></div>'+
+   '<div class="field"><span class="label">Swap day</span><input id="f-date" type="date" value="'+esc(S.date)+'"></div>'+
+   '<div class="field"><span class="label">Where</span><input id="f-place" placeholder="Mum’s, the pub…" maxlength="40" value="'+esc(S.place)+'"></div>'+
+   '<div class="field" style="display:block"><span class="label">A note from you (optional)</span><input id="f-note" placeholder="Wrap it nicely, no socks!" maxlength="90" value="'+esc(S.note)+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
+  '</section>';
+
+  h+='<section class="tag r"><div class="step"><div class="stamp">2</div><h2>Who’s <em>in</em></h2></div>';
+  if(!S.people.length)h+='<div class="empty">Add at least 3 names below.</div>';
+  S.people.forEach(function(p){
+    var open=ui.openHint===p.id;
+    var ph=intl(p.phone);
+    h+='<div class="person"><div class="grow"><span class="nm">'+esc(p.name)+'</span>'+
+      (!open&&p.phone?'<span class="hint"><span class="label" style="font-size:10px">Mobile</span> '+(ph?esc(prettyNum(ph)):'<span style="color:var(--cran)">Check this number: '+esc(p.phone)+'</span>')+'</span>':'')+
+      (p.hint&&!open?'<span class="hint">Hints: '+esc(p.hint)+'</span>':'')+
+      (open?'<input class="hintbox" style="min-height:0;font-family:var(--type)" type="tel" inputmode="tel" autocomplete="tel" data-phone="'+p.id+'" placeholder="Mobile number (optional)" value="'+esc(p.phone||"")+'" autocomplete="off">'+
+        '<textarea class="hintbox" data-hint="'+p.id+'" maxlength="200" placeholder="Sizes, likes, “no more mugs please”… Their Santa sees this.">'+esc(p.hint)+'</textarea>':'')+
+      '<button class="'+(open?"btn sm fill":"lnk")+'" style="'+(open?"margin-top:8px":"")+'" data-togglehint="'+p.id+'">'+(open?"Save":(p.hint||p.phone)?"Edit number & hints":"+ Add number & hints")+'</button></div>'+
+      '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
+  });
+  h+='<form class="add" id="addp"><input id="pname" placeholder="Name\u2026" maxlength="40" autocomplete="name" style="flex:1.2"><input id="pphone" type="tel" inputmode="tel" placeholder="Mobile" aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+   '<p class="label" style="margin-top:8px;text-transform:none;letter-spacing:.02em">'+(C().cc?esc(C().n)+' numbers (+'+C().cc+'). Wrong country? Change it in step 1.':'Type numbers with the country code, e.g. +33\u2026')+'</p>'+
+   (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
+   '<p class="small" style="margin-top:10px">Add their mobile and you can send each person their name on WhatsApp in one tap. Numbers stay on this phone. Gift hints are optional, and only whoever draws that person sees them.</p></section>';
+
+  h+='<section class="tag l"><div class="step"><div class="stamp">✉</div><h2>'+(validChat()?'Group <em>chat</em>':'Create <em>group chat</em>')+' <span class="label" style="font-size:10px">optional</span></h2></div>'+
+   (validChat()?
+     '<div class="chatok"><b>✔ Group chat linked</b><span>Everyone’s message will include the link to join.</span></div>'+
+     '<div class="row" style="margin-top:10px"><button class="btn sm" id="pastechat">Paste a different link</button><button class="lnk" id="clearchat" style="color:var(--cran)">Remove</button></div>'
+   :
+     '<p class="small">Running it in a WhatsApp group? Link it here and everyone’s private message will include an invite to join.</p>'+
+     '<a class="amz" href="whatsapp://" id="openwa" style="margin-top:12px;text-align:center;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px">Open WhatsApp &amp; create <b style="font-weight:700">Secret Santa \uD83C\uDF85</b> group</a>'+
+     '<p class="small" style="margin-top:10px">Then in the group tap its name \u2192 <b>Invite via link</b> \u2192 <b>Copy link</b>, and come back here.</p>'+
+     '<button class="amz" id="pastechat" style="background:var(--pine);color:#FCF7EC;margin-top:12px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Paste</b> my group chat link</button>'+
+     '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Or type it in</summary><input id="f-chat" placeholder="https://chat.whatsapp.com/…" value="'+esc(S.chat)+'" inputmode="url" autocomplete="off" class="hintbox" style="min-height:0;font-family:var(--type);font-size:14px"></details>'+
+     (S.chat?'<p class="note" style="margin-top:6px">That doesn’t look like a WhatsApp invite link. It should start https://chat.whatsapp.com/</p>':''))+
+  '</section>';
+  h+='<section class="tag l"><div class="step"><div class="stamp">3</div><h2>House <em>rules</em></h2></div>'+
+   '<p class="small">Anyone who shouldn’t draw each other? Couples usually. The rule works both ways.</p>';
+  S.rules.forEach(function(r,i){h+='<div class="rule"><span class="grow"><b>'+esc(nameOf(r[0]))+'</b> &amp; <b>'+esc(nameOf(r[1]))+'</b> can’t draw each other</span><button class="x" data-delr="'+i+'" aria-label="Remove rule">&times;</button></div>'});
+  if(S.people.length>=2){
+    var o=S.people.map(function(p){return'<option value="'+p.id+'">'+esc(p.name)+'</option>'}).join("");
+    h+='<form class="add" id="addr"><select id="ra" aria-label="Person one">'+o+'</select><span class="label" style="padding-bottom:8px">&amp;</span><select id="rb" aria-label="Person two">'+o.replace('<option ','<option ')+'</select><button class="btn sm">Add</button></form>';
+  }
+  h+='</section>';
+
+  var n=S.people.length;
+
+  h+='<section class="tag r"><div class="step"><div class="stamp">4</div><h2>Draw the <em>names</em></h2></div>';
+  if(!S.draw){
+    h+='<p class="small">Nobody sees who got who, not even you. Everyone gets their own private link.</p>'+
+     '<button class="btn fill big" id="drawbtn" style="margin-top:14px"'+(n<3?" disabled":"")+'>Draw names</button>'+
+     (n<3?'<p class="note" style="margin-top:8px">Need at least 3 people</p>':'');
+  }else{
+    var stale=S.draw.ids.join()!==S.people.map(function(p){return p.id}).join()||S.draw.rk!==JSON.stringify(S.rules);
+    if(stale){var missing=S.people.filter(function(p){return !S.draw.pairs[p.id]}).map(function(p){return p.name});
+      h+='<div class="warn"><b>The group has changed since you started sending links.</b> '+(missing.length?esc(missing.join(", "))+(missing.length===1?" isn\u2019t":" aren\u2019t")+' in the draw yet. ':'')+'Redraw to include everyone, then resend <b>all</b> the links (the old ones will point to the wrong people).<div class="row" style="margin-top:8px"><button class="btn sm fill" id="redraw2">Redraw everyone</button></div></div>';}
+    var sentN=S.people.filter(function(p){return S.draw.sent[p.id]}).length;
+    h+='<p class="small">Names drawn ✔ Now send everyone their private link, or use <b>pass the phone</b> if you’re all in the same room.</p>'+
+     '<p class="label" style="margin:12px 0 2px">'+sentN+' of '+n+' sent</p>';
+    S.people.forEach(function(p){
+      if(!S.draw.pairs[p.id])return;
+      h+='<div class="sendrow"><div class="top"><span class="nm">'+esc(p.name)+'’s link</span><span class="sent'+(S.draw.sent[p.id]?"":" no")+'">'+(S.draw.sent[p.id]?"Sent":"Not sent")+'</span></div>'+
+        '<div class="row"><button class="btn sm pine" data-send="wa" data-id="'+p.id+'">WhatsApp</button><button class="btn sm" data-send="sms" data-id="'+p.id+'">Text</button><button class="btn sm" data-send="mail" data-id="'+p.id+'">Email</button><button class="btn sm" data-send="copy" data-id="'+p.id+'">Copy</button></div></div>';
+    });
+    h+='<div class="row" style="margin-top:16px"><button class="btn fill" id="ptp">Pass the phone</button><button class="btn" id="slips">'+(ui.printWarn?"Print now":"Print name slips")+'</button><button class="btn" id="redraw" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to redraw":"Redraw")+'</button></div>'+
+     (ui.printWarn?'<p class="note" style="margin-top:8px">Not on WhatsApp? Print a slip for each person, cut them out and fold the bottom up so the name\u2019s hidden. Heads up: the print preview shows who got who, so look away or hand it to someone who isn\u2019t playing.</p>':'')+
+     '<p class="small" style="margin-top:12px">Redrawing makes everyone’s old links point to the wrong person, so only do it before you’ve sent them.</p>'+
+     '<div style="margin-top:16px;padding-top:12px;border-top:1.5px dashed var(--line)">'+
+     (ui.showAll?'<p class="label">Who’s buying for who</p>'+S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return '<div class="rule"><span class="grow"><b>'+esc(p.name)+'</b> → '+esc(nameOf(S.draw.pairs[p.id]))+'</span></div>'}).join("")+'<div class="row" style="margin-top:10px"><button class="btn sm" id="hideall">Hide the list</button></div>'
+       :'<button class="lnk" id="showall" style="color:var(--cran)">'+(ui.showConfirm?"Sure? Tap again to see everyone’s match":"I’m not taking part: show me the full list")+'</button><p class="small" style="margin-top:4px">Only for organisers who aren’t playing. It spoils the surprise if you are!</p>')+
+     '</div>';
+  }
+  h+='</section>';
+
+  if(S.draw){
+    var R3=[["announce","Names drawn: the announcement",null],["week","1 week to go",-7],["eve","The day before",-1],["day","On the day: Guess Your Santa",0]];
+    h+='<section class="tag r"><div class="step"><div class="stamp">5</div><h2>Keep it <em>going</em></h2></div>'+
+     '<p class="small">Ready-made messages for the group chat. Tap one, then pick your group in WhatsApp. None of them give away who got who.</p>';
+    R3.forEach(function(x){
+      var done=S.draw.posted&&S.draw.posted[x[0]];
+      var when=x[2]===null?"Send now":S.date?"Send "+fmtDate(addDays(S.date,x[2])):"Set a swap day";
+      h+='<div class="sendrow"><div class="top"><span class="nm" style="font-size:16px">'+x[1]+'</span><span class="sent'+(done?"":" no")+'">'+(done?"Posted":when)+'</span></div>'+
+        '<div class="row"><button class="btn sm pine" data-post="'+x[0]+'" data-via="wa">WhatsApp</button><button class="btn sm" data-post="'+x[0]+'" data-via="copy">Copy</button></div></div>';
+    });
+    if(validChat())h+='<div class="row" style="margin-top:12px"><a class="btn sm" href="'+esc(S.chat.trim())+'" target="_blank" rel="noopener">Open the group chat</a></div>';
+    h+='</section>';
+  }
+
+  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>Save my <em>page</em></h2></div>'+
+   '<p class="small">Everything saves on this phone as you go. To be extra secure, send yourself a backup link. Tap it any time and your whole group comes back.</p>'+
+   (canSave?'':'<p class="note" style="margin-top:8px">This browser isn\u2019t letting us save. Try Safari or Chrome, and not a private tab.</p>')+
+   '<div class="row" style="margin-top:12px"><button class="btn sm pine" id="bwa">Send me a backup link</button>'+(deferredInstall&&!isStandalone?'<button class="btn sm" id="installapp">Add to home screen</button>':'')+'</div>'+
+   homeStrip()+
+   '<details style="margin-top:10px"><summary class="small" style="cursor:pointer">Restore from a backup</summary><textarea class="copy" id="bin" placeholder="Paste your backup link or message here\u2026"></textarea>'+
+   '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button></div></details>'+
+   '<p class="small" style="margin-top:12px">Each link only shows that person who they\u2019re buying for. Don\u2019t open other people\u2019s links yourself, or you\u2019ll spoil it!</p>'+
+   '<div class="row" style="margin-top:12px"><button class="btn sm" id="newgroup">'+(ui.newg?"Tap again to start over":"Start a new group")+'</button></div></section>';
+  return h;
+}
+
+/* ---------- reveal view ---------- */
+var R=null,RK=null,G=null,gi=0,order=null;
+function rReveal(){
+  var d=daysTo(R.d);
+  var bu="";if(ui.burst){var cols=["var(--gold)","var(--cran)","var(--pine)","var(--gold)"],gl=["\u2605","\u2726","\u2605","\u2727","\u2022"];
+    for(var bi=0;bi<26;bi++){var an=bi/26*6.283+Math.random()*.3,ds=110+Math.random()*90;bu+='<i style="--x:'+Math.round(Math.cos(an)*ds)+'px;--y:'+Math.round(Math.sin(an)*ds*.8)+'px;--r:'+Math.round(Math.random()*360-180)+'deg;--s:'+(12+Math.round(Math.random()*16))+'px;--c:'+cols[bi%4]+';--d:'+(.35+Math.random()*.25).toFixed(2)+'s">'+gl[bi%5]+'</i>'}bu='<div class="burst">'+bu+'</div>'}
+  var h='<div class="reveal '+(G.opened?"unsealed":"sealed")+(ui.burst?" justopen":"")+'">'+
+   '<div class="closed"><div class="bigtag"><div class="hole"></div><div class="label">Secret Santa · '+esc(R.g)+'</div><div class="forwho" style="margin-top:14px">For</div><div class="who" style="color:var(--pine)">'+esc(R.n)+'</div><div class="forwho">eyes only</div></div>'+
+     '<p class="small" style="margin:10px 0 16px">Not '+esc(R.n)+'? Close this now, no peeking!</p><button class="btn fill big" id="openit">Open my tag</button></div>'+
+   '<div class="opened"><div class="bigtag"><div class="hole"></div><div class="label">'+esc(R.n)+', you’re buying for</div><div class="who">'+esc(R.r)+'</div><div class="forwho">shh, it’s a secret</div></div>'+bu+'</div></div>';
+  if(!G.opened)return h;
+  h+='<section class="tag l"><div class="step"><div class="stamp">★</div><h2>The <em>details</em></h2></div><div class="facts">'+
+    '<div><span class="label">Budget</span><b>'+esc((R.c||"")+(R.b||"–"))+'</b></div>'+
+    '<div><span class="label">Swap day</span><b>'+esc(R.d?fmtDate(R.d):"TBC")+'</b></div></div>'+
+    (R.p?'<p style="margin-top:10px"><span class="label">Where</span><br>'+esc(R.p)+'</p>':'')+
+    (d!=null&&d>0?'<p class="note" style="margin-top:10px">'+d+' day'+(d===1?"":"s")+' to go!</p>':'')+
+    (R.m?'<p style="margin-top:10px"><span class="label">From the organiser</span><br><span style="font-style:italic">“'+esc(R.m)+'”</span></p>':'')+'</section>';
+  if(R.h)h+='<section class="tag r"><div class="step"><div class="stamp">!</div><h2>'+esc(R.r)+'’s <em>hints</em></h2></div><p style="white-space:pre-line">'+esc(R.h)+'</p></section>';
+  if(!G.age){G.age=detectAge(R.h);G.ints=detectInts(R.h);store(RK,G)}
+  var list=poolFor(R.b,G.ints,G.age);if(!order||order.length!==list.length)order=shuffle(list.map(function(_,i){return i}));
+  var avail=INTS.filter(function(x){return LIB[G.age]&&LIB[G.age][x[0]]});
+  var cur=list[order[gi%order.length]],fu=findBtn(cur)?findUrl(cur):"";
+  if(ui.refine===undefined)ui.refine=false;
+  var ageLbl={kid:"A kid",teen:"A teen",adult:"A grown-up"}[G.age];
+  var intLbl=(G.ints||[]).map(function(k){var f=INTS.find(function(x){return x[0]===k});return f?f[1]:""}).filter(Boolean);
+  h+='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Gift <em>ideas</em> for '+esc(R.r)+'</h2></div>'+
+   '<div class="ideabox"><div class="label">Idea '+((gi%order.length)+1)+' of '+order.length+' · around '+esc((R.c||"")+(R.b||""))+'</div>'+
+     '<div class="idea2">'+esc(cur)+'</div>'+
+     (fu?'<a class="amz" href="'+esc(fu)+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>':'<button class="amz" id="keepidea2">Save this idea →</button>')+
+     '<div class="row" style="justify-content:center;margin-top:12px"><button class="btn sm" id="nextidea">↻ Another idea</button>'+(fu?'<button class="btn sm" id="keepidea">Save this one</button>':'')+'</div>'+
+   '</div>'+
+   '<button class="refine'+(ui.refine?' open':'')+'" id="refine"><b>'+(ui.refine?"▴":"▾")+'</b><span class="rt">Help me choose for '+esc(R.r)+'</span><span class="rs">'+esc(ageLbl)+(intLbl.length?' · '+esc(intLbl.join(", ")):' · tap to tell us what they’re into')+'</span></button>'+
+   (ui.refine?'<div style="margin-top:10px"><div class="seg" style="margin:0 0 12px">'+[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(function(x){return'<button data-age="'+x[0]+'" class="'+(G.age===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
+     '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
+     (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'’s hints. Change them if you like.</p>':'')+'</div>':'')+
+   (fu?AMZ_NOTE:'')+'</section>';
+  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="whatsapp://chat?code='+esc(R.w.split("/").pop())+'">Join on WhatsApp</a></div><p class="small" style="margin-top:8px">No WhatsApp app? <a href="'+esc(R.w)+'" style="color:var(--cran)">Open it in the browser</a></p></section>';
+  h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
+   '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
+   (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
+   [["bought","Bought it"],["wrapped","Wrapped it"],["tag","Written the tag (“From Santa”)"]].map(function(x){return'<div class="item'+(G[x[0]]?" done":"")+'" data-g="'+x[0]+'"><div class="box"></div><span>'+x[1]+'</span></div>'}).join("")+
+   (G.bought?'<div class="row" style="margin-top:12px"><button class="btn pine" id="tellgroup">Tell the group I\u2019m sorted</button></div><p class="small" style="margin-top:6px">Posts \u201cI\u2019m sorted\u201d to the group chat. No clues about who you got.</p>':'')+
+   '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
+  return h;
+}
+
+/* ---------- pass the phone ---------- */
+var pt={who:null,shown:false};
+function rPass(){
+  var h='<div class="step" style="border:0"><div class="stamp">☺</div><h2>Pass the <em>phone</em></h2></div>';
+  if(!pt.who){
+    h+='<p class="small">Hand the phone round. Each person taps their own name, looks, then hides it again.</p><div class="ptgrid">'+
+    S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){return'<button data-pt="'+p.id+'" class="'+(S.draw.seen&&S.draw.seen[p.id]?"done":"")+'">'+esc(p.name)+'</button>'}).join("")+
+    '</div><div class="row" style="margin-top:16px"><button class="btn" id="ptclose">Close</button></div>';
+  }else if(!pt.shown){
+    h+='<p style="font-size:20px;margin:10px 0">Is this <b>'+esc(nameOf(pt.who))+'</b>? Make sure nobody’s looking.</p><div class="row"><button class="btn fill" id="ptshow">Show me</button><button class="btn" id="ptback">Not me</button></div>';
+  }else{
+    h+='<div style="text-align:center"><span class="label">You’re buying for</span><div class="who">'+esc(nameOf(S.draw.pairs[pt.who]))+'</div><p class="small">Budget '+esc(money())+(S.date?' · '+esc(fmtDate(S.date)):'')+'</p>'+
+    (function(){var r=S.people.find(function(p){return p.id===S.draw.pairs[pt.who]});return r&&r.hint?'<p class="small" style="margin-top:6px">Hints: '+esc(r.hint)+'</p>':''})()+
+    '<button class="btn fill big" id="pthide" style="margin-top:18px">Got it, hide it</button></div>';
+  }
+  return h;
+}
+function openOv(){$("#ovc").innerHTML=rPass();$("#ov").classList.add("open")}
+function closeOv(){$("#ov").classList.remove("open");pt={who:null,shown:false};render()}
+
+/* ---------- render ---------- */
+var HELP=[
+ [/^The group$/,"Give it a name, pick your country (that sets the currency and how phone numbers work), the budget per gift, the swap day and where. Everyone sees these on their tag."],
+ [/^Who.s in$/,"Add everyone taking part, including you if you’re playing. A mobile number makes the WhatsApp and Text buttons go straight to that person. Gift hints are optional, and only their Santa sees them."],
+ [/^House rules$/,"Stop certain people drawing each other, usually couples or people who live together. Pick two names and tap Add. It works both ways."],
+ [/group chat/i,"Optional. Got a WhatsApp group for this? Paste its invite link here and everyone’s message will include it. In WhatsApp: tap the group name → Invite via link → Copy link."],
+ [/^Draw the names$/,"Tap Draw names and the app secretly decides who buys for who. Then send each person their own link. Each link only shows that person who they’ve got. All in one room? Use Pass the phone instead."],
+ [/^Keep it going$/,"Ready-made messages for your group chat: the announcement, a one-week reminder, a nudge the day before, and a game for the day itself. Tap WhatsApp, pick your group, send."],
+ [/^Save my page$/,"Your group lives on this phone. Send yourself a backup link on WhatsApp. If anything goes wrong, or you change phone, just tap the link and it all comes back."],
+ [/^The details$/,"The important bits: how much to spend, when the swap is, and where."],
+ [/hints$/,"Clues from the organiser about the person you’re buying for. Use them!"],
+ [/^Gift ideas/,"Ideas that fit the budget. Tap Help me choose to tell us their age and what they’re into for better ideas. Find it on Amazon searches for it; Save this one pops it into My gift."],
+ [/^The group chat$/,"Join the Secret Santa WhatsApp group for reminders and banter. Just don’t give away who you got!"],
+ [/^My gift$/,"Keep track of your present: write what you’re getting and tick things off. Once it’s bought, let the group know you’re sorted (no clues!)."]
+];
+function addHelp(root){
+  (root||document).querySelectorAll(".step").forEach(function(st){
+    if(st.querySelector(".helpq"))return;var h2=st.querySelector("h2");if(!h2)return;var txt=h2.textContent.trim();
+    for(var i=0;i<HELP.length;i++){if(HELP[i][0].test(txt)){var b=document.createElement("button");b.className="helpq";b.setAttribute("aria-label","How this works");b.dataset.help=i;b.textContent="?";st.appendChild(b);break}}
+  });
+}
+function toggleHelp(btn){
+  var st=btn.closest(".step"),nx=st.nextElementSibling;
+  if(nx&&nx.classList.contains("helpbox")){nx.remove();btn.classList.remove("on");return}
+  var p=document.createElement("p");p.className="helpbox";p.textContent=HELP[+btn.dataset.help][1];st.parentNode.insertBefore(p,st.nextSibling);btn.classList.add("on");
+}
+function render(){
+  if(R){
+    $("#kicker").textContent=R.g||"Secret Santa";$("#subline").textContent="your private tag";
+    $("#main").innerHTML=rReveal();
+    $("#foot").innerHTML='Organising your own? <a href="'+SHOP+'" target="_blank" rel="noopener">Get the organiser</a><br><br>Made with love by BrightBlueprintCo';
+  }else{
+    $("#main").innerHTML=rOrganiser();
+    var rb=$("#rb");if(rb&&rb.options.length>1)rb.selectedIndex=1;
+  }
+  addHelp(document.getElementById("main"));
+}
+
+/* ---------- sending ---------- */
+function post(kind){
+  var g=S.group?": "+S.group:"",d=S.date?fmtDate(S.date):"TBC";
+  var T={
+    announce:"\uD83C\uDF85 Secret Santa"+g+"\n\nNames are drawn! Everyone's been sent their own private link. Open yours on your own, no peeking \uD83E\uDD2B\n\n\uD83C\uDF81 Budget: "+money()+"\n\uD83D\uDCC5 Swap day: "+d+(S.place?"\n\uD83D\uDCCD Where: "+S.place:"")+(S.note?"\n\n"+S.note:"")+"\n\nStick to the budget, wrap it, tag it \"From: Santa\", and tell NOBODY who you got.",
+    week:"\u23F0 One week until Secret Santa"+g+"!\n\nBought yours yet? \uD83D\uDC40 Budget's "+money()+".\n\nLost your link? Message me and I'll send it again.",
+    eve:"\uD83C\uDF84 Secret Santa is TOMORROW!\n\nBring your gift wrapped and tagged \"From: Santa\""+(S.place?"\n\uD83D\uDCCD "+S.place:"")+"\n\nNo handwriting clues \uD83D\uDE09",
+    day:"\uD83C\uDF85 It's Secret Santa day!\n\nBefore anything gets opened: everyone guess who YOUR Santa is. Write it down or shout it out.\n\nMost right guesses wins \uD83C\uDFC6"
+  };
+  return T[kind];
+}
+function msg(id){
+  var p=S.people.find(function(x){return x.id===id});
+  var first=p.name.trim().split(/\s+/)[0];
+  return "🎅🎄 Secret Santa"+(S.group?": "+S.group:"")+"! 🎄🎅\n\n"+
+    "Hi "+first+" 👋 Names have been drawn and here's YOUR private link 🤫\n\n"+
+    "👇 Open it on your own, no peeking 👀\n"+link(id)+"\n\n"+
+    "🎁 Budget: "+money()+
+    (S.date?"\n📅 Swap day: "+fmtDate(S.date):"")+
+    (S.place?"\n📍 Where: "+S.place:"")+
+    (validChat()?"\n\n💬 Join the Secret Santa group chat:\nhttps://chat.whatsapp.com/"+chatCode(S.chat):"")+
+    "\n\nHo ho ho! ✨";
+}
+
+function markSent(id){S.draw.sent[id]=true;save();render()}
+function send(kind,id){
+  var m=msg(id),p=S.people.find(function(x){return x.id===id});
+  if(kind==="copy"){
+    var done=function(){toast("Copied! Paste it to "+p.name);markSent(id)};
+    try{navigator.clipboard.writeText(m).then(done,function(){fallback(m,id)})}catch(e){fallback(m,id)}
+    return;
+  }
+  var num=intl(p.phone);
+  if(kind==="wa"){S.draw.sent[id]=true;save();openWA(num,m);return}
+  var url=kind==="sms"?"sms:"+(num?"+"+num:"")+"&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" \u2013 "+S.group:""))+"&body="+encodeURIComponent(m);
+  var a=document.createElement("a");a.href=url;a.target="_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+  markSent(id);
+}
+function groupCard(stage){
+  var g=ui.grp;
+  $("#ovc").innerHTML=(stage==="ready"?
+    '<div class="step"><div class="stamp">✉</div><h2>Tell your <em>group</em></h2></div>'+
+    '<p style="font-size:16px">Here’s your message. Tap below and we’ll copy it and open your Secret Santa group. Then just <b>paste and send.</b></p>'+
+    '<textarea class="copy" readonly>'+esc(g.text)+'</textarea>'+
+    '<button class="amz" id="postgroup" style="margin-top:14px;text-transform:none;letter-spacing:0;font-family:var(--serif);font-weight:400;font-size:19px"><b style="font-weight:700">Paste</b> this in my group chat →</button>'+
+    '<div class="row" style="justify-content:center;margin-top:10px"><button class="btn sm" id="fbdone">Not now</button></div>'
+   :'<div class="step"><div class="stamp">✔</div><h2>Now <em>paste &amp; send</em></h2></div>'+
+    '<p style="font-size:16px">Your message is copied. In the group, <b>tap the message box → Paste → Send.</b></p>'+
+    '<p class="small" style="margin-top:8px">Didn’t open? <a href="https://chat.whatsapp.com/'+esc(g.code)+'" target="_blank" rel="noopener" style="color:var(--cran)">Open the group</a> or <a href="#" id="pickchat" style="color:var(--cran)">pick the chat instead</a>.</p>'+
+    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done</button></div>');
+  $("#ov").classList.add("open");
+}
+function openGroup(code,text){
+  if(!code){openWA("",text);return}
+  ui.grp={code:code,text:text};ui.lastText=text;groupCard("ready");
+}
+function postGroup(){
+  var g=ui.grp;if(!g)return;
+  try{navigator.clipboard.writeText(g.text).catch(function(){})}catch(e){}
+  groupCard("sent");
+  window.location.href="whatsapp://chat?code="+g.code;
+}
+function openWA(num,text){
+  var q=encodeURIComponent(text);
+  var app="whatsapp://send?"+(num?"phone="+num+"&":"")+"text="+q;
+  var web="https://wa.me/"+(num||"")+"?text="+q;
+  $("#ovc").innerHTML='<div class="step"><div class="stamp">\u2709</div><h2>Opening <em>WhatsApp</em>\u2026</h2></div>'+
+    '<p class="small">'+(num?'It should open their chat with the message ready. Just tap send.':'Pick the chat or group, and the message will be ready. Just tap send.')+'</p>'+
+    '<p class="small" style="margin-top:8px">Nothing happened? <a href="'+web+'" target="_blank" rel="noopener" style="color:var(--cran)">Try WhatsApp Web instead</a>, or use the Copy button.</p>'+
+    '<div class="row" style="margin-top:14px"><button class="btn fill" id="fbdone">Done, next</button></div>';
+  $("#ov").classList.add("open");
+  window.location.href=app;
+}
+function fallback(m,id){
+  $("#ovc").innerHTML='<div class="step"><div class="stamp">✉</div><h2>Copy this <em>message</em></h2></div><p class="small">Select it all and copy, then paste it to them.</p><textarea class="copy" readonly>'+esc(m)+'</textarea><div class="row" style="margin-top:12px"><button class="btn fill" id="fbdone">Done</button></div>';
+  $("#ov").classList.add("open");if(id)S.draw.sent[id]=true;save();
+}
+
+/* ---------- events ---------- */
+var main=$("#main");
+main.addEventListener("input",function(e){
+  var t=e.target,id=t.id;
+  if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}return}
+  var map={"f-chat":"chat","f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
+  if(map[id]){S[map[id]]=t.value;save()}
+  if(t.dataset.phone){var pp=S.people.find(function(x){return x.id===t.dataset.phone});if(pp){pp.phone=t.value.trim();save()}}
+  if(t.dataset.hint){var p=S.people.find(function(x){return x.id===t.dataset.hint});if(p){p.hint=t.value;save()}}
+});
+main.addEventListener("change",function(e){if(e.target.id==="f-country"){S.country=e.target.value;S.countrySet=true;if(C().cur)S.cur=C().cur;save();render();toast("Set to "+C().n+": numbers and Amazon links updated")}if(e.target.id==="f-cur"){S.cur=e.target.value;save()}if(e.target.id==="f-chat"){S.chat=e.target.value.trim();save();render()}});
+main.addEventListener("submit",function(e){
+  e.preventDefault();var f=e.target;
+  if(f.id==="addp"){var n=$("#pname").value.trim();if(!n)return;
+    if(S.people.some(function(p){return p.name.toLowerCase()===n.toLowerCase()})){toast("Already on the list. Add a surname or initial");return}
+    if(S.people.length>=60){toast("That’s a big group! Max 60");return}
+    var pn=($("#pphone").value||"").trim();if(pn&&!intl(pn))toast(S.cur==="£"?"Added, but check that number":"Added. Use the full international number, e.g. +1\u2026");
+    S.people.push({id:uid(),name:n,hint:"",phone:pn});save();render();$("#pname").focus()}
+  if(f.id==="addr"){var a=$("#ra").value,b=$("#rb").value;if(a===b){toast("Pick two different people");return}
+    if(banned(S.rules,a,b)){toast("That rule’s already there");return}
+    S.rules.push([a,b]);
+    var test=drawNames(S.people.map(function(p){return p.id}),S.rules);
+    if(!test&&S.people.length>=3){S.rules.pop();toast("Too many rules. Nobody could be drawn. Remove one first");return}
+    save();render()}
+});
+main.addEventListener("click",function(e){
+  var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
+  if(ds.help!==undefined){toggleHelp(t);return}
+  if(R){
+    if(t.id==="openit"){G.opened=true;store(RK,G);ui.burst=true;render();ui.burst=false;window.scrollTo(0,0)}
+    else if(t.id==="nextidea"){gi++;render()}
+    else if(t.id==="refine"){ui.refine=!ui.refine;render()}
+    else if(t.id==="keepidea2"){var l2=poolFor(R.b,G.ints,G.age);G.idea=l2[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
+    else if(t.id==="tellgroup"){var tm="\uD83C\uDF81 Secret Santa update: I\u2019m sorted! Gift bought"+(G.wrapped?" and wrapped":"")+" \u2705\n\nNo clues though \uD83D\uDE09";openGroup(R.w?chatCode(R.w):"",tm)}
+    else if(t.id==="keepidea"){var list=poolFor(R.b,G.ints,G.age);G.idea=list[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
+    else if(ds.age){G.age=ds.age;G.ints=(G.ints||[]).filter(function(k){return LIB[G.age][k]});store(RK,G);order=null;gi=0;render()}
+    else if(ds.int){G.ints=G.ints||[];var ix=G.ints.indexOf(ds.int);if(ix>=0)G.ints.splice(ix,1);else G.ints.push(ds.int);store(RK,G);order=null;gi=0;render()}
+    else if(ds.g){G[ds.g]=!G[ds.g];store(RK,G);render()}
+    return;
+  }
+  if(ds.togglehint){var closing=ui.openHint===ds.togglehint;ui.openHint=closing?null:ds.togglehint;if(closing)save();render();if(!closing){var tb=document.querySelector('[data-phone="'+ds.togglehint+'"]');if(tb)tb.focus()}return}
+  if(ds.delp){S.people=S.people.filter(function(p){return p.id!==ds.delp});S.rules=S.rules.filter(function(r){return r[0]!==ds.delp&&r[1]!==ds.delp});save();render();return}
+  if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
+  if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
+    if(ds.via==="copy"){try{navigator.clipboard.writeText(m).then(function(){toast("Copied. Paste it in the group");S.draw.posted[ds.post]=true;save();render()},function(){fallback(m,null)})}catch(err){fallback(m,null)}return}
+    S.draw.posted[ds.post]=true;save();openGroup(validChat()?chatCode(S.chat):"",m);return}
+  if(ds.send){send(ds.send,ds.id);return}
+  switch(t.id){
+    case "redraw2":S.draw=null;save();var ids2=S.people.map(function(p){return p.id});var m2=drawNames(ids2,S.rules);
+      if(!m2){toast("Can\u2019t make a fair draw with these rules. Remove one");render();break}
+      S.draw={pairs:m2,at:Date.now(),sent:{},seen:{},ids:ids2,rk:JSON.stringify(S.rules)};save();render();toast("Redrawn. Send everyone their new link");break;
+    case "drawbtn":
+      var ids=S.people.map(function(p){return p.id});var m=drawNames(ids,S.rules);
+      if(!m){toast("Can’t make a fair draw with these rules. Remove one");return}
+      S.draw={pairs:m,at:Date.now(),sent:{},seen:{},ids:ids,rk:JSON.stringify(S.rules)};save();render();toast("Names drawn! Nobody’s seen them");break;
+    case "redraw":
+      if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(!R)render()},4000)}else{ui.wipe=false;S.draw=null;save();render();toast("Draw cleared. Draw again when ready")}break;
+    case "ptp":openOv();break;
+    case "pastechat":
+      try{navigator.clipboard.readText().then(function(tx){tx=(tx||"").trim();var m=tx.match(/https:\/\/chat\.whatsapp\.com\/\S+/);
+        if(m){S.chat=m[0];save();render();toast("Group chat linked ✔")}else{toast("No group link copied yet. Copy it from WhatsApp first")}},function(){toast("Couldn’t paste. Use “Or type it in”")})}catch(err){toast("Couldn’t paste. Use “Or type it in”")}
+      break;
+    case "clearchat":S.chat="";save();render();break;
+    case "showall":if(!ui.showConfirm){ui.showConfirm=true;render();setTimeout(function(){ui.showConfirm=false;if(!R&&!ui.showAll)render()},4000)}else{ui.showConfirm=false;ui.showAll=true;render()}break;
+    case "hideall":ui.showAll=false;render();break;
+    case "hsdone":S.hsDone=true;save();render();break;
+    case "hsguide":ui.hsGuide=!ui.hsGuide;if(ui.hsGuide){try{navigator.clipboard.writeText(backupCode()).catch(function(){})}catch(err){}}render();break;
+    case "bringover":
+      try{navigator.clipboard.readText().then(function(tx){var m=(tx||"").match(/SS1:[A-Za-z0-9+\/=]+/);if(!m){toast("Nothing to bring over. Open the Safari version and tap Show me how again");return}
+        try{var obj=JSON.parse(decodeURIComponent(escape(atob(m[0].slice(4)))));if(!obj||!Array.isArray(obj.people))throw 0;S=obj;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}S.hsDone=true;save();render();window.scrollTo(0,0);toast("Your group is here \u2714")}catch(err){toast("That didn\u2019t work. Try Restore at the bottom")}},function(){toast("Couldn\u2019t paste. Try Restore at the bottom")})}catch(err){toast("Couldn\u2019t paste. Try Restore at the bottom")}
+      break;
+    case "installapp":if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.then(function(r){if(r&&r.outcome==="accepted"){S.hsDone=true;save()}deferredInstall=null;render()})}break;
+    case "bskip":S.backedUp=true;save();render();break;
+    case "bcopy":var bc=backupCode();
+      try{navigator.clipboard.writeText(bc).then(function(){toast("Backup code copied. Send it to yourself")},function(){fallback(bc,null)})}catch(err){fallback(bc,null)}break;
+    case "bwa":S.backedUp=true;save();var bl=backupLink();try{navigator.clipboard.writeText(bl).catch(function(){})}catch(err){}
+      openWA("","My Secret Santa backup"+(S.group?" ("+S.group+")":"")+". Tap to bring my group back:\n"+bl);break;
+    case "brestore":var ob2=readBackup($("#bin").value);
+      if(ob2){applyBackup(ob2);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}else toast("That didn\u2019t work. Copy the whole backup message and try again");break;
+    case "slips":if(!ui.printWarn){ui.printWarn=true;render();break}
+      var sh=S.people.filter(function(p){return S.draw.pairs[p.id]}).map(function(p){var r=S.people.find(function(x){return x.id===S.draw.pairs[p.id]})||{};
+        var det=[money()?money()+" budget":"",S.date?fmtDate(S.date):"",S.place||""].filter(Boolean).join(" \u00b7 ");
+        return '<div class="slip"><div class="top"><span class="k">Secret Santa'+(S.group?" \u00b7 "+esc(S.group):"")+'</span><span class="nm">'+esc(p.name)+'</span><span class="sm">Open when no one\u2019s looking</span></div>'+
+          '<div class="mid">\u2702 fold the bottom up along this line</div>'+
+          '<div class="bot"><span class="k">You\u2019re buying for</span><span class="nm">'+esc(r.name||"")+'</span>'+(r.hint?'<span class="h">\u201c'+esc(r.hint.slice(0,90))+'\u201d</span>':'')+(det?'<span class="sm" style="margin-top:1mm">'+esc(det)+'</span>':'')+'</div></div>'}).join("");
+      $("#slipsheet").innerHTML=sh;ui.printWarn=false;render();setTimeout(function(){window.print()},50);break;
+    case "dorestore":if(ui.pend){applyBackup(ui.pend);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}break;
+    case "norestore":ui.pend=null;render();break;
+    case "pickc":
+      try{navigator.contacts.select(["name","tel"],{multiple:true}).then(function(list){var added=0;(list||[]).forEach(function(c){var nm=(c.name&&c.name[0]||"").trim();if(!nm||S.people.length>=60)return;if(S.people.some(function(p){return p.name.toLowerCase()===nm.toLowerCase()}))return;S.people.push({id:uid(),name:nm,hint:"",phone:(c.tel&&c.tel[0])||""});added++});save();render();if(added)toast("Added "+added+" from contacts")}).catch(function(){toast("Contacts not available here")})}catch(err){toast("Contacts not available here")}
+      break;
+    case "newgroup":
+      if(!ui.newg){ui.newg=true;render();setTimeout(function(){ui.newg=false;if(!R)render()},4000)}else{ui.newg=false;S=defaults();save();render();window.scrollTo(0,0)}break;
+  }
+});
+$("#ov").addEventListener("click",function(e){
+  if(e.target.id==="pickchat"){e.preventDefault();var tx=ui.lastText||"";closeOv();openWA("",tx);return}
+  var t=e.target.closest("button");if(e.target.id==="ov"){if(!pt.shown)closeOv();return}if(!t)return;
+  if(t.dataset.pt){pt.who=t.dataset.pt;pt.shown=false;openOv();return}
+  switch(t.id){
+    case "postgroup":postGroup();break;
+    case "ptclose":case "fbdone":closeOv();break;
+    case "ptback":pt.who=null;openOv();break;
+    case "ptshow":pt.shown=true;openOv();break;
+    case "pthide":S.draw.seen=S.draw.seen||{};S.draw.seen[pt.who]=true;save();pt={who:null,shown:false};openOv();break;
+  }
+});
+
+/* ---------- boot ---------- */
+function boot(){
+  var hsh=location.hash.slice(1);R=null;
+  if(TAG_ONLY&&(!hsh||hsh.charAt(0)==="r")){
+    if(hsh||(S.people&&S.people.length)){location.replace(orgBase()+(hsh?"#"+hsh:""));return}
+    $("#kicker").textContent="Secret Santa";$("#subline").textContent="your private tag";
+    $("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>Looking for <em>your tag?</em></h2></div><p class="small">Your organiser sends everyone their own private link. Open that one and your name tag is waiting.</p></section>'+
+     '<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>Run your <em>own</em></h2></div><p class="small">Draw names in seconds, send everyone a private link on WhatsApp, and get gift ideas that fit the budget.</p><a class="amz" href="'+SHOP+'" target="_blank" rel="noopener" style="margin-top:12px;text-align:center">Get the organiser \u2192</a></section>';
+    $("#foot").innerHTML='Made with love by BrightBlueprintCo';return}
+  if(hsh.charAt(0)==="r"){var ob=readBackup("#"+hsh);try{history.replaceState(null,"",location.pathname)}catch(e){}
+    if(ob){if(!S.people.length){applyBackup(ob);render();toast("Restored! Welcome back");return}ui.pend=ob;render();window.scrollTo(0,0);return}
+    $("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>That backup link\u2019s <em>broken</em></h2></div><p class="small">Part of it may have been cut off. Copy the whole message and paste it into Restore on the Save my page card.</p></section>';return}
+  if(hsh){try{R=hsh.charAt(0)==="~"?dec2(hsh):dec(hsh);if(!R||!R.n||!R.r)R=null}catch(e){R=null}
+    if(R){RK="bbco-ss-gift-"+hash(hsh);G=load(RK)||{opened:false};gi=0;order=null}
+    else{$("#main").innerHTML='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Hmm, that link’s <em>broken</em></h2></div><p class="small">Part of it may have been cut off when it was copied. Ask your organiser to send it again.</p></section>';return}
+  }
+  render();
+}
+window.addEventListener("hashchange",boot);
+boot();
+})();
+</script>
+</body>
+</html>
