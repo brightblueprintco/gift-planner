@@ -118,6 +118,12 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:255px 18px 225px 18px/18px 225px 18px 255px;overflow:hidden}
 .seg button{border:0;background:transparent;padding:7px 12px;font-family:var(--type);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;color:var(--ink)}
 .seg button.on{background:var(--ink);color:var(--card)}
+.ideabox{background:#FFFDF8;border:1.5px solid var(--line);border-top:7px solid var(--cran);border-radius:4px;padding:16px 16px 18px;text-align:center;margin:4px 0 14px;box-shadow:0 8px 16px -12px rgba(51,38,29,.5)}
+.idea2{font-family:var(--serif);font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 72;font-size:30px;line-height:1.15;color:var(--ink);margin:10px 0 16px}
+.amz{display:block;width:100%;background:var(--gold);color:#2A1E14;border:0;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:16px 12px;font-family:var(--type);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;box-shadow:0 6px 12px -6px rgba(120,80,20,.7)}
+.amz:active{transform:translateY(1px)}
+.refine{display:block;width:100%;text-align:left;background:transparent;border:1.3px dashed var(--line);border-radius:4px;padding:10px 12px;font-size:14px;color:var(--ink);cursor:pointer}
+.refine b{float:right;color:var(--pine)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipb{border:1.3px solid var(--line);background:#fffdf7;border-radius:14px 4px 14px 4px;padding:6px 10px;font-family:var(--type);font-size:12px;color:var(--ink);cursor:pointer}
 .chipb.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
@@ -383,13 +389,21 @@ function rReveal(){
   if(!G.age){G.age=detectAge(R.h);G.ints=detectInts(R.h);store(RK,G)}
   var list=poolFor(R.b,G.ints,G.age);if(!order||order.length!==list.length)order=shuffle(list.map(function(_,i){return i}));
   var avail=INTS.filter(function(x){return LIB[G.age]&&LIB[G.age][x[0]]});
+  var cur=list[order[gi%order.length]],fu=findBtn(cur)?findUrl(cur):"";
+  if(ui.refine===undefined)ui.refine=!(G.ints&&G.ints.length);
+  var ageLbl={kid:"A kid",teen:"A teen",adult:"A grown-up"}[G.age];
+  var intLbl=(G.ints||[]).map(function(k){var f=INTS.find(function(x){return x[0]===k});return f?f[1]:""}).filter(Boolean);
   h+='<section class="tag l"><div class="step"><div class="stamp">?</div><h2>Gift <em>ideas</em> for '+esc(R.r)+'</h2></div>'+
-   '<p class="label">They\u2019re</p><div class="seg" style="margin:6px 0 12px">'+[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(function(x){return'<button data-age="'+x[0]+'" class="'+(G.age===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
-   '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
-   (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'\u2019s hints. Change them if you like.</p>':'')+
-   '<p class="label" style="margin-top:14px">Idea '+((gi%order.length)+1)+' of '+order.length+' \u00b7 around '+esc((R.c||"")+(R.b||""))+'</p>'+
-   '<div class="idea">'+esc(list[order[gi%order.length]])+'</div><div class="row"><button class="btn fill" id="nextidea">Another idea</button><button class="btn" id="keepidea">Use this one</button></div>'+
-   (findBtn(list[order[gi%order.length]])?'<div class="row" style="margin-top:10px">'+findBtn(list[order[gi%order.length]],"sm")+'</div>'+AMZ_NOTE:'')+'</section>';
+   '<div class="ideabox"><div class="label">Idea '+((gi%order.length)+1)+' of '+order.length+' · around '+esc((R.c||"")+(R.b||""))+'</div>'+
+     '<div class="idea2">'+esc(cur)+'</div>'+
+     (fu?'<a class="amz" href="'+esc(fu)+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>':'<button class="amz" id="keepidea2">Save this idea →</button>')+
+     '<div class="row" style="justify-content:center;margin-top:12px"><button class="btn sm" id="nextidea">↻ Another idea</button>'+(fu?'<button class="btn sm" id="keepidea">Save this one</button>':'')+'</div>'+
+   '</div>'+
+   '<button class="refine" id="refine"><span class="label" style="color:var(--pine)">Tailor ideas</span><br><span>'+esc(ageLbl)+(intLbl.length?' · '+esc(intLbl.join(", ")):' · tap to add what they’re into')+'</span> <b>'+(ui.refine?"▴":"▾")+'</b></button>'+
+   (ui.refine?'<div style="margin-top:10px"><div class="seg" style="margin:0 0 12px">'+[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(function(x){return'<button data-age="'+x[0]+'" class="'+(G.age===x[0]?"on":"")+'">'+x[1]+'</button>'}).join("")+'</div>'+
+     '<p class="label">What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="chips">'+avail.map(function(x){return'<button class="chipb'+(G.ints&&G.ints.indexOf(x[0])>=0?" on":"")+'" data-int="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>'+
+     (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'’s hints. Change them if you like.</p>':'')+'</div>':'')+
+   (fu?AMZ_NOTE:'')+'</section>';
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
    (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
@@ -515,6 +529,8 @@ main.addEventListener("click",function(e){
   if(R){
     if(t.id==="openit"){G.opened=true;store(RK,G);render();window.scrollTo(0,0)}
     else if(t.id==="nextidea"){gi++;render()}
+    else if(t.id==="refine"){ui.refine=!ui.refine;render()}
+    else if(t.id==="keepidea2"){var l2=poolFor(R.b,G.ints,G.age);G.idea=l2[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
     else if(t.id==="tellgroup"){var tm="\uD83C\uDF81 Secret Santa update: I\u2019m sorted! Gift bought"+(G.wrapped?" and wrapped":"")+" \u2705\n\nNo clues though \uD83D\uDE09";openWA("",tm)}
     else if(t.id==="keepidea"){var list=poolFor(R.b,G.ints,G.age);G.idea=list[order[gi%order.length]];store(RK,G);render();toast("Saved to My gift")}
     else if(ds.age){G.age=ds.age;G.ints=(G.ints||[]).filter(function(k){return LIB[G.age][k]});store(RK,G);order=null;gi=0;render()}
