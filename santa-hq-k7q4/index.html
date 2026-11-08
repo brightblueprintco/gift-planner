@@ -160,6 +160,10 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .saved.show{opacity:1;transform:none}
 .person .lnk{display:block;margin-top:2px}
 #slipsheet{display:none}
+#iced{position:fixed;inset:0;background:rgba(40,28,20,.6);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
+#iced .edbox{background:#FBF7F0;border-radius:14px;padding:18px 16px;max-width:340px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#iced .chip{font-family:var(--type);font-size:12px;padding:7px 10px;border:1.5px solid var(--pine);background:transparent;border-radius:20px;color:var(--pine)}
+#iced .chip.on{background:var(--pine);color:#fff}
 @media print{
  @page{size:A4;margin:10mm}
  body{background:#fff!important}
@@ -318,27 +322,61 @@ var deferredInstall=null;
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(!R)render()});
 window.addEventListener("appinstalled",function(){deferredInstall=null;S.hsDone=true;save();if(!R)render();toast("Added to your home screen ✔")});
 var ICONK="bbco-ss-icon";
-function setAppIcon(){var d=load(ICONK);var l=document.getElementById("appicon");if(l)l.href=d&&d.url?d.url:"icon-180.png"}
-function drawIcon(img,kind,N){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
-  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,m=Math.min(w,h),sx=(w-m)/2,sy=h>w?(h-m)*.35:0;
-  if(kind==="tag"){x.fillStyle="#9A2B2E";x.fillRect(0,0,N,N);x.save();x.beginPath();x.arc(N/2,N/2,70*k,0,6.283);x.clip();x.drawImage(img,sx,sy,m,m,N/2-70*k,N/2-70*k,140*k,140*k);x.restore();
-    x.strokeStyle="#B98A3C";x.lineWidth=5*k;x.beginPath();x.arc(N/2,N/2,72*k,0,6.283);x.stroke();x.lineWidth=1.5*k;x.beginPath();x.arc(N/2,N/2,80*k,0,6.283);x.stroke();
-    star(x,150*k,150*k,16*k,"#B98A3C");star(x,28*k,30*k,9*k,"#E6D5B8");return c}
-  x.drawImage(img,sx,sy,m,m,0,0,N,N);
-  if(kind==="snow"){x.strokeStyle="#3D5A45";x.lineWidth=12*k;x.strokeRect(6*k,6*k,N-12*k,N-12*k);x.strokeStyle="#B98A3C";x.lineWidth=2*k;x.strokeRect(13*k,13*k,N-26*k,N-26*k);
-    x.fillStyle="rgba(255,255,255,.92)";var r=1;for(var i=0;i<46;i++){r=(r*9301+49297)%233280;var px=r/233280*N;r=(r*9301+49297)%233280;var py=r/233280*N;r=(r*9301+49297)%233280;x.beginPath();x.arc(px,py,(1.2+r/233280*3.2)*k,0,6.283);x.fill()}return c}
+function iconKey(){return R&&RK?ICONK+"-"+RK.slice(13):ICONK}
+function setAppIcon(){var d=load(iconKey());var l=document.getElementById("appicon");if(l)l.href=d&&d.url?d.url:"icon-180.png";
+  if(R){var mf=document.querySelector('link[rel="manifest"]');if(mf)mf.parentNode.removeChild(mf)}}
+function drawIcon(img,kind,N,t){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
+  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,m=Math.min(w,h);t=t||{};var z=t.z||1,sz=m/z;
+  var cx=t.cx!=null?t.cx:w/2,cy=t.cy!=null?t.cy:(h>w?h*.42:h/2);cx=Math.max(sz/2,Math.min(w-sz/2,cx));cy=Math.max(sz/2,Math.min(h-sz/2,cy));
+  var sx=cx-sz/2,sy=cy-sz/2;
+  if(kind==="tag"){x.fillStyle="#9A2B2E";x.fillRect(0,0,N,N);x.save();x.beginPath();x.arc(N/2,N/2,68*k,0,6.283);x.clip();x.drawImage(img,sx,sy,sz,sz,N/2-68*k,N/2-68*k,136*k,136*k);x.restore();
+    x.strokeStyle="#B98A3C";x.lineWidth=6*k;x.beginPath();x.arc(N/2,N/2,71*k,0,6.283);x.stroke();x.lineWidth=1.5*k;x.beginPath();x.arc(N/2,N/2,80*k,0,6.283);x.stroke();
+    star(x,152*k,152*k,17*k,"#B98A3C");star(x,27*k,28*k,9*k,"#E6D5B8");star(x,156*k,26*k,6*k,"#E6D5B8");return c}
+  x.drawImage(img,sx,sy,sz,sz,0,0,N,N);
+  if(kind==="snow"){x.strokeStyle="#3D5A45";x.lineWidth=14*k;x.strokeRect(7*k,7*k,N-14*k,N-14*k);x.strokeStyle="#B98A3C";x.lineWidth=2.5*k;x.strokeRect(15*k,15*k,N-30*k,N-30*k);
+    var r=7;for(var i=0;i<40;i++){r=(r*9301+49297)%233280;var px=r/233280*N;r=(r*9301+49297)%233280;var py=r/233280*N;r=(r*9301+49297)%233280;var rad=(1.4+r/233280*3.4)*k;
+      if(px>40*k&&px<140*k&&py>45*k&&py<150*k)continue;x.fillStyle="rgba(255,255,255,.93)";x.beginPath();x.arc(px,py,rad,0,6.283);x.fill()}
+    return c}
   // santa hat
-  x.save();x.translate(N*.55,N*.2);x.rotate(.22);
-  x.fillStyle="#C62F2F";x.beginPath();x.moveTo(-62*k,10*k);x.bezierCurveTo(-50*k,-50*k,20*k,-62*k,70*k,-30*k);x.bezierCurveTo(84*k,-20*k,88*k,0,86*k,14*k);x.bezierCurveTo(70*k,-8*k,50*k,-14*k,44*k,8*k);x.closePath();x.fill();
-  x.fillStyle="rgba(0,0,0,.12)";x.beginPath();x.moveTo(20*k,-40*k);x.bezierCurveTo(50*k,-46*k,72*k,-30*k,86*k,12*k);x.bezierCurveTo(66*k,-10*k,50*k,-14*k,44*k,8*k);x.closePath();x.fill();
-  x.fillStyle="#FBF7F0";x.beginPath();x.moveTo(-70*k,6*k);x.quadraticCurveTo(-10*k,-6*k,52*k,2*k);x.lineTo(52*k,24*k);x.quadraticCurveTo(-10*k,16*k,-70*k,28*k);x.closePath();x.fill();
-  x.beginPath();x.arc(88*k,18*k,13*k,0,6.283);x.fill();x.restore();return c}
+  x.save();x.translate(84*k,42*k);x.rotate(-.14);x.scale(.9,.9);
+  x.shadowColor="rgba(0,0,0,.28)";x.shadowBlur=6*k;x.shadowOffsetY=2*k;
+  x.fillStyle="#C42B2B";x.beginPath();x.moveTo(-64*k,10*k);x.bezierCurveTo(-58*k,-34*k,-8*k,-58*k,34*k,-50*k);x.bezierCurveTo(62*k,-44*k,80*k,-20*k,82*k,14*k);
+  x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.lineTo(56*k,12*k);x.closePath();x.fill();x.shadowColor="transparent";
+  x.fillStyle="rgba(0,0,0,.14)";x.beginPath();x.moveTo(30*k,-48*k);x.bezierCurveTo(60*k,-42*k,78*k,-20*k,82*k,14*k);x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.closePath();x.fill();
+  x.fillStyle="#FBF7F0";x.shadowColor="rgba(0,0,0,.25)";x.shadowBlur=5*k;x.shadowOffsetY=2*k;
+  x.beginPath();x.moveTo(-74*k,4*k);x.quadraticCurveTo(-4*k,-10*k,66*k,4*k);x.quadraticCurveTo(72*k,16*k,66*k,26*k);x.quadraticCurveTo(-4*k,12*k,-74*k,28*k);x.quadraticCurveTo(-80*k,16*k,-74*k,4*k);x.closePath();x.fill();
+  x.beginPath();x.arc(84*k,20*k,14*k,0,6.283);x.fill();x.restore();return c}
 function star(x,cx,cy,r,col){x.fillStyle=col;x.beginPath();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;x.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr)}x.closePath();x.fill()}
-function iconPicker(){var d=load(ICONK);
-  var h='<div class="iconpick"><div class="row" style="align-items:center;gap:12px;margin-top:10px"><img src="'+(d&&d.url?d.url:"icon-180.png")+'" alt="App icon" style="width:58px;height:58px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.2)">'+
-    '<label class="btn sm" style="cursor:pointer">'+(d&&d.url?"Change photo":"Use my photo as the icon")+'<input type="file" accept="image/*" id="iconfile" style="display:none"></label>'+(d&&d.url?'<button class="lnk" id="iconreset">Use the logo</button>':'')+'</div>';
-  if(ui.iconImg){h+='<div class="row" style="gap:10px;margin-top:10px">'+["hat","tag","snow"].map(function(f){return '<button class="iconopt'+(d&&d.f===f?" on":"")+'" data-iconf="'+f+'" style="padding:0;border:3px solid '+(d&&d.f===f?"var(--gold)":"transparent")+';border-radius:16px;background:none"><img src="'+drawIcon(ui.iconImg,f,120).toDataURL("image/jpeg",.85)+'" style="width:64px;height:64px;border-radius:13px;display:block"></button>'}).join("")+'</div><p class="small" style="margin-top:6px">Pick a frame, then add it to your home screen.</p>'}
-  return h+'</div>'}
+function iconPicker(){var d=load(iconKey());
+  return '<div class="iconpick"><div class="row" style="align-items:center;gap:12px;margin-top:10px"><img src="'+(d&&d.url?d.url:"icon-180.png")+'" alt="App icon" style="width:58px;height:58px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.2)">'+
+    '<label class="btn sm" style="cursor:pointer">'+(d&&d.url?"Change photo":"Use my photo as the icon")+'<input type="file" accept="image/*" class="iconfile" id="iconfile" style="display:none"></label>'+
+    (d&&d.url?(ui.iconImg?'<button class="lnk" id="iconedit">Adjust</button>':'')+'<button class="lnk" id="iconreset">Use the logo</button>':'')+'</div></div>'}
+/* ---------- icon editor ---------- */
+var ED=null;
+function openEditor(img,f){var d=load(iconKey())||{};ED={img:img,f:f||d.f||"hat",t:d.t&&ui.iconImg===img?d.t:{z:1}};
+  var w=img.naturalWidth,h=img.naturalHeight;if(ED.t.cx==null){ED.t.cx=w/2;ED.t.cy=h>w?h*.42:h/2}
+  var el=document.getElementById("iced");if(!el){el=document.createElement("div");el.id="iced";document.body.appendChild(el)}
+  el.innerHTML='<div class="edbox"><h3 style="margin:0 0 4px;font-family:var(--serif)">Make your <em style="color:var(--cran)">icon</em></h3><p class="small" style="margin:0 0 10px">Drag your photo to line it up. Pinch or use the slider to zoom.</p>'+
+   '<canvas id="edc" width="480" height="480" style="width:240px;height:240px;border-radius:52px;box-shadow:0 6px 18px rgba(0,0,0,.25);touch-action:none;display:block;margin:0 auto;background:#ddd"></canvas>'+
+   '<input type="range" id="edz" min="1" max="3" step="0.01" value="'+ED.t.z+'" style="width:100%;margin:14px 0 6px;accent-color:#3D5A45">'+
+   '<div class="row" style="justify-content:center;gap:8px">'+[["hat","Santa hat"],["tag","Gold tag"],["snow","Snow"]].map(function(o){return '<button class="chip'+(ED.f===o[0]?" on":"")+'" data-edf="'+o[0]+'">'+o[1]+'</button>'}).join("")+'</div>'+
+   '<div class="row" style="justify-content:center;gap:12px;margin-top:14px"><button class="btn pine" id="edok">Use this</button><button class="lnk" id="edx">Cancel</button></div></div>';
+  el.style.display="flex";edDraw();
+  var cv=document.getElementById("edc"),pts={},last=null,pd=null;
+  function sc(){return (Math.min(img.naturalWidth,img.naturalHeight)/ED.t.z)/240}
+  cv.addEventListener("pointerdown",function(e){cv.setPointerCapture(e.pointerId);pts[e.pointerId]={x:e.clientX,y:e.clientY};var ks=Object.keys(pts);if(ks.length===2){var a=pts[ks[0]],b=pts[ks[1]];pd={d:Math.hypot(a.x-b.x,a.y-b.y),z:ED.t.z}}});
+  cv.addEventListener("pointermove",function(e){var p=pts[e.pointerId];if(!p)return;var ks=Object.keys(pts);
+    if(ks.length===2&&pd){p.x=e.clientX;p.y=e.clientY;var a=pts[ks[0]],b=pts[ks[1]];ED.t.z=Math.max(1,Math.min(3,pd.z*Math.hypot(a.x-b.x,a.y-b.y)/pd.d));document.getElementById("edz").value=ED.t.z}
+    else{var s2=sc();ED.t.cx-=(e.clientX-p.x)*s2;ED.t.cy-=(e.clientY-p.y)*s2;p.x=e.clientX;p.y=e.clientY}edClamp();edDraw()});
+  function up(e){delete pts[e.pointerId];pd=null}cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+  document.getElementById("edz").addEventListener("input",function(e){ED.t.z=+e.target.value;edClamp();edDraw()});
+  el.onclick=function(e){var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.edf){ED.f=b.dataset.edf;[].forEach.call(el.querySelectorAll("[data-edf]"),function(x){x.classList.toggle("on",x===b)});edDraw()}
+    else if(b.id==="edx"){el.style.display="none";ED=null}
+    else if(b.id==="edok"){var u=drawIcon(ED.img,ED.f,180,ED.t).toDataURL("image/jpeg",.9);if(!store(iconKey(),{url:u,f:ED.f,t:ED.t}))toast("Couldn’t save the photo on this phone");
+      el.style.display="none";ED=null;setAppIcon();render();toast("Looking good! Now add it to your home screen")}}}
+function edClamp(){var w=ED.img.naturalWidth,h=ED.img.naturalHeight,sz=Math.min(w,h)/ED.t.z;ED.t.cx=Math.max(sz/2,Math.min(w-sz/2,ED.t.cx));ED.t.cy=Math.max(sz/2,Math.min(h-sz/2,ED.t.cy))}
+function edDraw(){var cv=document.getElementById("edc");if(!cv||!ED)return;cv.getContext("2d").drawImage(drawIcon(ED.img,ED.f,480,ED.t),0,0)}
 function homeStrip(){
   if(isStandalone||(!isIOS&&!deferredInstall))return "";
   if((S.hsDone||!S.draw)&&!ui.hsOpen)return '<div class="row" style="margin-top:10px"><button class="btn sm" id="hsopen">Add to home screen</button></div>';
@@ -542,6 +580,12 @@ function rReveal(){
    [["bought","Bought it"],["wrapped","Wrapped it"],["tag","Written the tag (“From Santa”)"]].map(function(x){return'<div class="item'+(G[x[0]]?" done":"")+'" data-g="'+x[0]+'"><div class="box"></div><span>'+x[1]+'</span></div>'}).join("")+
    (G.bought?'<div class="row" style="margin-top:12px"><button class="btn pine" id="tellgroup">Tell the group I\u2019m sorted</button></div><p class="small" style="margin-top:6px">Posts \u201cI\u2019m sorted\u201d to the group chat. No clues about who you got.</p>':'')+
    '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
+  if(!isStandalone&&G.opened){
+    h+='<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>Keep your tag <em>on your phone</em></h2></div><p class="small">Pop it on your home screen with your face as the icon. One tap and you\u2019re back to your ideas and gift ticks.</p>'+
+     iconPicker()+
+     (isIOS?(ui.hsGuide?'<ol class="hsguide"><li>Tap '+DOTS_SVG+' <b>(the three dots, bottom right)</b>. On older iPhones, skip to step 2.</li><li>Tap '+SHARE_SVG+' <b>Share</b>, the box with an arrow pointing up.</li><li>Scroll down and tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>':'')+
+       '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide2">'+(ui.hsGuide?"Hide steps":"Show me how")+'</button></div>'
+      :'<p class="small" style="margin-top:10px">In Chrome, tap <b>\u22EE</b> (top right), then <b>Add to home screen</b>.</p>')+'</section>'}
   return h;
 }
 
@@ -592,6 +636,7 @@ function toggleHelp(btn){
   var p=document.createElement("p");p.className="helpbox";p.textContent=HELP[+btn.dataset.help][1];st.parentNode.insertBefore(p,st.nextSibling);btn.classList.add("on");
 }
 function render(){
+  setAppIcon();
   if(R){
     $("#kicker").textContent=R.g||"Secret Santa";$("#subline").textContent="your private tag";
     $("#main").innerHTML=rReveal();
@@ -708,14 +753,14 @@ main.addEventListener("submit",function(e){
     save();render()}
 });
 main.addEventListener("change",function(e){if(e.target.id!=="iconfile"||!e.target.files[0])return;
-  var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){ui.iconImg=im;var u=drawIcon(im,"hat",180).toDataURL("image/jpeg",.88);
-    if(!store(ICONK,{url:u,f:"hat"}))toast("Couldn\u2019t save the photo on this phone");setAppIcon();render();toast("Looking good! Now add it to your home screen")};im.src=fr.result};fr.readAsDataURL(e.target.files[0])});
+  var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){ui.iconImg=im;openEditor(im)};im.src=fr.result};fr.readAsDataURL(e.target.files[0]);e.target.value=""});
 main.addEventListener("click",function(e){
-  var fo=e.target.closest("[data-iconf]");if(fo&&ui.iconImg){var f2=fo.dataset.iconf;store(ICONK,{url:drawIcon(ui.iconImg,f2,180).toDataURL("image/jpeg",.88),f:f2});setAppIcon();render();return}
+  var ie=e.target.closest("#iconedit,#iconreset");if(ie){if(ie.id==="iconedit"&&ui.iconImg)openEditor(ui.iconImg);else{try{localStorage.removeItem(iconKey())}catch(err){}ui.iconImg=null;setAppIcon();render()}return}
   if(R&&G&&G.opened&&e.target.closest(".opened .bigtag")){ui.burst=true;render();ui.burst=false;return}
   var t=e.target.closest("button,[data-g]");if(!t)return;var ds=t.dataset;
   if(ds.help!==undefined){toggleHelp(t);return}
   if(R){
+    if(t.id==="hsguide2"){ui.hsGuide=!ui.hsGuide;render();return}
     if(t.id==="openit"){G.opened=true;store(RK,G);ui.burst=true;render();ui.burst=false;window.scrollTo(0,0)}
     else if(t.id==="nextidea"){gi++;render()}
     else if(t.id==="refine"){ui.refine=!ui.refine;render()}
@@ -774,7 +819,6 @@ main.addEventListener("click",function(e){
           '<div class="mid">\u2702 fold the bottom up along this line</div>'+
           '<div class="bot"><span class="k">You\u2019re buying for</span><span class="nm">'+esc(r.name||"")+'</span>'+(r.hint?'<span class="h">\u201c'+esc(r.hint.slice(0,90))+'\u201d</span>':'')+(det?'<span class="sm" style="margin-top:1mm">'+esc(det)+'</span>':'')+'</div></div>'}).join("");
       $("#slipsheet").innerHTML=sh;ui.printWarn=false;render();setTimeout(function(){window.print()},50);break;
-    case "iconreset":try{localStorage.removeItem(ICONK)}catch(err){}ui.iconImg=null;setAppIcon();render();break;
     case "dorestore":if(ui.pend){applyBackup(ui.pend);ui.pend=null;render();window.scrollTo(0,0);toast("Restored! Welcome back")}break;
     case "norestore":ui.pend=null;render();break;
     case "pickc":
