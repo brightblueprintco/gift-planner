@@ -167,6 +167,10 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 .saved.show{opacity:1;transform:none}
 .person .lnk{display:block;margin-top:2px}
 #slipsheet{display:none}
+#sfhint{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:50;background:#33261D;color:#FCF7EC;font-family:var(--type);font-size:13px;line-height:1.3;padding:9px 12px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:200px;display:none}
+#sfhint:after{content:"";position:absolute;right:34px;bottom:-9px;border:9px solid transparent;border-bottom:0;border-top-color:#33261D}
+#sfhint .ar{display:block;text-align:right;font-size:22px;margin-top:2px;animation:bob 1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
 #iced{position:fixed;inset:0;background:rgba(40,28,20,.6);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
 #iced .edbox{background:#FBF7F0;border-radius:14px;padding:18px 16px;max-width:340px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 #iced .chip{font-family:var(--type);font-size:12px;padding:7px 10px;border:1.5px solid var(--pine);background:transparent;border-radius:20px;color:var(--pine)}
@@ -386,20 +390,17 @@ function openEditor(img,f){var d=load(iconKey())||{};ED={img:img,f:f||d.f||"hat"
       el.style.display="none";ED=null;setAppIcon();render();toast("Looking good! Now add it to your home screen")}}}
 function edClamp(){var w=ED.img.naturalWidth,h=ED.img.naturalHeight,sz=Math.min(w,h)/ED.t.z;ED.t.cx=Math.max(sz/2,Math.min(w-sz/2,ED.t.cx));ED.t.cy=Math.max(sz/2,Math.min(h-sz/2,ED.t.cy))}
 function edDraw(){var cv=document.getElementById("edc");if(!cv||!ED)return;cv.getContext("2d").drawImage(drawIcon(ED.img,ED.f,480,ED.t),0,0)}
+function iosSteps(extra){return '<ol class="hsguide">'+'<li>Look at <b>Safari\u2019s bar at the very bottom of your screen</b>, below this page. Hidden? Scroll up a little and it pops back. Tap its '+DOTS_SVG+' <b>three dots</b>, not anything on this page. Older iPhones: skip to step 2.</li>'+
+  '<li>Tap '+SHARE_SVG+' <b>Share</b>.</li><li>Scroll down, tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li>'+(extra||"")+'</ol>'}
 function homeStrip(){
   if(isStandalone||(!isIOS&&!deferredInstall))return "";
-  if((S.hsDone||!S.draw)&&!ui.hsOpen)return '<div class="row" style="margin-top:10px"><button class="btn sm" id="hsopen">Add to home screen</button></div>';
+  if((S.hsDone||!S.draw)&&!ui.hsOpen)return '<div class="row" style="margin-top:10px"><button class="btn sm" id="hsopen">Make my own shortcut</button></div>';
   if(deferredInstall)return '<div class="homestrip"><b>Keep your group safe</b><span>Add Secret Santa to your home screen so it’s always there.</span><div class="row" style="margin-top:10px"><button class="btn sm pine" id="installapp">Add to home screen</button><button class="lnk" id="hsdone">Not now</button></div></div>';
   if(!isIOS)return "";
-  return '<div class="homestrip"><b>Keep your group safe</b><span>Add it to your home screen so it opens like an app.</span>'+
-    (ui.hsGuide?'<ol class="hsguide">'+
-      '<li>Tap '+DOTS_SVG+' <b>(the three dots, bottom right)</b>. On older iPhones, skip to step 2.</li>'+
-      '<li>Tap '+SHARE_SVG+' <b>Share</b>, the box with an arrow pointing up.</li>'+
-      '<li>Scroll down and tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li>'+
-      '<li>Open <b>Secret Santa</b> from your home screen and tap <b>Bring my group over</b>. We\u2019ve already copied it for you.</li></ol>'
-      :'')+
+  return '<div class="homestrip"><b>Make my own shortcut</b><span>Put Secret Santa on your home screen, with your face as the button. Your group\u2019s always one tap away.</span>'+
     iconPicker()+
-    '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide">'+(ui.hsGuide?"Hide steps":"Show me how")+'</button><button class="lnk" id="hsdone">Done, or not now</button></div></div>';
+    (ui.hsGuide?iosSteps('<li>Open <b>Secret Santa</b> from your home screen and tap <b>Bring my group over</b>. We\u2019ve already copied it for you.</li>'):'')+
+    '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide">'+(ui.hsGuide?"Hide steps":"Make my shortcut")+'</button><button class="lnk" id="hsdone">Done, or not now</button></div></div>';
 }
 var canPick=!!(navigator.contacts&&window.ContactsManager);
 function intl(raw){
@@ -590,10 +591,10 @@ function rReveal(){
    (G.bought?'<div class="row" style="margin-top:12px"><button class="btn pine" id="tellgroup">Tell the group I\u2019m sorted</button></div><p class="small" style="margin-top:6px">Posts \u201cI\u2019m sorted\u201d to the group chat. No clues about who you got.</p>':'')+
    '<p class="small" style="margin-top:10px">This page saves on your phone. Keep the link to come back to it.</p></section>';
   if(!isStandalone&&G.opened){
-    h+='<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>Keep your tag <em>on your phone</em></h2></div><p class="small">Pop it on your home screen with your face as the icon. One tap and you\u2019re back to your ideas and gift ticks.</p>'+
+    h+='<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>Make my own <em>shortcut</em></h2></div><p class="small">Put your tag on your home screen, with your face as the button. One tap and you\u2019re straight back to your ideas and gift ticks.</p>'+
      iconPicker()+
-     (isIOS?(ui.hsGuide?'<ol class="hsguide"><li>Tap '+DOTS_SVG+' <b>(the three dots, bottom right)</b>. On older iPhones, skip to step 2.</li><li>Tap '+SHARE_SVG+' <b>Share</b>, the box with an arrow pointing up.</li><li>Scroll down and tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>':'')+
-       '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide2">'+(ui.hsGuide?"Hide steps":"Show me how")+'</button></div>'
+     (isIOS?(ui.hsGuide?iosSteps():'')+
+       '<div class="row" style="margin-top:10px"><button class="btn sm pine" id="hsguide2">'+(ui.hsGuide?"Hide steps":"Make my shortcut")+'</button></div>'
       :'<p class="small" style="margin-top:10px">In Chrome, tap <b>\u22EE</b> (top right), then <b>Add to home screen</b>.</p>')+'</section>'}
   return h;
 }
@@ -646,6 +647,8 @@ function toggleHelp(btn){
 }
 function render(){
   setAppIcon();
+  var hn=document.getElementById("sfhint");if(!hn){hn=document.createElement("div");hn.id="sfhint";hn.innerHTML='Safari\u2019s <b>\u2022\u2022\u2022</b> are down here, in its bar. Tap them first.<span class="ar">\u2193</span>';hn.onclick=function(){hn.style.display="none"};document.body.appendChild(hn)}
+  hn.style.display=(ui.hsGuide&&isIOS&&!isStandalone)?"block":"none";
   if(R){
     $("#kicker").textContent=R.g||"Secret Santa";$("#subline").textContent="your private tag";
     $("#main").innerHTML=rReveal();
