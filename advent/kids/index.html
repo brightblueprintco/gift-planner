@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E6D5B8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>The Kids' Advent Calendar</title>
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+@font-face{font-family:"FrauncesL";src:url(../../fonts/Fraunces.ttf) format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"FrauncesL";src:url(../../fonts/Fraunces-Italic.ttf) format("truetype");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"CourierL";src:url(../../fonts/CourierPrime-Regular.ttf) format("truetype");font-weight:400}
+@font-face{font-family:"CourierL";src:url(../../fonts/CourierPrime-Bold.ttf) format("truetype");font-weight:700}
+@font-face{font-family:"ReenieL";src:url(../../fonts/ReenieBeanie.ttf) format("truetype")}
+:root{--kraft:#E6D5B8;--card:#FCF7EC;--ink:#33261D;--ink2:#6B5544;--cran:#9A2B2E;--pine:#3D5A45;--gold:#B98A3C;--line:#DCCBAB;--accent:#9A2B2E;
+ --serif:"FrauncesL",Georgia,serif;--type:"CourierL","Courier New",monospace;--hand:"ReenieL",cursive}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--serif);font-variation-settings:"SOFT" 50,"opsz" 14;color:var(--ink);background:var(--kraft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");font-size:16px;line-height:1.45;min-height:100vh}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px 90px}
+header{text-align:center;padding:26px 0 8px}
+.kick{font-family:var(--type);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+h1{font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;color:var(--accent);font-size:clamp(42px,12.5vw,60px);line-height:.95;margin-top:6px}
+h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:30px;color:var(--pine);margin-top:6px}
+.sleeps{font-family:var(--hand);color:var(--cran);font-size:30px;transform:rotate(-2deg);display:inline-block;margin-top:4px}
+.card{background:var(--card);border-radius:3px;padding:16px 15px;margin:14px 0;box-shadow:0 10px 16px -12px rgba(51,38,29,.55);position:relative}
+.card h2{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 60;font-size:24px;line-height:1.1;padding-right:36px}
+.card h2 em{font-style:italic;color:var(--accent)}
+.small{font-size:14px;color:var(--ink2)}
+.label{font-family:var(--type);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.in{width:100%;background:#fffdf7;border:1.5px solid #CDBB98;border-radius:3px;padding:9px 10px;font-size:17px;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0 8px}
+.door{position:relative;aspect-ratio:3/4;background:var(--card);border:0;border-radius:4px;cursor:pointer;box-shadow:0 6px 10px -7px rgba(51,38,29,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;overflow:hidden}
+.door:nth-child(3n){transform:rotate(1deg)}.door:nth-child(4n+1){transform:rotate(-1deg)}
+.door .n{font-weight:700;font-variation-settings:"SOFT" 100,"opsz" 72;font-size:34px;line-height:1;color:var(--ink)}
+.door .d{font-family:var(--type);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin-top:4px}
+.door .hole{position:absolute;top:7px;left:50%;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:var(--kraft);box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
+.door.locked{background:#EFE4CE}.door.locked .n{color:#A8957A}
+.door.locked:after{content:"";position:absolute;right:7px;bottom:7px;width:11px;height:9px;border:1.6px solid #A8957A;border-radius:2px}
+.door.locked:before{content:"";position:absolute;right:9.5px;bottom:14px;width:6px;height:6px;border:1.6px solid #A8957A;border-bottom:0;border-radius:4px 4px 0 0}
+.door.today{background:var(--gold);box-shadow:0 0 0 3px rgba(185,138,60,.35),0 8px 14px -8px rgba(51,38,29,.7);animation:glow 2s ease-in-out infinite}
+.door.today .n{color:#2A1E14}.door.today .d{color:#2A1E14}
+@keyframes glow{50%{box-shadow:0 0 0 7px rgba(185,138,60,.18),0 8px 14px -8px rgba(51,38,29,.7)}}
+.door.open{background:var(--accent)}.door.open .n,.door.open .d{color:#FCF7EC}
+.door.done:after{content:"✓";position:absolute;right:6px;bottom:3px;font-family:var(--type);font-weight:700;color:#FCF7EC;font-size:15px}
+.door.practice{background:var(--pine)}.door.practice .n,.door.practice .d{color:#FCF7EC}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--ink);background:transparent;padding:9px 15px;font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none}
+.btn.fill{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#2A1E14}
+.btn.sm{padding:6px 11px;font-size:11.5px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lnk{border:0;background:none;font-family:var(--type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;color:var(--pine);cursor:pointer;padding:4px}
+/* door view */
+#view{position:fixed;inset:0;z-index:40;background:rgba(40,28,20,.55);display:none;align-items:center;justify-content:center;padding:16px}
+#view.on{display:flex}
+.sheet{position:relative;background:var(--card);width:100%;max-width:420px;max-height:92vh;overflow:auto;border-radius:6px;box-shadow:0 20px 40px rgba(0,0,0,.4);padding:22px 20px 18px;border-top:6px solid var(--accent)}
+.sheet .x{position:absolute;top:8px;right:10px;border:0;background:none;font-size:26px;color:var(--ink2);cursor:pointer;line-height:1}
+.sheet .kind{font-family:var(--type);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.sheet .day{font-family:var(--hand);font-size:26px;color:var(--pine);line-height:1}
+.sheet h3{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 72;font-size:28px;line-height:1.12;margin:6px 0 10px}
+.sheet .body{font-size:17px;line-height:1.5}
+.sheet .ans{margin-top:12px;background:#F7EEDB;border:1.5px dashed var(--gold);padding:10px 12px;font-size:17px;text-align:center}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px}
+.tags span{font-family:var(--type);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;border:1.2px solid var(--pine);color:var(--pine);padding:3px 7px;border-radius:8px}
+.scratchwrap{position:relative;margin-top:4px}
+#scr{position:absolute;inset:0;width:100%;height:100%;border-radius:4px;touch-action:none;cursor:grab;z-index:3}
+.scrhint{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;z-index:4;pointer-events:none;font-family:var(--hand);font-size:34px;color:#4A3520;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+.done-row{margin-top:16px;padding-top:14px;border-top:1px dotted var(--line)}
+.tick{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);background:transparent;padding:8px 13px;font-family:var(--type);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.tick.on{background:var(--pine);border-color:var(--pine);color:#FCF7EC}
+textarea.note{width:100%;min-height:62px;margin-top:10px;background:#fffdf7;border:1.5px solid #CDBB98;border-radius:3px;padding:8px 10px;font-family:var(--hand);font-size:22px;line-height:1.1}
+.pgcover{background:#F2E8D3;border:1.5px dashed var(--ink2);padding:18px 12px;text-align:center;border-radius:4px}
+.mem{padding:10px 0;border-bottom:1px dotted var(--line)}.mem:last-child{border-bottom:0}
+.mem b{font-weight:600}.mem .hand{font-family:var(--hand);font-size:22px;color:var(--pine);line-height:1.05;display:block;margin-top:2px}
+.burst{position:absolute;left:50%;top:40%;width:0;height:0;pointer-events:none;z-index:6}
+.burst i{position:absolute;left:0;top:0;font-style:normal;font-size:var(--s);color:var(--c);opacity:0;animation:fly 1.4s cubic-bezier(.15,.8,.3,1) var(--d) forwards}
+@keyframes fly{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}15%{opacity:1}70%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1) rotate(var(--r));opacity:0}}
+.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:20px;overflow:hidden;margin-top:6px}
+.seg button{border:0;background:transparent;padding:6px 12px;font-family:var(--type);font-size:12px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--card)}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(100px);background:var(--ink);color:var(--card);font-family:var(--type);font-size:13px;padding:9px 16px;border-radius:3px;transition:transform .25s;z-index:90;max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.foot{text-align:center;font-family:var(--type);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);margin-top:30px}
+.foot a{color:var(--cran)}
+@media (prefers-reduced-motion:reduce){.door.today{animation:none}.burst{display:none}}
+.bbhas{position:relative}
+.bbq{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;border:1.6px solid #6B5544;background:transparent;color:#6B5544;font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1;padding:0;z-index:2}
+.bbq.on{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bbhas h2{padding-right:38px}
+.bbhelp{background:#EEF2EA;border-left:3px solid #3D5A45;padding:10px 12px;font-size:14.5px;line-height:1.45;margin:6px 0 12px}
+.bbbtn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #33261D;background:transparent;padding:9px 15px;font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#33261D;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none}
+.bbbtn.sm{padding:6px 11px;font-size:11.5px}
+.bbbtn.pine{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bblnk{border:0;background:none;font-family:var(--type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;color:#3D5A45;cursor:pointer;padding:4px}
+.bbgold{display:block;margin-top:12px;background:#B98A3C;color:#2A1E14;text-align:center;padding:14px 12px;font-family:var(--serif);font-size:19px;line-height:1.2;text-decoration:none;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(-.6deg)}
+.bbgold b{font-weight:700}
+.bbpine{display:block;width:100%;margin-top:12px;background:#3D5A45;color:#FCF7EC;border:0;padding:14px 12px;font-family:var(--serif);font-size:19px;cursor:pointer;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(.5deg)}
+.bblinked{border:1.5px solid #3D5A45;background:#EEF2EA;padding:10px 12px;margin-top:8px}
+.bblinked b{display:block;color:#3D5A45;font-size:15px}.bblinked span{font-size:12.5px;color:#6B5544;word-break:break-all}
+.bbin,.bbta{width:100%;margin-top:8px;background:#fffdf7;border:1.5px solid #CDBB98;padding:9px;font-family:var(--type);font-size:13px;border-radius:2px}
+.bbta{min-height:84px}
+.bbpost{padding:10px 0;border-bottom:1px dotted #D9C8A8}.bbpost:last-child{border-bottom:0}
+.bbpt{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
+.bbpt span{font-family:var(--serif);font-weight:600;font-size:16px}
+.bbpt i{font-style:normal;font-family:var(--type);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6B5544;border:1px solid #CDBB98;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.bbpt i.on{color:#3D5A45;border-color:#3D5A45}
+.bbamz{display:block;text-align:center;background:#B98A3C;color:#2A1E14;font-family:var(--type);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;padding:11px 10px;margin-top:10px;text-decoration:none;border-radius:2px;box-shadow:0 5px 10px -7px rgba(0,0,0,.6)}
+.bbamz.sm{display:inline-block;padding:5px 9px;font-size:10.5px;margin:6px 0 0;letter-spacing:.1em}
+.bbnote{margin-top:10px;font-size:12.5px!important}
+#bbsheet{position:fixed;inset:0;background:rgba(40,28,20,.45);z-index:70;display:none;align-items:flex-end;justify-content:center}
+#bbsheet.open{display:flex}
+#bbsheet .bbs{background:#FCF7EC;width:100%;max-width:560px;padding:20px 18px calc(22px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);font-size:15px;line-height:1.45}
+#bbsheet p{margin:8px 0;color:#6B5544}#bbsheet a{color:#9A2B2E}
+.bbt{display:block;font-family:var(--serif);font-weight:600;font-size:22px}.bbt em{color:#9A2B2E}
+.bbshort{margin-top:16px;padding:14px;border:1.5px solid #3D5A45;background:#F2F4EC;border-radius:3px}
+.bbst{display:block;font-family:var(--serif);font-weight:600;font-size:18px;color:#3D5A45;margin-bottom:2px}
+.bbprev{width:58px;height:58px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.2);object-fit:cover;background:#E6D5B8}
+.bbsteps{margin:10px 0 0 20px;font-size:15px;line-height:1.55}.bbsteps li{margin:8px 0}
+.bbico{width:26px;height:26px;vertical-align:middle;margin:0 2px;display:inline-block;background:#fff;border-radius:6px;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#bbiced{position:fixed;inset:0;background:rgba(40,28,20,.6);z-index:80;display:none;align-items:center;justify-content:center;padding:16px}
+#bbiced .edbox{background:#FBF7F0;border-radius:14px;padding:18px 16px;max-width:340px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#bbedc{width:240px;height:240px;border-radius:52px;box-shadow:0 6px 18px rgba(0,0,0,.25);touch-action:none;display:block;margin:0 auto;background:#ddd}
+#bbedz{width:100%;margin:14px 0 6px;accent-color:#3D5A45}
+.bbchip{font-family:var(--type);font-size:12px;padding:7px 10px;border:1.5px solid #3D5A45;background:transparent;border-radius:20px;color:#3D5A45}
+.bbchip.on{background:#3D5A45;color:#fff}
+#sfhint{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:60;background:#33261D;color:#FCF7EC;font-family:var(--type);font-size:13px;line-height:1.3;padding:9px 12px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:200px;display:none}
+#sfhint:after{content:"";position:absolute;right:34px;bottom:-9px;border:9px solid transparent;border-bottom:0;border-top-color:#33261D}
+#sfhint .ar{display:block;text-align:right;font-size:22px;margin-top:2px;animation:bbbob 1s ease-in-out infinite}
+@keyframes bbbob{50%{transform:translateY(5px)}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="kick">BrightBlueprintCo · advent 2026</div><h1>Advent <em>24 doors of Christmas fun</em></h1><div class="sleeps" id="sleeps"></div></header>
+<main id="main"></main>
+<div class="foot">Made with love by <a href="https://brightblueprintco.etsy.com" target="_blank" rel="noopener">BrightBlueprintCo</a></div>
+</div>
+<div id="view"></div>
+<div id="toast"></div>
+<script>
+/* BrightBlueprintCo shared kit: WhatsApp, Amazon, help, backup links, selfie shortcut */
+var BB=(function(){
+var O={};
+var AMZ_TAG="brightbluepri-21";
+var CTRY={
+  GB:{n:"UK",cur:"£",cc:"44",trunk:true,local:/^7\d{9}$/,amz:"www.amazon.co.uk",tag:true},
+  IE:{n:"Ireland",cur:"€",cc:"353",trunk:true,local:/^8\d{8}$/,amz:"www.amazon.co.uk",tag:true},
+  US:{n:"US",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.com",tag:false},
+  CA:{n:"Canada",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.ca",tag:true},
+  AU:{n:"Australia",cur:"$",cc:"61",trunk:true,local:/^4\d{8}$/,amz:"www.amazon.com.au",tag:false},
+  XX:{n:"Elsewhere",cur:"",cc:"",trunk:false,local:null,amz:"www.amazon.co.uk",tag:true}
+};
+function guessCountry(){var tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  if(/^Europe\/(London|Belfast|Guernsey|Jersey|Isle_of_Man)$/.test(tz))return "GB";if(tz==="Europe/Dublin")return "IE";
+  if(/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)$/.test(tz))return "CA";
+  if(/^(America\/|Pacific\/Honolulu)/.test(tz))return "US";
+  if(/^Australia\//.test(tz))return "AU";if(tz)return "XX";
+  var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";var m=l.match(/-([A-Za-z]{2})$/);var r=m?m[1].toUpperCase():"";if(r==="GB"||r==="UK")return "GB";if(CTRY[r])return r;return O.defCountry||"GB"}
+var CC=null;function country(){if(!CC)CC=guessCountry();return CC}
+function C(){return CTRY[country()]||CTRY.GB}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches);
+var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+var deferredInstall=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(O.render)O.render()});
+
+/* ---------- phone + WhatsApp ---------- */
+function intl(raw){
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
+  if(d.indexOf("+")===0)d=d.slice(1);
+  else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(c.cc&&c.trunk)d=c.cc+d.slice(1);else return "";}
+  else if(c.cc&&c.local&&c.local.test(d))d=c.cc+d;
+  else if(c.cc==="1"&&d.length===11&&d.charAt(0)==="1"){}
+  else if(!c.cc){if(d.length<11)return "";}
+  d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
+}
+function prettyNum(d){if(!d)return "";if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
+function sheet(html){var el=document.getElementById("bbsheet");if(!el){el=document.createElement("div");el.id="bbsheet";document.body.appendChild(el);
+    el.addEventListener("click",function(e){if(e.target===el||e.target.closest("[data-bbclose]"))el.classList.remove("open")})}
+  el.innerHTML='<div class="bbs">'+html+'</div>';el.classList.add("open");return el}
+function closeSheet(){var el=document.getElementById("bbsheet");if(el)el.classList.remove("open")}
+function openWA(num,text){
+  var q=encodeURIComponent(text);var n=num?intl(num):"";
+  var app="whatsapp://send?"+(n?"phone="+n+"&":"")+"text="+q;var web="https://wa.me/"+(n||"")+"?text="+q;
+  try{navigator.clipboard.writeText(text).catch(function(){})}catch(e){}
+  sheet('<b class="bbt">Opening <em>WhatsApp</em>…</b><p>'+(n?'It should open their chat with the message ready. Just tap send.':'Pick the chat or group and the message will be ready. Just tap send.')+'</p>'+
+    '<p>Nothing happened? <a href="'+web+'" target="_blank" rel="noopener">Try WhatsApp Web</a>. The message is copied too, so you can paste it anywhere.</p><button class="bbbtn" data-bbclose>Done</button>');
+  window.location.href=app;
+}
+function copyText(text,msg){try{navigator.clipboard.writeText(text).then(function(){O.toast&&O.toast(msg||"Copied")},function(){fallbackCopy(text)})}catch(e){fallbackCopy(text)}}
+function fallbackCopy(text){sheet('<b class="bbt">Copy <em>this</em></b><textarea class="bbta" readonly>'+esc(text)+'</textarea><button class="bbbtn" data-bbclose>Done</button>');var ta=document.querySelector("#bbsheet textarea");if(ta){ta.focus();ta.select()}}
+var CHATRE=/https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/;
+function chatCard(cur,opts){opts=opts||{};var ok=CHATRE.test(cur||"");
+  var h='<p class="small">'+(opts.blurb||"Running this in a WhatsApp group? Link it here.")+'</p>';
+  if(ok)h+='<div class="bblinked"><b>✔ Group chat linked</b><span>'+esc(cur)+'</span></div><div class="row" style="margin-top:10px"><button class="bbbtn sm" data-bbchat="paste">Paste a different link</button><button class="bblnk" data-bbchat="clear">Remove</button></div>';
+  else h+='<a class="bbgold" href="whatsapp://">Open WhatsApp &amp; create <b>'+esc(opts.groupName||"our")+'</b> group</a>'+
+    '<p class="small" style="margin-top:10px">Then in the group tap its name → <b>Invite via link</b> → <b>Copy link</b>, and come back here.</p>'+
+    '<button class="bbpine" data-bbchat="paste"><b>Paste</b> my group chat link</button>'+
+    '<details style="margin-top:8px"><summary class="small">Or type it in</summary><input class="bbin" data-bbchatin placeholder="https://chat.whatsapp.com/…"></details>';
+  return h}
+function onChatClick(kind,set){
+  if(kind==="clear"){set("");return}
+  try{navigator.clipboard.readText().then(function(t){var m=(t||"").match(CHATRE);if(m){set(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("No group link copied yet. Copy it in WhatsApp first")},function(){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")})}catch(e){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")}
+}
+function chatCode(u){var m=(u||"").match(/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);return m?m[1]:""}
+function postRow(id,title,when,done){return '<div class="bbpost"><div class="bbpt"><span>'+title+'</span><i class="'+(done?"on":"")+'">'+(done?"Posted":when||"")+'</i></div><div class="row"><button class="bbbtn sm pine" data-bbpost="'+id+'" data-via="wa">WhatsApp</button><button class="bbbtn sm" data-bbpost="'+id+'" data-via="copy">Copy</button></div></div>'}
+
+/* ---------- Amazon ---------- */
+var EXPERIENCE=/\b(voucher|experience|lesson|class|ticket|subscription|membership|day out|tour|massage|spa day)\b/i,PRODUCT=/\b(kit|set|book|box|card)\b/i;
+function amzUrl(q){var c=C();return "https://"+c.amz+"/s?k="+encodeURIComponent(q)+(c.tag?"&tag="+AMZ_TAG:"")}
+function findBtn(q,cls,label){if(!q||(EXPERIENCE.test(q)&&!PRODUCT.test(q)))return "";return '<a class="'+(cls||"bbamz")+'" href="'+esc(amzUrl(q))+'" target="_blank" rel="sponsored noopener">'+(label||"Find it on Amazon →")+'</a>'}
+var AMZ_NOTE='<p class="small bbnote">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
+
+/* ---------- help ---------- */
+function addHelp(root,MAP){(root||document).querySelectorAll(O.cardSel||".card").forEach(function(card){
+    var h2=card.querySelector("h2");if(!h2||card.querySelector(".bbq"))return;var t=h2.textContent.replace(/\s+/g," ").trim();
+    for(var i=0;i<MAP.length;i++){if(MAP[i][0].test(t)){var b=document.createElement("button");b.className="bbq";b.type="button";b.setAttribute("aria-label","How this works");b.dataset.bbq=i;b.textContent="?";card.appendChild(b);card.classList.add("bbhas");break}}})}
+function toggleHelp(btn,MAP){var card=btn.closest(O.cardSel||".card"),h2=card.querySelector("h2"),nx=h2.nextElementSibling;
+  if(nx&&nx.classList.contains("bbhelp")){nx.remove();btn.classList.remove("on");return}
+  var p=document.createElement("p");p.className="bbhelp";p.textContent=MAP[+btn.dataset.bbq][1];h2.parentNode.insertBefore(p,h2.nextSibling);btn.classList.add("on")}
+
+/* ---------- backup links ---------- */
+function b64(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function backupLink(){return location.origin+location.pathname+"#r"+b64(O.getState())}
+function readBackup(tx){tx=String(tx||"");var m=tx.match(/#r([A-Za-z0-9_\-]+)/),s;
+  if(m)s=m[1];else{var t2=tx.trim();if(t2.charAt(0)==="{"){try{return JSON.parse(t2)}catch(e){return null}}s=t2}
+  s=s.replace(/[^A-Za-z0-9+\/=_\-]/g,"").replace(/-/g,"+").replace(/_/g,"/").replace(/=+$/,"");
+  for(var cut=0;cut<4;cut++){var t=s.slice(0,s.length-cut);while(t.length%4)t+="=";try{var o=JSON.parse(decodeURIComponent(escape(atob(t))));if(o&&O.valid(o))return o}catch(e){}}return null}
+function sendBackup(){var l=backupLink();try{navigator.clipboard.writeText(l).catch(function(){})}catch(e){}openWA("","My "+O.appName+" backup. Tap to bring it all back:\n"+l)}
+function restoreFrom(text){var o=readBackup(text);if(!o){O.toast&&O.toast("That didn’t work. Copy the whole backup message and try again");return false}O.setState(o);O.toast&&O.toast("Restored! Welcome back");return true}
+function checkHash(){var h=location.hash;if(h.indexOf("#r")!==0)return;var o=readBackup(h);try{history.replaceState(null,"",location.pathname)}catch(e){}
+  if(!o){O.toast&&O.toast("That backup link looks broken. Copy the whole message and paste it into Restore");return}
+  if(O.isEmpty()){O.setState(o);O.toast&&O.toast("Restored! Welcome back");return}
+  sheet('<b class="bbt">Bring back <em>your backup?</em></b><p>This replaces what’s on this phone right now.</p><div class="row"><button class="bbbtn pine" id="bbdores">Restore it</button><button class="bblnk" data-bbclose>Cancel</button></div>');
+  document.getElementById("bbdores").onclick=function(){O.setState(o);closeSheet();O.toast&&O.toast("Restored! Welcome back")}}
+function saveCard(){return '<p class="small">Everything saves on this phone as you go. To be extra safe, send yourself a backup link. Tap it any time, even on a new phone, and it all comes back.</p>'+
+  '<div class="row" style="margin-top:12px"><button class="bbbtn pine" data-bb="backup">Send me a backup link</button></div>'+shortcutBlock()+
+  '<details style="margin-top:12px"><summary class="small">Restore from a backup</summary><textarea class="bbta" id="bbrin" placeholder="Paste your backup link or message here…"></textarea><div class="row" style="margin-top:8px"><button class="bbbtn sm" data-bb="restore">Restore</button></div></details>'}
+
+/* ---------- icon + shortcut ---------- */
+var ui={hsGuide:false,img:null,hsOpen:false};
+function iconKey(){return O.key+"-icon"}
+function setAppIcon(){var d=load(iconKey());var l=document.querySelector('link[rel="apple-touch-icon"]');if(!l){l=document.createElement("link");l.rel="apple-touch-icon";document.head.appendChild(l);l.dataset.def=""}
+  if(l.dataset.def===undefined)l.dataset.def=l.getAttribute("href")||"";l.href=d&&d.url?d.url:(l.dataset.def||O.defIcon||"")}
+function star(x,cx,cy,r,col){x.fillStyle=col;x.beginPath();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;x.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr)}x.closePath();x.fill()}
+function leaf(x,cx,cy,s,rot,col){x.save();x.translate(cx,cy);x.rotate(rot);x.fillStyle=col;x.beginPath();x.moveTo(0,-s);x.quadraticCurveTo(s*.75,-s*.3,0,s);x.quadraticCurveTo(-s*.75,-s*.3,0,-s);x.fill();
+  x.strokeStyle="rgba(60,30,10,.45)";x.lineWidth=s*.08;x.beginPath();x.moveTo(0,-s*.8);x.lineTo(0,s*1.25);x.stroke();x.restore()}
+function drawIcon(img,kind,N,t){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
+  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,m=Math.min(w,h);t=t||{};var z=t.z||1,sz=m/z;
+  var cx=t.cx!=null?t.cx:w/2,cy=t.cy!=null?t.cy:(h>w?h*.42:h/2);cx=Math.max(sz/2,Math.min(w-sz/2,cx));cy=Math.max(sz/2,Math.min(h-sz/2,cy));var sx=cx-sz/2,sy=cy-sz/2;
+  function circle(bg,ring,r){x.fillStyle=bg;x.fillRect(0,0,N,N);x.save();x.beginPath();x.arc(N/2,N/2,r*k,0,6.283);x.clip();x.drawImage(img,sx,sy,sz,sz,N/2-r*k,N/2-r*k,2*r*k,2*r*k);x.restore();
+    x.strokeStyle=ring;x.lineWidth=6*k;x.beginPath();x.arc(N/2,N/2,(r+3)*k,0,6.283);x.stroke();x.lineWidth=1.5*k;x.beginPath();x.arc(N/2,N/2,(r+12)*k,0,6.283);x.stroke()}
+  if(kind==="tag"){circle("#9A2B2E","#B98A3C",68);star(x,152*k,152*k,17*k,"#B98A3C");star(x,27*k,28*k,9*k,"#E6D5B8");star(x,156*k,26*k,6*k,"#E6D5B8");return c}
+  if(kind==="pumpkin"){circle("#C4672A","#E7CF9C",68);leaf(x,150*k,150*k,16*k,.7,"#3D5A45");leaf(x,30*k,32*k,12*k,-.8,"#9A2B2E");leaf(x,152*k,28*k,9*k,.4,"#D9A13B");return c}
+  x.drawImage(img,sx,sy,sz,sz,0,0,N,N);
+  if(kind==="snow"){x.strokeStyle="#3D5A45";x.lineWidth=14*k;x.strokeRect(7*k,7*k,N-14*k,N-14*k);x.strokeStyle="#B98A3C";x.lineWidth=2.5*k;x.strokeRect(15*k,15*k,N-30*k,N-30*k);
+    var r=7;for(var i=0;i<40;i++){r=(r*9301+49297)%233280;var px=r/233280*N;r=(r*9301+49297)%233280;var py=r/233280*N;r=(r*9301+49297)%233280;var rad=(1.4+r/233280*3.4)*k;
+      if(px>40*k&&px<140*k&&py>45*k&&py<150*k)continue;x.fillStyle="rgba(255,255,255,.93)";x.beginPath();x.arc(px,py,rad,0,6.283);x.fill()}return c}
+  if(kind==="leaves"){var cols=["#C4672A","#9A2B2E","#D9A13B","#7A4A2A","#B5532A"],r2=3;
+    for(var j=0;j<26;j++){r2=(r2*9301+49297)%233280;var a=r2/233280;var side=j%4,p=(j/26*4)%1,lx,ly;
+      if(side===0){lx=p*N;ly=8*k}else if(side===1){lx=N-8*k;ly=p*N}else if(side===2){lx=N-p*N;ly=N-8*k}else{lx=8*k;ly=N-p*N}
+      leaf(x,lx+(a-.5)*14*k,ly+(a-.5)*14*k,(11+a*8)*k,a*6.283,cols[j%5])}return c}
+  if(kind==="gold"){x.strokeStyle="#FCF7EC";x.lineWidth=16*k;x.strokeRect(8*k,8*k,N-16*k,N-16*k);x.strokeStyle="#B98A3C";x.lineWidth=3*k;x.strokeRect(17*k,17*k,N-34*k,N-34*k);x.lineWidth=1.2*k;x.strokeRect(4*k,4*k,N-8*k,N-8*k);
+    leaf(x,26*k,154*k,13*k,-.6,"#C4672A");leaf(x,40*k,162*k,10*k,.5,"#9A2B2E");leaf(x,16*k,140*k,9*k,-1.6,"#D9A13B");return c}
+  /* santa hat */
+  x.save();x.translate(84*k,42*k);x.rotate(-.14);x.scale(.9,.9);
+  x.shadowColor="rgba(0,0,0,.28)";x.shadowBlur=6*k;x.shadowOffsetY=2*k;
+  x.fillStyle="#C42B2B";x.beginPath();x.moveTo(-64*k,10*k);x.bezierCurveTo(-58*k,-34*k,-8*k,-58*k,34*k,-50*k);x.bezierCurveTo(62*k,-44*k,80*k,-20*k,82*k,14*k);
+  x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.lineTo(56*k,12*k);x.closePath();x.fill();x.shadowColor="transparent";
+  x.fillStyle="rgba(0,0,0,.14)";x.beginPath();x.moveTo(30*k,-48*k);x.bezierCurveTo(60*k,-42*k,78*k,-20*k,82*k,14*k);x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.closePath();x.fill();
+  x.fillStyle="#FBF7F0";x.shadowColor="rgba(0,0,0,.25)";x.shadowBlur=5*k;x.shadowOffsetY=2*k;
+  x.beginPath();x.moveTo(-74*k,4*k);x.quadraticCurveTo(-4*k,-10*k,66*k,4*k);x.quadraticCurveTo(72*k,16*k,66*k,26*k);x.quadraticCurveTo(-4*k,12*k,-74*k,28*k);x.quadraticCurveTo(-80*k,16*k,-74*k,4*k);x.closePath();x.fill();
+  x.beginPath();x.arc(84*k,20*k,14*k,0,6.283);x.fill();x.restore();return c}
+var SHARE_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8"/></svg>';
+var DOTS_SVG='<svg class="bbico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.8" fill="#fff"/><circle cx="12" cy="12" r="1.8" fill="#fff"/><circle cx="17" cy="12" r="1.8" fill="#fff"/></svg>';
+var PLUS_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>';
+function iosSteps(){return '<ol class="bbsteps"><li>Look at <b>Safari’s bar at the very bottom of your screen</b>, below this page. Hidden? Scroll up a little and it pops back. Tap its '+DOTS_SVG+' <b>three dots</b>, not anything on this page. Older iPhones: skip to step 2.</li>'+
+  '<li>Tap '+SHARE_SVG+' <b>Share</b>.</li><li>Scroll down, tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>'}
+function shortcutBlock(){if(isStandalone)return "";var d=load(iconKey());
+  var h='<div class="bbshort"><b class="bbst">Make my own shortcut</b><span class="small">Put it on your home screen with your face as the button, so it’s always one tap away.</span>'+
+    '<div class="row" style="align-items:center;gap:12px;margin-top:10px"><img src="'+(d&&d.url?d.url:(O.defIcon||""))+'" alt="App icon" class="bbprev">'+
+    '<label class="bbbtn sm" style="cursor:pointer">'+(d&&d.url?"Change photo":"Use my photo as the icon")+'<input type="file" accept="image/*" class="bbfile" style="display:none"></label>'+
+    (d&&d.url?(ui.img?'<button class="bblnk" data-bb="iconedit">Adjust</button>':'')+'<button class="bblnk" data-bb="iconreset">Use the logo</button>':'')+'</div>';
+  if(isIOS)h+=(ui.hsGuide?iosSteps():'')+'<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="hsguide">'+(ui.hsGuide?"Hide steps":"Make my shortcut")+'</button></div>';
+  else if(deferredInstall)h+='<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="install">Add to home screen</button></div>';
+  else h+='<p class="small" style="margin-top:10px">In Chrome, tap <b>⋮</b> (top right), then <b>Add to home screen</b>.</p>';
+  return h+'</div>'}
+var ED=null;
+function openEditor(img){var d=load(iconKey())||{};var fr=O.frames;ED={img:img,f:fr.indexOf(d.f)>=0?d.f:fr[0],t:d.t&&ui.img===img?d.t:{z:1}};
+  var w=img.naturalWidth,h=img.naturalHeight;if(ED.t.cx==null){ED.t.cx=w/2;ED.t.cy=h>w?h*.42:h/2}
+  var el=document.getElementById("bbiced");if(!el){el=document.createElement("div");el.id="bbiced";document.body.appendChild(el)}
+  el.innerHTML='<div class="edbox"><b class="bbt">Make your <em>icon</em></b><p class="small" style="margin:4px 0 10px">Drag your photo to line it up. Pinch or use the slider to zoom.</p>'+
+   '<canvas id="bbedc" width="480" height="480"></canvas><input type="range" id="bbedz" min="1" max="3" step="0.01" value="'+ED.t.z+'">'+
+   '<div class="row" style="justify-content:center;gap:8px">'+fr.map(function(f){return '<button class="bbchip'+(ED.f===f?" on":"")+'" data-edf="'+f+'">'+(O.frameNames[f]||f)+'</button>'}).join("")+'</div>'+
+   '<div class="row" style="justify-content:center;gap:12px;margin-top:14px"><button class="bbbtn pine" id="bbedok">Use this</button><button class="bblnk" id="bbedx">Cancel</button></div></div>';
+  el.style.display="flex";edDraw();
+  var cv=document.getElementById("bbedc"),pts={},pd=null;
+  function sc(){return (Math.min(img.naturalWidth,img.naturalHeight)/ED.t.z)/240}
+  cv.addEventListener("pointerdown",function(e){cv.setPointerCapture(e.pointerId);pts[e.pointerId]={x:e.clientX,y:e.clientY};var ks=Object.keys(pts);if(ks.length===2){var a=pts[ks[0]],b=pts[ks[1]];pd={d:Math.hypot(a.x-b.x,a.y-b.y),z:ED.t.z}}});
+  cv.addEventListener("pointermove",function(e){var p=pts[e.pointerId];if(!p)return;var ks=Object.keys(pts);
+    if(ks.length===2&&pd){p.x=e.clientX;p.y=e.clientY;var a=pts[ks[0]],b=pts[ks[1]];ED.t.z=Math.max(1,Math.min(3,pd.z*Math.hypot(a.x-b.x,a.y-b.y)/pd.d));document.getElementById("bbedz").value=ED.t.z}
+    else{var s2=sc();ED.t.cx-=(e.clientX-p.x)*s2;ED.t.cy-=(e.clientY-p.y)*s2;p.x=e.clientX;p.y=e.clientY}edClamp();edDraw()});
+  function up(e){delete pts[e.pointerId];pd=null}cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+  document.getElementById("bbedz").addEventListener("input",function(e){ED.t.z=+e.target.value;edClamp();edDraw()});
+  el.onclick=function(e){var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.edf){ED.f=b.dataset.edf;[].forEach.call(el.querySelectorAll("[data-edf]"),function(x){x.classList.toggle("on",x===b)});edDraw()}
+    else if(b.id==="bbedx"){el.style.display="none";ED=null}
+    else if(b.id==="bbedok"){var u=drawIcon(ED.img,ED.f,180,ED.t).toDataURL("image/jpeg",.9);if(!store(iconKey(),{url:u,f:ED.f,t:ED.t}))O.toast&&O.toast("Couldn’t save the photo on this phone");
+      el.style.display="none";ED=null;setAppIcon();O.render&&O.render();O.toast&&O.toast("Looking good! Now add it to your home screen")}}}
+function edClamp(){var w=ED.img.naturalWidth,h=ED.img.naturalHeight,sz=Math.min(w,h)/ED.t.z;ED.t.cx=Math.max(sz/2,Math.min(w-sz/2,ED.t.cx));ED.t.cy=Math.max(sz/2,Math.min(h-sz/2,ED.t.cy))}
+function edDraw(){var cv=document.getElementById("bbedc");if(!cv||!ED)return;cv.getContext("2d").drawImage(drawIcon(ED.img,ED.f,480,ED.t),0,0)}
+function hint(){var hn=document.getElementById("sfhint");if(!hn){hn=document.createElement("div");hn.id="sfhint";hn.innerHTML='Safari’s <b>•••</b> are down here, in its bar. Tap them first.<span class="ar">↓</span>';hn.onclick=function(){hn.style.display="none"};document.body.appendChild(hn)}
+  hn.style.display=(ui.hsGuide&&isIOS&&!isStandalone)?"block":"none"}
+
+/* ---------- events ---------- */
+document.addEventListener("change",function(e){var t=e.target;
+  if(t.classList&&t.classList.contains("bbfile")&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){ui.img=im;openEditor(im)};im.src=fr.result};fr.readAsDataURL(t.files[0]);t.value=""}
+  if(t.dataset&&t.dataset.bbchatin!==undefined){var m=(t.value||"").match(CHATRE);if(m){O.setChat&&O.setChat(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("That doesn’t look like a WhatsApp group link")}});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-bb],[data-bbq],[data-bbchat]");if(!b)return;
+  if(b.dataset.bbq!==undefined){toggleHelp(b,O.help);return}
+  if(b.dataset.bbchat){onChatClick(b.dataset.bbchat,function(v){O.setChat&&O.setChat(v)});return}
+  switch(b.dataset.bb){
+    case "backup":sendBackup();break;
+    case "restore":var ta=document.getElementById("bbrin");if(ta&&restoreFrom(ta.value))ta.value="";break;
+    case "iconedit":if(ui.img)openEditor(ui.img);break;
+    case "iconreset":try{localStorage.removeItem(iconKey())}catch(err){}ui.img=null;setAppIcon();O.render&&O.render();break;
+    case "hsguide":ui.hsGuide=!ui.hsGuide;O.render&&O.render();break;
+    case "install":if(deferredInstall){deferredInstall.prompt();deferredInstall=null}break;
+  }});
+
+function after(root){setAppIcon();hint();if(O.help)addHelp(root,O.help)}
+function init(o){O=o;O.frames=O.frames||["hat","tag","snow"];O.frameNames=O.frameNames||{hat:"Santa hat",tag:"Gold tag",snow:"Snow",leaves:"Leaves",pumpkin:"Pumpkin",gold:"Gold frame"};setAppIcon();setTimeout(checkHash,0)}
+return {init:init,after:after,openWA:openWA,copyText:copyText,intl:intl,prettyNum:prettyNum,amzUrl:amzUrl,findBtn:findBtn,AMZ_NOTE:AMZ_NOTE,country:country,C:C,CTRY:CTRY,
+  chatCard:chatCard,chatCode:chatCode,CHATRE:CHATRE,postRow:postRow,saveCard:saveCard,shortcutBlock:shortcutBlock,drawIcon:drawIcon,backupLink:backupLink,readBackup:readBackup,isIOS:isIOS,isStandalone:isStandalone,sheet:sheet,closeSheet:closeSheet,esc:esc}
+})();
+
+</script>
+<script>
+(function(){
+"use strict";
+var E={"id": "kids", "appName": "Kids' advent calendar", "title": "The Kids' Advent Calendar", "kicker": "BrightBlueprintCo · advent 2026", "h1": "Advent <em>24 doors of Christmas fun</em>", "accent": "#9A2B2E", "seed": 11, "setupTitle": "Who’s opening <em>the doors?</em>", "namesLabel": "Their names", "namesPh": "e.g. Mia & Leo", "namesFallback": "Elves", "scratchHint": "Scratch me!", "doneLabel": "We did it!", "notePh": "What happened? (Grown-ups can write it in)", "shareLabel": "Share with Grandma", "shareEmoji": "🎄", "shareTail": "Love from your little elves ✨", "memTitle": "Our advent so far", "practice": {"k": "PRACTICE", "t": "You found the practice door!", "b": "Every day in December a new door unlocks. Scratch it (or tap) to see what’s inside. When you’ve done it, tick “We did it!” and add a note. Ready for 1 December?", "g": ["Free", "1 minute"]}, "doors": [{"k": "MISSION", "t": "Dear Santa…", "b": "{names}, today’s mission: write your letter to Santa! Tell him what you’d love this year, AND one thing you’re really proud of from this year. Santa loves hearing that bit.", "g": ["Free", "Indoors", "20 mins"]}, {"k": "JOKE", "t": "Joke of the day", "b": "What do you call a snowman with a six-pack?", "g": ["Free", "1 minute"], "a": "An abdominal snowman!"}, {"k": "CRAFT", "t": "Paper snowflakes", "b": "Fold a square of paper into a triangle, then in half again, and once more. Snip little shapes out of the edges, unfold… and no two will be the same! Stick them on a window.", "g": ["Free", "Indoors", "20 mins"]}, {"k": "REINDEER FACT", "t": "Girls rule the sleigh", "b": "Both boy AND girl reindeer grow antlers. Boy reindeer drop theirs in early winter, but girl reindeer keep theirs right through to spring. So the reindeer pulling Santa’s sleigh on Christmas Eve… are probably girls!", "g": ["Free", "Fact"]}, {"k": "KINDNESS", "t": "Thank-you card", "b": "Make a card for someone who helps you every day: a teacher, a crossing guard, the bin collectors, or a neighbour. Draw a picture and write why they’re great.", "g": ["Free", "Kindness", "20 mins"]}, {"k": "MISSION", "t": "Hot chocolate taste test", "b": "Make two different hot chocolates (marshmallows vs whipped cream, or milk vs dark). Everyone scores them out of 10. Announce the winner in your best TV voice.", "g": ["Indoors", "15 mins"]}, {"k": "TREAT", "t": "PJ movie night", "b": "Pyjamas on, blankets out, popcorn ready. Christmas film night! Pick one everyone agrees on (good luck with that).", "g": ["Indoors", "Evening"]}, {"k": "GAME", "t": "Hide the bauble", "b": "One person hides a small decoration somewhere in the room. Everyone else hunts. The hider can only say “warmer” or “colder”. Swap and play again!", "g": ["Free", "Indoors", "15 mins"]}, {"k": "JOKE", "t": "Joke of the day", "b": "What do elves learn at school?", "g": ["Free", "1 minute"], "a": "The elf-abet!"}, {"k": "CRAFT", "t": "Countdown paper chain", "b": "Make a paper chain with one link for every sleep left until Christmas. Tear one link off every morning and watch it get shorter!", "g": ["Free", "Indoors", "20 mins"]}, {"k": "REINDEER FACT", "t": "Magic eyes", "b": "Reindeer eyes change colour! They’re golden in summer and turn blue in winter, to help them see in the long, dark Arctic nights. Perfect for flying through the sky on Christmas Eve.", "g": ["Free", "Fact"]}, {"k": "SANTA", "t": "A note from Santa", "b": "Dear {names},\n\nThe elves tell me you’ve been working really hard on being kind this month. I’ve seen it too! Keep it up. It’s nearly time.\n\nLove,\nSanta 🎅\n\nP.S. Don’t forget to brush your teeth. Rudolph says hello.", "g": ["Halfway there!"]}, {"k": "MISSION", "t": "Blanket fort story time", "b": "Build a blanket fort with cushions and chairs, then read a Christmas story inside it by torchlight. Grown-ups have to fit in too!", "g": ["Free", "Indoors", "30 mins"]}, {"k": "KINDNESS", "t": "Make room for Santa", "b": "Pick three toys you’ve grown out of to give to a charity shop or to someone younger. It makes space for new ones, and makes someone else happy.", "g": ["Free", "Kindness"]}, {"k": "JOKE", "t": "Joke of the day", "b": "What do you get if you cross a snowman with a vampire?", "g": ["Free", "1 minute"], "a": "Frostbite!"}, {"k": "BAKE", "t": "Decorate biscuits", "b": "Decorate biscuits or cookies with icing and sprinkles. Make one extra-special one and save it for Santa on Christmas Eve.", "g": ["Indoors", "45 mins"]}, {"k": "REINDEER FACT", "t": "Clicky knees", "b": "Reindeer knees make a clicking sound when they walk! It helps the herd hear each other and stay together in a snowstorm. Click-click-click across the rooftops…", "g": ["Free", "Fact"]}, {"k": "MISSION", "t": "Christmas lights hunt", "b": "Wrap up warm and go on a lights hunt round your area. Which house has the best lights? Give it a prize… in your head!", "g": ["Free", "Outdoors", "30 mins"]}, {"k": "TREAT", "t": "Breakfast for dinner", "b": "Tonight, dinner is… pancakes! Toppings of your choice. Yes, really.", "g": ["Indoors", "Evening"]}, {"k": "MISSION", "t": "Living room concert", "b": "Put on a Christmas playlist and put on a concert. Hairbrush microphones, air guitar, dancing on the sofa (OK, maybe not ON the sofa).", "g": ["Free", "Indoors", "20 mins"]}, {"k": "KINDNESS", "t": "Sing to someone far away", "b": "Call or video-call a grandparent, or someone who’d love to hear from you, and sing them a Christmas song. Even just the chorus counts!", "g": ["Free", "Kindness", "10 mins"]}, {"k": "JOKE", "t": "Joke of the day", "b": "Why did the turkey join the band?", "g": ["Free", "1 minute"], "a": "Because it had the drumsticks!"}, {"k": "CRAFT", "t": "Santa stop here!", "b": "Make a big “SANTA STOP HERE!” sign to put in the window, so he definitely doesn’t miss your house. Glitter is allowed (sorry, grown-ups).", "g": ["Indoors", "30 mins"]}, {"k": "CHRISTMAS EVE", "t": "The big night!", "b": "Put out a treat for Santa and a carrot for the reindeer. Lay out your stocking. Then straight to bed, {names}: Santa only comes when everyone’s asleep! 🎅✨", "g": ["Christmas Eve"]}], "swaps": [{"k": "QUICK ONE", "t": "Best joke at dinner", "b": "Tell everyone your best Christmas joke at dinner tonight. Groans count as laughs.", "g": ["Free", "2 mins"]}, {"k": "QUICK ONE", "t": "Draw your dream present", "b": "Draw the most amazing present you can imagine. Then draw who you’d give it to.", "g": ["Free", "10 mins"]}, {"k": "QUICK ONE", "t": "Tree spotting", "b": "On the way home, count every Christmas tree you can see in windows. What’s the family record?", "g": ["Free", "On the go"]}, {"k": "QUICK ONE", "t": "Five-minute dance party", "b": "One Christmas song. Everybody dances. No sitting down allowed!", "g": ["Free", "5 mins"]}, {"k": "QUICK ONE", "t": "Nice things", "b": "Say one nice thing about everyone in your family. Out loud. At the same time if you’re brave!", "g": ["Free", "5 mins"]}, {"k": "QUICK ONE", "t": "Merry Christmas around the world", "b": "Learn to say it in another language: Feliz Navidad (Spanish), Joyeux Noël (French), Frohe Weihnachten (German). Try them all at breakfast!", "g": ["Free", "5 mins"]}, {"k": "QUICK ONE", "t": "Secret elf", "b": "Do a secret good deed: tidy something without being asked. Don’t tell anyone. See if they notice!", "g": ["Free", "5 mins"]}], "kit": ["Kids craft kit", "Christmas cookie cutters", "Sprinkles and icing pens", "Hot chocolate with marshmallows", "Christmas story books for kids", "Battery fairy lights"], "help": [["^Who.s opening", "Add the kids’ names and the doors will talk to them. You can change them any time."], ["^The first door", "Doors unlock one a day from 1 December. The practice door shows you how it works before then."], ["^Our memories", "Every door you tick off, and every note you add, collects here. Share them with family on Christmas Eve."], ["^Things to", "A few things some of the doors use. Each button searches Amazon for it."], ["^Save my page", "Everything saves on this phone. Send yourself a backup link so it can come back on any phone. Make my own shortcut puts it on your home screen with your face as the icon."]], "foot": "Made with love by"};E.help=(E.help||[]).map(function(h){return [new RegExp(h[0]),h[1]]});
+var KEY="bbco-advent-"+E.id+"-v1";
+var PEEK=/[?&]peek=1/.test(location.search);
+function $(s){return document.querySelector(s)}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function defaults(){return {names:"",opened:{},done:{},notes:{},swap:{},pg:!!E.pgDefault,practice:false}}
+var S=load()||defaults();(function(){var d=defaults();for(var k in d)if(S[k]===undefined)S[k]=d[k]})();
+var tS=null;function save(){clearTimeout(tS);tS=setTimeout(function(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},150)}
+var tT=null;function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tT);tT=setTimeout(function(){t.classList.remove("show")},2300)}
+var ui={view:null,revealed:false};
+function now(){return new Date()}
+function yr(){var n=now();return n.getMonth()===0?n.getFullYear()-1:n.getFullYear()}
+function unlocked(d){if(PEEK)return true;var n=now();var y=yr();var t=new Date(y,11,d);return n>=t}
+function isToday(d){var n=now();return n.getMonth()===11&&n.getDate()===d}
+function sleeps(){var n=now();var c=new Date(n.getFullYear(),11,25);if(n>c&&n.getMonth()===11)return 0;if(n.getMonth()===0)return 0;return Math.ceil((c-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5)}
+function names(){return S.names.trim()||E.namesFallback}
+function fill(t){return String(t).replace(/\{names\}/g,names())}
+function doorData(d){var sw=S.swap[d];if(sw!=null&&E.swaps[sw])return E.swaps[sw];return E.doors[d-1]}
+/* layout: fixed shuffled order */
+var ORDER=(function(){var o=[];for(var i=1;i<=24;i++)o.push(i);var r=E.seed||7;for(var j=o.length-1;j>0;j--){r=(r*9301+49297)%233280;var k=Math.floor(r/233280*(j+1));var t=o[j];o[j]=o[k];o[k]=t}return o})();
+function render(skipView){
+  var sl=sleeps();$("#sleeps").textContent=sl>0?sl+(sl===1?" sleep":" sleeps")+" till Christmas":(now().getMonth()===11&&now().getDate()===25?"Merry Christmas!":"");
+  var h="";var n=now();var before=!PEEK&&n.getMonth()<11&&n.getMonth()>0;
+  if(before){var dd=Math.ceil((new Date(n.getFullYear(),11,1)-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5);
+    h+='<div class="card"><h2>The first door opens <em>1 December</em></h2><p class="small" style="margin-top:6px">'+dd+(dd===1?' day':' days')+' to go. Set it up now, then try the practice door to see how it works.</p><div class="row" style="margin-top:10px"><button class="btn fill" id="practice">Open the practice door</button></div></div>'}
+  h+='<div class="card"><h2>'+E.setupTitle+'</h2><span class="label" style="display:block;margin-top:10px">'+E.namesLabel+'</span><input class="in" id="names" maxlength="60" value="'+esc(S.names)+'" placeholder="'+esc(E.namesPh)+'">'+
+    (E.pgSwitch?'<span class="label" style="display:block;margin-top:12px">Keep it PG on screen?</span><div class="seg"><button data-pg="1" class="'+(S.pg?"on":"")+'">Yes, hide it</button><button data-pg="0" class="'+(S.pg?"":"on")+'">No, show it</button></div><p class="small" style="margin-top:6px">With PG on, each door stays covered until you tap Show it. Handy if the phone gets passed round the kitchen.</p>':'')+
+    '</div>';
+  h+='<div class="grid">'+ORDER.map(function(d){var un=unlocked(d),op=!!S.opened[d],dn=!!S.done[d],td=isToday(d)&&!op;
+    var cls="door"+(un?(op?" open":(td||PEEK?" today":"")):" locked")+(dn?" done":"");
+    return '<button class="'+cls+'" data-door="'+d+'" aria-label="Door '+d+'"><span class="hole"></span><span class="n">'+d+'</span><span class="d">'+(un?(op?esc(doorData(d).k):"Dec "+d):"Dec "+d)+'</span></button>'}).join("")+'</div>';
+  h+='<p class="small" style="text-align:center">'+(PEEK?'Test mode: every door is unlocked.':'Each door unlocks on its day. No peeking ahead!')+'</p>';
+  var mem=[];for(var d=1;d<=24;d++)if(S.done[d]||S.notes[d])mem.push(d);
+  h+='<div class="card"><h2>Our <em>memories</em></h2>'+(mem.length?mem.map(function(d){return '<div class="mem"><span class="label">Dec '+d+'</span><br><b>'+esc(doorData(d).t)+'</b>'+(S.notes[d]?'<span class="hand">'+esc(S.notes[d])+'</span>':'')+'</div>'}).join("")+
+    '<div class="row" style="margin-top:12px"><button class="bbbtn sm pine" id="sharemem">Share our memories</button></div>':'<p class="small" style="margin-top:6px">Tick each door when you’ve done it and add a note. They all collect here, ready for Christmas Eve.</p>')+'</div>';
+  if(E.kit&&E.kit.length){h+='<div class="card"><h2>Things to <em>have in</em></h2><p class="small">A few bits some doors need. Tap to find them.</p>'+E.kit.map(function(k){return '<div class="row" style="justify-content:space-between;padding:7px 0;border-bottom:1px dotted var(--line)"><span>'+esc(k)+'</span>'+BB.findBtn(k,"bbamz sm","Find it →")+'</div>'}).join("")+BB.AMZ_NOTE+'</div>'}
+  h+='<div class="card"><h2>Save my <em>page</em></h2>'+BB.saveCard()+'</div>';
+  $("#main").innerHTML=h;BB.after($("#main"));
+  if(ui.view!=null&&!skipView)renderView();
+}
+function burst(){var cols=["var(--gold)","var(--cran)","var(--pine)","var(--gold)"],gl=["★","✦","★","✧","•"],b="";
+  for(var i=0;i<26;i++){var a=i/26*6.283+Math.random()*.3,ds=110+Math.random()*90;b+='<i style="--x:'+Math.round(Math.cos(a)*ds)+'px;--y:'+Math.round(Math.sin(a)*ds*.8)+'px;--r:'+Math.round(Math.random()*360-180)+'deg;--s:'+(12+Math.round(Math.random()*16))+'px;--c:'+cols[i%4]+';--d:'+(Math.random()*.2).toFixed(2)+'s">'+gl[i%5]+'</i>'}
+  return '<div class="burst">'+b+'</div>'}
+function contentHTML(dd,d){
+  return '<div class="kind">'+esc(dd.k)+'</div><h3>'+esc(fill(dd.t))+'</h3><div class="body">'+fill(esc(dd.b)).replace(/\n/g,"<br>")+'</div>'+
+    (dd.a?'<div class="ans" id="ans">'+(ui.ans?esc(dd.a):'<button class="lnk" id="showans">Tap for the answer</button>')+'</div>':'')+
+    (dd.g&&dd.g.length?'<div class="tags">'+dd.g.map(function(x){return '<span>'+esc(x)+'</span>'}).join("")+'</div>':'')}
+function renderView(justOpened){
+  var d=ui.view,v=$("#view");if(d==null){v.classList.remove("on");v.innerHTML="";return}
+  var practice=d===0;var dd=practice?E.practice:doorData(d);
+  var opened=practice?ui.revealed:!!S.opened[d];
+  var h='<div class="sheet'+(justOpened?' pop':'')+'"><button class="x" id="vclose" aria-label="Close">&times;</button><div class="day">'+(practice?"Practice door":"December "+d)+'</div>';
+  if(!opened){
+    h+='<div class="scratchwrap" style="height:230px;margin-top:12px"><div style="padding:30px 10px;text-align:center" class="small">Your surprise is under here…</div><canvas id="scr"></canvas><div class="scrhint">'+(E.scratchHint||"Scratch me!")+'</div></div>'+
+       '<div class="row" style="justify-content:center;margin-top:12px"><button class="lnk" id="tapopen">Or just tap to open</button></div>';
+  }else if(E.pgSwitch&&S.pg&&!ui.pgShow){
+    h+='<div class="pgcover" style="margin-top:12px"><div class="kind">Door '+d+'</div><h3 style="margin:6px 0">Open when you’re alone</h3><button class="btn gold" id="pgshow">Show it</button></div>';
+  }else{
+    h+=(justOpened?burst():'')+contentHTML(dd,d);
+    if(!practice){
+      h+='<div class="done-row"><button class="tick'+(S.done[d]?" on":"")+'" id="vdone">'+(S.done[d]?"✓ ":"")+(E.doneLabel||"We did it!")+'</button>'+
+        '<textarea class="note" id="vnote" placeholder="'+esc(E.notePh||"How did it go?")+'">'+esc(S.notes[d]||"")+'</textarea>'+
+        '<div class="row" style="margin-top:10px;justify-content:space-between"><button class="bbbtn sm pine" id="vshare">'+esc(E.shareLabel||"Share on WhatsApp")+'</button>'+(E.swaps&&E.swaps.length?'<button class="lnk" id="vswap">'+(S.swap[d]!=null?"Swap again":"Busy day? Swap it")+'</button>':'')+'</div></div>';
+    }else h+='<p class="small" style="margin-top:14px">That’s how it works! On 1 December the first real door unlocks.</p>';
+  }
+  h+='</div>';v.innerHTML=h;v.classList.add("on");
+  if(!opened)setupScratch(d);
+}
+function openDoor(d){if(d===0){ui.revealed=true}else{S.opened[d]=true;save()}ui.ans=false;renderView(true);render()}
+function setupScratch(d){var cv=$("#scr");if(!cv)return;var r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;var x=cv.getContext("2d");x.scale(dpr,dpr);
+  var g=x.createLinearGradient(0,0,r.width,r.height);g.addColorStop(0,"#D9B46A");g.addColorStop(.5,"#B98A3C");g.addColorStop(1,"#A87A30");x.fillStyle=g;x.fillRect(0,0,r.width,r.height);
+  x.fillStyle="rgba(255,248,230,.5)";for(var i=0;i<60;i++){x.font=(8+Math.random()*10)+"px serif";x.fillText(Math.random()<.5?"★":"✦",Math.random()*r.width,Math.random()*r.height)}
+  x.globalCompositeOperation="destination-out";var down=false,last=null,moves=0;
+  function pt(e){var b=cv.getBoundingClientRect();return {x:e.clientX-b.left,y:e.clientY-b.top}}
+  function draw(p){x.lineWidth=46;x.lineCap="round";x.beginPath();if(last){x.moveTo(last.x,last.y)}else x.moveTo(p.x,p.y);x.lineTo(p.x+.1,p.y+.1);x.stroke();last=p;moves++;var h=document.querySelector(".scrhint");if(h)h.style.opacity=0}
+  function check(){var w=cv.width,hh=cv.height,data=x.getImageData(0,0,w,hh).data,clr=0,tot=0;for(var i=3;i<data.length;i+=4*40){tot++;if(data[i]===0)clr++}if(clr/tot>.45)openDoor(d)}
+  cv.addEventListener("pointerdown",function(e){down=true;last=null;cv.setPointerCapture(e.pointerId);draw(pt(e))});
+  cv.addEventListener("pointermove",function(e){if(down){draw(pt(e));if(moves%8===0)check()}});
+  cv.addEventListener("pointerup",function(){down=false;last=null;check()});
+}
+function shareText(d){var dd=doorData(d);return (E.shareEmoji||"🎄")+" "+(E.sharePrefix||"Day {d} of our advent").replace("{d}",d)+": "+fill(dd.t)+"\n\n"+fill(dd.b)+(dd.a?"\n\n("+dd.a+")":"")+"\n\n"+fill(E.shareTail||"")}
+/* events */
+document.addEventListener("click",function(e){var t=e.target;
+  var door=t.closest("[data-door]");if(door){var d=+door.dataset.door;if(!unlocked(d)){toast("No peeking! Door "+d+" opens on "+d+" December");return}ui.view=d;ui.pgShow=false;ui.ans=false;renderView();return}
+  if(t.closest("[data-pg]")){S.pg=t.closest("[data-pg]").dataset.pg==="1";save();render();return}
+  var id=(t.closest("button")||{}).id;
+  switch(id){
+    case "practice":ui.view=0;ui.revealed=false;renderView();break;
+    case "vclose":ui.view=null;renderView();break;
+    case "tapopen":openDoor(ui.view);break;
+    case "pgshow":ui.pgShow=true;renderView();break;
+    case "showans":ui.ans=true;renderView();break;
+    case "vdone":S.done[ui.view]=!S.done[ui.view];save();renderView();render();if(S.done[ui.view])toast("Ticked off! Added to your memories");break;
+    case "vshare":BB.openWA("",shareText(ui.view));break;
+    case "vswap":var d=ui.view;var cur=S.swap[d];var nx=cur==null?(d*7)%E.swaps.length:(cur+1)%E.swaps.length;S.swap[d]=nx;save();ui.ans=false;renderView();render();toast("Swapped for a quick one");break;
+    case "sharemem":var L=[];for(var i=1;i<=24;i++)if(S.done[i]||S.notes[i])L.push("Dec "+i+": "+fill(doorData(i).t)+(S.notes[i]?" ("+S.notes[i]+")":""));BB.openWA("",(E.memTitle||"Our advent so far")+" "+(E.shareEmoji||"🎄")+"\n\n"+L.join("\n"));break;
+  }
+  if(t.id==="view"){ui.view=null;renderView()}
+});
+document.addEventListener("input",function(e){if(e.target.id==="names"){S.names=e.target.value;save();$("#sleeps")}if(e.target.id==="vnote"){S.notes[ui.view]=e.target.value;save()}});
+document.addEventListener("change",function(e){if(e.target.id==="names"||e.target.id==="vnote")render(true)});
+BB.init({key:KEY,appName:E.appName,frames:["hat","tag","snow"],defIcon:"icon-180.png",defCountry:"GB",help:E.help,cardSel:".card",
+  getState:function(){return S},setState:function(o){S=o;var d=defaults();for(var k in d)if(S[k]===undefined)S[k]=d[k];save();render()},
+  valid:function(o){return !!(o&&o.opened)},isEmpty:function(){return !Object.keys(S.opened).length&&!S.names},toast:toast,render:function(){render()}});
+render();
+})();
+</script>
+</body>
+</html>
