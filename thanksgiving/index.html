@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Thanksgiving">
 <title>The Thanksgiving Host Planner</title>
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&family=Courier+Prime:wght@400;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
@@ -127,6 +128,57 @@ textarea{width:100%;min-height:70px;background:#fffdf7;border:1.2px solid var(--
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) rotate(-1deg);background:var(--ink);color:var(--card);font-family:var(--type);font-size:13px;letter-spacing:.06em;padding:9px 16px;border-radius:3px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60}
 .toast.show{opacity:1}
 .hide{display:none!important}
+
+.bbhas{position:relative}
+.bbq{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;border:1.6px solid #6B5544;background:transparent;color:#6B5544;font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1;padding:0;z-index:2}
+.bbq.on{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bbhas h2{padding-right:38px}
+.bbhelp{background:#EEF2EA;border-left:3px solid #3D5A45;padding:10px 12px;font-size:14.5px;line-height:1.45;margin:6px 0 12px}
+.bbbtn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #33261D;background:transparent;padding:9px 15px;font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#33261D;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none}
+.bbbtn.sm{padding:6px 11px;font-size:11.5px}
+.bbbtn.pine{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bblnk{border:0;background:none;font-family:var(--type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;color:#3D5A45;cursor:pointer;padding:4px}
+.bbgold{display:block;margin-top:12px;background:#B98A3C;color:#2A1E14;text-align:center;padding:14px 12px;font-family:var(--serif);font-size:19px;line-height:1.2;text-decoration:none;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(-.6deg)}
+.bbgold b{font-weight:700}
+.bbpine{display:block;width:100%;margin-top:12px;background:#3D5A45;color:#FCF7EC;border:0;padding:14px 12px;font-family:var(--serif);font-size:19px;cursor:pointer;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(.5deg)}
+.bblinked{border:1.5px solid #3D5A45;background:#EEF2EA;padding:10px 12px;margin-top:8px}
+.bblinked b{display:block;color:#3D5A45;font-size:15px}.bblinked span{font-size:12.5px;color:#6B5544;word-break:break-all}
+.bbin,.bbta{width:100%;margin-top:8px;background:#fffdf7;border:1.5px solid #CDBB98;padding:9px;font-family:var(--type);font-size:13px;border-radius:2px}
+.bbta{min-height:84px}
+.bbpost{padding:10px 0;border-bottom:1px dotted #D9C8A8}.bbpost:last-child{border-bottom:0}
+.bbpt{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
+.bbpt span{font-family:var(--serif);font-weight:600;font-size:16px}
+.bbpt i{font-style:normal;font-family:var(--type);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6B5544;border:1px solid #CDBB98;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.bbpt i.on{color:#3D5A45;border-color:#3D5A45}
+.bbamz{display:block;text-align:center;background:#B98A3C;color:#2A1E14;font-family:var(--type);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;padding:11px 10px;margin-top:10px;text-decoration:none;border-radius:2px;box-shadow:0 5px 10px -7px rgba(0,0,0,.6)}
+.bbamz.sm{display:inline-block;padding:5px 9px;font-size:10.5px;margin:6px 0 0;letter-spacing:.1em}
+.bbnote{margin-top:10px;font-size:12.5px!important}
+#bbsheet{position:fixed;inset:0;background:rgba(40,28,20,.45);z-index:70;display:none;align-items:flex-end;justify-content:center}
+#bbsheet.open{display:flex}
+#bbsheet .bbs{background:#FCF7EC;width:100%;max-width:560px;padding:20px 18px calc(22px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);font-size:15px;line-height:1.45}
+#bbsheet p{margin:8px 0;color:#6B5544}#bbsheet a{color:#9A2B2E}
+.bbt{display:block;font-family:var(--serif);font-weight:600;font-size:22px}.bbt em{color:#9A2B2E}
+.bbshort{margin-top:16px;padding:14px;border:1.5px solid #3D5A45;background:#F2F4EC;border-radius:3px}
+.bbst{display:block;font-family:var(--serif);font-weight:600;font-size:18px;color:#3D5A45;margin-bottom:2px}
+.bbprev{width:58px;height:58px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.2);object-fit:cover;background:#E6D5B8}
+.bbsteps{margin:10px 0 0 20px;font-size:15px;line-height:1.55}.bbsteps li{margin:8px 0}
+.bbico{width:26px;height:26px;vertical-align:middle;margin:0 2px;display:inline-block;background:#fff;border-radius:6px;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#bbiced{position:fixed;inset:0;background:rgba(40,28,20,.6);z-index:80;display:none;align-items:center;justify-content:center;padding:16px}
+#bbiced .edbox{background:#FBF7F0;border-radius:14px;padding:18px 16px;max-width:340px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#bbedc{width:240px;height:240px;border-radius:52px;box-shadow:0 6px 18px rgba(0,0,0,.25);touch-action:none;display:block;margin:0 auto;background:#ddd}
+#bbedz{width:100%;margin:14px 0 6px;accent-color:#3D5A45}
+.bbchip{font-family:var(--type);font-size:12px;padding:7px 10px;border:1.5px solid #3D5A45;background:transparent;border-radius:20px;color:#3D5A45}
+.bbchip.on{background:#3D5A45;color:#fff}
+#sfhint{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:60;background:#33261D;color:#FCF7EC;font-family:var(--type);font-size:13px;line-height:1.3;padding:9px 12px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:200px;display:none}
+#sfhint:after{content:"";position:absolute;right:34px;bottom:-9px;border:9px solid transparent;border-bottom:0;border-top-color:#33261D}
+#sfhint .ar{display:block;text-align:right;font-size:22px;margin-top:2px;animation:bbbob 1s ease-in-out infinite}
+@keyframes bbbob{50%{transform:translateY(5px)}}
+
+.gwrap{display:flex;flex-wrap:wrap;gap:8px}.gwrap #gname{flex:1 1 55%}.gwrap #gphone{flex:1 1 35%}
+.gacts{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.gedit{margin:6px 0 4px;padding:10px;background:#F7EEDB;border:1px dashed #CDBB98}
+.gedit input{width:100%;margin-top:6px;background:#fffdf7;border:1.5px solid #CDBB98;padding:8px;font-family:var(--type);font-size:14px}
+.kit .item{align-items:center}
 </style>
 </head>
 <body>
@@ -157,6 +209,206 @@ textarea{width:100%;min-height:70px;background:#fffdf7;border:1.2px solid var(--
 </div>
 <div class="toast" id="toast"></div>
 
+<script>
+/* BrightBlueprintCo shared kit: WhatsApp, Amazon, help, backup links, selfie shortcut */
+var BB=(function(){
+var O={};
+var AMZ_TAG="brightbluepri-21";
+var CTRY={
+  GB:{n:"UK",cur:"£",cc:"44",trunk:true,local:/^7\d{9}$/,amz:"www.amazon.co.uk",tag:true},
+  IE:{n:"Ireland",cur:"€",cc:"353",trunk:true,local:/^8\d{8}$/,amz:"www.amazon.co.uk",tag:true},
+  US:{n:"US",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.com",tag:false},
+  CA:{n:"Canada",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.ca",tag:true},
+  AU:{n:"Australia",cur:"$",cc:"61",trunk:true,local:/^4\d{8}$/,amz:"www.amazon.com.au",tag:false},
+  XX:{n:"Elsewhere",cur:"",cc:"",trunk:false,local:null,amz:"www.amazon.co.uk",tag:true}
+};
+function guessCountry(){var tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  if(/^Europe\/(London|Belfast|Guernsey|Jersey|Isle_of_Man)$/.test(tz))return "GB";if(tz==="Europe/Dublin")return "IE";
+  if(/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)$/.test(tz))return "CA";
+  if(/^(America\/|Pacific\/Honolulu)/.test(tz))return "US";
+  if(/^Australia\//.test(tz))return "AU";if(tz)return "XX";
+  var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";var m=l.match(/-([A-Za-z]{2})$/);var r=m?m[1].toUpperCase():"";if(r==="GB"||r==="UK")return "GB";if(CTRY[r])return r;return O.defCountry||"GB"}
+var CC=null;function country(){if(!CC)CC=guessCountry();return CC}
+function C(){return CTRY[country()]||CTRY.GB}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches);
+var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+var deferredInstall=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(O.render)O.render()});
+
+/* ---------- phone + WhatsApp ---------- */
+function intl(raw){
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
+  if(d.indexOf("+")===0)d=d.slice(1);
+  else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(c.cc&&c.trunk)d=c.cc+d.slice(1);else return "";}
+  else if(c.cc&&c.local&&c.local.test(d))d=c.cc+d;
+  else if(c.cc==="1"&&d.length===11&&d.charAt(0)==="1"){}
+  else if(!c.cc){if(d.length<11)return "";}
+  d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
+}
+function prettyNum(d){if(!d)return "";if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
+function sheet(html){var el=document.getElementById("bbsheet");if(!el){el=document.createElement("div");el.id="bbsheet";document.body.appendChild(el);
+    el.addEventListener("click",function(e){if(e.target===el||e.target.closest("[data-bbclose]"))el.classList.remove("open")})}
+  el.innerHTML='<div class="bbs">'+html+'</div>';el.classList.add("open");return el}
+function closeSheet(){var el=document.getElementById("bbsheet");if(el)el.classList.remove("open")}
+function openWA(num,text){
+  var q=encodeURIComponent(text);var n=num?intl(num):"";
+  var app="whatsapp://send?"+(n?"phone="+n+"&":"")+"text="+q;var web="https://wa.me/"+(n||"")+"?text="+q;
+  try{navigator.clipboard.writeText(text).catch(function(){})}catch(e){}
+  sheet('<b class="bbt">Opening <em>WhatsApp</em>…</b><p>'+(n?'It should open their chat with the message ready. Just tap send.':'Pick the chat or group and the message will be ready. Just tap send.')+'</p>'+
+    '<p>Nothing happened? <a href="'+web+'" target="_blank" rel="noopener">Try WhatsApp Web</a>. The message is copied too, so you can paste it anywhere.</p><button class="bbbtn" data-bbclose>Done</button>');
+  window.location.href=app;
+}
+function copyText(text,msg){try{navigator.clipboard.writeText(text).then(function(){O.toast&&O.toast(msg||"Copied")},function(){fallbackCopy(text)})}catch(e){fallbackCopy(text)}}
+function fallbackCopy(text){sheet('<b class="bbt">Copy <em>this</em></b><textarea class="bbta" readonly>'+esc(text)+'</textarea><button class="bbbtn" data-bbclose>Done</button>');var ta=document.querySelector("#bbsheet textarea");if(ta){ta.focus();ta.select()}}
+var CHATRE=/https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/;
+function chatCard(cur,opts){opts=opts||{};var ok=CHATRE.test(cur||"");
+  var h='<p class="small">'+(opts.blurb||"Running this in a WhatsApp group? Link it here.")+'</p>';
+  if(ok)h+='<div class="bblinked"><b>✔ Group chat linked</b><span>'+esc(cur)+'</span></div><div class="row" style="margin-top:10px"><button class="bbbtn sm" data-bbchat="paste">Paste a different link</button><button class="bblnk" data-bbchat="clear">Remove</button></div>';
+  else h+='<a class="bbgold" href="whatsapp://">Open WhatsApp &amp; create <b>'+esc(opts.groupName||"our")+'</b> group</a>'+
+    '<p class="small" style="margin-top:10px">Then in the group tap its name → <b>Invite via link</b> → <b>Copy link</b>, and come back here.</p>'+
+    '<button class="bbpine" data-bbchat="paste"><b>Paste</b> my group chat link</button>'+
+    '<details style="margin-top:8px"><summary class="small">Or type it in</summary><input class="bbin" data-bbchatin placeholder="https://chat.whatsapp.com/…"></details>';
+  return h}
+function onChatClick(kind,set){
+  if(kind==="clear"){set("");return}
+  try{navigator.clipboard.readText().then(function(t){var m=(t||"").match(CHATRE);if(m){set(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("No group link copied yet. Copy it in WhatsApp first")},function(){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")})}catch(e){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")}
+}
+function chatCode(u){var m=(u||"").match(/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);return m?m[1]:""}
+function postRow(id,title,when,done){return '<div class="bbpost"><div class="bbpt"><span>'+title+'</span><i class="'+(done?"on":"")+'">'+(done?"Posted":when||"")+'</i></div><div class="row"><button class="bbbtn sm pine" data-bbpost="'+id+'" data-via="wa">WhatsApp</button><button class="bbbtn sm" data-bbpost="'+id+'" data-via="copy">Copy</button></div></div>'}
+
+/* ---------- Amazon ---------- */
+var EXPERIENCE=/\b(voucher|experience|lesson|class|ticket|subscription|membership|day out|tour|massage|spa day)\b/i,PRODUCT=/\b(kit|set|book|box|card)\b/i;
+function amzUrl(q){var c=C();return "https://"+c.amz+"/s?k="+encodeURIComponent(q)+(c.tag?"&tag="+AMZ_TAG:"")}
+function findBtn(q,cls,label){if(!q||(EXPERIENCE.test(q)&&!PRODUCT.test(q)))return "";return '<a class="'+(cls||"bbamz")+'" href="'+esc(amzUrl(q))+'" target="_blank" rel="sponsored noopener">'+(label||"Find it on Amazon →")+'</a>'}
+var AMZ_NOTE='<p class="small bbnote">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
+
+/* ---------- help ---------- */
+function addHelp(root,MAP){(root||document).querySelectorAll(O.cardSel||".card").forEach(function(card){
+    var h2=card.querySelector("h2");if(!h2||card.querySelector(".bbq"))return;var t=h2.textContent.replace(/\s+/g," ").trim();
+    for(var i=0;i<MAP.length;i++){if(MAP[i][0].test(t)){var b=document.createElement("button");b.className="bbq";b.type="button";b.setAttribute("aria-label","How this works");b.dataset.bbq=i;b.textContent="?";card.appendChild(b);card.classList.add("bbhas");break}}})}
+function toggleHelp(btn,MAP){var card=btn.closest(O.cardSel||".card"),h2=card.querySelector("h2"),nx=h2.nextElementSibling;
+  if(nx&&nx.classList.contains("bbhelp")){nx.remove();btn.classList.remove("on");return}
+  var p=document.createElement("p");p.className="bbhelp";p.textContent=MAP[+btn.dataset.bbq][1];h2.parentNode.insertBefore(p,h2.nextSibling);btn.classList.add("on")}
+
+/* ---------- backup links ---------- */
+function b64(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function backupLink(){return location.origin+location.pathname+"#r"+b64(O.getState())}
+function readBackup(tx){tx=String(tx||"");var m=tx.match(/#r([A-Za-z0-9_\-]+)/),s;
+  if(m)s=m[1];else{var t2=tx.trim();if(t2.charAt(0)==="{"){try{return JSON.parse(t2)}catch(e){return null}}s=t2}
+  s=s.replace(/[^A-Za-z0-9+\/=_\-]/g,"").replace(/-/g,"+").replace(/_/g,"/").replace(/=+$/,"");
+  for(var cut=0;cut<4;cut++){var t=s.slice(0,s.length-cut);while(t.length%4)t+="=";try{var o=JSON.parse(decodeURIComponent(escape(atob(t))));if(o&&O.valid(o))return o}catch(e){}}return null}
+function sendBackup(){var l=backupLink();try{navigator.clipboard.writeText(l).catch(function(){})}catch(e){}openWA("","My "+O.appName+" backup. Tap to bring it all back:\n"+l)}
+function restoreFrom(text){var o=readBackup(text);if(!o){O.toast&&O.toast("That didn’t work. Copy the whole backup message and try again");return false}O.setState(o);O.toast&&O.toast("Restored! Welcome back");return true}
+function checkHash(){var h=location.hash;if(h.indexOf("#r")!==0)return;var o=readBackup(h);try{history.replaceState(null,"",location.pathname)}catch(e){}
+  if(!o){O.toast&&O.toast("That backup link looks broken. Copy the whole message and paste it into Restore");return}
+  if(O.isEmpty()){O.setState(o);O.toast&&O.toast("Restored! Welcome back");return}
+  sheet('<b class="bbt">Bring back <em>your backup?</em></b><p>This replaces what’s on this phone right now.</p><div class="row"><button class="bbbtn pine" id="bbdores">Restore it</button><button class="bblnk" data-bbclose>Cancel</button></div>');
+  document.getElementById("bbdores").onclick=function(){O.setState(o);closeSheet();O.toast&&O.toast("Restored! Welcome back")}}
+function saveCard(){return '<p class="small">Everything saves on this phone as you go. To be extra safe, send yourself a backup link. Tap it any time, even on a new phone, and it all comes back.</p>'+
+  '<div class="row" style="margin-top:12px"><button class="bbbtn pine" data-bb="backup">Send me a backup link</button></div>'+shortcutBlock()+
+  '<details style="margin-top:12px"><summary class="small">Restore from a backup</summary><textarea class="bbta" id="bbrin" placeholder="Paste your backup link or message here…"></textarea><div class="row" style="margin-top:8px"><button class="bbbtn sm" data-bb="restore">Restore</button></div></details>'}
+
+/* ---------- icon + shortcut ---------- */
+var ui={hsGuide:false,img:null,hsOpen:false};
+function iconKey(){return O.key+"-icon"}
+function setAppIcon(){var d=load(iconKey());var l=document.querySelector('link[rel="apple-touch-icon"]');if(!l){l=document.createElement("link");l.rel="apple-touch-icon";document.head.appendChild(l);l.dataset.def=""}
+  if(l.dataset.def===undefined)l.dataset.def=l.getAttribute("href")||"";l.href=d&&d.url?d.url:(l.dataset.def||O.defIcon||"")}
+function star(x,cx,cy,r,col){x.fillStyle=col;x.beginPath();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;x.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr)}x.closePath();x.fill()}
+function leaf(x,cx,cy,s,rot,col){x.save();x.translate(cx,cy);x.rotate(rot);x.fillStyle=col;x.beginPath();x.moveTo(0,-s);x.quadraticCurveTo(s*.75,-s*.3,0,s);x.quadraticCurveTo(-s*.75,-s*.3,0,-s);x.fill();
+  x.strokeStyle="rgba(60,30,10,.45)";x.lineWidth=s*.08;x.beginPath();x.moveTo(0,-s*.8);x.lineTo(0,s*1.25);x.stroke();x.restore()}
+function drawIcon(img,kind,N,t){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
+  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,m=Math.min(w,h);t=t||{};var z=t.z||1,sz=m/z;
+  var cx=t.cx!=null?t.cx:w/2,cy=t.cy!=null?t.cy:(h>w?h*.42:h/2);cx=Math.max(sz/2,Math.min(w-sz/2,cx));cy=Math.max(sz/2,Math.min(h-sz/2,cy));var sx=cx-sz/2,sy=cy-sz/2;
+  function circle(bg,ring,r){x.fillStyle=bg;x.fillRect(0,0,N,N);x.save();x.beginPath();x.arc(N/2,N/2,r*k,0,6.283);x.clip();x.drawImage(img,sx,sy,sz,sz,N/2-r*k,N/2-r*k,2*r*k,2*r*k);x.restore();
+    x.strokeStyle=ring;x.lineWidth=6*k;x.beginPath();x.arc(N/2,N/2,(r+3)*k,0,6.283);x.stroke();x.lineWidth=1.5*k;x.beginPath();x.arc(N/2,N/2,(r+12)*k,0,6.283);x.stroke()}
+  if(kind==="tag"){circle("#9A2B2E","#B98A3C",68);star(x,152*k,152*k,17*k,"#B98A3C");star(x,27*k,28*k,9*k,"#E6D5B8");star(x,156*k,26*k,6*k,"#E6D5B8");return c}
+  if(kind==="pumpkin"){circle("#C4672A","#E7CF9C",68);leaf(x,150*k,150*k,16*k,.7,"#3D5A45");leaf(x,30*k,32*k,12*k,-.8,"#9A2B2E");leaf(x,152*k,28*k,9*k,.4,"#D9A13B");return c}
+  x.drawImage(img,sx,sy,sz,sz,0,0,N,N);
+  if(kind==="snow"){x.strokeStyle="#3D5A45";x.lineWidth=14*k;x.strokeRect(7*k,7*k,N-14*k,N-14*k);x.strokeStyle="#B98A3C";x.lineWidth=2.5*k;x.strokeRect(15*k,15*k,N-30*k,N-30*k);
+    var r=7;for(var i=0;i<40;i++){r=(r*9301+49297)%233280;var px=r/233280*N;r=(r*9301+49297)%233280;var py=r/233280*N;r=(r*9301+49297)%233280;var rad=(1.4+r/233280*3.4)*k;
+      if(px>40*k&&px<140*k&&py>45*k&&py<150*k)continue;x.fillStyle="rgba(255,255,255,.93)";x.beginPath();x.arc(px,py,rad,0,6.283);x.fill()}return c}
+  if(kind==="leaves"){var cols=["#C4672A","#9A2B2E","#D9A13B","#7A4A2A","#B5532A"],r2=3;
+    for(var j=0;j<26;j++){r2=(r2*9301+49297)%233280;var a=r2/233280;var side=j%4,p=(j/26*4)%1,lx,ly;
+      if(side===0){lx=p*N;ly=8*k}else if(side===1){lx=N-8*k;ly=p*N}else if(side===2){lx=N-p*N;ly=N-8*k}else{lx=8*k;ly=N-p*N}
+      leaf(x,lx+(a-.5)*14*k,ly+(a-.5)*14*k,(11+a*8)*k,a*6.283,cols[j%5])}return c}
+  if(kind==="gold"){x.strokeStyle="#FCF7EC";x.lineWidth=16*k;x.strokeRect(8*k,8*k,N-16*k,N-16*k);x.strokeStyle="#B98A3C";x.lineWidth=3*k;x.strokeRect(17*k,17*k,N-34*k,N-34*k);x.lineWidth=1.2*k;x.strokeRect(4*k,4*k,N-8*k,N-8*k);
+    leaf(x,26*k,154*k,13*k,-.6,"#C4672A");leaf(x,40*k,162*k,10*k,.5,"#9A2B2E");leaf(x,16*k,140*k,9*k,-1.6,"#D9A13B");return c}
+  /* santa hat */
+  x.save();x.translate(84*k,42*k);x.rotate(-.14);x.scale(.9,.9);
+  x.shadowColor="rgba(0,0,0,.28)";x.shadowBlur=6*k;x.shadowOffsetY=2*k;
+  x.fillStyle="#C42B2B";x.beginPath();x.moveTo(-64*k,10*k);x.bezierCurveTo(-58*k,-34*k,-8*k,-58*k,34*k,-50*k);x.bezierCurveTo(62*k,-44*k,80*k,-20*k,82*k,14*k);
+  x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.lineTo(56*k,12*k);x.closePath();x.fill();x.shadowColor="transparent";
+  x.fillStyle="rgba(0,0,0,.14)";x.beginPath();x.moveTo(30*k,-48*k);x.bezierCurveTo(60*k,-42*k,78*k,-20*k,82*k,14*k);x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.closePath();x.fill();
+  x.fillStyle="#FBF7F0";x.shadowColor="rgba(0,0,0,.25)";x.shadowBlur=5*k;x.shadowOffsetY=2*k;
+  x.beginPath();x.moveTo(-74*k,4*k);x.quadraticCurveTo(-4*k,-10*k,66*k,4*k);x.quadraticCurveTo(72*k,16*k,66*k,26*k);x.quadraticCurveTo(-4*k,12*k,-74*k,28*k);x.quadraticCurveTo(-80*k,16*k,-74*k,4*k);x.closePath();x.fill();
+  x.beginPath();x.arc(84*k,20*k,14*k,0,6.283);x.fill();x.restore();return c}
+var SHARE_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8"/></svg>';
+var DOTS_SVG='<svg class="bbico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.8" fill="#fff"/><circle cx="12" cy="12" r="1.8" fill="#fff"/><circle cx="17" cy="12" r="1.8" fill="#fff"/></svg>';
+var PLUS_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>';
+function iosSteps(){return '<ol class="bbsteps"><li>Look at <b>Safari’s bar at the very bottom of your screen</b>, below this page. Hidden? Scroll up a little and it pops back. Tap its '+DOTS_SVG+' <b>three dots</b>, not anything on this page. Older iPhones: skip to step 2.</li>'+
+  '<li>Tap '+SHARE_SVG+' <b>Share</b>.</li><li>Scroll down, tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>'}
+function shortcutBlock(){if(isStandalone)return "";var d=load(iconKey());
+  var h='<div class="bbshort"><b class="bbst">Make my own shortcut</b><span class="small">Put it on your home screen with your face as the button, so it’s always one tap away.</span>'+
+    '<div class="row" style="align-items:center;gap:12px;margin-top:10px"><img src="'+(d&&d.url?d.url:(O.defIcon||""))+'" alt="App icon" class="bbprev">'+
+    '<label class="bbbtn sm" style="cursor:pointer">'+(d&&d.url?"Change photo":"Use my photo as the icon")+'<input type="file" accept="image/*" class="bbfile" style="display:none"></label>'+
+    (d&&d.url?(ui.img?'<button class="bblnk" data-bb="iconedit">Adjust</button>':'')+'<button class="bblnk" data-bb="iconreset">Use the logo</button>':'')+'</div>';
+  if(isIOS)h+=(ui.hsGuide?iosSteps():'')+'<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="hsguide">'+(ui.hsGuide?"Hide steps":"Make my shortcut")+'</button></div>';
+  else if(deferredInstall)h+='<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="install">Add to home screen</button></div>';
+  else h+='<p class="small" style="margin-top:10px">In Chrome, tap <b>⋮</b> (top right), then <b>Add to home screen</b>.</p>';
+  return h+'</div>'}
+var ED=null;
+function openEditor(img){var d=load(iconKey())||{};var fr=O.frames;ED={img:img,f:fr.indexOf(d.f)>=0?d.f:fr[0],t:d.t&&ui.img===img?d.t:{z:1}};
+  var w=img.naturalWidth,h=img.naturalHeight;if(ED.t.cx==null){ED.t.cx=w/2;ED.t.cy=h>w?h*.42:h/2}
+  var el=document.getElementById("bbiced");if(!el){el=document.createElement("div");el.id="bbiced";document.body.appendChild(el)}
+  el.innerHTML='<div class="edbox"><b class="bbt">Make your <em>icon</em></b><p class="small" style="margin:4px 0 10px">Drag your photo to line it up. Pinch or use the slider to zoom.</p>'+
+   '<canvas id="bbedc" width="480" height="480"></canvas><input type="range" id="bbedz" min="1" max="3" step="0.01" value="'+ED.t.z+'">'+
+   '<div class="row" style="justify-content:center;gap:8px">'+fr.map(function(f){return '<button class="bbchip'+(ED.f===f?" on":"")+'" data-edf="'+f+'">'+(O.frameNames[f]||f)+'</button>'}).join("")+'</div>'+
+   '<div class="row" style="justify-content:center;gap:12px;margin-top:14px"><button class="bbbtn pine" id="bbedok">Use this</button><button class="bblnk" id="bbedx">Cancel</button></div></div>';
+  el.style.display="flex";edDraw();
+  var cv=document.getElementById("bbedc"),pts={},pd=null;
+  function sc(){return (Math.min(img.naturalWidth,img.naturalHeight)/ED.t.z)/240}
+  cv.addEventListener("pointerdown",function(e){cv.setPointerCapture(e.pointerId);pts[e.pointerId]={x:e.clientX,y:e.clientY};var ks=Object.keys(pts);if(ks.length===2){var a=pts[ks[0]],b=pts[ks[1]];pd={d:Math.hypot(a.x-b.x,a.y-b.y),z:ED.t.z}}});
+  cv.addEventListener("pointermove",function(e){var p=pts[e.pointerId];if(!p)return;var ks=Object.keys(pts);
+    if(ks.length===2&&pd){p.x=e.clientX;p.y=e.clientY;var a=pts[ks[0]],b=pts[ks[1]];ED.t.z=Math.max(1,Math.min(3,pd.z*Math.hypot(a.x-b.x,a.y-b.y)/pd.d));document.getElementById("bbedz").value=ED.t.z}
+    else{var s2=sc();ED.t.cx-=(e.clientX-p.x)*s2;ED.t.cy-=(e.clientY-p.y)*s2;p.x=e.clientX;p.y=e.clientY}edClamp();edDraw()});
+  function up(e){delete pts[e.pointerId];pd=null}cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+  document.getElementById("bbedz").addEventListener("input",function(e){ED.t.z=+e.target.value;edClamp();edDraw()});
+  el.onclick=function(e){var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.edf){ED.f=b.dataset.edf;[].forEach.call(el.querySelectorAll("[data-edf]"),function(x){x.classList.toggle("on",x===b)});edDraw()}
+    else if(b.id==="bbedx"){el.style.display="none";ED=null}
+    else if(b.id==="bbedok"){var u=drawIcon(ED.img,ED.f,180,ED.t).toDataURL("image/jpeg",.9);if(!store(iconKey(),{url:u,f:ED.f,t:ED.t}))O.toast&&O.toast("Couldn’t save the photo on this phone");
+      el.style.display="none";ED=null;setAppIcon();O.render&&O.render();O.toast&&O.toast("Looking good! Now add it to your home screen")}}}
+function edClamp(){var w=ED.img.naturalWidth,h=ED.img.naturalHeight,sz=Math.min(w,h)/ED.t.z;ED.t.cx=Math.max(sz/2,Math.min(w-sz/2,ED.t.cx));ED.t.cy=Math.max(sz/2,Math.min(h-sz/2,ED.t.cy))}
+function edDraw(){var cv=document.getElementById("bbedc");if(!cv||!ED)return;cv.getContext("2d").drawImage(drawIcon(ED.img,ED.f,480,ED.t),0,0)}
+function hint(){var hn=document.getElementById("sfhint");if(!hn){hn=document.createElement("div");hn.id="sfhint";hn.innerHTML='Safari’s <b>•••</b> are down here, in its bar. Tap them first.<span class="ar">↓</span>';hn.onclick=function(){hn.style.display="none"};document.body.appendChild(hn)}
+  hn.style.display=(ui.hsGuide&&isIOS&&!isStandalone)?"block":"none"}
+
+/* ---------- events ---------- */
+document.addEventListener("change",function(e){var t=e.target;
+  if(t.classList&&t.classList.contains("bbfile")&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){ui.img=im;openEditor(im)};im.src=fr.result};fr.readAsDataURL(t.files[0]);t.value=""}
+  if(t.dataset&&t.dataset.bbchatin!==undefined){var m=(t.value||"").match(CHATRE);if(m){O.setChat&&O.setChat(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("That doesn’t look like a WhatsApp group link")}});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-bb],[data-bbq],[data-bbchat]");if(!b)return;
+  if(b.dataset.bbq!==undefined){toggleHelp(b,O.help);return}
+  if(b.dataset.bbchat){onChatClick(b.dataset.bbchat,function(v){O.setChat&&O.setChat(v)});return}
+  switch(b.dataset.bb){
+    case "backup":sendBackup();break;
+    case "restore":var ta=document.getElementById("bbrin");if(ta&&restoreFrom(ta.value))ta.value="";break;
+    case "iconedit":if(ui.img)openEditor(ui.img);break;
+    case "iconreset":try{localStorage.removeItem(iconKey())}catch(err){}ui.img=null;setAppIcon();O.render&&O.render();break;
+    case "hsguide":ui.hsGuide=!ui.hsGuide;O.render&&O.render();break;
+    case "install":if(deferredInstall){deferredInstall.prompt();deferredInstall=null}break;
+  }});
+
+function after(root){setAppIcon();hint();if(O.help)addHelp(root,O.help)}
+function init(o){O=o;O.frames=O.frames||["hat","tag","snow"];O.frameNames=O.frameNames||{hat:"Santa hat",tag:"Gold tag",snow:"Snow",leaves:"Leaves",pumpkin:"Pumpkin",gold:"Gold frame"};setAppIcon();setTimeout(checkHash,0)}
+return {init:init,after:after,openWA:openWA,copyText:copyText,intl:intl,prettyNum:prettyNum,amzUrl:amzUrl,findBtn:findBtn,AMZ_NOTE:AMZ_NOTE,country:country,C:C,CTRY:CTRY,
+  chatCard:chatCard,chatCode:chatCode,CHATRE:CHATRE,postRow:postRow,saveCard:saveCard,shortcutBlock:shortcutBlock,drawIcon:drawIcon,backupLink:backupLink,readBackup:readBackup,isIOS:isIOS,isStandalone:isStandalone,sheet:sheet,closeSheet:closeSheet,esc:esc}
+})();
+
+</script>
 <script>
 (function(){
 "use strict";
@@ -206,7 +458,7 @@ var COURSES=["Main","Side","Bread","Dessert","Drinks","Starter"];
 function defaults(){
   var d=[["Turkey","Main"],["Gravy","Side"],["Stuffing","Side"],["Mashed potatoes","Side"],["Cranberry sauce","Side"],["Green bean casserole","Side"],["Sweet potatoes","Side"],["Rolls","Bread"],["Pumpkin pie","Dessert"],["Apple pie","Dessert"]];
   var s=["Turkey","Butter (lots)","Potatoes","Fresh cranberries","Celery & onions","Stock","Fresh sage & thyme","Pie crust","Pumpkin purée","Heavy cream","Foil & leftover containers"];
-  return {host:"",dinner:"15:00",weight:16,stuffed:false,frozen:true,ticks:{},
+  return {chat:"",posted:{},host:"",dinner:"15:00",weight:16,stuffed:false,frozen:true,ticks:{},
     guests:[],dishes:d.map(function(x){return{id:uid(),name:x[0],course:x[1],by:"me",done:false}}),
     shop:s.map(function(x){return{id:uid(),name:x,got:false}}),tab:"plan"};
 }
@@ -308,13 +560,8 @@ function rPlan(){
   });
   if(lastOff!==null)h+='</div>';
   h+='</section>';
-  h+='<section class="card tilt-l"><h2>Keep it <em>safe</em></h2>'+
-  '<p class="small">Everything saves on this device as you go, with no account needed. If you clear your browser history or switch phones it’s lost, so save a backup now and then.</p>'+
-  (canSave?'':'<p class="note">Heads up: this browser isn’t letting us save. Try opening the link in Safari or Chrome.</p>')+
-  '<div class="row" style="margin-top:12px"><button class="btn sm" id="bcopy">Copy backup code</button><button class="btn sm" id="bdl">Download backup</button></div>'+
-  '<textarea id="bin" placeholder="Paste a backup code here to restore…"></textarea>'+
-  '<div class="row" style="margin-top:8px"><button class="btn sm" id="brestore">Restore</button><button class="btn sm" id="bwipe" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to wipe":"Start fresh")+'</button></div>'+
-  '<p class="small" style="margin-top:12px">On iPhone: tap Share, then <b>Add to Home Screen</b>, and it’ll open like an app.</p></section>';
+  h+='<section class="card tilt-l"><h2>Save my <em>page</em></h2>'+(canSave?'':'<p class="note">Heads up: this browser isn’t letting us save. Try opening the link in Safari or Chrome.</p>')+BB.saveCard()+
+  '<div class="row" style="margin-top:12px"><button class="btn sm" id="bwipe" style="margin-left:auto;color:var(--cran);border-color:var(--cran)">'+(ui.wipe?"Tap again to wipe":"Start fresh")+'</button></div></section>';
   return h;
 }
 function rTable(){
@@ -323,14 +570,20 @@ function rTable(){
   h+='<section class="card ruled tilt-l"><h2>The <em>guest list</em></h2>';
   if(!S.guests.length)h+='<div class="empty">No one yet. Add your first guest below.</div>';
   S.guests.forEach(function(g){
-    var dishes=S.dishes.filter(function(d){return d.by===g.id}).map(function(d){return d.name});
-    h+='<div class="item" style="cursor:default"><div class="txt"><span style="font-weight:600">'+esc(g.name)+'</span>'+(parseInt(g.n,10)>1?' <span class="small">+'+(parseInt(g.n,10)-1)+'</span>':'')+
-      '<small>'+(dishes.length?'Bringing: '+esc(dishes.join(", ")):'Not bringing anything yet')+(g.note?' · '+esc(g.note):'')+'</small></div>'+
-      '<button class="chip '+g.rsvp+'" data-rsvp="'+g.id+'">'+(g.rsvp==="yes"?"Coming":g.rsvp==="maybe"?"Maybe":"Can’t")+'</button><button class="x" data-delg="'+g.id+'" aria-label="Remove">&times;</button></div>';
+    var dishes=S.dishes.filter(function(d){return d.by===g.id}).map(function(d){return d.name});var ph=BB.intl(g.phone);
+    h+='<div class="item" style="cursor:default;flex-wrap:wrap"><div class="txt"><span style="font-weight:600">'+esc(g.name)+'</span>'+(parseInt(g.n,10)>1?' <span class="small">+'+(parseInt(g.n,10)-1)+'</span>':'')+
+      '<small>'+(dishes.length?'Bringing: '+esc(dishes.join(", ")):'Not bringing anything yet')+(g.note?' · '+esc(g.note):'')+(ph?' · '+BB.prettyNum(ph):'')+'</small>'+
+      '<div class="gacts"><button class="bbbtn sm pine" data-inv="'+g.id+'">'+(g.invited?"Invited ✓":"WhatsApp invite")+'</button><button class="bblnk" data-edg="'+g.id+'">'+(ui.edg===g.id?"Close":(g.phone||g.note)?"Edit mobile & note":"+ Mobile & note")+'</button></div>'+
+      (ui.edg===g.id?'<div class="gedit"><span class="label">Mobile</span><input type="tel" inputmode="tel" autocomplete="tel" data-gphone="'+g.id+'" value="'+esc(g.phone||"")+'" placeholder="Their mobile (optional)"><span class="label" style="display:block;margin-top:8px">Note</span><input data-gnote="'+g.id+'" value="'+esc(g.note||"")+'" maxlength="60" placeholder="Vegetarian, nut allergy, bringing the baby…"><div class="row" style="margin-top:8px"><button class="bbbtn sm pine" data-edg="'+g.id+'">Save</button></div></div>':'')+
+      '</div><button class="chip '+g.rsvp+'" data-rsvp="'+g.id+'">'+(g.rsvp==="yes"?"Coming":g.rsvp==="maybe"?"Maybe":"Can’t")+'</button><button class="x" data-delg="'+g.id+'" aria-label="Remove">&times;</button></div>';
   });
-  h+='<form class="add" id="addg"><input id="gname" placeholder="Name" maxlength="40" autocomplete="off"><select id="gn" aria-label="How many">'+[1,2,3,4,5,6,7,8].map(function(n){return'<option value="'+n+'">'+(n===1?"Just them":"Party of "+n)+'</option>'}).join("")+'</select><button class="btn sm fill">Add</button></form>'+
-  '<form class="add" id="addnote" style="margin-top:6px"><select id="gsel" aria-label="Guest">'+S.guests.map(function(g){return'<option value="'+g.id+'">'+esc(g.name)+'</option>'}).join("")+'</select><input id="gnote" placeholder="Note: vegetarian, nut allergy, bringing the baby…" maxlength="60"><button class="btn sm">Save</button></form>'+
-  '<p class="small" style="margin-top:10px">Tap the badge to switch between Coming, Maybe and Can’t.</p></section>';
+  h+='<form class="add gwrap" id="addg"><input id="gname" placeholder="Name" maxlength="40" autocomplete="name"><input id="gphone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile"><select id="gn" aria-label="How many">'+[1,2,3,4,5,6,7,8].map(function(n){return'<option value="'+n+'">'+(n===1?"Just them":"Party of "+n)+'</option>'}).join("")+'</select><button class="btn sm fill">Add</button></form>'+
+  '<p class="small" style="margin-top:10px">Tap the badge to switch between Coming, Maybe and Can’t. Add a mobile and the invite goes straight to their chat.</p></section>';
+  h+='<section class="card tape tilt-r"><h2>Group <em>chat</em></h2>'+BB.chatCard(S.chat,{groupName:"Thanksgiving 🦃",blurb:"Got the family in a WhatsApp group? Or make one now. Then use the ready-made posts below."})+'</section>';
+  var TG=thanksgiving();
+  h+='<section class="card ruled tilt-l"><h2>Ready-made <em>posts</em></h2><p class="small">Tap WhatsApp, pick your group, send. They fill in your dinner time and who’s bringing what.</p>'+
+    BB.postRow("invite","The invite","Send now",S.posted.invite)+BB.postRow("bring","Who’s bringing what","Once dishes are set",S.posted.bring)+
+    BB.postRow("eve","Day-before reminder","Send "+dayLabel(addDays(TG,-1)),S.posted.eve)+BB.postRow("day","Dinner’s nearly ready","Thanksgiving Day",S.posted.day)+BB.postRow("thanks","Thank you all","The day after",S.posted.thanks)+'</section>';
   return h;
 }
 function rFood(){
@@ -350,7 +603,7 @@ function rFood(){
   S.shop.forEach(function(s){h+='<div class="item'+(s.got?" done":"")+'"><div class="box" data-shop="'+s.id+'"></div><div class="txt" data-shop="'+s.id+'">'+esc(s.name)+'</div><button class="x" data-dels="'+s.id+'" aria-label="Remove">&times;</button></div>'});
   h+='<form class="add" id="adds"><input id="sname" placeholder="Add an item…" maxlength="40" autocomplete="off"><button class="btn sm fill">Add</button></form>'+
   (got?'<div class="row" style="margin-top:10px"><button class="btn sm" id="clrshop">Clear ticked items</button></div>':'')+'</section>';
-  return h;
+  return h+rKit();
 }
 var GAMES={
   trivia:{n:"Thanksgiving Trivia",k:"Quiz",d:"Read it out. First right answer wins a point.",a:TRIVIA},
@@ -387,11 +640,39 @@ function rGrace(){
   GRACES.forEach(function(g,i){h+='<div class="grace" data-grace="'+i+'"><div><b>'+esc(g.t)+'</b><span class="label">'+esc(g.k)+'</span></div><span class="arrow">→</span></div>'});
   return h+'</section>';
 }
+function dinnerTxt(){var p=S.dinner.split(":");return fmtTime(parseInt(p[0],10)*60+parseInt(p[1],10))}
+function hostTxt(){return S.host?" at "+S.host+"’s":""}
+function inviteMsg(g){var dishes=S.dishes.filter(function(d){return d.by===g.id}).map(function(d){return d.name});var TG=thanksgiving();
+  return "🦃 Hi "+g.name+"! You’re invited to Thanksgiving"+hostTxt()+" 🍂\n\n📅 "+DAYS[TG.getDay()]+", "+MON[TG.getMonth()]+" "+TG.getDate()+"\n🍽 Dinner at "+dinnerTxt()+
+   (dishes.length?"\n🥧 Could you bring: "+dishes.join(", ")+"?":"")+"\n\nAny dietary needs or allergies? Just reply here 😊"+(BB.CHATRE.test(S.chat||"")?"\n\n💬 Join the family chat: "+S.chat:"")+"\n\nCan’t wait to see you! 🧡"}
+function postMsg(k){var TG=thanksgiving();var p=S.dinner.split(":"),dm=parseInt(p[0],10)*60+parseInt(p[1],10);
+  if(k==="invite")return "🦃 Thanksgiving"+hostTxt()+"! 🍂\n\n📅 "+DAYS[TG.getDay()]+", "+MON[TG.getMonth()]+" "+TG.getDate()+"\n🍽 Dinner at "+dinnerTxt()+"\n\nWho’s in? Reply with a 🙋 and tell me about any dietary needs!";
+  if(k==="bring"){var lines=[];var by={};S.dishes.forEach(function(d){var w=d.by==="me"?(S.host||"Me"):((S.guests.find(function(g){return g.id===d.by})||{}).name||"Me");(by[w]=by[w]||[]).push(d.name)});
+    for(var w in by)lines.push("• "+w+": "+by[w].join(", "));return "🥧 Who’s bringing what:\n\n"+lines.join("\n")+"\n\nAnything missing or want to swap? Shout! 🧡"}
+  if(k==="eve")return "⏰ Tomorrow’s the day! 🦃\n\nDoors open from "+fmtTime(dm-60)+", dinner at "+dinnerTxt()+".\nDon’t forget your dish if you’re bringing one 🥧\n\nSee you there! 🍂";
+  if(k==="day")return "🍽 The turkey’s in! Dinner’s at "+dinnerTxt()+". See you soon 🦃🧡";
+  return "🧡 Thank you all for coming! Best Thanksgiving yet. Who wants leftovers? 🥧🦃"}
+var KIT=["Meat thermometer","Roasting pan with rack","Turkey baster","Gravy separator","Carving knife set","Disposable foil pans","Leftover containers","Cooking twine","Pie dish","Fall table runner","Thanksgiving place cards","Autumn napkins"];
+function rKit(){var h='<section class="card tape tilt-r kit"><h2>Host <em>kit</em></h2><p class="small">The bits hosts wish they’d bought before the day. Tap to find each one.</p>';
+  KIT.forEach(function(k){h+='<div class="item" style="cursor:default"><div class="txt">'+esc(k)+'</div>'+BB.findBtn(k,"bbamz sm","Find it →")+'</div>'});
+  return h+BB.AMZ_NOTE+'</section>'}
+var HELP=[[/^Your countdown$/,"Set your dinner time and turkey weight. Everything else, from thaw days to oven times, is worked out for you."],
+ [/^The plan$/,"Your day-by-day plan, counting back from Thanksgiving. Tick things off as you go."],
+ [/^Save my page$/,"Everything saves on this phone. Send yourself a backup link: tap it any time, even on a new phone, and it all comes back. Make my own shortcut puts it on your home screen like an app."],
+ [/^Who.s coming$/,"A quick head count of who’s coming, maybe, and can’t."],
+ [/^The guest list$/,"Add everyone with their mobile. WhatsApp invite sends them a personal invite with the date, time and what you’d like them to bring. Tap the badge to change their RSVP."],
+ [/^Group chat$/,"Make a Thanksgiving group in WhatsApp, copy its invite link and paste it here. It goes in everyone’s invite so they can join."],
+ [/^Ready-made posts$/,"Messages for the group chat, filled in for you: the invite, who’s bringing what, a reminder the day before, and a thank-you after."],
+ [/^The menu$/,"Every dish and who’s making it. Pick a name and it shows up on their invite."],
+ [/^Shopping list$/,"Everything to buy. Tick it off in the store."],
+ [/^Host kit$/,"Handy kit for the big day. Each button searches Amazon for it."],
+ [/^After-dinner games$/,"Games for the table once everyone’s full. Pass the phone around."],
+ [/^Words for the table$/,"Graces and readings. Tap one to read it out in big print."]];
 var R={plan:rPlan,table:rTable,food:rFood,games:rGames,grace:rGrace};
 function render(){
   head();
   if(!R[S.tab])S.tab="plan";
-  $("#main").innerHTML=R[S.tab]();
+  $("#main").innerHTML=R[S.tab]();BB.after($("#main"));
   document.querySelectorAll("nav.tabs button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===S.tab)});
 }
 
@@ -411,18 +692,23 @@ main.addEventListener("change",function(e){
   var t=e.target;
   if(t.id==="dinner"){S.dinner=t.value||"15:00";save();render()}
   else if(t.id==="weight"){var v=parseFloat(t.value);if(v>=4&&v<=30){S.weight=v;save();render()}else toast("Pick a weight between 4 and 30 lb")}
+  else if(t.dataset.gphone||t.dataset.gnote){var g0=S.guests.find(function(x){return x.id===(t.dataset.gphone||t.dataset.gnote)});if(g0){if(t.dataset.gphone)g0.phone=t.value.trim();else g0.note=t.value.trim();save()}}
   else if(t.dataset.by){var d=S.dishes.find(function(x){return x.id===t.dataset.by});if(d){d.by=t.value;save()}}
 });
 main.addEventListener("submit",function(e){
   e.preventDefault();var f=e.target;
-  if(f.id==="addg"){var n=$("#gname").value.trim();if(!n)return;S.guests.push({id:uid(),name:n,n:$("#gn").value,rsvp:"yes",note:""});save();render();$("#gname").focus()}
+  if(f.id==="addg"){var n=$("#gname").value.trim();if(!n)return;var ph=$("#gphone").value.trim();if(ph&&!BB.intl(ph))toast("Added, but check that number. Use +country code if it’s not local");S.guests.push({id:uid(),name:n,n:$("#gn").value,rsvp:"yes",note:"",phone:ph});save();render();$("#gname").focus()}
   if(f.id==="addnote"){var id=$("#gsel").value;var g=S.guests.find(function(x){return x.id===id});if(g){g.note=$("#gnote").value.trim();save();render();toast("Note saved")}}
   if(f.id==="addd"){var dn=$("#dname").value.trim();if(!dn)return;S.dishes.push({id:uid(),name:dn,course:$("#dc").value,by:"me",done:false});save();render();$("#dname").focus()}
   if(f.id==="adds"){var sn=$("#sname").value.trim();if(!sn)return;S.shop.push({id:uid(),name:sn,got:false});save();render();$("#sname").focus()}
 });
 main.addEventListener("click",function(e){
-  var t=e.target.closest("[data-tick],[data-set],[data-rsvp],[data-delg],[data-dish],[data-deld],[data-shop],[data-dels],[data-game],[data-sq],[data-grace],button");
+  var t=e.target.closest("[data-tick],[data-set],[data-rsvp],[data-delg],[data-dish],[data-deld],[data-shop],[data-dels],[data-game],[data-sq],[data-grace],[data-inv],[data-edg],[data-bbpost],button");
   if(!t)return;var ds=t.dataset;
+  if(ds.bb||ds.bbq!==undefined||ds.bbchat)return;
+  if(ds.inv){var gi2=S.guests.find(function(x){return x.id===ds.inv});if(gi2){gi2.invited=true;save();BB.openWA(gi2.phone,inviteMsg(gi2));render()}return}
+  if(ds.edg){ui.edg=ui.edg===ds.edg?null:ds.edg;render();return}
+  if(ds.bbpost){var m=postMsg(ds.bbpost);S.posted[ds.bbpost]=true;save();if(ds.via==="copy")BB.copyText(m,"Copied. Paste it in the group");else BB.openWA("",m);render();return}
   if(ds.tick){S.ticks[ds.tick]=!S.ticks[ds.tick];save();t.classList.toggle("done");return}
   if(ds.set){S[ds.set]=ds.v==="1";save();render();return}
   if(ds.rsvp){var g=S.guests.find(function(x){return x.id===ds.rsvp});g.rsvp=g.rsvp==="yes"?"maybe":g.rsvp==="maybe"?"no":"yes";save();render();return}
@@ -447,6 +733,9 @@ main.addEventListener("click",function(e){
     case "bwipe":if(!ui.wipe){ui.wipe=true;render();setTimeout(function(){ui.wipe=false;if(S.tab==="plan")render()},4000)}else{S=defaults();ui.wipe=false;save();render();toast("Fresh start")}break;
   }
 });
+BB.init({key:KEY,appName:"Thanksgiving planner",frames:["leaves","pumpkin","gold"],defIcon:"icon-180.png",defCountry:"US",help:HELP,
+  getState:function(){return S},setState:function(o){S=o;var D1=defaults();for(var k2 in D1){if(S[k2]===undefined)S[k2]=D1[k2]}save();render()},
+  valid:function(o){return !!(o&&o.dishes)},isEmpty:function(){return !S.guests.length&&!S.host},setChat:function(v){S.chat=v;save();render()},toast:toast,render:function(){render()}});
 render();
 })();
 </script>
