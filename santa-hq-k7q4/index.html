@@ -522,7 +522,7 @@ function rOrganiser(){
       var done=S.draw.posted&&S.draw.posted[x[0]];
       var when=x[2]===null?"Send now":S.date?"Send "+fmtDate(addDays(S.date,x[2])):"Set a swap day";
       h+='<div class="sendrow"><div class="top"><span class="nm" style="font-size:16px">'+x[1]+'</span><span class="sent'+(done?"":" no")+'">'+(done?"Posted":when)+'</span></div>'+
-        '<div class="row"><button class="btn sm pine" data-post="'+x[0]+'" data-via="wa">WhatsApp</button>'+(x[0]==="announce"&&canPhoto()?'<button class="btn sm gold" data-post="announce" data-via="photo">With my photo</button>':'')+'<button class="btn sm" data-post="'+x[0]+'" data-via="copy">Copy</button></div></div>';
+        '<div class="row"><button class="btn sm pine" data-post="'+x[0]+'" data-via="wa">WhatsApp</button>'+'<button class="btn sm" data-post="'+x[0]+'" data-via="copy">Copy</button></div></div>';
     });
     if(validChat())h+='<div class="row" style="margin-top:12px"><a class="btn sm" href="'+esc(S.chat.trim())+'" target="_blank" rel="noopener">Open the group chat</a></div>';
     h+='</section>';
@@ -780,9 +780,6 @@ main.addEventListener("click",function(e){
   if(ds.delr!==undefined){S.rules.splice(parseInt(ds.delr,10),1);save();render();return}
   if(ds.post){var m=post(ds.post);S.draw.posted=S.draw.posted||{};
     if(ds.via==="copy"){try{navigator.clipboard.writeText(m).then(function(){toast("Copied. Paste it in the group");S.draw.posted[ds.post]=true;save();render()},function(){fallback(m,null)})}catch(err){fallback(m,null)}return}
-    if(ds.via==="photo"){var ic=load(ICONK);if(ic&&(ic.big||ic.url)){try{navigator.clipboard.writeText(m).catch(function(){})}catch(err){}
-      fetch(ic.big||ic.url).then(function(r){return r.blob()}).then(function(bl){var fl=new File([bl],"secret-santa.jpg",{type:"image/jpeg"});
-        return navigator.share({files:[fl],text:m})}).then(function(){S.draw.posted[ds.post]=true;save();render();toast("Message copied too. If it\u2019s missing, paste it in")}).catch(function(){})}return}
     S.draw.posted[ds.post]=true;save();openGroup(validChat()?chatCode(S.chat):"",m);return}
   if(ds.send){send(ds.send,ds.id);return}
   switch(t.id){
