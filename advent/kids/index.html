@@ -390,7 +390,7 @@ function render(skipView){
      '<p class="small" style="margin-top:6px">'+esc(E.remHelp||"Adds one reminder a day to your phone’s calendar, each with a link straight back here. No app needed.")+'</p></div></div>'+
      '<div class="st"><b class="sn">3</b><div>'+(E.partner?'<span class="label">Not in the same place?</span><p class="small" style="margin:4px 0 8px">Send your other half their own copy. Their doors open on the same nights as yours.</p><button class="bbbtn sm pine" id="sendpartner">Send my other half their copy</button>':
        '<span class="label">Share as you go</span><p class="small" style="margin-top:4px">Every door has a <b>Post to the family</b> button. Pick your family WhatsApp group and send, so everyone far away can join in.</p>')+'</div></div>'+
-     '<div class="row" style="margin-top:12px"><button class="btn fill" id="setupdone">'+(S.setupDone?'Done':'All set, show me the doors')+'</button></div></div>';
+     (E.optional?'<p class="small" style="margin-top:10px">'+E.optional+'</p>':'')+'<div class="row" style="margin-top:12px"><button class="btn fill" id="setupdone">'+(S.setupDone?'Done':'All set, show me the doors')+'</button></div></div>';
   }
   if(before){var dd=Math.ceil((new Date(n.getFullYear(),11,1)-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5);
     h+='<div class="card"><h2>The first door opens <em>1 December</em></h2><p class="small" style="margin-top:6px">'+dd+(dd===1?' day':' days')+' to go. Set it up now, then try the practice door to see how it works.</p><div class="row" style="margin-top:10px"><button class="btn fill" id="practice">Open the practice door</button></div></div>'}
