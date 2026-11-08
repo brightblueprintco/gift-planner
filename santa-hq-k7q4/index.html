@@ -458,8 +458,8 @@ function rOrganiser(){
       '<button class="x" data-delp="'+p.id+'" aria-label="Remove '+esc(p.name)+'">&times;</button></div>';
   });
   var ME=S.people.length?null:(load("bbco-ss-me")||null);
-  if(!S.people.length)h+='<p class="small" style="margin:6px 0 2px">Start with you'+(ME?'. Tap Add':'')+', then everyone else.</p>';
-  h+='<form class="add" id="addp"><input id="pname" placeholder="'+(S.people.length?'Name\u2026':'Your name')+'" maxlength="40" autocomplete="name" style="flex:1.2"'+(ME&&ME.name?' value="'+esc(ME.name)+'"':'')+'><input id="pphone" type="tel" inputmode="tel" placeholder="'+(S.people.length?'Mobile':'Your mobile')+'"'+(ME&&ME.phone?' value="'+esc(ME.phone)+'"':'')+' aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
+  if(!S.people.length)h+='<p class="small" style="margin:6px 0 2px">Add yourself first'+(ME?'. Tap Add':'')+', then everyone else.</p>';
+  h+='<form class="add" id="addp"><input id="pname" placeholder="'+(S.people.length?'Name\u2026':'My name')+'" maxlength="40" autocomplete="name" style="flex:1.2"'+(ME&&ME.name?' value="'+esc(ME.name)+'"':'')+'><input id="pphone" type="tel" inputmode="tel" placeholder="'+(S.people.length?'Mobile':'My mobile')+'"'+(ME&&ME.phone?' value="'+esc(ME.phone)+'"':'')+' aria-label="Mobile number (optional)" autocomplete="tel" style="font-family:var(--type);font-size:14px;padding-bottom:6px"><button class="btn sm fill">Add</button></form>'+
    '<p class="label" style="margin-top:8px;text-transform:none;letter-spacing:.02em">'+(C().cc?esc(C().n)+' numbers (+'+C().cc+'). Wrong country? Change it in step 1.':'Type numbers with the country code, e.g. +33\u2026')+'</p>'+
    (canPick?'<div class="row" style="margin-top:12px"><button class="btn sm pine" id="pickc">Pick from contacts</button></div>':'')+
    '<p class="small" style="margin-top:10px">Add their mobile and you can send each person their name on WhatsApp in one tap. Numbers stay on this phone. Gift hints are optional, and only whoever draws that person sees them.</p></section>';
