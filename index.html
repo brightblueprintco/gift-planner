@@ -76,6 +76,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-of
 .chip.on{background:var(--ink);color:var(--card)}
 .add{background:#F7EEDB;border:1.5px dashed var(--gold);border-radius:3px;padding:14px;margin-bottom:16px}
 .add .btn{margin-top:10px;width:100%}
+.add [data-pastetrack]{width:auto;margin-top:0;flex:none}
 table{width:100%;border-collapse:collapse;font-size:15px}
 th{font-family:var(--type);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);font-weight:700;text-align:left;padding:6px 4px;border-bottom:1.5px solid var(--ink)}
 td{padding:6px 4px;border-bottom:1px dotted var(--line);vertical-align:middle}
@@ -512,7 +513,7 @@ const SCHEMA = {
   gifts:{fields:[["who","For","text","Mum"],["idea","Gift","text","Cashmere scarf"],["cat","Category","cat"],["budget","Budget","num","",true],["spent","Spent","num","",true]],
          ticks:[["bought","Bought"],["wrapped","Wrapped"]], doneIf:g=>g.bought&&g.wrapped, empty:"No presents on the list yet. Add your first one above."},
   kids:{fields:[["name","Name","text","Child's name"],["budget","Budget","num","",true],["wish","On their wish list","area"],["big","The big present","text"],["stocking","Stocking fillers","area"]], ticks:[], empty:"Add each child to plan their wish list and stocking."},
-  orders:{fields:[["item","Item","text","What you ordered"],["from","From","text","Shop"],["due","Due","date","",true],["ret","Return by","date","",true]], ticks:[["arrived","Arrived"]], doneIf:o=>o.arrived, empty:"No orders tracked yet."},
+  orders:{fields:[["item","Item","text","What you ordered"],["from","From","text","Shop"],["due","Due","date","",true],["ret","Return by","date","",true],["track","Tracking number or link","track","Paste it from your email"]], ticks:[["arrived","Arrived"]], doneIf:o=>o.arrived, empty:"No orders tracked yet."},
   cards:{fields:[["name","Name","text","Who it's for"],["postedOn","Posted on","date","",true]], ticks:[["card","Card"],["post","Gift to post"],["arrived","Arrived"]], empty:"Add everyone getting a card or a posted present."},
   ideas:{fields:[["who","For","text","Who"],["idea","Idea","area","What they mentioned"]], ticks:[], empty:"Nothing in the bank yet. Next time someone says “I'd love one of those”, write it here."},
   thanks:{fields:[["from","From","text","Who"],["gift","What they gave","text"]], ticks:[["done","Thanked"]], doneIf:t=>t.done, empty:"After Christmas, list who gave what here."}
@@ -525,6 +526,7 @@ function fieldHTML(coll, item, f){
   if(type==="cat") ctl = `<select id="${id}" ${data}>${S.cats.map(c=>`<option ${c.name===v?"selected":""}>${esc(c.name)}</option>`).join("")}</select>`;
   else if(type==="area") ctl = `<textarea id="${id}" ${data} placeholder="${esc(ph||"")}">${esc(v)}</textarea>`;
   else ctl = `<input id="${id}" ${data} type="${type==="num"?"number":type}" ${type==="num"?'inputmode="decimal" step="0.01"':""} value="${esc(v)}" placeholder="${esc(ph||"")}">`;
+  if(type==="track") return `<div class="f full"><label for="${id}">${lab}</label><div style="display:flex;gap:6px"><input id="${id}" ${data} type="text" autocapitalize="characters" autocomplete="off" value="${esc(v)}" placeholder="${esc(ph||"")}" style="flex:1"><button type="button" class="btn alt sm" data-pastetrack="${id}">Paste</button></div></div>`;
   return `<div class="f ${sm?"sm":""} ${type==="cat"?"md":""} ${type==="area"?"full":""}"><label for="${id}">${lab}</label>${ctl}</div>`;
 }
 
@@ -546,6 +548,8 @@ function renderList(coll){
     let move = coll==="ideas" ? `<button class="btn alt sm" data-move="${it.id}">Move to gift list</button>`+findA(it.idea) : "";
     if(coll==="gifts") move = `<div class="gacts">${findA(it.idea)}<button class="bblnk" data-ideasfor="${it.id}">Need ideas for ${esc(it.who||"them")}?</button></div>`;
     if(coll==="thanks") move = `<button class="bbbtn sm pine" data-thx="${it.id}">Say thanks on WhatsApp</button>`;
+    if(coll==="orders"){ const ti=trackInfo(it.track); if(ti&&!it.arrived) move=`<a class="bbbtn sm pine" href="${esc(ti.url)}" target="_blank" rel="noopener">${esc(ti.label)} →</a>`;
+      if(it.due&&!it.arrived){ const d=daysTo(it.due); extra+= d>0?`<span class="pill">Due in ${d} day${d===1?"":"s"}</span>`:d===0?`<span class="pill">Due today</span>`:`<span class="pill r">Late by ${-d} day${d===-1?"":"s"}</span>`; } }
     return `<div class="card ${sc.doneIf&&sc.doneIf(it)?"done":""}"><div class="row">${sc.fields.map(f=>fieldHTML(coll,it,f)).join("")}</div>
       <div class="ticks">${ticks}${extra}${move}<button class="x" data-del="${coll}" data-i="${it.id}">Remove</button></div></div>`;
   }).join("");
@@ -622,6 +626,17 @@ function renderNext(){
   $("#nextBox").innerHTML=`<p class="meta" style="margin-bottom:12px">This year: budgeted <b>${money(t.budget)}</b>, spent <b>${money(t.spent)}</b>.</p>`+
    [["worked","What worked"],["diff","Do differently"],["earlier","Start earlier on…"]].map(([k,l])=>`<div class="f full" style="margin-bottom:12px"><label for="nt-${k}">${l}</label><textarea id="nt-${k}" data-note="${k}">${esc(S.notes[k])}</textarea></div>`).join("");
 }
+function trackInfo(v){v=String(v||"").trim();if(!v)return null;
+  const m=v.match(/https?:\/\/[^\s]+/);if(m){let h="";try{h=new URL(m[0]).hostname.replace(/^www\./,"")}catch(e){}return {url:m[0],label:"Track it"+(h?" on "+h:"")}}
+  const c=v.replace(/[\s-]/g,"").toUpperCase();const E=encodeURIComponent(c);
+  if(/^[A-Z]{2}\d{9}GB$/.test(c))return {url:"https://www.royalmail.com/track-your-item#/tracking-results/"+E,label:"Track with Royal Mail"};
+  if(/^1Z[0-9A-Z]{16}$/.test(c))return {url:"https://www.ups.com/track?tracknum="+E,label:"Track with UPS"};
+  if(/^H[0-9A-Z]{15}$/.test(c))return {url:"https://www.evri.com/track/parcel/"+E,label:"Track with Evri"};
+  if(/^\d{14}$/.test(c))return {url:"https://track.dpd.co.uk/search?reference="+E,label:"Track with DPD"};
+  if(/^(9[2-5])\d{18,24}$/.test(c))return {url:"https://tools.usps.com/go/TrackConfirmAction?tLabels="+E,label:"Track with USPS"};
+  if(/^(\d{12}|\d{15})$/.test(c))return {url:"https://www.fedex.com/fedextrack/?trknbr="+E,label:"Track with FedEx"};
+  if(/^TBA\d+/.test(c)||/^\d{3}-\d{7}-\d{7}$/.test(v))return {url:"https://"+BB.C().amz+"/gp/your-account/order-history",label:"Track in your Amazon orders"};
+  return {url:"https://www.google.com/search?q="+encodeURIComponent("track parcel "+c),label:"Look up this tracking number"}}
 function findA(q){if(!q)return "";if(EXPERIENCE.test(q)&&!PRODUCT.test(q))return "";return `<a class="bbamz sm" href="${esc(BB.amzUrl(q))}" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>`}
 /* ---------- ideas helper ---------- */
 const ID={who:"",age:"adult",ints:[],budget:"",i:0,order:null};
@@ -639,7 +654,7 @@ const HELP=[[/^Budget at a glance$/,"Set one total, or split it across categorie
  [/^The gift list$/,"One line per present: who it’s for, what, and the spend. Tick Bought and Wrapped as you go. Tap Find it on Amazon to shop for it, or Need ideas to get suggestions."],
  [/^Gift ideas$/,"Tell us who it’s for, the budget, their age and what they’re into, and we’ll suggest ideas from over 1,000. Find it on Amazon searches for it; Add to gift list saves it."],
  [/^Kids/,"Each child’s wish list, the big present and stocking fillers in one place."],
- [/^Online orders$/,"Track what’s coming and the last day to send it back."],
+ [/^Online orders$/,"Track what’s coming and the last day to send it back. Paste the tracking number or link from your delivery email and you get a one-tap Track it button. It knows Royal Mail, Evri, DPD, UPS, FedEx and USPS numbers."],
  [/^Cards/,"Who’s getting a card or a posted present, plus the last posting dates."],
  [/^Christmas Eve checklist$/,"The night-before list. Batteries, labels, hiding places."],
  [/^Thank-you tracker$/,"After Christmas, note who gave what. Say thanks on WhatsApp sends them a ready-made thank-you."],
@@ -697,8 +712,9 @@ document.addEventListener("keydown", e=>{
   if(e.key==="Enter" && e.target.dataset && e.target.dataset.i==="new" && e.target.tagName==="INPUT"){ addItem(e.target.dataset.c.replace("New","")); }
 });
 document.addEventListener("click", e=>{
-  const t=e.target.closest("[data-t],[data-eve],[data-add],[data-del],[data-f],[data-move],[data-evedel],[data-ihage],[data-ihint],[data-ihnext],[data-ihadd],[data-ideasfor],[data-thx],[data-askwish]"); if(!t) return;
+  const t=e.target.closest("[data-pastetrack],[data-t],[data-eve],[data-add],[data-del],[data-f],[data-move],[data-evedel],[data-ihage],[data-ihint],[data-ihnext],[data-ihadd],[data-ideasfor],[data-thx],[data-askwish]"); if(!t) return;
   const d=t.dataset;
+  if(d.pastetrack){ const inp=document.getElementById(d.pastetrack); try{navigator.clipboard.readText().then(tx=>{tx=(tx||"").trim(); if(!tx){toast("Nothing copied yet. Copy it from your email first");return} inp.value=tx; inp.dispatchEvent(new Event("change",{bubbles:true})); if(inp.dataset.i!=="new") renderList("orders"); toast("Pasted ✓")},()=>{inp.focus();toast("Long-press the box and tap Paste")})}catch(e){inp.focus()} return; }
   if(d.ihage){ ID.age=d.ihage; renderHelper(); return; }
   if(d.ihint){ ID.ints=ID.ints.includes(d.ihint)?ID.ints.filter(x=>x!==d.ihint):ID.ints.concat(d.ihint); renderHelper(); return; }
   if(d.ihnext){ ID.i++; renderHelper(); return; }
