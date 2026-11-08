@@ -3,103 +3,165 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#2F4A3A">
+<meta name="theme-color" content="#E6D5B8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Gift Planner">
 <title>The Christmas Gift Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="icon-180.png">
 <style>
-:root{--cream:#F6F0E4;--paper:#FCF9F3;--brass:#B08D57;--pine:#2F4A3A;--berry:#8E2F3A;--ink:#2A2622;--rule:#E3D5BA;--soft:#EFE5D2;--ok:#4F7A5C}
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces.ttf) format("truetype");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"FrauncesL";src:url(fonts/Fraunces-Italic.ttf) format("truetype");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Regular.ttf) format("truetype");font-weight:400}
+@font-face{font-family:"CourierL";src:url(fonts/CourierPrime-Bold.ttf) format("truetype");font-weight:700}
+@font-face{font-family:"ReenieL";src:url(fonts/ReenieBeanie.ttf) format("truetype")}
+:root{--kraft:#E6D5B8;--card:#FCF7EC;--ink:#33261D;--ink2:#6B5544;--cran:#9A2B2E;--pine:#3D5A45;--gold:#B98A3C;--line:#DCCBAB;
+ --cream:var(--kraft);--paper:var(--card);--brass:var(--gold);--berry:var(--cran);--rule:var(--line);--soft:#F4EAD6;--ok:var(--pine);
+ --serif:"FrauncesL","Fraunces",Georgia,serif;--type:"CourierL","Courier Prime","Courier New",monospace;--hand:"ReenieL","Reenie Beanie",cursive}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{font-family:"DM Sans",system-ui,sans-serif;font-weight:300;color:var(--ink);background:var(--cream);font-size:16px;line-height:1.45;min-height:100vh}
+body{font-family:var(--serif);font-variation-settings:"SOFT" 50,"opsz" 14;color:var(--ink);background:var(--kraft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");font-size:16px;line-height:1.45;min-height:100vh}
 button,input,select,textarea{font:inherit;color:inherit}
-.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
-header.top{background:var(--pine);color:var(--cream);padding:22px 0 18px}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 80px}
+header.top{padding:24px 0 6px;text-align:center}
 header.top .wrap{padding-bottom:0}
-.kick{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#D9BE8C;font-weight:500}
-h1{font-family:"Playfair Display",serif;font-weight:700;font-size:30px;line-height:1.1;margin-top:6px}
-h1 em{font-weight:500;color:#E7CF9C}
-.count{font-family:"Playfair Display",serif;font-style:italic;color:#E7CF9C;font-size:16px;margin-top:4px}
-.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.sum div{background:rgba(255,255,255,.07);border:1px solid rgba(217,190,140,.35);border-radius:10px;padding:10px 12px}
-.sum span{display:block;font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:#D9BE8C;font-weight:500}
-.sum b{font-family:"Playfair Display",serif;font-size:22px;font-weight:500}
-.sum .neg b{color:#F0A4A4}
-.bar{height:8px;background:rgba(255,255,255,.12);border-radius:8px;margin-top:12px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--brass);border-radius:8px;transition:width .3s}
-.bar.over i{background:#E07A7A}
-nav{position:sticky;top:0;z-index:5;background:var(--cream);border-bottom:1px solid var(--rule)}
-nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+.kick{font-family:var(--type);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+h1{font-style:italic;font-weight:600;font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 144;color:var(--cran);font-size:clamp(40px,12vw,58px);line-height:.95;margin-top:6px;letter-spacing:-.01em}
+h1 em{display:block;font-family:var(--hand);font-style:normal;font-weight:400;font-size:30px;color:var(--pine);letter-spacing:0;margin-top:6px}
+.count{font-family:var(--hand);color:var(--cran);font-size:28px;transform:rotate(-2deg);display:inline-block;margin-top:2px}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.sum div{background:var(--card);border:1.5px dashed var(--line);padding:9px 8px;text-align:center;box-shadow:0 6px 10px -8px rgba(51,38,29,.5)}
+.sum div:nth-child(1){transform:rotate(-1deg)}.sum div:nth-child(3){transform:rotate(1deg)}
+.sum span{display:block;font-family:var(--type);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.sum b{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 72;font-size:24px;color:var(--cran)}
+.sum .neg b{color:var(--cran);text-decoration:underline}
+.bar{height:8px;background:rgba(51,38,29,.12);margin-top:12px;overflow:hidden;border-radius:4px}
+.bar i{display:block;height:100%;background:var(--pine);transition:width .3s}
+.bar.over i{background:var(--cran)}
+nav{position:sticky;top:0;z-index:5;background:#D9C7A5;border-bottom:1.5px solid rgba(51,38,29,.2)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:9px 16px;scrollbar-width:none}
 nav .wrap::-webkit-scrollbar{display:none}
-nav a{flex:none;text-decoration:none;font-size:14px;font-weight:500;color:var(--pine);padding:7px 13px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);white-space:nowrap}
-nav a.on{background:var(--pine);color:var(--cream);border-color:var(--pine)}
-section{display:none;padding-top:20px}
+nav a{flex:none;text-decoration:none;font-family:var(--type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding:7px 11px;border:1.5px solid var(--ink);background:var(--card);white-space:nowrap;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+nav a.on{background:var(--ink);color:var(--card)}
+section{display:none;padding:22px 0 0;position:relative}
 section.on{display:block}
-h2{font-family:"Playfair Display",serif;font-weight:700;color:var(--pine);font-size:25px}
-.sub{font-family:"Playfair Display",serif;font-style:italic;color:var(--berry);margin:2px 0 16px}
-h3{font-family:"Playfair Display",serif;font-weight:500;color:var(--pine);font-size:19px;margin:22px 0 10px}
-.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:14px;margin-bottom:10px}
-.card.done{opacity:.62}
+h2{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 60;color:var(--ink);font-size:28px;line-height:1.1}
+.sub{font-family:var(--hand);color:var(--pine);font-size:25px;line-height:1.05;margin:4px 0 16px}
+h3{font-weight:600;font-style:italic;color:var(--cran);font-size:21px;margin:22px 0 10px}
+.card{background:var(--card);border-radius:3px;padding:16px 15px;margin-bottom:14px;box-shadow:0 10px 16px -12px rgba(51,38,29,.55),0 1px 0 rgba(51,38,29,.06)}
+.card:nth-of-type(odd){transform:rotate(-.35deg)}.card:nth-of-type(even){transform:rotate(.3deg)}
+.card.done{opacity:.6}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
 .f{display:flex;flex-direction:column;gap:3px;flex:1 1 140px;min-width:0}
 .f.sm{flex:1 1 80px;max-width:150px}
 .f.md{flex:1 1 130px}
 .f.full{flex:1 1 100%}
-label,.lab{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--brass);font-weight:500}
-input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:9px 10px;font-size:16px;font-weight:400;min-height:42px}
+label,.lab{font-family:var(--type);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:#fffdf7;border:1.5px solid #CDBB98;border-radius:3px;padding:8px 9px;font-size:16px;min-height:42px;font-family:var(--serif)}
 textarea{min-height:80px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--brass);outline-offset:0;border-color:var(--brass)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold)}
 .ticks{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
-.tick{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--rule);background:#fff;border-radius:999px;padding:7px 13px;font-size:14px;cursor:pointer;user-select:none;font-weight:400}
-.tick::before{content:"";width:16px;height:16px;border:1.5px solid var(--brass);border-radius:4px;background:#fff;flex:none}
-.tick.y{background:var(--pine);color:var(--cream);border-color:var(--pine)}
-.tick.y::before{background:var(--brass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--brass)}
-.btn{border:none;background:var(--pine);color:var(--cream);font-weight:500;border-radius:8px;padding:11px 16px;font-size:15px;cursor:pointer;min-height:44px}
-.btn.alt{background:#fff;color:var(--pine);border:1px solid var(--pine)}
-.btn.warn{background:var(--berry)}
-.btn.sm{padding:7px 12px;font-size:13px;min-height:34px}
-.x{margin-left:auto;background:none;border:none;color:var(--berry);font-size:13px;cursor:pointer;padding:6px;text-decoration:underline;text-underline-offset:3px}
+.tick{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--ink);background:transparent;padding:6px 11px;font-family:var(--type);font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;user-select:none;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.tick::before{content:"";width:15px;height:15px;border:1.6px solid var(--ink);border-radius:3px 5px 2px 6px;background:#fffdf7;flex:none}
+.tick.y{background:var(--pine);color:var(--card);border-color:var(--pine)}
+.tick.y::before{background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-8' stroke='%239A2B2E' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat;border-color:var(--card)}
+.btn{border:1.5px solid var(--pine);background:var(--pine);color:var(--card);font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;padding:10px 15px;cursor:pointer;min-height:42px;border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.warn{background:var(--cran);border-color:var(--cran)}
+.btn.sm{padding:6px 11px;font-size:11.5px;min-height:32px}
+.x{margin-left:auto;background:none;border:none;color:var(--cran);font-family:var(--type);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:6px;text-decoration:underline;text-underline-offset:3px}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.chip{border:1px solid var(--rule);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;font-weight:500;color:var(--pine)}
-.chip.on{background:var(--brass);color:#fff;border-color:var(--brass)}
-.add{background:var(--soft);border:1px dashed var(--brass);border-radius:12px;padding:14px;margin-bottom:16px}
+.chip{border:1.5px solid var(--ink);background:var(--card);padding:5px 11px;font-family:var(--type);font-size:12px;cursor:pointer;color:var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.chip.on{background:var(--ink);color:var(--card)}
+.add{background:#F7EEDB;border:1.5px dashed var(--gold);border-radius:3px;padding:14px;margin-bottom:16px}
 .add .btn{margin-top:10px;width:100%}
 table{width:100%;border-collapse:collapse;font-size:15px}
-th{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--pine);font-weight:500;text-align:left;padding:6px 4px;border-bottom:1.5px solid var(--pine)}
-td{padding:6px 4px;border-bottom:1px solid var(--rule);vertical-align:middle}
+th{font-family:var(--type);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);font-weight:700;text-align:left;padding:6px 4px;border-bottom:1.5px solid var(--ink)}
+td{padding:6px 4px;border-bottom:1px dotted var(--line);vertical-align:middle}
 td input{min-height:38px;padding:6px 8px}
 td.n,th.n{text-align:right;white-space:nowrap}
-.neg{color:var(--berry);font-weight:500}
-.mini{height:5px;background:var(--soft);border-radius:5px;margin-top:4px;overflow:hidden}
-.mini i{display:block;height:100%;background:var(--brass)}
-.mini.over i{background:var(--berry)}
+.neg{color:var(--cran);font-weight:600}
+.mini{height:5px;background:rgba(51,38,29,.1);margin-top:4px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--pine)}
+.mini.over i{background:var(--cran)}
 .person{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.person b{font-family:"Playfair Display",serif;font-weight:500;font-size:18px;color:var(--pine)}
-.meta{font-size:13px;color:#7A6E62}
-.pill{display:inline-block;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:500;padding:3px 8px;border-radius:6px;background:var(--soft);color:var(--pine)}
-.pill.r{background:#F5DADA;color:var(--berry)}
-.empty{text-align:center;color:#8A7E70;font-style:italic;font-family:"Playfair Display",serif;padding:22px}
-.note{background:var(--soft);border-left:3px solid var(--berry);padding:12px 14px;font-size:14px;border-radius:0 8px 8px 0;margin:12px 0}
-.cat-name{font-family:"Playfair Display",serif;font-size:16px}
-.saved{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--pine);color:var(--cream);padding:9px 16px;border-radius:999px;font-size:13px;transition:transform .25s;z-index:20}
+.person b{font-weight:600;font-size:19px}
+.meta{font-size:13.5px;color:var(--ink2)}
+.pill{display:inline-block;font-family:var(--type);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border:1.2px solid var(--pine);color:var(--pine);border-radius:8px}
+.pill.r{border-color:var(--cran);color:var(--cran)}
+.empty{text-align:center;color:var(--ink2);font-family:var(--hand);font-size:25px;line-height:1.05;padding:18px}
+.note{background:#F7EEDB;border-left:3px solid var(--cran);padding:12px 14px;font-size:14px;margin:12px 0}
+.cat-name{font-size:16px}
+.saved{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--ink);color:var(--card);padding:9px 16px;font-family:var(--type);font-size:12.5px;transition:transform .25s;z-index:65;border-radius:3px;max-width:90vw;text-align:center}
 .saved.show{transform:translateX(-50%) translateY(0)}
-.modal{position:fixed;inset:0;background:rgba(42,38,34,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}
+.modal{position:fixed;inset:0;background:rgba(51,38,29,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}
 .modal.on{display:flex}
-.modal .card{max-width:380px;width:100%;padding:20px}
+.modal .card{max-width:380px;width:100%;padding:20px;transform:none}
 .modal p{margin:8px 0 16px}
 .modal .row{justify-content:flex-end}
-.foot{text-align:center;color:var(--brass);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;margin-top:40px}
-@media (max-width:480px){h1{font-size:26px}.sum b{font-size:19px}.f.sm{flex:1 1 64px}.f{flex-basis:120px}}
-@media print{nav,.add,.x,.btn,.chips,header .bar{display:none!important}section{display:block!important;page-break-after:always}body{background:#fff}}
+.foot{text-align:center;color:var(--ink2);font-family:var(--type);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:40px}
+.foot a{color:var(--cran)}
+.ihbox{background:#fffdf7;border-top:5px solid var(--cran);padding:14px 14px 12px;margin-top:12px;text-align:center;box-shadow:0 8px 14px -10px rgba(0,0,0,.4)}
+.ihbox .k{font-family:var(--type);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.ihbox .t{font-weight:600;font-variation-settings:"SOFT" 100,"opsz" 72;font-size:26px;line-height:1.15;margin:6px 0 2px}
+.seg2{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.gacts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;width:100%;margin-top:4px}
+section .bbq{top:24px;right:0}
+section.bbhas>h2{padding-right:40px}
+@media (max-width:480px){.sum b{font-size:20px}.f.sm{flex:1 1 64px}.f{flex-basis:120px}}
+@media print{nav,.add,.x,.btn,.chips,header .bar,.bbq{display:none!important}section{display:block!important;page-break-after:always}body{background:#fff}}
+.bbhas{position:relative}
+.bbq{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;border:1.6px solid #6B5544;background:transparent;color:#6B5544;font-family:var(--serif);font-weight:700;font-size:15px;cursor:pointer;line-height:1;padding:0;z-index:2}
+.bbq.on{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bbhas h2{padding-right:38px}
+.bbhelp{background:#EEF2EA;border-left:3px solid #3D5A45;padding:10px 12px;font-size:14.5px;line-height:1.45;margin:6px 0 12px}
+.bbbtn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #33261D;background:transparent;padding:9px 15px;font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#33261D;cursor:pointer;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;text-decoration:none}
+.bbbtn.sm{padding:6px 11px;font-size:11.5px}
+.bbbtn.pine{background:#3D5A45;border-color:#3D5A45;color:#FCF7EC}
+.bblnk{border:0;background:none;font-family:var(--type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:underline;color:#3D5A45;cursor:pointer;padding:4px}
+.bbgold{display:block;margin-top:12px;background:#B98A3C;color:#2A1E14;text-align:center;padding:14px 12px;font-family:var(--serif);font-size:19px;line-height:1.2;text-decoration:none;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(-.6deg)}
+.bbgold b{font-weight:700}
+.bbpine{display:block;width:100%;margin-top:12px;background:#3D5A45;color:#FCF7EC;border:0;padding:14px 12px;font-family:var(--serif);font-size:19px;cursor:pointer;border-radius:3px;box-shadow:0 6px 12px -8px rgba(0,0,0,.5);transform:rotate(.5deg)}
+.bblinked{border:1.5px solid #3D5A45;background:#EEF2EA;padding:10px 12px;margin-top:8px}
+.bblinked b{display:block;color:#3D5A45;font-size:15px}.bblinked span{font-size:12.5px;color:#6B5544;word-break:break-all}
+.bbin,.bbta{width:100%;margin-top:8px;background:#fffdf7;border:1.5px solid #CDBB98;padding:9px;font-family:var(--type);font-size:13px;border-radius:2px}
+.bbta{min-height:84px}
+.bbpost{padding:10px 0;border-bottom:1px dotted #D9C8A8}.bbpost:last-child{border-bottom:0}
+.bbpt{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
+.bbpt span{font-family:var(--serif);font-weight:600;font-size:16px}
+.bbpt i{font-style:normal;font-family:var(--type);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6B5544;border:1px solid #CDBB98;padding:2px 6px;border-radius:8px;white-space:nowrap}
+.bbpt i.on{color:#3D5A45;border-color:#3D5A45}
+.bbamz{display:block;text-align:center;background:#B98A3C;color:#2A1E14;font-family:var(--type);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;padding:11px 10px;margin-top:10px;text-decoration:none;border-radius:2px;box-shadow:0 5px 10px -7px rgba(0,0,0,.6)}
+.bbamz.sm{display:inline-block;padding:5px 9px;font-size:10.5px;margin:6px 0 0;letter-spacing:.1em}
+.bbnote{margin-top:10px;font-size:12.5px!important}
+#bbsheet{position:fixed;inset:0;background:rgba(40,28,20,.45);z-index:70;display:none;align-items:flex-end;justify-content:center}
+#bbsheet.open{display:flex}
+#bbsheet .bbs{background:#FCF7EC;width:100%;max-width:560px;padding:20px 18px calc(22px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.25);font-size:15px;line-height:1.45}
+#bbsheet p{margin:8px 0;color:#6B5544}#bbsheet a{color:#9A2B2E}
+.bbt{display:block;font-family:var(--serif);font-weight:600;font-size:22px}.bbt em{color:#9A2B2E}
+.bbshort{margin-top:16px;padding:14px;border:1.5px solid #3D5A45;background:#F2F4EC;border-radius:3px}
+.bbst{display:block;font-family:var(--serif);font-weight:600;font-size:18px;color:#3D5A45;margin-bottom:2px}
+.bbprev{width:58px;height:58px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.2);object-fit:cover;background:#E6D5B8}
+.bbsteps{margin:10px 0 0 20px;font-size:15px;line-height:1.55}.bbsteps li{margin:8px 0}
+.bbico{width:26px;height:26px;vertical-align:middle;margin:0 2px;display:inline-block;background:#fff;border-radius:6px;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#bbiced{position:fixed;inset:0;background:rgba(40,28,20,.6);z-index:80;display:none;align-items:center;justify-content:center;padding:16px}
+#bbiced .edbox{background:#FBF7F0;border-radius:14px;padding:18px 16px;max-width:340px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#bbedc{width:240px;height:240px;border-radius:52px;box-shadow:0 6px 18px rgba(0,0,0,.25);touch-action:none;display:block;margin:0 auto;background:#ddd}
+#bbedz{width:100%;margin:14px 0 6px;accent-color:#3D5A45}
+.bbchip{font-family:var(--type);font-size:12px;padding:7px 10px;border:1.5px solid #3D5A45;background:transparent;border-radius:20px;color:#3D5A45}
+.bbchip.on{background:#3D5A45;color:#fff}
+#sfhint{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom) + 84px);z-index:60;background:#33261D;color:#FCF7EC;font-family:var(--type);font-size:13px;line-height:1.3;padding:9px 12px;border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.3);max-width:200px;display:none}
+#sfhint:after{content:"";position:absolute;right:34px;bottom:-9px;border:9px solid transparent;border-bottom:0;border-top-color:#33261D}
+#sfhint .ar{display:block;text-align:right;font-size:22px;margin-top:2px;animation:bbbob 1s ease-in-out infinite}
+@keyframes bbbob{50%{transform:translateY(5px)}}
+
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
 <div class="kick">BrightBlueprintCo</div>
-<h1>The Christmas Gift Planner <em>&amp; budget tracker</em></h1>
+<h1>Christmas Gifts <em>planner &amp; budget tracker</em></h1>
 <div class="count" id="count"></div>
 <div class="sum">
 <div><span>Budget</span><b id="sB">0</b></div>
@@ -159,8 +221,11 @@ td.n,th.n{text-align:right;white-space:nowrap}
 </section>
 
 <section id="ideas">
-<h2>Gift ideas bank</h2>
-<p class="sub">Things they've mentioned. Write them down the moment you hear them.</p>
+<h2>Gift ideas</h2>
+<p class="sub">1,000+ ideas, matched to them. Plus a bank for things they’ve mentioned.</p>
+<div class="card" id="ideaHelper"></div>
+<div class="card"><b style="font-size:18px">Not sure what they want?</b><p class="meta" style="margin:4px 0 10px">Send them a nudge on WhatsApp. You pick who.</p><button class="bbbtn sm pine" data-askwish="1">Ask for their wish list</button></div>
+<h3>Things they’ve mentioned</h3>
 <div class="add" id="addIdea"></div>
 <div id="ideaList"></div>
 </section>
@@ -186,37 +251,235 @@ td.n,th.n{text-align:right;white-space:nowrap}
 </section>
 
 <section id="backup">
-<h2>Save &amp; back up</h2>
-<p class="sub">Your planner saves itself on this device, every time you type.</p>
-<div class="note"><b>Worth knowing:</b> your planner lives in this browser on this device. Clearing your browsing data, or opening it on another phone or laptop, starts a blank planner. Make a backup now and then, and you can always bring it back.</div>
-<h3>Make a backup</h3>
-<div class="card">
-<p style="margin-bottom:10px">Copy your backup code and paste it into a note or email to yourself.</p>
-<div class="row"><button class="btn" id="copyB">Copy backup code</button><button class="btn alt" id="dlB">Download backup file</button></div>
-<textarea id="bOut" readonly style="margin-top:10px;font-size:12px;min-height:70px" aria-label="Backup code"></textarea>
-</div>
-<h3>Restore or move to another device</h3>
-<div class="card">
-<p style="margin-bottom:10px">Paste a backup code here, or choose a backup file.</p>
-<textarea id="bIn" placeholder="Paste your backup code" style="font-size:12px" aria-label="Paste backup code"></textarea>
-<div class="row" style="margin-top:10px"><button class="btn" id="restoreB">Restore from code</button><label class="btn alt" style="display:inline-flex;align-items:center;font-size:15px;letter-spacing:0;text-transform:none;cursor:pointer">Choose file<input type="file" id="bFile" accept=".json,.txt,application/json" hidden></label></div>
-<p class="meta" id="bMsg" style="margin-top:8px"></p>
-</div>
-<h3>Add it to your home screen</h3>
-<div class="card"><p><b>iPhone / iPad:</b> tap Share, then <i>Add to Home Screen</i>.<br><b>Android:</b> tap the ⋮ menu, then <i>Add to Home screen</i>.<br>It opens like an app, with everything still saved.</p></div>
+<h2>Save my page</h2>
+<p class="sub">It saves itself on this phone, every time you type.</p>
+<div class="card" id="saveBox"></div>
 <h3>Start again</h3>
-<div class="card"><p style="margin-bottom:10px">Wipes everything on this device. Make a backup first if you might want it.</p><button class="btn warn" id="wipe">Start a fresh planner</button></div>
+<div class="card"><p style="margin-bottom:10px">Wipes everything on this phone. Send yourself a backup link first if you might want it.</p><button class="btn warn" id="wipe">Start a fresh planner</button></div>
 </section>
 
-<div class="foot">✦ BrightBlueprintCo ✦</div>
+<div class="foot">Made with love by BrightBlueprintCo</div>
 </main>
 
 <div class="saved" id="saved">Saved ✓</div>
 <div class="modal" id="modal"><div class="card"><h3 style="margin-top:0" id="mT"></h3><p id="mP"></p><div class="row"><button class="btn alt sm" id="mNo">Cancel</button><button class="btn warn sm" id="mYes">Yes, do it</button></div></div></div>
 
 <script>
+/* BrightBlueprintCo shared kit: WhatsApp, Amazon, help, backup links, selfie shortcut */
+var BB=(function(){
+var O={};
+var AMZ_TAG="brightbluepri-21";
+var CTRY={
+  GB:{n:"UK",cur:"£",cc:"44",trunk:true,local:/^7\d{9}$/,amz:"www.amazon.co.uk",tag:true},
+  IE:{n:"Ireland",cur:"€",cc:"353",trunk:true,local:/^8\d{8}$/,amz:"www.amazon.co.uk",tag:true},
+  US:{n:"US",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.com",tag:false},
+  CA:{n:"Canada",cur:"$",cc:"1",trunk:false,local:/^\d{10}$/,amz:"www.amazon.ca",tag:true},
+  AU:{n:"Australia",cur:"$",cc:"61",trunk:true,local:/^4\d{8}$/,amz:"www.amazon.com.au",tag:false},
+  XX:{n:"Elsewhere",cur:"",cc:"",trunk:false,local:null,amz:"www.amazon.co.uk",tag:true}
+};
+function guessCountry(){var tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+  if(/^Europe\/(London|Belfast|Guernsey|Jersey|Isle_of_Man)$/.test(tz))return "GB";if(tz==="Europe/Dublin")return "IE";
+  if(/^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)$/.test(tz))return "CA";
+  if(/^(America\/|Pacific\/Honolulu)/.test(tz))return "US";
+  if(/^Australia\//.test(tz))return "AU";if(tz)return "XX";
+  var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";var m=l.match(/-([A-Za-z]{2})$/);var r=m?m[1].toUpperCase():"";if(r==="GB"||r==="UK")return "GB";if(CTRY[r])return r;return O.defCountry||"GB"}
+var CC=null;function country(){if(!CC)CC=guessCountry();return CC}
+function C(){return CTRY[country()]||CTRY.GB}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+var isStandalone=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches);
+var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+var deferredInstall=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredInstall=e;if(O.render)O.render()});
+
+/* ---------- phone + WhatsApp ---------- */
+function intl(raw){
+  if(!raw)return "";var d=String(raw).replace(/[^\d+]/g,""),c=C();
+  if(d.indexOf("+")===0)d=d.slice(1);
+  else if(d.indexOf("00")===0)d=d.slice(2);
+  else if(d.charAt(0)==="0"){if(c.cc&&c.trunk)d=c.cc+d.slice(1);else return "";}
+  else if(c.cc&&c.local&&c.local.test(d))d=c.cc+d;
+  else if(c.cc==="1"&&d.length===11&&d.charAt(0)==="1"){}
+  else if(!c.cc){if(d.length<11)return "";}
+  d=d.replace(/\D/g,"");return d.length>=8&&d.length<=15?d:"";
+}
+function prettyNum(d){if(!d)return "";if(d.indexOf("44")===0&&d.length===12)return "+44 "+d.slice(2,6)+" "+d.slice(6);if(d.indexOf("1")===0&&d.length===11)return "+1 "+d.slice(1,4)+" "+d.slice(4,7)+" "+d.slice(7);return "+"+d}
+function sheet(html){var el=document.getElementById("bbsheet");if(!el){el=document.createElement("div");el.id="bbsheet";document.body.appendChild(el);
+    el.addEventListener("click",function(e){if(e.target===el||e.target.closest("[data-bbclose]"))el.classList.remove("open")})}
+  el.innerHTML='<div class="bbs">'+html+'</div>';el.classList.add("open");return el}
+function closeSheet(){var el=document.getElementById("bbsheet");if(el)el.classList.remove("open")}
+function openWA(num,text){
+  var q=encodeURIComponent(text);var n=num?intl(num):"";
+  var app="whatsapp://send?"+(n?"phone="+n+"&":"")+"text="+q;var web="https://wa.me/"+(n||"")+"?text="+q;
+  try{navigator.clipboard.writeText(text).catch(function(){})}catch(e){}
+  sheet('<b class="bbt">Opening <em>WhatsApp</em>…</b><p>'+(n?'It should open their chat with the message ready. Just tap send.':'Pick the chat or group and the message will be ready. Just tap send.')+'</p>'+
+    '<p>Nothing happened? <a href="'+web+'" target="_blank" rel="noopener">Try WhatsApp Web</a>. The message is copied too, so you can paste it anywhere.</p><button class="bbbtn" data-bbclose>Done</button>');
+  window.location.href=app;
+}
+function copyText(text,msg){try{navigator.clipboard.writeText(text).then(function(){O.toast&&O.toast(msg||"Copied")},function(){fallbackCopy(text)})}catch(e){fallbackCopy(text)}}
+function fallbackCopy(text){sheet('<b class="bbt">Copy <em>this</em></b><textarea class="bbta" readonly>'+esc(text)+'</textarea><button class="bbbtn" data-bbclose>Done</button>');var ta=document.querySelector("#bbsheet textarea");if(ta){ta.focus();ta.select()}}
+var CHATRE=/https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/;
+function chatCard(cur,opts){opts=opts||{};var ok=CHATRE.test(cur||"");
+  var h='<p class="small">'+(opts.blurb||"Running this in a WhatsApp group? Link it here.")+'</p>';
+  if(ok)h+='<div class="bblinked"><b>✔ Group chat linked</b><span>'+esc(cur)+'</span></div><div class="row" style="margin-top:10px"><button class="bbbtn sm" data-bbchat="paste">Paste a different link</button><button class="bblnk" data-bbchat="clear">Remove</button></div>';
+  else h+='<a class="bbgold" href="whatsapp://">Open WhatsApp &amp; create <b>'+esc(opts.groupName||"our")+'</b> group</a>'+
+    '<p class="small" style="margin-top:10px">Then in the group tap its name → <b>Invite via link</b> → <b>Copy link</b>, and come back here.</p>'+
+    '<button class="bbpine" data-bbchat="paste"><b>Paste</b> my group chat link</button>'+
+    '<details style="margin-top:8px"><summary class="small">Or type it in</summary><input class="bbin" data-bbchatin placeholder="https://chat.whatsapp.com/…"></details>';
+  return h}
+function onChatClick(kind,set){
+  if(kind==="clear"){set("");return}
+  try{navigator.clipboard.readText().then(function(t){var m=(t||"").match(CHATRE);if(m){set(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("No group link copied yet. Copy it in WhatsApp first")},function(){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")})}catch(e){O.toast&&O.toast("Paste it in the box under ‘Or type it in’")}
+}
+function chatCode(u){var m=(u||"").match(/chat\.whatsapp\.com\/([A-Za-z0-9]+)/);return m?m[1]:""}
+function postRow(id,title,when,done){return '<div class="bbpost"><div class="bbpt"><span>'+title+'</span><i class="'+(done?"on":"")+'">'+(done?"Posted":when||"")+'</i></div><div class="row"><button class="bbbtn sm pine" data-bbpost="'+id+'" data-via="wa">WhatsApp</button><button class="bbbtn sm" data-bbpost="'+id+'" data-via="copy">Copy</button></div></div>'}
+
+/* ---------- Amazon ---------- */
+var EXPERIENCE=/\b(voucher|experience|lesson|class|ticket|subscription|membership|day out|tour|massage|spa day)\b/i,PRODUCT=/\b(kit|set|book|box|card)\b/i;
+function amzUrl(q){var c=C();return "https://"+c.amz+"/s?k="+encodeURIComponent(q)+(c.tag?"&tag="+AMZ_TAG:"")}
+function findBtn(q,cls,label){if(!q||(EXPERIENCE.test(q)&&!PRODUCT.test(q)))return "";return '<a class="'+(cls||"bbamz")+'" href="'+esc(amzUrl(q))+'" target="_blank" rel="sponsored noopener">'+(label||"Find it on Amazon →")+'</a>'}
+var AMZ_NOTE='<p class="small bbnote">Amazon links: as an Amazon Associate we earn from qualifying purchases. It doesn’t cost you anything extra.</p>';
+
+/* ---------- help ---------- */
+function addHelp(root,MAP){(root||document).querySelectorAll(O.cardSel||".card").forEach(function(card){
+    var h2=card.querySelector("h2");if(!h2||card.querySelector(".bbq"))return;var t=h2.textContent.replace(/\s+/g," ").trim();
+    for(var i=0;i<MAP.length;i++){if(MAP[i][0].test(t)){var b=document.createElement("button");b.className="bbq";b.type="button";b.setAttribute("aria-label","How this works");b.dataset.bbq=i;b.textContent="?";card.appendChild(b);card.classList.add("bbhas");break}}})}
+function toggleHelp(btn,MAP){var card=btn.closest(O.cardSel||".card"),h2=card.querySelector("h2"),nx=h2.nextElementSibling;
+  if(nx&&nx.classList.contains("bbhelp")){nx.remove();btn.classList.remove("on");return}
+  var p=document.createElement("p");p.className="bbhelp";p.textContent=MAP[+btn.dataset.bbq][1];h2.parentNode.insertBefore(p,h2.nextSibling);btn.classList.add("on")}
+
+/* ---------- backup links ---------- */
+function b64(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function backupLink(){return location.origin+location.pathname+"#r"+b64(O.getState())}
+function readBackup(tx){tx=String(tx||"");var m=tx.match(/#r([A-Za-z0-9_\-]+)/),s;
+  if(m)s=m[1];else{var t2=tx.trim();if(t2.charAt(0)==="{"){try{return JSON.parse(t2)}catch(e){return null}}s=t2}
+  s=s.replace(/[^A-Za-z0-9+\/=_\-]/g,"").replace(/-/g,"+").replace(/_/g,"/").replace(/=+$/,"");
+  for(var cut=0;cut<4;cut++){var t=s.slice(0,s.length-cut);while(t.length%4)t+="=";try{var o=JSON.parse(decodeURIComponent(escape(atob(t))));if(o&&O.valid(o))return o}catch(e){}}return null}
+function sendBackup(){var l=backupLink();try{navigator.clipboard.writeText(l).catch(function(){})}catch(e){}openWA("","My "+O.appName+" backup. Tap to bring it all back:\n"+l)}
+function restoreFrom(text){var o=readBackup(text);if(!o){O.toast&&O.toast("That didn’t work. Copy the whole backup message and try again");return false}O.setState(o);O.toast&&O.toast("Restored! Welcome back");return true}
+function checkHash(){var h=location.hash;if(h.indexOf("#r")!==0)return;var o=readBackup(h);try{history.replaceState(null,"",location.pathname)}catch(e){}
+  if(!o){O.toast&&O.toast("That backup link looks broken. Copy the whole message and paste it into Restore");return}
+  if(O.isEmpty()){O.setState(o);O.toast&&O.toast("Restored! Welcome back");return}
+  sheet('<b class="bbt">Bring back <em>your backup?</em></b><p>This replaces what’s on this phone right now.</p><div class="row"><button class="bbbtn pine" id="bbdores">Restore it</button><button class="bblnk" data-bbclose>Cancel</button></div>');
+  document.getElementById("bbdores").onclick=function(){O.setState(o);closeSheet();O.toast&&O.toast("Restored! Welcome back")}}
+function saveCard(){return '<p class="small">Everything saves on this phone as you go. To be extra safe, send yourself a backup link. Tap it any time, even on a new phone, and it all comes back.</p>'+
+  '<div class="row" style="margin-top:12px"><button class="bbbtn pine" data-bb="backup">Send me a backup link</button></div>'+shortcutBlock()+
+  '<details style="margin-top:12px"><summary class="small">Restore from a backup</summary><textarea class="bbta" id="bbrin" placeholder="Paste your backup link or message here…"></textarea><div class="row" style="margin-top:8px"><button class="bbbtn sm" data-bb="restore">Restore</button></div></details>'}
+
+/* ---------- icon + shortcut ---------- */
+var ui={hsGuide:false,img:null,hsOpen:false};
+function iconKey(){return O.key+"-icon"}
+function setAppIcon(){var d=load(iconKey());var l=document.querySelector('link[rel="apple-touch-icon"]');if(!l){l=document.createElement("link");l.rel="apple-touch-icon";document.head.appendChild(l);l.dataset.def=""}
+  if(l.dataset.def===undefined)l.dataset.def=l.getAttribute("href")||"";l.href=d&&d.url?d.url:(l.dataset.def||O.defIcon||"")}
+function star(x,cx,cy,r,col){x.fillStyle=col;x.beginPath();for(var i=0;i<10;i++){var a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;x.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr)}x.closePath();x.fill()}
+function leaf(x,cx,cy,s,rot,col){x.save();x.translate(cx,cy);x.rotate(rot);x.fillStyle=col;x.beginPath();x.moveTo(0,-s);x.quadraticCurveTo(s*.75,-s*.3,0,s);x.quadraticCurveTo(-s*.75,-s*.3,0,-s);x.fill();
+  x.strokeStyle="rgba(60,30,10,.45)";x.lineWidth=s*.08;x.beginPath();x.moveTo(0,-s*.8);x.lineTo(0,s*1.25);x.stroke();x.restore()}
+function drawIcon(img,kind,N,t){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
+  var w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,m=Math.min(w,h);t=t||{};var z=t.z||1,sz=m/z;
+  var cx=t.cx!=null?t.cx:w/2,cy=t.cy!=null?t.cy:(h>w?h*.42:h/2);cx=Math.max(sz/2,Math.min(w-sz/2,cx));cy=Math.max(sz/2,Math.min(h-sz/2,cy));var sx=cx-sz/2,sy=cy-sz/2;
+  function circle(bg,ring,r){x.fillStyle=bg;x.fillRect(0,0,N,N);x.save();x.beginPath();x.arc(N/2,N/2,r*k,0,6.283);x.clip();x.drawImage(img,sx,sy,sz,sz,N/2-r*k,N/2-r*k,2*r*k,2*r*k);x.restore();
+    x.strokeStyle=ring;x.lineWidth=6*k;x.beginPath();x.arc(N/2,N/2,(r+3)*k,0,6.283);x.stroke();x.lineWidth=1.5*k;x.beginPath();x.arc(N/2,N/2,(r+12)*k,0,6.283);x.stroke()}
+  if(kind==="tag"){circle("#9A2B2E","#B98A3C",68);star(x,152*k,152*k,17*k,"#B98A3C");star(x,27*k,28*k,9*k,"#E6D5B8");star(x,156*k,26*k,6*k,"#E6D5B8");return c}
+  if(kind==="pumpkin"){circle("#C4672A","#E7CF9C",68);leaf(x,150*k,150*k,16*k,.7,"#3D5A45");leaf(x,30*k,32*k,12*k,-.8,"#9A2B2E");leaf(x,152*k,28*k,9*k,.4,"#D9A13B");return c}
+  x.drawImage(img,sx,sy,sz,sz,0,0,N,N);
+  if(kind==="snow"){x.strokeStyle="#3D5A45";x.lineWidth=14*k;x.strokeRect(7*k,7*k,N-14*k,N-14*k);x.strokeStyle="#B98A3C";x.lineWidth=2.5*k;x.strokeRect(15*k,15*k,N-30*k,N-30*k);
+    var r=7;for(var i=0;i<40;i++){r=(r*9301+49297)%233280;var px=r/233280*N;r=(r*9301+49297)%233280;var py=r/233280*N;r=(r*9301+49297)%233280;var rad=(1.4+r/233280*3.4)*k;
+      if(px>40*k&&px<140*k&&py>45*k&&py<150*k)continue;x.fillStyle="rgba(255,255,255,.93)";x.beginPath();x.arc(px,py,rad,0,6.283);x.fill()}return c}
+  if(kind==="leaves"){var cols=["#C4672A","#9A2B2E","#D9A13B","#7A4A2A","#B5532A"],r2=3;
+    for(var j=0;j<26;j++){r2=(r2*9301+49297)%233280;var a=r2/233280;var side=j%4,p=(j/26*4)%1,lx,ly;
+      if(side===0){lx=p*N;ly=8*k}else if(side===1){lx=N-8*k;ly=p*N}else if(side===2){lx=N-p*N;ly=N-8*k}else{lx=8*k;ly=N-p*N}
+      leaf(x,lx+(a-.5)*14*k,ly+(a-.5)*14*k,(11+a*8)*k,a*6.283,cols[j%5])}return c}
+  if(kind==="gold"){x.strokeStyle="#FCF7EC";x.lineWidth=16*k;x.strokeRect(8*k,8*k,N-16*k,N-16*k);x.strokeStyle="#B98A3C";x.lineWidth=3*k;x.strokeRect(17*k,17*k,N-34*k,N-34*k);x.lineWidth=1.2*k;x.strokeRect(4*k,4*k,N-8*k,N-8*k);
+    leaf(x,26*k,154*k,13*k,-.6,"#C4672A");leaf(x,40*k,162*k,10*k,.5,"#9A2B2E");leaf(x,16*k,140*k,9*k,-1.6,"#D9A13B");return c}
+  /* santa hat */
+  x.save();x.translate(84*k,42*k);x.rotate(-.14);x.scale(.9,.9);
+  x.shadowColor="rgba(0,0,0,.28)";x.shadowBlur=6*k;x.shadowOffsetY=2*k;
+  x.fillStyle="#C42B2B";x.beginPath();x.moveTo(-64*k,10*k);x.bezierCurveTo(-58*k,-34*k,-8*k,-58*k,34*k,-50*k);x.bezierCurveTo(62*k,-44*k,80*k,-20*k,82*k,14*k);
+  x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.lineTo(56*k,12*k);x.closePath();x.fill();x.shadowColor="transparent";
+  x.fillStyle="rgba(0,0,0,.14)";x.beginPath();x.moveTo(30*k,-48*k);x.bezierCurveTo(60*k,-42*k,78*k,-20*k,82*k,14*k);x.bezierCurveTo(70*k,-6*k,56*k,-16*k,46*k,-6*k);x.closePath();x.fill();
+  x.fillStyle="#FBF7F0";x.shadowColor="rgba(0,0,0,.25)";x.shadowBlur=5*k;x.shadowOffsetY=2*k;
+  x.beginPath();x.moveTo(-74*k,4*k);x.quadraticCurveTo(-4*k,-10*k,66*k,4*k);x.quadraticCurveTo(72*k,16*k,66*k,26*k);x.quadraticCurveTo(-4*k,12*k,-74*k,28*k);x.quadraticCurveTo(-80*k,16*k,-74*k,4*k);x.closePath();x.fill();
+  x.beginPath();x.arc(84*k,20*k,14*k,0,6.283);x.fill();x.restore();return c}
+var SHARE_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C6EF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-8"/></svg>';
+var DOTS_SVG='<svg class="bbico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#3A3A3C"/><circle cx="7" cy="12" r="1.8" fill="#fff"/><circle cx="12" cy="12" r="1.8" fill="#fff"/><circle cx="17" cy="12" r="1.8" fill="#fff"/></svg>';
+var PLUS_SVG='<svg class="bbico" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>';
+function iosSteps(){return '<ol class="bbsteps"><li>Look at <b>Safari’s bar at the very bottom of your screen</b>, below this page. Hidden? Scroll up a little and it pops back. Tap its '+DOTS_SVG+' <b>three dots</b>, not anything on this page. Older iPhones: skip to step 2.</li>'+
+  '<li>Tap '+SHARE_SVG+' <b>Share</b>.</li><li>Scroll down, tap '+PLUS_SVG+' <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>'}
+function shortcutBlock(){if(isStandalone)return "";var d=load(iconKey());
+  var h='<div class="bbshort"><b class="bbst">Make my own shortcut</b><span class="small">Put it on your home screen with your face as the button, so it’s always one tap away.</span>'+
+    '<div class="row" style="align-items:center;gap:12px;margin-top:10px"><img src="'+(d&&d.url?d.url:(O.defIcon||""))+'" alt="App icon" class="bbprev">'+
+    '<label class="bbbtn sm" style="cursor:pointer">'+(d&&d.url?"Change photo":"Use my photo as the icon")+'<input type="file" accept="image/*" class="bbfile" style="display:none"></label>'+
+    (d&&d.url?(ui.img?'<button class="bblnk" data-bb="iconedit">Adjust</button>':'')+'<button class="bblnk" data-bb="iconreset">Use the logo</button>':'')+'</div>';
+  if(isIOS)h+=(ui.hsGuide?iosSteps():'')+'<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="hsguide">'+(ui.hsGuide?"Hide steps":"Make my shortcut")+'</button></div>';
+  else if(deferredInstall)h+='<div class="row" style="margin-top:10px"><button class="bbbtn sm pine" data-bb="install">Add to home screen</button></div>';
+  else h+='<p class="small" style="margin-top:10px">In Chrome, tap <b>⋮</b> (top right), then <b>Add to home screen</b>.</p>';
+  return h+'</div>'}
+var ED=null;
+function openEditor(img){var d=load(iconKey())||{};var fr=O.frames;ED={img:img,f:fr.indexOf(d.f)>=0?d.f:fr[0],t:d.t&&ui.img===img?d.t:{z:1}};
+  var w=img.naturalWidth,h=img.naturalHeight;if(ED.t.cx==null){ED.t.cx=w/2;ED.t.cy=h>w?h*.42:h/2}
+  var el=document.getElementById("bbiced");if(!el){el=document.createElement("div");el.id="bbiced";document.body.appendChild(el)}
+  el.innerHTML='<div class="edbox"><b class="bbt">Make your <em>icon</em></b><p class="small" style="margin:4px 0 10px">Drag your photo to line it up. Pinch or use the slider to zoom.</p>'+
+   '<canvas id="bbedc" width="480" height="480"></canvas><input type="range" id="bbedz" min="1" max="3" step="0.01" value="'+ED.t.z+'">'+
+   '<div class="row" style="justify-content:center;gap:8px">'+fr.map(function(f){return '<button class="bbchip'+(ED.f===f?" on":"")+'" data-edf="'+f+'">'+(O.frameNames[f]||f)+'</button>'}).join("")+'</div>'+
+   '<div class="row" style="justify-content:center;gap:12px;margin-top:14px"><button class="bbbtn pine" id="bbedok">Use this</button><button class="bblnk" id="bbedx">Cancel</button></div></div>';
+  el.style.display="flex";edDraw();
+  var cv=document.getElementById("bbedc"),pts={},pd=null;
+  function sc(){return (Math.min(img.naturalWidth,img.naturalHeight)/ED.t.z)/240}
+  cv.addEventListener("pointerdown",function(e){cv.setPointerCapture(e.pointerId);pts[e.pointerId]={x:e.clientX,y:e.clientY};var ks=Object.keys(pts);if(ks.length===2){var a=pts[ks[0]],b=pts[ks[1]];pd={d:Math.hypot(a.x-b.x,a.y-b.y),z:ED.t.z}}});
+  cv.addEventListener("pointermove",function(e){var p=pts[e.pointerId];if(!p)return;var ks=Object.keys(pts);
+    if(ks.length===2&&pd){p.x=e.clientX;p.y=e.clientY;var a=pts[ks[0]],b=pts[ks[1]];ED.t.z=Math.max(1,Math.min(3,pd.z*Math.hypot(a.x-b.x,a.y-b.y)/pd.d));document.getElementById("bbedz").value=ED.t.z}
+    else{var s2=sc();ED.t.cx-=(e.clientX-p.x)*s2;ED.t.cy-=(e.clientY-p.y)*s2;p.x=e.clientX;p.y=e.clientY}edClamp();edDraw()});
+  function up(e){delete pts[e.pointerId];pd=null}cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+  document.getElementById("bbedz").addEventListener("input",function(e){ED.t.z=+e.target.value;edClamp();edDraw()});
+  el.onclick=function(e){var b=e.target.closest("button");if(!b)return;
+    if(b.dataset.edf){ED.f=b.dataset.edf;[].forEach.call(el.querySelectorAll("[data-edf]"),function(x){x.classList.toggle("on",x===b)});edDraw()}
+    else if(b.id==="bbedx"){el.style.display="none";ED=null}
+    else if(b.id==="bbedok"){var u=drawIcon(ED.img,ED.f,180,ED.t).toDataURL("image/jpeg",.9);if(!store(iconKey(),{url:u,f:ED.f,t:ED.t}))O.toast&&O.toast("Couldn’t save the photo on this phone");
+      el.style.display="none";ED=null;setAppIcon();O.render&&O.render();O.toast&&O.toast("Looking good! Now add it to your home screen")}}}
+function edClamp(){var w=ED.img.naturalWidth,h=ED.img.naturalHeight,sz=Math.min(w,h)/ED.t.z;ED.t.cx=Math.max(sz/2,Math.min(w-sz/2,ED.t.cx));ED.t.cy=Math.max(sz/2,Math.min(h-sz/2,ED.t.cy))}
+function edDraw(){var cv=document.getElementById("bbedc");if(!cv||!ED)return;cv.getContext("2d").drawImage(drawIcon(ED.img,ED.f,480,ED.t),0,0)}
+function hint(){var hn=document.getElementById("sfhint");if(!hn){hn=document.createElement("div");hn.id="sfhint";hn.innerHTML='Safari’s <b>•••</b> are down here, in its bar. Tap them first.<span class="ar">↓</span>';hn.onclick=function(){hn.style.display="none"};document.body.appendChild(hn)}
+  hn.style.display=(ui.hsGuide&&isIOS&&!isStandalone)?"block":"none"}
+
+/* ---------- events ---------- */
+document.addEventListener("change",function(e){var t=e.target;
+  if(t.classList&&t.classList.contains("bbfile")&&t.files&&t.files[0]){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){ui.img=im;openEditor(im)};im.src=fr.result};fr.readAsDataURL(t.files[0]);t.value=""}
+  if(t.dataset&&t.dataset.bbchatin!==undefined){var m=(t.value||"").match(CHATRE);if(m){O.setChat&&O.setChat(m[0]);O.toast&&O.toast("Group chat linked ✔")}else O.toast&&O.toast("That doesn’t look like a WhatsApp group link")}});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-bb],[data-bbq],[data-bbchat]");if(!b)return;
+  if(b.dataset.bbq!==undefined){toggleHelp(b,O.help);return}
+  if(b.dataset.bbchat){onChatClick(b.dataset.bbchat,function(v){O.setChat&&O.setChat(v)});return}
+  switch(b.dataset.bb){
+    case "backup":sendBackup();break;
+    case "restore":var ta=document.getElementById("bbrin");if(ta&&restoreFrom(ta.value))ta.value="";break;
+    case "iconedit":if(ui.img)openEditor(ui.img);break;
+    case "iconreset":try{localStorage.removeItem(iconKey())}catch(err){}ui.img=null;setAppIcon();O.render&&O.render();break;
+    case "hsguide":ui.hsGuide=!ui.hsGuide;O.render&&O.render();break;
+    case "install":if(deferredInstall){deferredInstall.prompt();deferredInstall=null}break;
+  }});
+
+function after(root){setAppIcon();hint();if(O.help)addHelp(root,O.help)}
+function init(o){O=o;O.frames=O.frames||["hat","tag","snow"];O.frameNames=O.frameNames||{hat:"Santa hat",tag:"Gold tag",snow:"Snow",leaves:"Leaves",pumpkin:"Pumpkin",gold:"Gold frame"};setAppIcon();setTimeout(checkHash,0)}
+return {init:init,after:after,openWA:openWA,copyText:copyText,intl:intl,prettyNum:prettyNum,amzUrl:amzUrl,findBtn:findBtn,AMZ_NOTE:AMZ_NOTE,country:country,C:C,CTRY:CTRY,
+  chatCard:chatCard,chatCode:chatCode,CHATRE:CHATRE,postRow:postRow,saveCard:saveCard,shortcutBlock:shortcutBlock,drawIcon:drawIcon,backupLink:backupLink,readBackup:readBackup,isIOS:isIOS,isStandalone:isStandalone,sheet:sheet,closeSheet:closeSheet,esc:esc}
+})();
+
+</script>
+<script>
+var LIB={"adult":{"cook":[["Flaky sea salt in a nice tin","Spice blend trio","Silicone spatula set","Herb-infused olive oil","Pack of vanilla pods"],["Proper pepper grinder","Hot sauce tasting set","Linen apron","Microplane grater","Small-batch pesto and pasta set"],["Hardback cookbook from a chef they love","Mortar and pestle","Cast iron skillet","Fresh pasta making kit","Instant-read meat thermometer"],["Cooking class for one","Quality chef's knife","Dutch oven casserole dish","Pizza stone and peel set","Stand-mixer attachment they've been eyeing"]],"drinks":[["Mini bottle of craft gin","Cocktail bitters","Fancy tonic four-pack","Set of beer mats with a pun","Dried citrus garnish pack"],["Copper jigger and bar spoon","Craft beer tasting box","Infuse-your-own gin kit","Wine stopper and pourer set","Cocktail recipe card deck"],["Bottle of a gin they've never tried","Decent bottle of wine with a note","Cocktail shaker set","Whisky stones and tumbler","Brewery tour voucher"],["Gin or whisky tasting experience","Wine subscription for two months","Home cocktail masterclass","Premium spirit with nice glasses","Vineyard tour for two"]],"coffee":[["Bag of local roast coffee beans","Fancy hot chocolate stirrers","Loose-leaf tea sampler","Reusable coffee filter","Biscotti for dunking"],["Insulated travel mug","Cafetière for one","Specialty tea tin collection","Coffee-scented candle","Pour-over cone and filters"],["Hand coffee grinder","Milk frother","Coffee subscription for a month","Japanese teapot set","Barista-style latte mugs"],["Barista course","Moka pot plus beans","Premium tea ceremony set","Coffee scales and gooseneck kettle","Three-month coffee subscription"]],"garden":[["Seed packets for unusual veg","Plant labels and a marker","Gardening gloves","Herb seed tin","Hand cream for gardeners"],["Pruning snips","Bird feeder and seed","Kneeling pad","Indoor herb kit","Bulbs for spring"],["Bonsai starter kit","Stylish watering can","Raised planter","Bee hotel","Hardback gardening book"],["Garden tool set in a roll","Garden centre voucher","Self-watering planter","Bird box camera","Fruit tree to plant"]],"fitness":[["Resistance bands","Sports water bottle","Protein snack bundle","Sweat-wicking socks","Muscle rub"],["Jump rope with counter","Yoga block and strap","Foam roller","Gym towel set","Running armband for their phone"],["Massage gun (compact)","Yoga mat","Adjustable kettlebell","Running belt and gels","Fitness class pass"],["Sports massage voucher","Smart skipping rope","Quality running jacket","Climbing taster session","Month at a boutique gym class"]],"gaming":[["Gaming-themed mug","Controller grip covers","Retro sticker pack","Gaming snack box","Cable organiser"],["Game-themed socks","Glow-in-the-dark mousemat","Small console game download","Pixel-art keyring","Controller phone clip"],["Indie game they've wishlisted","LED light strip for their setup","Gaming headset stand","Board game version of a video game","Retro handheld console"],["New release game","Comfortable gaming headset","Spare controller","Gaming chair cushion and lumbar support","Escape room for their crew"]],"books":[["Secondhand copy of a classic","Leather bookmark","Book-scented candle","Bookish enamel pin","Literary quote tote bag"],["Paperback from their wishlist","Book light","Reading journal","Bookish socks","Blind date with a book"],["Hardback new release","Book subscription for a month","Bookends","Signed copy from a local shop","Cosy reading blanket"],["E-reader","Three-month book subscription","Bookshop voucher plus coffee","Collector's edition of a favourite","Literary walking tour"]],"music":[["Guitar picks set","Vinyl cleaning cloth","Music-themed mug","Gig-ticket frame","Earplugs for gigs"],["Second-hand vinyl from their favourite band","Band t-shirt","Lyric print","Music trivia game","Capo for their guitar"],["Bluetooth speaker (small)","New vinyl record","Turntable cleaning kit","Ukulele","Gig tickets for a local band"],["Wireless headphones","Gig tickets for someone big","Record player","Music lessons taster","Studio recording session"]],"beauty":[["Sheet mask set","Lip balm trio","Nail polish in a nice shade","Hair scrunchies set","Mini hand cream"],["Bath oil","Jade roller","Silk scrunchies","Fancy shower gel","Mini perfume"],["Skincare set from a good brand","Silk pillowcase","Makeup brush set","Luxury candle","Hair treatment set"],["Spa day voucher","Perfume they love","Facial treatment","Hair styling tool","Luxury skincare bundle"]],"diy":[["Tape measure with a joke on it","Pencil and spirit level set","Work gloves","Assorted screws organiser","Multi-bit screwdriver"],["Multi-tool","Headtorch","Stud finder","Toolbox organiser","Wood glue and clamps kit"],["Cordless screwdriver","Tool roll","Woodworking class taster","Laser measure","Quality hammer and saw"],["Cordless drill set","Woodworking course","Workbench accessories","DIY store voucher","Rotary multi-tool kit"]],"sport":[["Team scarf","Football card packs","Sports quiz book","Match-day snack pack","Team keyring"],["Team mug and coaster set","Retro shirt pin badges","Mini football goal for the desk","Sports biography","Club socks"],["Retro football shirt","Stadium tour voucher","Team print or poster","Sports documentary box set","Padel or tennis balls and grip"],["Match tickets","Official shirt","Stadium tour for two","Golf lesson","Signed memorabilia"]],"travel":[["Passport cover","Packing cubes","Travel-size toiletries set","Luggage tag","Travel journal"],["Scratch map","Neck pillow","Universal adapter","Travel guidebook","Travel jewellery case"],["Weekend bag","Noise-cancelling earbuds (budget)","Travel photo book voucher","Portable charger","Packable rain jacket"],["Hotel or experience voucher","Quality cabin suitcase","Afternoon tea somewhere new","Train day trip for two","Polaroid camera"]],"pets":[["Pet treats","Toy for their dog or cat","Pet-themed socks","Poo bag holder","Pet birthday card"],["Custom pet keyring","Pet bandana","Puzzle feeder","Pet-shaped mug","Grooming brush"],["Custom pet portrait print","Pet bed","Engraved pet tag and lead","Pet camera treat toy","Doggy day out kit"],["Pet photo shoot","Custom pet painting","Smart feeder","Dog-friendly cottage voucher","Premium pet bed"]],"home":[["Scented candle","Hand-poured soap","Fairy lights","Coaster set","Small plant"],["Cosy socks","Throw cushion","Reed diffuser","Nice mug and hot chocolate","Photo frame"],["Cosy throw","Luxury candle","Ceramic vase with dried flowers","Plant with nice pot","Coffee table book"],["Weighted blanket","Smart lamp","Quality bedding","Art print framed","Indoor plant collection"]],"crafts":[["Fancy pens set","Washi tape set","Embroidery floss pack","Sketchbook","Origami paper"],["Embroidery starter kit","Watercolour set","Candle-making kit","Knitting kit for a beanie","Calligraphy pens"],["Pottery painting voucher","Macramé kit","Quality art supplies","Sewing kit with fabric","Lino printing kit"],["Pottery class","Sewing machine starter","Art class course","Craft workshop for two","Premium paint set and easel"]],"tech":[["Cable organiser","Phone stand","Screen cleaning kit","Webcam cover","Fun USB stick"],["Wireless charger","Phone grip","Bluetooth tracker tag","Smart plug","Laptop sleeve"],["Portable power bank","Small Bluetooth speaker","Smart bulb starter kit","Mechanical keyboard keycaps","Ring light"],["Wireless earbuds","Smartwatch strap set plus charger","Mechanical keyboard","Smart speaker","Portable projector (mini)"]],"film":[["Movie night popcorn kit","Film quote mug","Cinema snack box","Film trivia cards","Retro film poster postcard"],["Film night hamper","Classic DVD box","Popcorn maker (mini)","Movie-themed socks","Film soundtrack vinyl (secondhand)"],["Cinema voucher for two","Film poster print","Blu-ray collector's edition","Film quiz board game","Cosy blanket and snacks"],["Projector for movie nights","Cinema membership month","Film studio tour","Premium streaming gift card","Film-themed escape room"]],"sweet":[["Posh chocolate bar","Retro sweets bag","Fudge box","Gourmet marshmallows","Honey tasting set"],["Chocolate truffle selection","Brownie box","Hot sauce sampler","Popcorn flavour set","Cheese and crackers set"],["Luxury chocolate hamper","Afternoon tea box","Cheese board set","Baklava box","Doughnut delivery"],["Chocolate making class","Gourmet food hamper","Afternoon tea for two","Cheese tasting experience","Monthly treat subscription"]],"outdoors":[["Headtorch","Hand warmers","Carabiner keyring","Trail snack pack","Waterproof map case"],["Insulated flask","Walking socks","Pocket knife multi-tool","Camping mug","Trail guidebook"],["Hammock","Waterproof jacket (lightweight)","Camping stove","Trekking poles","Paddleboard taster"],["Wild camping kit","Quality walking boots","Outdoor adventure experience","Kayak tour","Down jacket"]],"fashion":[["Fun socks","Hair claw clip","Bandana","Sunglasses case","Pin badge"],["Beanie","Silk scarf","Tote bag with personality","Statement earrings","Leather card holder"],["Cashmere-blend scarf","Leather wallet","Quality gloves","Watch strap","Jewellery dish and earrings"],["Cashmere jumper","Quality watch","Leather bag","Personal styling session","Designer sunglasses"]],"general":[["Posh chocolate and a handwritten card","Fancy socks","A candle that smells like Christmas","Hand cream","Mini bottle of something nice","A really good hot chocolate kit"],["Cosy slipper socks","A paperback you loved this year","Local honey or chutney","A nice notebook and pen","Gloves or a beanie","A plant and a funny card"],["A cosy throw","A hardback cookbook","A cheese or treat box","A 1,000-piece puzzle","A leather card holder","A day-out voucher"],["An experience for two","A really nice jumper","A framed print of a place they love","A wireless speaker","A spa voucher","A subscription box for three months"]]},"teen":{"cook":[["Fun-shaped cookie cutters","Mug cake mix set","Sprinkles collection","Bubble tea kit","Silly apron"],["Baking set with recipes","Ramen bowl and chopsticks","Pancake art kit","Waffle-themed mug","Easy recipes book for teens"],["Mini waffle maker","Sushi-making kit","Doughnut-making kit","Cake decorating set","Air fryer cookbook and tools"],["Teen cooking class","Bubble tea making set deluxe","Mini air fryer","Baking class for two","Chocolate making workshop"]],"coffee":[["Iced coffee syrups","Bubble tea pearls kit","Cute reusable straw","Hot chocolate bombs","Matcha sample"],["Cute travel cup","Glass iced coffee cup with lid","Hot chocolate gift set","Flavoured tea tins","Matcha whisk kit"],["Milk frother","Cold brew bottle","Café voucher","Bubble tea voucher","Cute ceramic mug set"],["Café gift card bundle","Coffee bar starter kit","Barista class taster","Mini espresso machine (manual)","Bubble tea shop voucher plus bottle"]],"garden":[["Grow-your-own sunflower kit","Cactus in a cute pot","Seed bombs","Plant stickers","Mini terrarium stones"],["Terrarium kit","Mushroom grow kit","Hanging air plants","Herb grow kit","Plant-themed tote"],["Self-watering plant pot","Bonsai kit","Carnivorous plant kit","Plant care book","Mini greenhouse"],["Indoor smart garden (small)","Terrarium workshop","Plant shop voucher","Large statement plant","Hydroponic grow kit"]],"fitness":[["Resistance bands","Sweatband set","Water bottle with time markers","Grip socks","Skipping rope"],["Yoga mat (light)","Gym bag","Foam roller (small)","Sports headphones (wired)","Fitness journal"],["Climbing taster session","Trampoline park pass","Dance class pass","Fitness tracker band (budget)","Insulated gym bottle"],["Climbing course","Fitness tracker","Running trainers voucher","Martial arts taster block","Surf or skate lesson"]],"gaming":[["Gaming sticker pack","Controller skin","Gaming socks","Game-themed keyring","Pixel art sticky notes"],["Gaming-themed hoodie voucher","LED desk light","Game currency gift card (small)","Gaming mousemat (large)","Controller charging cable"],["Indie game download","LED strip for their room","Gaming mouse","Headset stand with lights","Retro mini console"],["New release game","Gaming headset","Spare controller","Gaming chair cushion","Esports arena session"]],"books":[["Bookmark set","Bookish stickers","Manga volume (secondhand)","Book-themed badge","Mini reading light"],["Paperback from a series they're into","Manga volume","Reading journal","Book sleeve","Bookish hoodie pin set"],["Box set of a series","Graphic novel","Bookshop voucher","Book subscription month","Cosy reading pillow"],["E-reader (basic)","Manga box set","Bookshop voucher plus café","Signed book","Author event tickets"]],"music":[["Guitar picks","Music-themed stickers","Earplugs for gigs","Lyric bookmark","Band badge"],["Band tee","Vinyl of a favourite album (secondhand)","Lyric poster","Headphone stand","Music-themed phone case"],["Bluetooth speaker","Ukulele","Vinyl record","Karaoke microphone","Concert poster print"],["Wireless headphones","Gig tickets","Record player (portable)","Music lessons block","Beginner guitar"]],"beauty":[["Lip gloss set","Scrunchies","Sheet masks","Nail stickers","Hair clips set"],["Mini skincare set","Glitter nail kit","Bath bombs","Hair accessories box","Body mist"],["Silk pillowcase","Makeup bag with goodies","Hair styling tool (basic)","Skincare starter kit","Nail polish collection"],["Beauty advent-style box","Hair straightener or curler","Pamper day voucher","Premium skincare set","Makeup lesson"]],"diy":[["Pocket multi-tool (age-appropriate)","Sticky glow stars","Mini screwdriver set","Puzzle cube","Sticker-bomb kit"],["Model building kit","3D puzzle","Electronics starter kit","Paint-your-own trainers kit","Room decor DIY kit"],["Lego set","Robotics kit","Soldering starter kit (supervised)","Woodcraft kit","Neon sign DIY kit"],["Large Lego set","Coding robot","3D printing pen kit","Electronics project box","Makerspace workshop"]],"sport":[["Team badge","Sports socks","Football cards","Sweatbands","Team keyring"],["Team scarf","Football (size 5)","Sports water bottle","Team poster","Basketball"],["Retro team shirt","Padel or tennis racket (basic)","Skateboard accessories","Trampoline park pass","Football boots voucher"],["Match tickets","Official shirt","Skateboard","Stadium tour","Coaching session"]],"travel":[["Fun luggage tag","Travel journal","Packing cubes (mini)","Passport sticker","Travel games pack"],["Scratch map","Neck pillow","Travel bingo","Polaroid film","Cute backpack keyring"],["Instant camera film bundle","Portable charger","Small backpack","Travel diary kit","Waterproof phone pouch"],["Instant camera","Theme park tickets","Day trip voucher","Quality backpack","Adventure experience"]],"pets":[["Pet treats","Pet toy","Pet stickers","Cute pet socks","Pet charm keyring"],["Pet portrait sticker","Pet bandana","Cat or dog plush","Puzzle feeder","Pet-themed hoodie pin"],["Custom pet portrait","Pet bed","Engraved tag","Pet camera toy","Pet photo book"],["Pet photo shoot","Custom pet plush","Zoo or farm experience","Animal handling session","Volunteer day at a shelter"]],"home":[["Fairy lights","Cute candle","Room spray","Photo clips string","Mini plant"],["LED neon light","Fluffy socks","Cushion","Photo prints","Wall stickers"],["Sunset lamp","Cosy throw","Bean bag cover","Room decor set","Bluetooth light bulb"],["Smart LED room lights","Bean bag","Star projector","Room makeover voucher","Weighted blanket (small)"]],"crafts":[["Gel pens set","Stickers book","Friendship bracelet thread","Mini sketchbook","Washi tape"],["Jewellery-making kit","Embroidery kit","Clay modelling kit","Watercolour set","Tie-dye kit"],["Polymer clay kit","Paint-by-numbers","Crochet starter kit","Calligraphy kit","Resin art kit"],["Art class block","Digital drawing tablet (basic)","Pottery class","Quality art supplies set","Sewing machine (mini)"]],"tech":[["Phone grip","Cable protectors","Screen cleaner","Phone charm","Cable tidy"],["Phone stand","Wireless charger","Earbuds case","Bluetooth tracker tag","Selfie light"],["Portable power bank","Bluetooth speaker","Ring light","Smart bulb","Gaming earbuds"],["Wireless earbuds","Smartwatch (basic)","Instant camera","Mini projector","Tablet accessories bundle"]],"film":[["Popcorn seasoning","Movie snacks box","Film quote stickers","Film trivia cards","Cinema-style ticket"],["Movie night kit","Fan merch keyring","Poster of a favourite film","Film-themed socks","Popcorn bowl"],["Cinema voucher for two","Film merch","Popcorn maker","Poster print","Blanket for movie nights"],["Projector","Studio tour","Cinema pass","Fan convention tickets","Film-themed escape room"]],"sweet":[["Retro sweets","Sour sweets bag","Novelty chocolate","Candy floss","Lollipop bouquet"],["American candy box","Pick-and-mix tub","Cookie dough box","Chocolate-dipped strawberries kit","Gourmet popcorn"],["Sweet hamper","Doughnut box","Milkshake voucher","Chocolate making kit","Cookie decorating kit"],["Chocolate workshop","Giant sweet hamper","Dessert café voucher","Candy subscription","Afternoon tea"]],"outdoors":[["Torch","Carabiner","Trail snacks","Compass","Glow sticks"],["Hammock (lightweight)","Water bottle","Survival bracelet","Walking socks","Binoculars (mini)"],["Camping lantern","Waterproof jacket (light)","Day bag","Paddleboard taster","Nature guidebook"],["High ropes course","Kayak session","Camping trip kit","Walking boots","Wild swim experience"]],"fashion":[["Fun socks","Hair claw clip","Phone charm","Bandana","Cute keyring"],["Bucket hat","Beanie","Tote bag","Statement earrings","Mini crossbody pouch"],["Hoodie","Sunglasses","Watch (basic)","Jewellery set","Trainers voucher"],["Trainers","Designer-style bag","Quality jacket","Personalised jewellery","Clothing voucher"]],"general":[["Fun socks","Sour sweets","Phone charm","Stickers pack","Lip balm or lip gloss","Mini plant"],["LED lights","Bucket hat","Paperback","Cute mug and hot chocolate","Pick-and-mix","Phone stand"],["Hoodie","Bluetooth speaker","Instant camera film","Cinema voucher for two","Sunset lamp","Bubble tea voucher"],["Wireless earbuds","Gig or event tickets","Trainers voucher","Instant camera","Experience day","Gaming gift card"]]},"kid":{"cook":[["Cookie cutter set","Kids' apron","Cupcake cases and sprinkles","Pizza kit","Mini rolling pin"],["Kids' baking set","Cupcake decorating kit","Junior cookbook","Gingerbread house kit","Chef's hat and utensils"],["Kids' cooking kit with real tools","Cake pop maker","Pancake set","Pretend kitchen accessories","Mini baking class"],["Kids' cooking class","Play kitchen set","Baking party box","Chocolate making workshop","Junior chef camp"]],"garden":[["Sunflower seed kit","Cress head kit","Bug viewer","Watering can (small)","Seed bombs"],["Kids' gardening tools","Grow-a-rainbow kit","Bug hotel","Wormery mini","Ladybird house"],["Mini greenhouse","Butterfly garden kit","Bird box to paint","Kids' gardening set with gloves","Garden explorer kit"],["Kids' wheelbarrow and tools","Butterfly release kit","Garden playhouse decor","Zoo or farm day","Nature club membership"]],"fitness":[["Skipping rope","Bouncy ball","Hula hoop","Frisbee","Sports stickers"],["Football","Swingball","Kids' yoga cards","Mini trampoline accessories","Hopscotch mat"],["Scooter accessories","Kids' badminton set","Trampoline park pass","Swim gear set","Balance board"],["Scooter","Trampoline park party","Climbing wall session","Swimming lessons","Bike accessories bundle"]],"gaming":[["Gaming stickers","Mini puzzle game","Controller keyring","Card game","Gaming-themed socks"],["Kids' card game","Small console game","Gaming plush","Pixel art kit","Handheld puzzle"],["Console game","Kids' gaming headset","Board game version of a video game","Character plush","Gaming room light"],["New console game","Kids' controller","Gaming party","Retro console","Arcade voucher"]],"books":[["Activity book","Comic","Bookmark","Puzzle book","Joke book"],["Picture book","First chapter book","Sticker storybook","Kids' comic subscription issue","Fact book"],["Book box set","Pop-up book","Kids' encyclopedia","Personalised storybook","Audiobook player"],["Personalised book set","Book subscription","Library of a favourite series","Author event","Reading tent and books"]],"music":[["Kazoo","Shaker eggs","Music stickers","Harmonica","Recorder"],["Kids' karaoke mic","Xylophone","Tambourine","Music book","Kids' headphones"],["Ukulele","Keyboard (mini)","Bluetooth karaoke mic","Drum pad","Music box"],["Kids' guitar","Electronic keyboard","Music lessons","Kids' concert tickets","Karaoke machine"]],"diy":[["Mini model kit","Glow-in-the-dark stars","Magnifying glass","Science sticker pack","Puzzle"],["Science experiment kit","Volcano kit","Crystal growing kit","Kids' tool set","Marble run (small)"],["Lego set","Build-your-own robot","Circuit kit","Marble run","Magnetic tiles set"],["Large Lego set","Coding robot","Science lab set","Telescope","Magnetic tiles big set"]],"sport":[["Football cards","Sports stickers","Team socks","Sweatbands","Medal keyring"],["Football","Team mini kit voucher","Basketball","Goalkeeper gloves","Team poster"],["Football goal (pop-up)","Team shirt","Kids' tennis set","Shin pads and boots voucher","Sports bag"],["Match tickets","Football camp","Official kit","Stadium tour","Coaching session"]],"pets":[["Animal stickers","Pet toy","Animal fact cards","Pet plush keyring","Animal mask"],["Animal plush","Pet-care play set","Animal colouring kit","Pet treats to give","Farm animal figures"],["Interactive pet toy","Animal encyclopedia","Pet portrait to colour","Zoo membership card","Stuffed animal vet set"],["Zoo or aquarium day","Animal experience","Farm visit","Adopt-an-animal pack","Interactive robot pet"]],"home":[["Night light","Glow stars","Name sign stickers","Mini cushion","Room door sign"],["Fairy lights","Bean bag cover","Wall stickers","Photo frame","Fluffy slippers"],["Star projector","Den kit","Character bedding","Reading nook cushion","Play tent"],["Teepee play tent","Bean bag","Light-up room decor","Personalised bedroom set","Weighted blanket (kids)"]],"crafts":[["Crayons set","Sticker book","Colouring book","Play-Doh pots","Stencils"],["Slime kit","Bead kit","Paint set","Craft box","Scratch art kit"],["Jewellery kit","Clay kit","Tie-dye kit","Paint-your-own pottery kit","Big craft box"],["Pottery painting party","Art class","Easel and paint set","Craft subscription","Mega craft kit"]],"tech":[["Kids' torch","Walkie-talkie stickers","Fun USB stick","Calculator","Light-up pen"],["Walkie-talkies","Kids' headphones","Night light speaker","Digital timer","Spy kit"],["Kids' camera","Coding toy","Kids' smartwatch (basic)","Walkie-talkie set","Robot kit"],["Kids' tablet case and apps","Coding robot","Instant camera","Kids' smartwatch","Drone (mini)"]],"film":[["Character stickers","Popcorn pack","Film colouring book","Character keyring","Movie trivia cards"],["Character plush","Movie night kit","Character DVD","Popcorn bowl","Character mug"],["Cinema trip for two","Character playset","Movie merch bundle","Blanket and snacks","Film-themed game"],["Cinema party","Character experience","Theme park trip","Projector for kids","Studio tour"]],"sweet":[["Lollipops","Chocolate coins","Sweet necklace","Gummy bears","Candy cane"],["Pick-and-mix bag","Chocolate lolly","Hot chocolate kit","Cookie kit","Candy floss maker (mini)"],["Sweet hamper","Chocolate making kit","Doughnut box","Cupcake kit","Ice cream maker (mini)"],["Chocolate factory visit","Sweet workshop","Dessert café trip","Giant sweet hamper","Candy subscription"]],"outdoors":[["Bubble wand","Chalk","Bug net","Magnifying glass","Torch"],["Binoculars (kids)","Explorer kit","Bug catching kit","Nature spotter book","Kite"],["Kids' camping kit","Walkie-talkies","Den building kit","Pond dipping kit","Kids' backpack"],["Outdoor adventure day","Treehouse kit","Kids' tent","Forest school session","Bike accessories"]],"fashion":[["Fun socks","Hair clips","Character badge","Bracelet","Sunglasses"],["Character t-shirt","Beanie","Backpack keyring","Jewellery set","Hair accessories box"],["Dressing-up outfit","Light-up trainers voucher","Kids' backpack","Character hoodie","Jewellery box"],["Dressing-up box","Personalised jacket","Trainers","Kids' watch","Personalised jewellery"]],"general":[["Colouring book and pens","Slime","Chocolate coins","Bubble wand","Joke book","Stickers"],["Lego mini set","Card game","Plush toy","Craft kit","Glow-in-the-dark stars","Kids' headphones"],["Lego set","Board game","Science kit","Personalised book","Dressing-up outfit","Kids' camera"],["Big Lego set","Scooter","Experience day","Coding robot","Theme park trip","Kids' tent"]]}};
+var INTS=[["cook","Cooking & baking"],["drinks","Gin, wine & beer"],["coffee","Coffee & tea"],["garden","Plants & garden"],["fitness","Fitness"],["gaming","Gaming"],["books","Books"],["music","Music"],["beauty","Pampering"],["diy","Making & building"],["sport","Football & sport"],["travel","Travel"],["pets","Pets & animals"],["home","Cosy home"],["crafts","Arts & crafts"],["tech","Tech & gadgets"],["film","Film & TV"],["sweet","Sweet treats"],["outdoors","Outdoors"],["fashion","Style"]];
+var KW={cook:/cook|bak(e|ing)|chef|kitchen|foodie/,drinks:/\bgin\b|wine|beer|cocktail|whisk(e)?y|prosecco|\brum\b|vodka|ale\b/,coffee:/coffee|\btea\b|latte|matcha|espresso/,garden:/garden|plant|flower|\bgrow/,fitness:/\bgym|yoga|running|\brun\b|fitness|pilates|workout|cycl|crossfit/,gaming:/gam(e|er|ing)|xbox|playstation|nintendo|switch|ps5|fortnite|minecraft|roblox/,books:/book|read|novel|manga|kindle/,music:/music|guitar|vinyl|band|concert|gig|sing|piano|drum/,beauty:/skin ?care|make ?up|beauty|nails|pamper|perfume|\bspa\b/,diy:/\bdiy|tools|lego|woodwork|building|maker/,sport:/football|sport|rugby|tennis|golf|cricket|padel|basketball|\bf1\b|arsenal|chelsea|united|liverpool|spurs/,travel:/travel|holiday|trips?\b|explor/,pets:/\bdogs?\b|\bcats?\b|\bpets?\b|pupp|kitten|horse|animal/,home:/cosy|cozy|candle|blanket|interior/,crafts:/\bcraft|\bart\b|drawing|paint|knit|sew|crochet/,tech:/tech|gadget|computer|coding|\bcode\b|apple|android/,film:/film|movie|\btv\b|netflix|marvel|disney|cinema|anime/,sweet:/chocolate|sweets|snack|treats|candy|\bcake/,outdoors:/hik(e|ing)|walking|camp|outdoor|climb|swim|nature/,fashion:/fashion|style|clothes|jewel|trainers|sneaker|outfit/};
+function detectInts(t){t=(t||"").toLowerCase();return INTS.map(function(x){return x[0]}).filter(function(k){return KW[k].test(t)})}
+function detectAge(t){t=(t||"").toLowerCase();var m=t.match(/\b(?:is|aged?|turning|turns)\s*(\d{1,2})\b|\b(\d{1,2})\s*(?:yo|y\/o|yrs?|years?)\b/);var n=m?parseInt(m[1]||m[2],10):null;
+  if(n!==null&&n>=13&&n<=17)return "teen";if(n!==null&&n>=1&&n<=12)return "kid";
+  if(/\bteen|year (7|8|9|10|11)\b|gcse/.test(t))return "teen";if(/\bkids?\b|child|toddler|year [1-6]\b|primary school/.test(t))return "kid";return "adult"}
+function tierOf(b){b=parseFloat(b)||20;return b<=10?0:b<=20?1:b<=35?2:3}
+function poolFor(b,ints,age){var tier=tierOf(b),L=LIB[age]||LIB.adult,out=[];(ints||[]).forEach(function(k){if(L[k])out=out.concat(L[k][tier])});if(!out.length)out=L.general[tier].slice();return out}
+var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperience\b|\bsessions?\b|\bcourse\b|\btour\b|\bday out\b|\btrip\b|\bworkshop\b|\bmembership\b|\bsubscription\b|\bpass\b|\bcamp\b|\bphoto shoot\b|\bvisit\b|\btaster\b|\bspa day\b|\bvolunteer\b|\bevent\b|\bmasterclass\b|\bparty\b(?! box)/i,PRODUCT=/\b(kit|set|box|print|frame|book|bag|poster|mug|strip|bundle|hamper)\b/i;
+
+</script>
+<script>
 const KEY = "bbc-gift-planner-v1";
-const TABS = [["budget","Budget"],["gifts","Gift list"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["ideas","Ideas"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save & back up"]];
+const TABS = [["budget","Budget"],["gifts","Gift list"],["ideas","Gift ideas"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save my page"]];
 const CATS = ["Partner","Children","Parents","Brothers & sisters","Wider family","Friends","Work & Secret Santa","Teachers & thank-yous","Stocking fillers","Wrapping, cards & postage","Just in case"];
 const EVE = ["All presents wrapped and labelled","Labels checked: right name, right present","Batteries bought (AA, AAA, the odd ones)","Screwdriver for battery compartments","Spare tape, scissors and tags in one place","Hiding places emptied","Stockings filled","Presents for visitors set aside","Last-minute gift for the person you forgot","Phones and devices charged","Receipts and gift receipts filed","Thank-you list started"];
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -280,7 +543,9 @@ function renderList(coll){
     if(coll==="gifts" && num(it.spent)>num(it.budget)&&num(it.budget)>0) extra=`<span class="pill r">Over by ${money(num(it.spent)-num(it.budget))}</span>`;
     if(coll==="kids"){ const sp=S.gifts.filter(g=>g.cat==="Children"&&String(g.who).trim().toLowerCase()===String(it.name).trim().toLowerCase()).reduce((a,g)=>a+num(g.spent),0); if(sp) extra=`<span class="pill">${money(sp)} spent on the gift list</span>`; }
     const ticks = sc.ticks.map(([k,l])=>`<span role="checkbox" tabindex="0" aria-checked="${!!it[k]}" class="tick ${it[k]?"y":""}" data-c="${coll}" data-i="${it.id}" data-t="${k}">${l}</span>`).join("");
-    const move = coll==="ideas" ? `<button class="btn alt sm" data-move="${it.id}">Move to gift list</button>` : "";
+    let move = coll==="ideas" ? `<button class="btn alt sm" data-move="${it.id}">Move to gift list</button>`+findA(it.idea) : "";
+    if(coll==="gifts") move = `<div class="gacts">${findA(it.idea)}<button class="bblnk" data-ideasfor="${it.id}">Need ideas for ${esc(it.who||"them")}?</button></div>`;
+    if(coll==="thanks") move = `<button class="bbbtn sm pine" data-thx="${it.id}">Say thanks on WhatsApp</button>`;
     return `<div class="card ${sc.doneIf&&sc.doneIf(it)?"done":""}"><div class="row">${sc.fields.map(f=>fieldHTML(coll,it,f)).join("")}</div>
       <div class="ticks">${ticks}${extra}${move}<button class="x" data-del="${coll}" data-i="${it.id}">Remove</button></div></div>`;
   }).join("");
@@ -357,6 +622,30 @@ function renderNext(){
   $("#nextBox").innerHTML=`<p class="meta" style="margin-bottom:12px">This year: budgeted <b>${money(t.budget)}</b>, spent <b>${money(t.spent)}</b>.</p>`+
    [["worked","What worked"],["diff","Do differently"],["earlier","Start earlier on…"]].map(([k,l])=>`<div class="f full" style="margin-bottom:12px"><label for="nt-${k}">${l}</label><textarea id="nt-${k}" data-note="${k}">${esc(S.notes[k])}</textarea></div>`).join("");
 }
+function findA(q){if(!q)return "";if(EXPERIENCE.test(q)&&!PRODUCT.test(q))return "";return `<a class="bbamz sm" href="${esc(BB.amzUrl(q))}" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>`}
+/* ---------- ideas helper ---------- */
+const ID={who:"",age:"adult",ints:[],budget:"",i:0,order:null};
+function idPool(){const p=poolFor(ID.budget||20,ID.ints,ID.age);if(!ID.order||ID.order.n!==p.length+"|"+ID.age+ID.ints.join()+ID.budget){const o=p.map((x,i)=>i);for(let i=o.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[o[i],o[j]]=[o[j],o[i]]}ID.order={n:p.length+"|"+ID.age+ID.ints.join()+ID.budget,o};ID.i=0}return ID.order.o.map(i=>p[i])}
+function renderHelper(){const box=$("#ideaHelper");if(!box)return;const list=idPool();const idea=list[ID.i%list.length]||"";
+  box.innerHTML=`<b style="font-size:20px">Stuck? <em style="color:var(--cran)">Let’s find something</em></b>
+  <div class="row" style="margin-top:10px"><div class="f"><label for="ihWho">Who’s it for?</label><input type="text" id="ihWho" value="${esc(ID.who)}" placeholder="e.g. Dad"></div><div class="f sm"><label for="ihBud">Around (${esc(S.cur||"")})</label><input type="number" inputmode="decimal" id="ihBud" value="${esc(ID.budget)}" placeholder="20"></div></div>
+  <div class="ihbox"><div class="k">Idea ${ID.i%list.length+1} of ${list.length}${ID.budget?" · around "+esc(S.cur||"")+esc(ID.budget):""}</div><div class="t">${esc(idea)}</div>${findA(idea).replace("bbamz sm","bbamz")}
+  <div class="row" style="justify-content:center;margin-top:10px"><button class="btn alt sm" data-ihnext="1">↻ Another idea</button><button class="btn sm" data-ihadd="1">Add to gift list</button></div></div>
+  <p class="lab" style="margin-top:14px">Help me choose: their age</p>
+  <div class="seg2">${[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(([k,l])=>`<button class="chip ${ID.age===k?"on":""}" data-ihage="${k}">${l}</button>`).join("")}</div>
+  <label>What are they into? (tap all that fit)</label><div class="seg2">${INTS.map(([k,l])=>`<button class="chip ${ID.ints.includes(k)?"on":""}" data-ihint="${k}">${esc(l)}</button>`).join("")}</div>
+${BB.AMZ_NOTE}`}
+const HELP=[[/^Budget at a glance$/,"Set one total, or split it across categories. Everything you log as spent on the gift list counts against it."],
+ [/^The gift list$/,"One line per present: who it’s for, what, and the spend. Tick Bought and Wrapped as you go. Tap Find it on Amazon to shop for it, or Need ideas to get suggestions."],
+ [/^Gift ideas$/,"Tell us who it’s for, the budget, their age and what they’re into, and we’ll suggest ideas from over 1,000. Find it on Amazon searches for it; Add to gift list saves it."],
+ [/^Kids/,"Each child’s wish list, the big present and stocking fillers in one place."],
+ [/^Online orders$/,"Track what’s coming and the last day to send it back."],
+ [/^Cards/,"Who’s getting a card or a posted present, plus the last posting dates."],
+ [/^Christmas Eve checklist$/,"The night-before list. Batteries, labels, hiding places."],
+ [/^Thank-you tracker$/,"After Christmas, note who gave what. Say thanks on WhatsApp sends them a ready-made thank-you."],
+ [/^Notes for next year$/,"What worked and what to do differently. Future you will thank you."],
+ [/^Save my page$/,"Everything saves on this phone. Send yourself a backup link: tap it any time, even on a new phone, and it all comes back. Make my own shortcut puts it on your home screen with your face as the icon."]];
+function toast(m){const el=$("#saved");el.textContent=m;el.classList.add("show");clearTimeout(tSave);tSave=setTimeout(()=>{el.classList.remove("show");setTimeout(()=>{el.textContent="Saved ✓"},300)},2200)}
 function daysTo(iso){ const d=new Date(iso+"T00:00:00"), n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/864e5); }
 function renderCount(){
   const n=new Date(); let x=new Date(n.getFullYear(),11,25); if(n>new Date(n.getFullYear(),11,25,23,59)) x=new Date(n.getFullYear()+1,11,25);
@@ -366,8 +655,10 @@ function renderCount(){
 
 function renderAll(){
   renderCats(); renderFilter(); ["gifts","kids","orders","cards","ideas","thanks"].forEach(renderList);
-  renderPost(); renderEve(); renderNext(); renderSummary(); renderCount();
+  renderPost(); renderEve(); renderNext(); renderSummary(); renderCount(); renderHelper();
   $("#total").value=S.total; $("#cur").value=S.cur;
+  const sb=$("#saveBox"); if(sb) sb.innerHTML=BB.saveCard();
+  BB.after(document);
 }
 
 /* ---------- tabs ---------- */
@@ -375,7 +666,7 @@ $("#nav").innerHTML = TABS.map(([k,l])=>`<a href="#${k}" data-tab="${k}">${l}</a
 function show(){ const h=(location.hash||"#budget").slice(1); const k=TABS.some(t=>t[0]===h)?h:"budget";
   document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===k));
   document.querySelectorAll("nav a").forEach(a=>{ a.classList.toggle("on",a.dataset.tab===k); if(a.dataset.tab===k) a.scrollIntoView({block:"nearest",inline:"center"}); });
-  if(k==="backup") $("#bOut").value=code(); if(k==="next") renderNext(); }
+  if(k==="next") renderNext(); }
 window.addEventListener("hashchange", show);
 
 /* ---------- events ---------- */
@@ -386,10 +677,13 @@ document.addEventListener("input", e=>{
   else if(d.pd){ S.postDates[d.pd]=t.value; save(true); }
   else if(d.note){ S.notes[d.note]=t.value; save(true); }
   else if(t.id==="total"){ S.total=t.value; save(true); renderSummary(); }
+  else if(t.id==="ihWho"){ ID.who=t.value; }
+  else if(t.id==="ihBud"){ ID.budget=t.value; }
 });
 document.addEventListener("change", e=>{
   const t=e.target, d=t.dataset;
   if(t.id==="cur"){ S.cur=t.value; save(); renderAll(); return; }
+  if(t.id==="ihBud"){ ID.budget=t.value; renderHelper(); return; }
   if((d.c&&d.i!=="new")||d.cat||d.pd||d.note||t.id==="total"){ save(); if(d.c==="gifts"&&d.k==="cat") renderSummary(); if(d.c==="gifts"&&d.k==="who") renderSummary(); if(d.c==="orders") renderList("orders"); }
 });
 function toggle(el){
@@ -403,8 +697,16 @@ document.addEventListener("keydown", e=>{
   if(e.key==="Enter" && e.target.dataset && e.target.dataset.i==="new" && e.target.tagName==="INPUT"){ addItem(e.target.dataset.c.replace("New","")); }
 });
 document.addEventListener("click", e=>{
-  const t=e.target.closest("[data-t],[data-eve],[data-add],[data-del],[data-f],[data-move],[data-evedel]"); if(!t) return;
+  const t=e.target.closest("[data-t],[data-eve],[data-add],[data-del],[data-f],[data-move],[data-evedel],[data-ihage],[data-ihint],[data-ihnext],[data-ihadd],[data-ideasfor],[data-thx],[data-askwish]"); if(!t) return;
   const d=t.dataset;
+  if(d.ihage){ ID.age=d.ihage; renderHelper(); return; }
+  if(d.ihint){ ID.ints=ID.ints.includes(d.ihint)?ID.ints.filter(x=>x!==d.ihint):ID.ints.concat(d.ihint); renderHelper(); return; }
+  if(d.ihnext){ ID.i++; renderHelper(); return; }
+  if(d.ihadd){ const list=idPool(); const idea=list[ID.i%list.length]; const cat=(S.cats.find(c=>c.name==="Friends")||S.cats[0]).name;
+    S.gifts.push({id:uid(),who:ID.who||"",idea,cat,budget:ID.budget||"",spent:"",bought:false,wrapped:false}); save(); renderAll(); toast("Added to your gift list"); return; }
+  if(d.ideasfor){ const g=S.gifts.find(x=>x.id===d.ideasfor); ID.who=g?g.who||"":""; ID.budget=g&&g.budget?g.budget:ID.budget; ID.ints=g?detectInts((g.who||"")+" "+(g.idea||"")):[]; ID.i=0; ID.order=null; renderHelper(); location.hash="#ideas"; window.scrollTo(0,0); return; }
+  if(d.thx){ const it=S.thanks.find(x=>x.id===d.thx); if(it){ it.done=true; save(); renderList("thanks"); BB.openWA("",`Thank you so much${it.from?", "+it.from:""}! 🎁 ${it.gift?"I love the "+it.gift+". ":""}It really made my Christmas 🧡🎄`); } return; }
+  if(d.askwish){ BB.openWA("","🎄 Hi! Christmas list time 😄 What would you love this year? Sizes, wish lists or ‘please no more mugs’ all welcome 🎁"); return; }
   if(d.t||d.eve) return toggle(t);
   if(d.add) return addItem(d.add);
   if(d.f){ S.filter=d.f; save(true); renderFilter(); renderList("gifts"); return; }
@@ -424,11 +726,6 @@ function load(str){
   if(!o||!Array.isArray(o.gifts)) throw new Error("bad");
   S=Object.assign(fresh(),o); save(); renderAll(); show();
 }
-$("#copyB").onclick=async()=>{ const c=code(); $("#bOut").value=c; try{ await navigator.clipboard.writeText(c); $("#bMsg").textContent="Backup code copied. Paste it somewhere safe."; }catch(e){ $("#bOut").select(); $("#bMsg").textContent="Couldn't copy automatically. Press and hold the code box to copy it."; } };
-$("#dlB").onclick=()=>{ try{ const b=new Blob([code()],{type:"text/plain"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="gift-planner-backup-"+new Date().toISOString().slice(0,10)+".txt"; document.body.appendChild(a); a.click(); a.remove(); $("#bMsg").textContent="Backup file downloaded."; }catch(e){ $("#bMsg").textContent="Download isn't available here. Use Copy backup code instead."; } };
-$("#restoreB").onclick=()=>{ const v=$("#bIn").value; if(!v.trim()){ $("#bMsg").textContent="Paste a backup code first."; return; }
-  ask("Restore this backup?","It replaces what's on this device right now.",()=>{ try{ load(v); $("#bIn").value=""; $("#bMsg").textContent="Restored. Welcome back."; }catch(e){ $("#bMsg").textContent="That code didn't work. Check you copied all of it."; } }); };
-$("#bFile").onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>ask("Restore this backup?","It replaces what's on this device right now.",()=>{ try{ load(r.result); $("#bMsg").textContent="Restored from file."; }catch(err){ $("#bMsg").textContent="That file isn't a gift planner backup."; } }); r.readAsText(f); e.target.value=""; };
 $("#wipe").onclick=()=>ask("Start a fresh planner?","Everything on this device will be wiped. This can't be undone.",()=>{ S=fresh(); save(); renderAll(); location.hash="#budget"; });
 
 /* ---------- boot ---------- */
@@ -438,6 +735,9 @@ renderAdd("orders","addOrder","Track this order");
 renderAdd("cards","addCard","Add to card list");
 renderAdd("ideas","addIdea","Save idea");
 renderAdd("thanks","addThanks","Add");
+BB.init({key:KEY,appName:"Christmas gift planner",frames:["hat","tag","snow"],defIcon:"icon-180.png",defCountry:"GB",help:HELP,cardSel:"section",
+  getState:()=>S,setState:o=>{S=Object.assign(fresh(),o);save();renderAll();show()},valid:o=>!!(o&&Array.isArray(o.gifts)),isEmpty:()=>!S.gifts.length&&!num(S.total)&&!S.ideas.length,
+  toast:toast,render:()=>{const sb=$("#saveBox");if(sb)sb.innerHTML=BB.saveCard();BB.after(document)}});
 renderAll(); show();
 setInterval(renderCount, 60*60*1000);
 </script>
