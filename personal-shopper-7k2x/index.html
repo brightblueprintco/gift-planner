@@ -1216,7 +1216,7 @@ window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out
       '<div class="row"><div class="f"><label>Item</label><input type="text" id="shItem" value="'+esc(o.item)+'"></div><div class="f"><label>From</label><input type="text" id="shFrom" value="'+esc(o.from)+'"></div></div>'+
       '<div class="f full" style="margin-top:8px"><label>Delivering to</label><div class="tochips">'+["Home","Work","Someone else","Locker / pickup"].map(function(x,i){return '<button class="pa sm'+(i?"":" on")+'" data-shto="'+x+'">'+x+'</button>'}).join("")+'</div></div>'+
       '<div class="row"><div class="f"><label>Due</label><input type="date" id="shDue" value="'+esc(o.due)+'"></div><div class="f"><label>Tracking</label><input type="text" id="shTrack" autocapitalize="characters" value="'+esc(o.track)+'"></div></div>'+
-      (o.carrier?'<p class="meta" style="margin-top:6px">Courier: '+esc(o.carrier)+'</p>':'')+(!o.track?'<p class="meta" style="margin-top:6px">No tracking number spotted. Paste it in if you have one.</p>':'')+
+      (o.carrier?'<p class="meta" style="margin-top:6px">Carrier spotted: <b>'+esc(o.carrier)+'</b></p>':'')+(!o.track?'<p class="meta" style="margin-top:6px">No tracking number spotted. Paste it in if you have one.</p>':'')+
       '<div class="psb"><button class="bbbtn pine" data-shadd="1">Add this order</button><button class="bbbtn" data-shadd="2">Add + delivery-day alert</button></div></div>';
   }).catch(function(){out.innerHTML='<p class="meta">Sorry, couldn’t read that one. Try a clearer screenshot, or type it in below.</p>'})});};
 /* ---------- events ---------- */
@@ -1440,12 +1440,13 @@ function card(o){var st=status(o),ti=o.track?trackInfo(o.track):null,dt=o.due?dd
   if(o.track&&ti&&/^Search/.test(ti.label)){var cr=carrierLink(o.carrier||guessCarrier(o.from),o.track);if(cr)ti=cr}
   var ret="";if(o.ret&&!o.arrived){}if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)ret='<span class="dvp bad">Return in '+r+' day'+(r===1?"":"s")+'</span>';}
   return '<div class="dvc'+(o.arrived?" done":"")+'"><div class="dvdate">'+(dt?'<b>'+dt.day+'</b><span>'+esc(dt.mon)+'</span>':'<b>?</b><span>date</span>')+'</div>'+
-   '<div class="dvm"><div class="dvt">'+esc(o.item||"Untitled order")+'</div><div class="meta">'+esc([o.from,o.to?"to "+o.to:""].filter(Boolean).join(" · ")||"Tap Edit to add details")+'</div>'+
+   '<div class="dvm"><div class="dvt">'+esc(o.item||"Untitled order")+'</div><div class="meta">'+esc([o.from,o.carrier?"via "+o.carrier:"",o.to?"to "+o.to:""].filter(Boolean).join(" · ")||"Tap Edit to add details")+'</div>'+
    '<div class="dvps"><span class="dvp '+st[1]+'">'+esc(st[0])+'</span>'+ret+'</div>'+
    '<div class="pact">'+(ti&&!o.arrived?'<a class="pa main sm" href="'+esc(ti.url)+'" target="_blank" rel="noopener">'+esc(ti.label)+' →</a>':'')+
    (o.due&&!o.arrived?'<button class="pa sm" data-psalert="'+o.id+'">Alert me</button>':'')+
    '<button class="pa sm'+(o.arrived?" on":"")+'" data-dvarr="'+o.id+'">'+(o.arrived?"Arrived ✓":"Mark arrived")+'</button><button class="pa ghost sm" data-dvedit="'+o.id+'">Edit</button></div>'+
    '<div class="dved" id="dved-'+o.id+'" hidden><div class="row">'+SCHEMA.orders.fields.map(function(f){return fieldHTML("orders",o,f)}).join("")+'</div>'+
+   '<label class="lab" style="display:block;margin-top:10px">Carrier</label><div class="tochips">'+Object.keys(CR).map(function(x){return '<button class="pa sm'+(o.carrier===x?" on":"")+'" data-dvcar="'+o.id+'|'+x+'">'+esc(x)+'</button>'}).join("")+'</div>'+
    '<label class="lab" style="display:block;margin-top:10px">Delivering to</label>'+toChips(o)+
    '<div class="pact"><button class="pa sm" data-dvdone="'+o.id+'">Done</button><button class="x" data-del="orders" data-i="'+o.id+'">Remove</button></div></div></div></div>'}
 function cal(){var now=new Date();if(!V.m)V.m=new Date(now.getFullYear(),now.getMonth(),1);var y=V.m.getFullYear(),m=V.m.getMonth();
@@ -1471,7 +1472,7 @@ window.DV_RENDER=function(){var box=document.getElementById("orderList");if(!box
   if(V.view==="cal")h+=cal();
   if(up.some(function(o){return o.due}))h+='<button class="btn alt" style="width:100%;margin-top:14px" data-dvall="1">Add all deliveries to my calendar</button><p class="meta" style="text-align:center;margin-top:6px;font-size:12px">Each one pops up at 8am on the day. Return deadlines get a reminder the day before.</p>';
   box.innerHTML=h;BB.after(box)};
-document.addEventListener("click",function(e){var t=e.target.closest("[data-dvview],[data-dvmon],[data-dvday],[data-dvedit],[data-dvdone],[data-dvarr],[data-dvto],[data-dvall],[data-dvmanual]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-dvview],[data-dvmon],[data-dvday],[data-dvedit],[data-dvdone],[data-dvarr],[data-dvto],[data-dvall],[data-dvmanual],[data-dvcar]");if(!t)return;var d=t.dataset;
   if(d.dvview){V.view=d.dvview;DV_RENDER();return}
   if(d.dvmon){V.m=new Date(V.m.getFullYear(),V.m.getMonth()+(+d.dvmon),1);DV_RENDER();return}
   if(d.dvday){V.sel=V.sel===d.dvday?null:d.dvday;DV_RENDER();return}
@@ -1479,6 +1480,7 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-dvvi
   if(d.dvdone){save(true);DV_RENDER();if(window.SH_RENDER)SH_RENDER();return}
   if(d.dvarr){var o=S.orders.find(function(x){return x.id===d.dvarr});o.arrived=!o.arrived;save(true);DV_RENDER();if(window.SH_RENDER)SH_RENDER();if(o.arrived)toast("Nice. "+(o.item||"That one")+" has landed");return}
   if(d.dvto){var p=d.dvto.split("|"),o2=S.orders.find(function(x){return x.id===p[0]});o2.to=o2.to===p[1]?"":p[1];save(true);t.parentNode.querySelectorAll("[data-dvto]").forEach(function(x){x.classList.toggle("on",x.dataset.dvto.split("|")[1]===o2.to)});return}
+  if(d.dvcar){var pc=d.dvcar.split("|"),oc=S.orders.find(function(x){return x.id===pc[0]});oc.carrier=oc.carrier===pc[1]?"":pc[1];save(true);t.parentNode.querySelectorAll("[data-dvcar]").forEach(function(x){x.classList.toggle("on",x.dataset.dvcar.split("|")[1]===oc.carrier)});return}
   if(d.dvmanual){var a=document.getElementById("addOrder");a.hidden=!a.hidden;t.textContent=a.hidden?"Type it in instead":"Hide the form";if(!a.hidden){var f=a.querySelector("input");if(f)f.focus()}return}
   if(d.dvall){var ev=[];S.orders.forEach(function(o){if(o.due&&!o.arrived)ev.push({at:new Date(o.due+"T08:00:00"),t:"Delivery due: "+(o.item||"your order")+(o.to?" ("+o.to+")":""),d:(o.from?"From "+o.from+". ":"")+(o.track?"Tracking: "+o.track:"")});
     if(o.ret){var r=new Date(o.ret+"T09:00:00");r.setDate(r.getDate()-1);if(r>new Date())ev.push({at:r,t:"Last day to return tomorrow: "+(o.item||"an order"),d:o.from?"From "+o.from:""})}});
