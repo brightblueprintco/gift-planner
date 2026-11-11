@@ -301,6 +301,21 @@ main.wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 .cd2.has{background:#F3E8D2;font-weight:700}.cd2.today{box-shadow:inset 0 0 0 1.5px var(--cran);color:var(--cran)}.cd2.sel{background:var(--ink);color:var(--card)}
 .cd2 em,.calk u{display:flex;gap:2px}.cd2 u,.calk u{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--pine)}.cd2 u.a,.calk u.a{background:#A9A08F}.cd2 u.r,.calk u.r{background:var(--cran)}
 .calk{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-family:var(--type);font-size:11px;color:var(--ink2)}.calk span{display:flex;align-items:center;gap:4px}
+/* v3: search, post dates, wish lists */
+.psq{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:0 6px 0 14px;margin-bottom:14px;color:var(--ink2)}
+.psq input{flex:1;border:0!important;background:none!important;padding:12px 0!important;font-size:16px!important;outline:none;box-shadow:none!important;min-width:0}
+.psq:focus-within{border-color:var(--ink)}
+.psqx{border:0;background:#EADBC0;border-radius:50%;width:28px;height:28px;font-size:18px;line-height:1;color:var(--ink);cursor:pointer}
+.pdcard .pdr{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px dashed var(--line);font-size:15px}.pdcard .pdr:first-of-type{border-top:0}
+.pdr span{flex:1}.pdr b{font-family:var(--type);font-size:12px;font-weight:400}.pdr i{font-style:normal;font-family:var(--type);font-size:11px;min-width:56px;text-align:center;padding:3px 8px;border-radius:999px;background:#EADBC0;color:var(--ink2)}
+.pdr.urgent i{background:var(--cran);color:var(--card)}.pdcard.hot{border:1.5px solid var(--cran)}
+.wask{display:block;width:100%;text-align:left;margin-top:12px;border:1.5px dashed var(--gold);background:#F7EEDC;border-radius:12px;padding:12px 14px;cursor:pointer;font-family:var(--serif);color:var(--ink)}
+.wask b{display:block;font-size:16px}.wask span{font-size:13px;color:var(--ink2)}
+body.wishmode>*:not(#wishPage):not(#bbsheet):not(.saved):not(script):not(style){display:none!important}
+#wishPage{min-height:100vh;padding:calc(24px + env(safe-area-inset-top)) 16px 40px}
+.wp{max-width:520px;margin:0 auto}.wph{text-align:center;font-size:32px;margin:6px 0 10px}
+.wpi input{width:100%}.wpi .lab{margin-bottom:6px}
+.wpad{display:block;text-align:center;margin-top:28px;padding:14px;border-radius:12px;background:var(--ink);color:var(--card);text-decoration:none;font-size:14px;line-height:1.4}.wpad b{color:#F1D9A6}
 </style>
 </head>
 <body>
@@ -339,6 +354,8 @@ main.wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 <section id="shopper">
 <h2>Personal shopper</h2>
 <p class="sub">Tell it about them. It finds the gift, then finds it in the shops.</p>
+<div class="psq"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg><input type="text" id="psQ" placeholder="Search 5,000 gift ideas" autocomplete="off" enterkeyhint="search"><button class="psqx" id="psQx" data-psqx="1" hidden aria-label="Clear">×</button></div>
+<div id="psSR"></div>
 <div class="card" id="psBox"></div>
 <div id="psRes"></div>
 </section>
@@ -1053,6 +1070,14 @@ function whyFor(i){var it=ITEMS[i],bits=[];GROUPS.forEach(function(g){if(P.ints.
   TRAITS.forEach(function(t){if(P.traits.indexOf(t[0])>=0&&it[4].indexOf(t[0])>=0)bits.push(t[1])});
   return bits.length?"Because: "+bits.slice(0,3).join(" · "):""}
 function visible(){var p=findPerson(P.who),hid=p?p.hidden:[];return P.res.filter(function(i){return hid.indexOf(ITEMS[i][0])<0})}
+var Q="";
+function searchRun(){var r=document.getElementById("psSR"),box=document.getElementById("psBox"),res=document.getElementById("psRes");if(!r)return;var q=Q.trim().toLowerCase();
+  var on=q.length>=2;box.hidden=on;res.hidden=on;var x=document.getElementById("psQx");if(x)x.hidden=!Q;
+  if(!on){r.innerHTML="";return}
+  var words=q.split(/\s+/),out=[];ITEMS.forEach(function(it,i){var hay=(it[0]+" "+(CATS[it[1]]||"")).toLowerCase();if(words.every(function(w){return hay.indexOf(w)>=0})){var sc=it[0].toLowerCase().indexOf(q)===0?2:it[0].toLowerCase().indexOf(q)>=0?1:0;out.push([sc,i])}});
+  out.sort(function(a,b){return b[0]-a[0]||ITEMS[a[1]][2]-ITEMS[b[1]][2]});var n=out.length;out=out.slice(0,30);
+  r.innerHTML='<p class="lab" style="margin:4px 0 10px">'+(n?(n>30?"Top 30 of "+n:n)+' idea'+(n===1?"":"s")+' for “'+esc(Q.trim())+'”':'No ideas match “'+esc(Q.trim())+'”. Try one word, like “candle” or “golf”.')+'</p>'+
+   out.map(function(x,k){return ideaCard(x[1],Math.min(k,8))}).join("")+(n?BB.AMZ_NOTE:"");BB.after(r)}
 window.PS_RENDER=function(anim){var box=document.getElementById("psBox"),r=document.getElementById("psRes");if(!box)return;if(P.stage==="res"&&!P.res)P.res=score();
   if(P.stage!=="res"||!P.res){box.innerHTML=stepHTML();if(r)r.innerHTML="";if(anim){var q=document.getElementById("qstep");if(q)q.classList.add(anim)}return}
   box.innerHTML=switcher()+summary();
@@ -1156,7 +1181,7 @@ window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out
   }).catch(function(){out.innerHTML='<p class="meta">Sorry, couldn’t read that one. Try a clearer screenshot, or type it in below.</p>'})});};
 /* ---------- events ---------- */
 function adv(){setTimeout(function(){go(P.step+1,1)},160)}
-window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-psnext],[data-psback],[data-pspick],[data-psbq],[data-psedit],[data-psshuffle],[data-psnew],[data-psmore],[data-pssave],[data-psfind],[data-psnope],[data-trfind],[data-shclose],[data-shgift],[data-shprice],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn],[data-shto]");if(!t)return;var d=t.dataset;
+window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-psnext],[data-psback],[data-pspick],[data-psbq],[data-psedit],[data-psshuffle],[data-psnew],[data-psmore],[data-pssave],[data-psfind],[data-psnope],[data-trfind],[data-shclose],[data-psqx],[data-shgift],[data-shprice],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn],[data-shto]");if(!t)return;var d=t.dataset;
   if(d.ideasfor){var g=S.gifts.find(function(x){return x.id===d.ideasfor});e.stopImmediatePropagation();e.preventDefault();PS_FOR(g?g.who:"");return}
   if(d.pspick){P.who=d.pspick;var pp=findPerson(d.pspick);if(pp&&pp.rel){PS_FOR(pp.name);return}P.stage="";P.res=null;go(1,1);return}
   if(d.psnext){if(P.step===0){var w=document.getElementById("psWho");P.who=w?w.value.trim():P.who;if(!P.who){w.classList.add("shake");w.placeholder="Pop a name in first";setTimeout(function(){w.classList.remove("shake")},400);w.focus();return}}go(P.step+1,1);return}
@@ -1179,6 +1204,7 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.psfind){var it=ITEMS[+d.psfind];sheet({n:it[0],q:it[0],exp:isExpName(it[0],it[4]),kick:(CATS[it[1]]||"")+" · "+bandLabel(it[2]),who:P.who.trim(),budget:P.budget});return}
   if(d.trfind){var x=TRI[+d.trfind];sheet({n:x.n,q:x.q||x.n,exp:!!x.exp,kick:(x.tag||"Trending")+(x.b?" · "+bandLabel(x.b):""),who:"",budget:""});return}
   if(d.shclose){closeSheet();return}
+  if(d.psqx){Q="";var qi=document.getElementById("psQ");qi.value="";searchRun();qi.focus();return}
   if(d.shgift&&SH){addGift(SH.n,SH.who,SH.budget);closeSheet();return}
   if(d.shprice&&SH){PS_PRICE(SH.n);closeSheet();return}
   if(d.psalert){var o=S.orders.find(function(x){return x.id===d.psalert});PS_ALERT(o);return}
@@ -1187,7 +1213,7 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,to:(document.querySelector("[data-shto].on")||{dataset:{shto:""}}).dataset.shto,arrived:false};
     S.orders.push(o2);save(true);renderAll();document.getElementById("shotOut").innerHTML="";toast("Order added");if(d.shadd==="2")PS_ALERT(o2);return}
 },true);
-window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psBud"){P.budget=VALS[+t.value];keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget.toLocaleString();
+window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psQ"){Q=t.value;clearTimeout(window.__psq);window.__psq=setTimeout(searchRun,120)}if(t.id==="psBud"){P.budget=VALS[+t.value];keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget.toLocaleString();
   document.querySelectorAll("[data-psbq]").forEach(function(c){c.classList.toggle("on",+c.dataset.psbq===P.budget)})}},true);
 window.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="psWho"){e.preventDefault();var b=document.querySelector("[data-psnext]");if(b)b.click()}if(e.key==="Escape")closeSheet()},true);
 window.addEventListener("change",function(e){var t=e.target;if(t.id==="shotFile"&&t.files&&t.files[0]){PS_SHOT(t.files[0]);t.value=""}},true);
@@ -1265,7 +1291,7 @@ function renderHome(){var box=document.getElementById("homeBox");if(!box)return;
   h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">Your people</span><a class="rlink" href="#people">All →</a></div>'+P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length;
     return '<div class="prow">'+avatar(p.name)+'<div class="pmid"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
     '<button class="bbbtn" style="margin-top:10px" data-go="people">+ Add someone</button></div>';
-  h+=tools()+review();
+  h+=(window.WL_POSTCARD?WL_POSTCARD():"")+tools()+review();
   box.innerHTML='<div class="homehead"><div class="lab">Your Christmas</div></div>'+h;animate(box);BB.after(box)}
 /* ---------- People ---------- */
 function renderPeople(){var box=document.getElementById("peopleBox");if(!box)return;var P=ppl(),R=window.PS_REL||{};
@@ -1273,10 +1299,12 @@ function renderPeople(){var box=document.getElementById("peopleBox");if(!box)ret
   if(!P.length)h+='<div class="card"><p class="meta">No one yet. Add the people you’re buying for and we’ll keep each of them on track.</p></div>';
   h+=P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length,sp=spentOf(g),bud=g.reduce(function(a,x){return a+(num(x.budget)||0)},0);
     var gl=g.map(function(x){var st=x.wrapped?"Wrapped":x.bought?"Bought":"To buy";return '<li><span class="gs '+st.replace(/ /g,"").toLowerCase()+'">'+st+'</span>'+esc(x.idea||"Gift")+'</li>'}).join("");
+    var wl=(p.wish||[]).map(function(w,i){var u=WL_SAFEURL(w.u);return '<li><span>'+esc(w.n)+(w.p?' <em class="meta">'+esc(w.p)+'</em>':'')+'</span>'+(u?'<a class="pa sm" href="'+esc(u)+'" target="_blank" rel="noopener">Open</a>':'<button class="pa sm" data-shwfind="'+esc(p.id)+'|'+i+'">Find it</button>')+'<button class="pa sm" data-shwadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
     var sv=(p.saved||[]).map(function(n,i){return '<li><span>'+esc(n)+'</span><button class="pa sm" data-shsvadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
     return '<div class="card pcard">'+'<div class="ph">'+avatar(p.name,1)+'<div style="flex:1;min-width:0"><div class="hh" style="font-size:22px">'+esc(p.name)+'</div><div class="meta">'+esc([R[p.rel],p.budget?"up to "+C()+p.budget+" each":""].filter(Boolean).join(" · ")||"Gift ideas not set up yet")+'</div></div></div>'+
      '<div class="pstat"><span>'+bt+' of '+g.length+' bought</span><span>'+esc(money(sp))+(bud?' of '+esc(money(bud)):' spent')+'</span></div>'+bar(g.length?bt/g.length:0)+
-     (gl?'<ul class="gl">'+gl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
+     (gl?'<ul class="gl">'+gl+'</ul>':'')+(wl?'<p class="lab" style="margin:12px 0 4px;color:var(--cran)">Their wish list</p><ul class="svl">'+wl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
+     '<button class="wask" data-shwask="'+esc(p.name)+'"><b>Ask '+esc(p.name)+' for a wish list</b><span>Send a WhatsApp link. They add ideas, it lands here.</span></button>'+
      '<div class="pact"><button class="pa main" data-shideas="'+esc(p.name)+'">Find ideas →</button><button class="pa" data-shpgift="'+esc(p.id)+'">Add a gift</button><button class="pa ghost" data-shpdel="'+esc(p.id)+'">Remove</button></div></div>'}).join("");
   box.innerHTML=h;animate(box);BB.after(box)}
 /* ---------- More ---------- */
@@ -1304,7 +1332,11 @@ tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'"
 function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
   if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
   var e2=document.getElementById(id);if(e2)e2.focus()}
-document.addEventListener("click",function(e){var t=e.target.closest("[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shwask){WL_ASK(d.shwask);return}
+  if(d.shwfind||d.shwadd){var q=(d.shwfind||d.shwadd).split("|"),pw=S.people.find(function(x){return x.id===q[0]});if(!pw)return;var w=pw.wish[+q[1]];
+    if(d.shwfind){PS_SHEET({n:w.n,q:w.n,exp:false,kick:pw.name+"’s wish list",who:pw.name,budget:pw.budget||""});return}
+    S.gifts.push({id:uid(),who:pw.name,idea:w.n,cat:(S.cats.find(function(c){return c.name==="Friends"})||S.cats[0]).name,budget:String(w.p||"").replace(/[^\d.]/g,""),spent:"",bought:false,wrapped:false});pw.wish.splice(+q[1],1);save(true);renderAll();toast("Added to "+pw.name+"’s list");return}
   if(d.shfind){e.preventDefault();PS_START();return}
   if(d.shscan){setTimeout(function(){var f=document.getElementById("shotFile");if(f)f.click()},60);return}
   if(d.shquick){addPerson("shQuick");return}
@@ -1381,6 +1413,60 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-dvvi
     if(o.ret){var r=new Date(o.ret+"T09:00:00");r.setDate(r.getDate()-1);if(r>new Date())ev.push({at:r,t:"Last day to return tomorrow: "+(o.item||"an order"),d:o.from?"From "+o.from:""})}});
     PS_ICS(ev,"deliveries");toast(ev.length+" reminder"+(ev.length===1?"":"s")+" ready to add");return}
 });
+})();
+</script>
+<script>/* ===== Wish-list links + last posting dates (BrightBlueprintCo) ===== */
+(function(){
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var ETSY="https://www.etsy.com/shop/BrightBlueprintCo";
+function enc(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function dec(s){try{s=s.replace(/-/g,"+").replace(/_/g,"/");return JSON.parse(decodeURIComponent(escape(atob(s))))}catch(e){return null}}
+function base(){return location.origin+location.pathname}
+/* ---------- last posting dates ---------- */
+var PD={GB:[["second","Royal Mail 2nd class","2026-12-18"],["t48","Royal Mail Tracked 48","2026-12-19"],["first","Royal Mail 1st class","2026-12-21"],["special","Special Delivery","2026-12-23"]],
+        US:[["usg","USPS Ground Advantage","2026-12-17"],["usp","USPS Priority Mail","2026-12-18"],["usx","USPS Priority Express","2026-12-19"]]};
+function cc(){try{return BB.country()}catch(e){return "GB"}}
+window.WL_POSTDATES=function(){return PD[cc()]||[]};
+(function prefill(){if(typeof S==="undefined"||cc()!=="GB")return;var ch=false;[["second","2026-12-18"],["first","2026-12-21"],["special","2026-12-23"]].forEach(function(x){if(S.postDates&&!S.postDates[x[0]]){S.postDates[x[0]]=x[1];ch=true}});if(ch)save(true)})();
+window.WL_POSTCARD=function(){var L=PD[cc()];if(!L)return "";var rows=L.filter(function(x){return daysTo(x[2])>=0});if(!rows.length)return "";
+  var first=daysTo(rows[0][2]),hot=first<=7;
+  return '<div class="card pdcard'+(hot?" hot":"")+'"><div class="ch"><span class="hh" style="font-size:21px">'+(hot?"Post it soon":"Last posting dates")+'</span><a class="rlink" href="#cards">Cards →</a></div>'+
+   rows.map(function(x){var d=daysTo(x[2]),dt=new Date(x[2]+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+    return '<div class="pdr'+(d<=3?" urgent":"")+'"><span>'+esc(x[1])+'</span><b>'+esc(dt)+'</b><i>'+(d===0?"Today":d===1?"1 day":d+" days")+'</i></div>'}).join("")+
+   '<p class="meta" style="font-size:11.5px;margin-top:8px">Carriers’ recommended dates for arrival by Christmas, not guarantees.</p></div>'};
+/* ---------- ask for a wish list ---------- */
+window.WL_ASK=function(name){var link=base()+"#wish="+enc({t:name});
+  BB.openWA("","Hi "+name+"! What would you like for Christmas this year? Pop a few ideas in here and send it back to me\n\n"+link)};
+/* ---------- the recipient's page ---------- */
+var WI=[];
+function wishPage(o){document.body.classList.add("wishmode");var el=document.createElement("div");el.id="wishPage";document.body.appendChild(el);
+  if(!WI.length)WI=[{n:"",u:"",p:""},{n:"",u:"",p:""},{n:"",u:"",p:""}];
+  function draw(){el.innerHTML='<div class="wp"><div class="kick" style="text-align:center">BrightBlueprintCo</div><div class="hh wph">'+esc(o.t?o.t+", what would you like":"What would you like")+' <em>this Christmas?</em></div>'+
+   '<p class="meta" style="text-align:center;margin:-4px 0 16px">Add a few ideas. A link helps if you’ve seen it somewhere. Then tap Send.</p>'+
+   WI.map(function(w,i){return '<div class="card wpi"><div class="lab">Wish '+(i+1)+'</div><input type="text" data-wn="'+i+'" value="'+esc(w.n)+'" placeholder="e.g. Green wool scarf" autocomplete="off">'+
+     '<div class="row" style="margin-top:6px"><input type="text" inputmode="url" autocapitalize="off" data-wu="'+i+'" value="'+esc(w.u)+'" placeholder="Link (optional)" style="flex:2;min-width:0"><input type="text" inputmode="decimal" data-wp="'+i+'" value="'+esc(w.p)+'" placeholder="Rough price" style="flex:1;min-width:0"></div></div>'}).join("")+
+   '<button class="bbbtn" style="width:100%" data-wadd="1">+ Add another</button>'+
+   '<button class="btn" style="width:100%;margin-top:12px;min-height:52px" data-wsend="1">Send my wish list</button>'+
+   '<p class="meta" style="text-align:center;margin-top:10px;font-size:12px">It goes back by WhatsApp. Nothing is stored anywhere.</p>'+
+   '<a class="wpad" href="'+ETSY+'" target="_blank" rel="noopener">Made with the <b>Personal Shopper &amp; Gift Planner</b> by BrightBlueprintCo. Get your own on Etsy →</a></div>'}
+  draw();
+  el.addEventListener("input",function(e){var d=e.target.dataset;if(d.wn)WI[+d.wn].n=e.target.value;if(d.wu)WI[+d.wu].u=e.target.value;if(d.wp)WI[+d.wp].p=e.target.value});
+  el.addEventListener("click",function(e){var t=e.target.closest("[data-wadd],[data-wsend]");if(!t)return;
+    if(t.dataset.wadd){WI.push({n:"",u:"",p:""});draw();var ins=el.querySelectorAll("[data-wn]");ins[ins.length-1].focus();return}
+    var items=WI.filter(function(w){return w.n.trim()}).map(function(w){return {n:w.n.trim().slice(0,90),u:w.u.trim().slice(0,300),p:w.p.trim().slice(0,12)}});
+    if(!items.length){var f=el.querySelector("[data-wn]");f.focus();f.placeholder="Add at least one wish";return}
+    var txt="My Christmas wish list\n"+items.map(function(w,i){return (i+1)+". "+w.n+(w.p?" (about "+w.p+")":"")}).join("\n")+"\n\nTap to add it to your planner:\n"+base()+"#wl="+enc({t:o.t||"",i:items});
+    BB.openWA("",txt)})}
+/* ---------- importing a returned list ---------- */
+function importList(o){if(!o||!o.i||!o.i.length)return;var name=(o.t||"Someone").trim();var p=PS_FIND(name);
+  if(!p){p={id:uid(),name:name,saved:[],hidden:[]};S.people.push(p)}if(!p.wish)p.wish=[];var n=0;
+  o.i.forEach(function(w){if(!p.wish.some(function(x){return x.n.toLowerCase()===String(w.n).toLowerCase()})){p.wish.push({n:String(w.n),u:String(w.u||""),p:String(w.p||"")});n++}});
+  save(true);try{history.replaceState(null,"",location.pathname+"#people")}catch(e){location.hash="#people"}
+  setTimeout(function(){toast(n?name+"’s wish list is in: "+n+" idea"+(n===1?"":"s"):"Already got that list")},400)}
+var h=location.hash;
+if(h.indexOf("#wish=")===0){var o=dec(h.slice(6));wishPage(o||{});try{history.replaceState(null,"",location.pathname+"#wishlist")}catch(e){}}
+else if(h.indexOf("#wl=")===0){if(!S.people)S.people=[];importList(dec(h.slice(4)))}
+window.WL_SAFEURL=function(u){u=String(u||"");return /^https?:\/\//i.test(u)?u:""};
 })();
 </script>
 <script>renderAll();show();if(location.hash==="#trending")PS_TREND();</script>
