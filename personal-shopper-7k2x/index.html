@@ -855,7 +855,7 @@ function trackInfo(v){v=String(v||"").trim();if(!v)return null;
   if(/^[A-Z]{2}\d{9}GB$/.test(c))return {url:"https://www.royalmail.com/track-your-item#/tracking-results/"+E,label:"Track with Royal Mail"};
   if(/^1Z[0-9A-Z]{16}$/.test(c))return {url:"https://www.ups.com/track?tracknum="+E,label:"Track with UPS"};
   if(/^H[0-9A-Z]{15}$/.test(c))return {url:"https://www.evri.com/track/parcel/"+E,label:"Track with Evri"};
-  if(/^\d{14}$/.test(c))return {url:"https://track.dpd.co.uk/search?reference="+E,label:"Track with DPD"};
+  if(/^\d{14}[A-Z]?$/.test(c))return {url:"https://track.dpd.co.uk/search?reference="+encodeURIComponent(c.slice(0,14)),label:"Track with DPD"};
   if(/^JD\d{16}$/.test(c))return {url:"https://www.yodel.co.uk/tracking/"+E,label:"Track with Yodel"};
   if(/^JJD\d+$/.test(c))return {url:"https://www.dhl.com/gb-en/home/tracking.html?tracking-id="+E,label:"Track with DHL"};
   if(/^\d{10}$/.test(c))return {url:"https://www.dhl.com/gb-en/home/tracking/tracking-express.html?submit=1&tracking-id="+E,label:"Track with DHL"};
@@ -1187,11 +1187,12 @@ function parseDate(t){var now=new Date(),y=now.getFullYear(),m;var low=t.toLower
   function mk(d,mo,yy){var Y=yy?+yy:y;var dt=new Date(Y,mo,d);if(!yy&&dt<new Date(now.getFullYear(),now.getMonth(),now.getDate()-60))dt.setFullYear(Y+1);return iso(dt)}
   function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}}
 function findTracking(t){var toks=t.replace(/[^\w\s-]/g," ").split(/\s+/);var joined=t.replace(/\s+/g," ");
-  var pats=[/\bJD\d{16}\b/,/\bJJD\d{10,}\b/,/\b[A-Z]{2}\d{9}GB\b/,/\b1Z[0-9A-Z]{16}\b/,/\bH[0-9A-Z]{15}\b/,/\bTBA\d{9,12}\b/,/\b9[1-5]\d{18,24}\b/,/\b\d{14}\b/,/\b\d{12}\b/,/\b\d{15}\b/,/\b\d{10}\b/];
+  var pats=[/\b\d{14}[A-Z]\b/,/\bJD\d{16}\b/,/\bJJD\d{10,}\b/,/\b[A-Z]{2}\d{9}GB\b/,/\b1Z[0-9A-Z]{16}\b/,/\bH[0-9A-Z]{15}\b/,/\bTBA\d{9,12}\b/,/\b9[1-5]\d{18,24}\b/,/\b\d{14}\b/,/\b\d{12}\b/,/\b\d{15}\b/,/\b\d{10}\b/];
   for(var p=0;p<pats.length;p++){var m=joined.toUpperCase().replace(/(\d)\s(?=\d)/g,"$1").match(pats[p]);if(m)return m[0]}
   var lab=t.match(/track(?:ing)?\s*(?:number|no\.?|#|id|code)?\s*[:#]?\s*([A-Z0-9-]{8,30})/i);return lab?lab[1].replace(/-/g,""):""}
 function parseShot(t){var o={item:"",from:"",due:"",track:"",order:""};
-  SHOPS.some(function(s){if(new RegExp("\\b"+s.replace(/[&]/g,"\\&").replace(/'/g,".?")+"\\b","i").test(t)){o.from=s==="M&S"?"Marks & Spencer":s;return true}});
+  var AMB={"Next":1,"Very":1,"Boots":1,"Apple":1,"Target":1,"Lush":1,"Liberty":1,"Lego":1};var t2=t.replace(/next\s*(day|working|business|delivery|week)/gi," ");
+  SHOPS.some(function(s){if(new RegExp("\\b"+s.replace(/[&]/g,"\\&").replace(/'/g,".?")+"\\b",AMB[s]?"":"i").test(t2)){o.from=s==="M&S"?"Marks & Spencer":s;return true}});
   var car="";CARRIERS.some(function(c){if(c[1].test(t)){car=c[0];return true}});o.carrier=car;
   var lines=t.split(/\n/).map(function(x){return x.trim()}).filter(Boolean);
   var dl=lines.filter(function(l){return /arriv|deliver|expected|estimated|due|get it|out for|dispatched|shipped/i.test(l)});
@@ -1249,7 +1250,7 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.psalert){var o=S.orders.find(function(x){return x.id===d.psalert});PS_ALERT(o);return}
   if(d.shto){t.parentNode.querySelectorAll("[data-shto]").forEach(function(x){x.classList.toggle("on",x===t)});return}
   if(d.shotbtn){document.getElementById("shotFile").click();return}
-  if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,to:(document.querySelector("[data-shto].on")||{dataset:{shto:""}}).dataset.shto,arrived:false};
+  if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,to:(document.querySelector("[data-shto].on")||{dataset:{shto:""}}).dataset.shto,carrier:(window.PS_LAST&&PS_LAST.carrier)||"",arrived:false};
     S.orders.push(o2);save(true);renderAll();document.getElementById("shotOut").innerHTML="";toast("Order added");if(d.shadd==="2")PS_ALERT(o2);return}
 },true);
 window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psQ"){Q=t.value;clearTimeout(window.__psq);window.__psq=setTimeout(searchRun,120)}if(t.id==="psBud"){P.budget=VALS[+t.value];keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget.toLocaleString();
@@ -1431,8 +1432,12 @@ function shopLink(f){f=String(f||"").toLowerCase();var amz=(function(){try{retur
   if(/etsy/.test(f))return {url:"https://www.etsy.com/your/purchases",label:"Open your Etsy purchases"};
   if(/ebay/.test(f))return {url:"https://www.ebay.co.uk/mye/myebay/purchase",label:"Open your eBay purchases"};
   return null}
+var CR={"Royal Mail":"https://www.royalmail.com/track-your-item#/tracking-results/","Parcelforce":"https://www.parcelforce.com/track-trace?trackNumber=","Evri":"https://www.evri.com/track/parcel/","DPD":"https://track.dpd.co.uk/search?reference=","DHL":"https://www.dhl.com/gb-en/home/tracking.html?tracking-id=","UPS":"https://www.ups.com/track?tracknum=","FedEx":"https://www.fedex.com/fedextrack/?trknbr=","USPS":"https://tools.usps.com/go/TrackConfirmAction?tLabels=","Yodel":"https://www.yodel.co.uk/tracking/","InPost":"https://inpost.co.uk/tracking?number="};
+function guessCarrier(f){return ""}
+function carrierLink(c,t){if(!c||!CR[c])return null;var n=String(t).replace(/[\s-]/g,"").toUpperCase();if(c==="DPD")n=n.slice(0,14);return {url:CR[c]+encodeURIComponent(n),label:"Track with "+c}}
 function card(o){var st=status(o),ti=o.track?trackInfo(o.track):null,dt=o.due?dd(o.due):null;var shop=shopLink(o.from);
   if(shop&&(!ti||/^Search/.test(ti.label)))ti=shop;
+  if(o.track&&ti&&/^Search/.test(ti.label)){var cr=carrierLink(o.carrier||guessCarrier(o.from),o.track);if(cr)ti=cr}
   var ret="";if(o.ret&&!o.arrived){}if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)ret='<span class="dvp bad">Return in '+r+' day'+(r===1?"":"s")+'</span>';}
   return '<div class="dvc'+(o.arrived?" done":"")+'"><div class="dvdate">'+(dt?'<b>'+dt.day+'</b><span>'+esc(dt.mon)+'</span>':'<b>?</b><span>date</span>')+'</div>'+
    '<div class="dvm"><div class="dvt">'+esc(o.item||"Untitled order")+'</div><div class="meta">'+esc([o.from,o.to?"to "+o.to:""].filter(Boolean).join(" · ")||"Tap Edit to add details")+'</div>'+
