@@ -316,6 +316,20 @@ body.wishmode>*:not(#wishPage):not(#bbsheet):not(.saved):not(script):not(style){
 .wp{max-width:520px;margin:0 auto}.wph{text-align:center;font-size:32px;margin:6px 0 10px}
 .wpi input{width:100%}.wpi .lab{margin-bottom:6px}
 .wpad{display:block;text-align:center;margin-top:28px;padding:14px;border-radius:12px;background:var(--ink);color:var(--card);text-decoration:none;font-size:14px;line-height:1.4}.wpad b{color:#F1D9A6}
+/* v4: louder heading, bold crumb, festive touches */
+.qth{display:flex;align-items:center;gap:8px;margin:26px 0 12px;font-weight:600;font-size:28px;line-height:1;font-variation-settings:"SOFT" 100,"opsz" 72}.qth em{color:var(--cran)}
+.qth .holly{width:40px;height:26px;flex:none}
+.crumb{background:var(--ink);color:var(--card);border:0;font-size:13px;font-weight:700;padding:9px 16px 9px 12px;margin:-4px 0 14px;box-shadow:0 6px 14px -8px rgba(33,24,18,.6)}
+.crumb svg{stroke-width:2.2}
+.chip[data-shperson]{cursor:pointer}
+.pmid[data-shperson]{cursor:pointer}
+.pcard.flash{animation:flash 1.4s ease}@keyframes flash{0%,60%{box-shadow:0 0 0 3px var(--gold),0 10px 16px -12px rgba(51,38,29,.55)}}
+header.top{position:relative;overflow:hidden}
+header.top h1 .holly{width:54px;height:34px;vertical-align:top;margin:-8px -6px 0 -10px;transform:rotate(-14deg)}
+.snow{position:absolute;inset:0;pointer-events:none;z-index:0}header.top .wrap{position:relative;z-index:1}
+.snow i{position:absolute;top:-10px;border-radius:50%;background:#fff;animation:fall linear infinite;box-shadow:0 0 3px rgba(255,255,255,.8)}
+@keyframes fall{0%{transform:translate(0,-10px)}50%{transform:translate(14px,140px)}100%{transform:translate(-6px,300px)}}
+.foot .flake{color:var(--gold);font-size:14px;margin:0 6px}
 </style>
 </head>
 <body>
@@ -1232,6 +1246,8 @@ var ICON={
  box:'<path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5 12 11.5l8.5-4M12 11.5v9"/>',
  more:'<circle cx="5.5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18.5" cy="12" r="1.6"/>'};
 function svg(k){return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICON[k]+'</svg>'}
+var HOLLY='<svg class="holly" viewBox="0 0 64 40" aria-hidden="true"><path d="M30 22c-6-2-9-8-8-14 3 2 6 1 8-1 1 3 4 4 7 3-2 3-1 6 1 8-3 0-5 2-8 4z" fill="#3D5A45"/><path d="M34 22c6-2 12 0 16 5-3 0-5 3-5 6-3-2-6-1-8 1 0-3-2-5-5-6 2-1 2-4 2-6z" fill="#4F7058"/><circle cx="31" cy="25" r="3.6" fill="#9A2B2E"/><circle cx="36.5" cy="26.5" r="3.2" fill="#B23A3D"/><circle cx="33" cy="30.5" r="3" fill="#9A2B2E"/><circle cx="30" cy="24" r="1" fill="#fff" opacity=".6"/></svg>';
+window.SH_HOLLY=HOLLY;
 var TABS5=[["home","Home","home"],["shopper","Shop","shop"],["people","People","people"],["orders","Deliveries","box"],["more","More","more"]];
 var GROUP={trending:"shopper",cards:"orders"};
 function tabFor(k){if(GROUP[k])return GROUP[k];return TABS5.some(function(t){return t[0]===k})?k:"more"}
@@ -1261,20 +1277,20 @@ function thisWeek(){var out=[];
   var left=S.gifts.filter(function(g){return !g.bought}).length;
   if(left)out.push([99,'<b>'+left+'</b> gift'+(left>1?"s":"")+' still to buy',"#people"]);
   return out}
-function welcome(){var ex=ppl().map(function(p){return '<span class="chip on">'+esc(p.name)+'</span>'}).join("");
+function welcome(){var ex=ppl().map(function(p){return '<button class="chip on" data-shperson="'+esc(p.id)+'">'+esc(p.name)+' →</button>'}).join("");
   return '<div class="card hero"><div class="lab">Welcome</div><div class="hh">Let’s get Christmas <em>sorted.</em></div>'+
    '<ol class="steps"><li><b>Add your people.</b> Everyone you’re buying for.</li><li><b>Find their gifts.</b> Six quick taps, ten great picks.</li><li><b>Track every delivery.</b> Screenshot it, we fill it in.</li></ol>'+
    '<label for="shQuick" class="lab">Name</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum, Sarah, the boss" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
-   (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div><p class="meta" style="margin-top:8px;font-size:12.5px">Add as many as you like. We’ll ask how you know them when you shop.</p>':'')+
+   (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div><p class="meta" style="margin-top:8px;font-size:12.5px">Tap a name to see their page. Add as many as you like.</p>':'')+
    '<button class="btn" style="width:100%;margin-top:14px" data-shfirst="1">Find my first gift →</button></div>'}
 function review(){if(S.revDone||S.gifts.length<5)return "";
   return '<div class="card soft"><div class="hh" style="font-size:21px">Is this helping?</div><p class="meta" style="margin:4px 0 12px">We’re a tiny family shop. A quick review on Etsy helps other people find us, and it means the world.</p>'+
    '<div class="row"><a class="bbbtn pine" href="https://www.etsy.com/your/purchases" target="_blank" rel="noopener" data-shrev="1">Leave a review</a><button class="bbbtn" data-shrev="0">Not now</button></div></div>'}
 function tools(){var tr='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">';
-  return '<div class="ch" style="margin:18px 0 8px"><span class="hh" style="font-size:21px">Quick tools</span></div><div class="tiles">'+
+  return '<div class="qth">'+HOLLY+'<span>Quick <em>tools</em></span></div><div class="tiles">'+
   '<a class="tile ic" href="#shopper" data-shfind="1">'+tr+'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg><b>Find a gift</b><span>Six taps, ten picks</span></a>'+
   '<a class="tile ic" href="#trending">'+tr+'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><b>Trending</b><span>What’s hot this week</span></a>'+
-  '<a class="tile ic" href="#orders" data-shscan="1">'+tr+'<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 7h6M9 10.5h6M9 14h3.5"/></svg><b>Read a screenshot</b><span>Track a delivery in seconds</span></a>'+
+  '<a class="tile ic" href="#orders" data-shscan="1">'+tr+'<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 7h6M9 10.5h6M9 14h3.5"/></svg><b>Add tracking</b><span>Screenshot a delivery email or text</span></a>'+
   '<a class="tile ic" href="#budget">'+tr+'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.6 0-2.7.9-2.7 2.1 0 2.8 5.4 1.4 5.4 4.1 0 1.2-1.1 2.1-2.7 2.1-1.2 0-2.2-.5-2.7-1.4M12 6.5V8M12 16v1.5"/></svg><b>Budget</b><span>Set your limits</span></a></div>'}
 function moreFromUs(){return '<div class="card mfu"><div class="lab">More from us</div><div class="hh" style="font-size:20px;margin:4px 0 10px">Make the rest of December easier</div>'+
   '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>Secret Santa app</b><span>Draw names by WhatsApp. No one sees the list.</span></a>'+
@@ -1289,7 +1305,7 @@ function renderHome(){var box=document.getElementById("homeBox");if(!box)return;
   var tw=thisWeek();
   h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">This week</span></div>'+(tw.length?'<ul class="tw">'+tw.slice(0,6).map(function(x){return '<li><a href="'+x[2]+'">'+x[1]+'</a></li>'}).join("")+'</ul>':'<p class="meta">Nothing urgent this week. Nice.</p>')+'</div>';
   h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">Your people</span><a class="rlink" href="#people">All →</a></div>'+P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length;
-    return '<div class="prow">'+avatar(p.name)+'<div class="pmid"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
+    return '<div class="prow">'+avatar(p.name)+'<div class="pmid" data-shperson="'+esc(p.id)+'"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
     '<button class="bbbtn" style="margin-top:10px" data-go="people">+ Add someone</button></div>';
   h+=(window.WL_POSTCARD?WL_POSTCARD():"")+tools()+review();
   box.innerHTML='<div class="homehead"><div class="lab">Your Christmas</div></div>'+h;animate(box);BB.after(box)}
@@ -1301,7 +1317,7 @@ function renderPeople(){var box=document.getElementById("peopleBox");if(!box)ret
     var gl=g.map(function(x){var st=x.wrapped?"Wrapped":x.bought?"Bought":"To buy";return '<li><span class="gs '+st.replace(/ /g,"").toLowerCase()+'">'+st+'</span>'+esc(x.idea||"Gift")+'</li>'}).join("");
     var wl=(p.wish||[]).map(function(w,i){var u=WL_SAFEURL(w.u);return '<li><span>'+esc(w.n)+(w.p?' <em class="meta">'+esc(w.p)+'</em>':'')+'</span>'+(u?'<a class="pa sm" href="'+esc(u)+'" target="_blank" rel="noopener">Open</a>':'<button class="pa sm" data-shwfind="'+esc(p.id)+'|'+i+'">Find it</button>')+'<button class="pa sm" data-shwadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
     var sv=(p.saved||[]).map(function(n,i){return '<li><span>'+esc(n)+'</span><button class="pa sm" data-shsvadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
-    return '<div class="card pcard">'+'<div class="ph">'+avatar(p.name,1)+'<div style="flex:1;min-width:0"><div class="hh" style="font-size:22px">'+esc(p.name)+'</div><div class="meta">'+esc([R[p.rel],p.budget?"up to "+C()+p.budget+" each":""].filter(Boolean).join(" · ")||"Gift ideas not set up yet")+'</div></div></div>'+
+    return '<div class="card pcard" id="pc-'+esc(p.id)+'">'+'<div class="ph">'+avatar(p.name,1)+'<div style="flex:1;min-width:0"><div class="hh" style="font-size:22px">'+esc(p.name)+'</div><div class="meta">'+esc([R[p.rel],p.budget?"up to "+C()+p.budget+" each":""].filter(Boolean).join(" · ")||"Gift ideas not set up yet")+'</div></div></div>'+
      '<div class="pstat"><span>'+bt+' of '+g.length+' bought</span><span>'+esc(money(sp))+(bud?' of '+esc(money(bud)):' spent')+'</span></div>'+bar(g.length?bt/g.length:0)+
      (gl?'<ul class="gl">'+gl+'</ul>':'')+(wl?'<p class="lab" style="margin:12px 0 4px;color:var(--cran)">Their wish list</p><ul class="svl">'+wl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
      '<button class="wask" data-shwask="'+esc(p.name)+'"><b>Ask '+esc(p.name)+' for a wish list</b><span>Send a WhatsApp link. They add ideas, it lands here.</span></button>'+
@@ -1326,13 +1342,17 @@ window.SH_RENDER=function(){try{renderHome();renderPeople();renderMore()}catch(e
 window.SH_SHOW=function(k){var t=tabFor(k);document.querySelectorAll("#tabbar a").forEach(function(a){a.classList.toggle("on",a.dataset.t===t)});
   document.body.dataset.tab=k;if(k==="home")renderHome();if(k==="people")renderPeople();window.scrollTo(0,0)};
 document.querySelectorAll("main section").forEach(function(sec){if(sec.id==="home")return;var a=document.createElement("a");a.className="crumb";a.href="#home";a.innerHTML=svg("home").replace('width="24" height="24"','width="16" height="16"')+'<span>Home</span>';sec.insertBefore(a,sec.firstChild)});
+(function(){var h1=document.querySelector("header.top h1");if(h1&&!h1.querySelector(".holly"))h1.insertAdjacentHTML("afterbegin",HOLLY);
+  var hd=document.querySelector("header.top");if(hd&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var sn='<div class="snow" aria-hidden="true">';for(var i=0;i<26;i++){sn+='<i style="left:'+(Math.random()*100).toFixed(1)+'%;animation-delay:-'+(Math.random()*12).toFixed(1)+'s;animation-duration:'+(9+Math.random()*7).toFixed(1)+'s;width:'+(3+Math.random()*4).toFixed(1)+'px;height:'+(3+Math.random()*4).toFixed(1)+'px;opacity:'+(.35+Math.random()*.45).toFixed(2)+'"></i>'}hd.insertAdjacentHTML("afterbegin",sn+'</div>')}
+  var ft=document.querySelector(".foot");if(ft)ft.innerHTML='<span class="flake">✻</span> Made with love by BrightBlueprintCo'})();
 var tb=document.createElement("div");tb.id="tabbar";tb.setAttribute("role","navigation");tb.setAttribute("aria-label","Main");
 tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'">'+svg(t[2])+'<span>'+t[1]+'</span></a>'}).join("");document.body.appendChild(tb);
 /* ---------- events ---------- */
 function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
   if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
   var e2=document.getElementById(id);if(e2)e2.focus()}
-document.addEventListener("click",function(e){var t=e.target.closest("[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shperson],[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shperson){location.hash="#people";setTimeout(function(){var c=document.getElementById("pc-"+d.shperson);if(c){c.scrollIntoView({behavior:"smooth",block:"start"});c.classList.add("flash");setTimeout(function(){c.classList.remove("flash")},1400)}},120);return}
   if(d.shwask){WL_ASK(d.shwask);return}
   if(d.shwfind||d.shwadd){var q=(d.shwfind||d.shwadd).split("|"),pw=S.people.find(function(x){return x.id===q[0]});if(!pw)return;var w=pw.wish[+q[1]];
     if(d.shwfind){PS_SHEET({n:w.n,q:w.n,exp:false,kick:pw.name+"’s wish list",who:pw.name,budget:pw.budget||""});return}
