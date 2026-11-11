@@ -336,6 +336,9 @@ header.top h1 .holly{width:54px;height:34px;vertical-align:top;margin:-8px -6px 
 .st3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 18px}
 .st3 div{background:#F3E8D2;border-radius:10px;padding:10px 6px;text-align:center;font-size:13.5px;line-height:1.25;font-weight:600}
 .st3 b{display:block;width:24px;height:24px;line-height:24px;margin:0 auto 5px;border-radius:50%;background:var(--cran);color:var(--card);font-size:13px}
+.apphero,.appcard{display:flex;gap:14px;align-items:center}
+.appic{flex:none;width:72px;height:72px;border-radius:17px;overflow:hidden;box-shadow:0 6px 14px -6px rgba(33,24,18,.5)}.appic.sm{width:54px;height:54px;border-radius:13px}.appic img{width:100%;height:100%;object-fit:cover;display:block}
+.appcard{border:1.5px solid var(--gold)}
 </style>
 </head>
 <body>
@@ -363,6 +366,12 @@ header.top h1 .holly{width:54px;height:34px;vertical-align:top;margin:-8px -6px 
 <h2>Your people</h2>
 <p class="sub">Everyone you’re buying for, and how each one’s going.</p>
 <div id="peopleBox"></div>
+</section>
+
+<section id="app">
+<h2>Make it an app</h2>
+<p class="sub">Your planner, on your home screen.</p>
+<div id="appBox"></div>
 </section>
 
 <section id="more">
@@ -694,7 +703,7 @@ var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperie
 </script>
 <script>
 const KEY = "bbc-personal-shopper-v1";
-const TABS = [["home","Home"],["people","People"],["more","More"],["shopper","Personal Shopper"],["trending","Trending"],["budget","Budget"],["gifts","Gift list"],["ideas","Mentioned"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save my page"]];
+const TABS = [["home","Home"],["people","People"],["more","More"],["app","Make it an app"],["shopper","Personal Shopper"],["trending","Trending"],["budget","Budget"],["gifts","Gift list"],["ideas","Mentioned"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save my page"]];
 const CATS = ["Partner","Children","Parents","Brothers & sisters","Wider family","Friends","Work & Secret Santa","Teachers & thank-yous","Stocking fillers","Wrapping, cards & postage","Just in case"];
 const EVE = ["All presents wrapped and labelled","Labels checked: right name, right present","Batteries bought (AA, AAA, the odd ones)","Screwdriver for battery compartments","Spare tape, scissors and tags in one place","Hiding places emptied","Stockings filled","Presents for visitors set aside","Last-minute gift for the person you forgot","Phones and devices charged","Receipts and gift receipts filed","Thank-you list started"];
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -971,7 +980,7 @@ renderAdd("ideas","addIdea","Save idea");
 renderAdd("thanks","addThanks","Add");
 BB.init({key:KEY,appName:"Personal shopper",frames:["hat","tag","snow"],defIcon:"icon-180.png",defCountry:"GB",help:HELP,cardSel:"section",
   getState:()=>S,setState:o=>{S=Object.assign(fresh(),o);save();renderAll();show()},valid:o=>!!(o&&Array.isArray(o.gifts)),isEmpty:()=>!S.gifts.length&&!num(S.total)&&!S.ideas.length,
-  toast:toast,render:()=>{const sb=$("#saveBox");if(sb)sb.innerHTML=BB.saveCard();BB.after(document)}});
+  toast:toast,render:()=>{const sb=$("#saveBox");if(sb)sb.innerHTML=BB.saveCard();if(window.SH_APP&&document.body.dataset.tab==="app")SH_APP();BB.after(document)}});
 renderAll(); show();
 setInterval(renderCount, 60*60*1000);
 </script>
@@ -1299,6 +1308,8 @@ function welcome(){var ex=ppl().map(function(p){return '<button class="chip on" 
    '<label for="shQuick" class="lab">Name</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum, Sarah, the boss" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
    (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div><p class="meta" style="margin-top:8px;font-size:12.5px">Tap a name to see their page. Add as many as you like.</p>':'')+
    '<button class="btn" style="width:100%;margin-top:14px" data-shfirst="1">Find my first gift →</button></div>'}
+function appCard(){if(BB.isStandalone||S.appHide)return "";
+  return '<div class="card appcard"><div class="appic sm"><img src="'+(document.querySelector('link[rel="apple-touch-icon"]')||{}).href+'" alt=""></div><div style="flex:1;min-width:0"><b style="font-size:18px">Make it an app</b><p class="meta" style="margin:2px 0 10px;font-size:13px">Put it on your home screen, even with your own photo as the icon.</p><div class="row"><a class="bbbtn pine sm" href="#app">Show me how</a><button class="bblnk" data-shapphide="1">Not now</button></div></div></div>'}
 function review(){if(S.revDone||S.gifts.length<5)return "";
   return '<div class="card soft"><div class="hh" style="font-size:21px">Is this helping?</div><p class="meta" style="margin:4px 0 12px">We’re a tiny family shop. A quick review on Etsy helps other people find us, and it means the world.</p>'+
    '<div class="row"><a class="bbbtn pine" href="https://www.etsy.com/your/purchases" target="_blank" rel="noopener" data-shrev="1">Leave a review</a><button class="bbbtn" data-shrev="0">Not now</button></div></div>'}
@@ -1314,7 +1325,7 @@ function moreFromUs(){return '<div class="card mfu"><div class="lab">More from u
   '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>See the whole shop →</b></a></div>'}
 function renderHome(){var box=document.getElementById("homeBox");if(!box)return;var P=ppl();
   var days=countdown(),cd='<div class="cd"><b>'+days+'</b><span>'+(days===1?"day":"days")+' to<br>Christmas</span></div>';
-  if(!S.gifts.length){box.innerHTML='<div class="homehead">'+cd+'</div>'+welcome()+tools();BB.after(box);return}
+  if(!S.gifts.length){box.innerHTML='<div class="homehead">'+cd+'</div>'+welcome()+appCard()+tools();BB.after(box);return}
   var spent=spentOf(S.gifts),tot=budgetTotal(),b=S.gifts.filter(function(g){return g.bought}).length,w=S.gifts.filter(function(g){return g.wrapped}).length;
   var h='<div class="card ringcard">'+ring(spent,tot)+'<div class="rside">'+cd+'<div class="rstat"><b>'+b+'</b> of '+S.gifts.length+' bought<br><b>'+w+'</b> wrapped</div>'+
     (tot?(spent>tot?'<div class="rwarn">'+esc(money(spent-tot))+' over budget</div>':'<div class="rok">'+esc(money(tot-spent))+' left</div>'):'<a class="rlink" href="#budget">Set a budget →</a>')+'</div></div>';
@@ -1323,7 +1334,7 @@ function renderHome(){var box=document.getElementById("homeBox");if(!box)return;
   h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">Your people</span><a class="rlink" href="#people">All →</a></div>'+P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length;
     return '<div class="prow">'+avatar(p.name)+'<div class="pmid" data-shperson="'+esc(p.id)+'"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
     '<button class="bbbtn" style="margin-top:10px" data-go="people">+ Add someone</button></div>';
-  h+=(window.WL_POSTCARD?WL_POSTCARD():"")+tools()+review();
+  h+=appCard()+(window.WL_POSTCARD?WL_POSTCARD():"")+tools()+review();
   box.innerHTML='<div class="homehead"><div class="lab">Your Christmas</div></div>'+h;animate(box);BB.after(box)}
 /* ---------- People ---------- */
 function renderPeople(){var box=document.getElementById("peopleBox");if(!box)return;var P=ppl(),R=window.PS_REL||{};
@@ -1341,7 +1352,7 @@ function renderPeople(){var box=document.getElementById("peopleBox");if(!box)ret
      '<div class="pact"><button class="pa main" data-shideas="'+esc(p.name)+'">Find ideas →</button><button class="pa" data-shpgift="'+esc(p.id)+'">Add a gift</button><button class="pa ghost" data-shpdel="'+esc(p.id)+'">Remove</button></div></div>'}).join("");
   box.innerHTML=h;animate(box);BB.after(box)}
 /* ---------- More ---------- */
-var MORE=[["budget","Budget","Set limits per group"],["gifts","Gift list","Every gift in one place"],["ideas","Mentioned","Hints they’ve dropped"],["trending","Trending","What’s hot this week"],["kids","Kids","Stockings and Santa gifts"],["cards","Cards & posting","Last posting dates"],["eve","Christmas Eve","The night-before list"],["thanks","Thank-yous","Who sent what"],["next","Next year","Notes for future you"],["backup","Save my page","Backup link and reset"]];
+var MORE=[["app","Make it an app","Home screen + your photo"],["budget","Budget","Set limits per group"],["gifts","Gift list","Every gift in one place"],["ideas","Mentioned","Hints they’ve dropped"],["trending","Trending","What’s hot this week"],["kids","Kids","Stockings and Santa gifts"],["cards","Cards & posting","Last posting dates"],["eve","Christmas Eve","The night-before list"],["thanks","Thank-yous","Who sent what"],["next","Next year","Notes for future you"],["backup","Save my page","Backup link and reset"]];
 function renderMore(){var box=document.getElementById("moreBox");if(!box)return;
   box.innerHTML='<div class="tiles">'+MORE.map(function(m){return '<a class="tile" href="#'+m[0]+'"><b>'+esc(m[1])+'</b><span>'+esc(m[2])+'</span></a>'}).join("")+'</div>'+moreFromUs()}
 /* ---------- animation helpers ---------- */
@@ -1354,10 +1365,20 @@ function confetti(){var cv=document.createElement("canvas");cv.className="confet
     if(++t<110)requestAnimationFrame(f);else cv.remove()})()}
 window.SH_CHECK=function(it){if(!it||!it.who)return;var n=String(it.who).trim().toLowerCase();var g=S.gifts.filter(function(x){return String(x.who||"").trim().toLowerCase()===n});
   if(g.length&&g.every(function(x){return x.bought&&x.wrapped})&&it.wrapped){confetti();toast("All of "+it.who.trim()+"’s gifts are wrapped!")}};
+/* ---------- make it an app ---------- */
+(function(){var h=location.hash;if(h.indexOf("#i")!==0||h.indexOf("#ideas")===0)return;var o=BB.readBackup("#r"+h.slice(2));
+  if(o&&!S.gifts.length&&!(S.people||[]).length&&!S.orders.length){S=Object.assign(fresh(),o);save(true);setTimeout(function(){toast("All set. Your planner is in the app")},600)}
+  try{history.replaceState(null,"",location.pathname+"#home")}catch(e){}})();
+function stamp(){if(BB.isStandalone)return;try{var l=BB.backupLink();history.replaceState(null,"",location.pathname+"#i"+l.split("#r")[1])}catch(e){}}
+window.SH_APP=function(){var box=document.getElementById("appBox");if(!box)return;
+  if(BB.isStandalone){box.innerHTML='<div class="card"><b style="font-size:19px">You’re using the app.</b><p class="meta" style="margin-top:4px">Nice. It’s on your home screen, one tap away. Your planner saves on this phone as you go.</p></div>';return}
+  box.innerHTML='<div class="card apphero"><div class="appic"><img src="'+(document.querySelector('link[rel="apple-touch-icon"]')||{}).href+'" alt=""></div><div><b style="font-size:20px">One tap from your home screen</b><p class="meta" style="margin-top:4px">Opens full screen like a real app. No App Store, no sign-up. Everything you’ve added comes with you.</p></div></div>'+
+   '<div class="card">'+BB.shortcutBlock()+'</div>';BB.after(box);stamp()};
+window.SH_STAMP=function(){if(document.body.dataset.tab==="app")stamp()};
 /* ---------- render + tabs ---------- */
 window.SH_RENDER=function(){try{renderHome();renderPeople();renderMore()}catch(e){console.error(e)}};
 window.SH_SHOW=function(k){var t=tabFor(k);document.querySelectorAll("#tabbar a").forEach(function(a){a.classList.toggle("on",a.dataset.t===t)});
-  document.body.dataset.tab=k;if(k==="home")renderHome();if(k==="people")renderPeople();window.scrollTo(0,0)};
+  document.body.dataset.tab=k;if(k==="app")SH_APP();if(k==="home")renderHome();if(k==="people")renderPeople();window.scrollTo(0,0)};
 document.querySelectorAll("main section").forEach(function(sec){if(sec.id==="home")return;var a=document.createElement("a");a.className="crumb";a.href="#home";a.innerHTML=svg("home").replace('width="24" height="24"','width="16" height="16"')+'<span>Home</span>';sec.insertBefore(a,sec.firstChild)});
 (function(){var h1=document.querySelector("header.top h1");if(h1&&!h1.querySelector(".holly"))h1.insertAdjacentHTML("afterbegin",HOLLY);
   var hd=document.querySelector("header.top");if(hd&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var sn='<div class="snow" aria-hidden="true">';for(var i=0;i<26;i++){sn+='<i style="left:'+(Math.random()*100).toFixed(1)+'%;animation-delay:-'+(Math.random()*12).toFixed(1)+'s;animation-duration:'+(9+Math.random()*7).toFixed(1)+'s;width:'+(3+Math.random()*4).toFixed(1)+'px;height:'+(3+Math.random()*4).toFixed(1)+'px;opacity:'+(.35+Math.random()*.45).toFixed(2)+'"></i>'}hd.insertAdjacentHTML("afterbegin",sn+'</div>')}
@@ -1368,7 +1389,8 @@ tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'"
 function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
   if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
   var e2=document.getElementById(id);if(e2)e2.focus()}
-document.addEventListener("click",function(e){var t=e.target.closest("[data-shwpaste],[data-shperson],[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shapphide],[data-shwpaste],[data-shperson],[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shapphide){S.appHide=true;save(true);renderHome();return}
   if(d.shwpaste){WL_PASTE();return}
   if(d.shperson){location.hash="#people";setTimeout(function(){var c=document.getElementById("pc-"+d.shperson);if(c){c.scrollIntoView({behavior:"smooth",block:"start"});c.classList.add("flash");setTimeout(function(){c.classList.remove("flash")},1400)}},120);return}
   if(d.shwask){WL_ASK(d.shwask);return}
