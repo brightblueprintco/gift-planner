@@ -969,25 +969,28 @@ var GROUPS=[
  ["sentimental","Sentimental",["personal","extras","special","festive","christmas2"]],
  ["cars","Cars & driving",["motoring","cars2"]]];
 var RELS=[["partner","Partner",["couples","him","her"]],["mum","Mum",["mums","her"]],["dad","Dad",["dads","him"]],["grand","Grandparent",["grandparents","seniors"]],
- ["sib","Brother or sister",["siblings"]],["friend","Friend",["siblings","party"]],["work","Colleague",["work","office2"]],["teacher","Teacher",["teacher","teachers2"]],
+ ["sib","Brother or sister",["siblings"]],["friend","Friend",["party","funny","cosy","special"]],["work","Colleague",["work","office2"]],["teacher","Teacher",["teacher","teachers2"]],
  ["child","Child",["littlekids","toys2","tweens","tweens2"]],["teen","Teenager",["teens","teens2"]],["neighbour","Neighbour",["neighbours"]],["other","Someone else",[]]];
-var AGES=[["k","3 to 7"],["t","8 to 12"],["y","13 to 17"],["a","Adult"],["s","60+"]];
+var AGES=[["k","3 to 7"],["t","8 to 12"],["y","13 to 17"],["a1","18 to 29"],["a2","30 to 44"],["a3","45 to 59"],["s1","60 to 74"],["s2","75+"]];
+var AGEB={a1:["gaming","tech","fashion","music","travel","fitness","drinks","beauty","funny"],a2:["home","cook","coffee","fitness","travel","drinks","beauty","exp"],a3:["garden","books","cook","drinks","travel","home","sport","exp"],s1:["garden","books","home","food","travel","sentimental","puzzles","outdoors"],s2:["home","sentimental","books","food","puzzles","garden"],_:0};
 var TRAITS=[["p","Practical"],["f","Fun"],["l","Loves a treat"],["s","Sentimental"],["e","Loves experiences"],["c","Creative"],["g","Eco-minded"],["h","Homebody"],["x","Adventurous"]];
 var BANDS=[0,10,25,50,100,1e9];
 function bandOf(b){b=+b||0;for(var i=1;i<6;i++)if(b<=BANDS[i])return i;return 5}
 function bandLabel(n){var c=(typeof S!=='undefined'&&S.cur)||"£";return ["","Under "+c+"10",c+"10 to "+c+"25",c+"25 to "+c+"50",c+"50 to "+c+"100",c+"100+"][n]}
-var P={who:"",rel:"",age:"a",budget:25,ints:[],traits:[],page:0,res:null,seed:Math.random(),step:0,stage:""};
+var P={who:"",rel:"",age:"",budget:25,ints:[],traits:[],page:0,res:null,seed:Math.random(),step:0,stage:""};
 try{var sv=JSON.parse(localStorage.getItem("bbps-quiz")||"null");if(sv)Object.assign(P,sv,{page:0,res:null})}catch(e){}
+if(P.age==="a")P.age="a2";if(P.age==="s")P.age="s1";
 function keep(){try{localStorage.setItem("bbps-quiz",JSON.stringify({who:P.who,rel:P.rel,age:P.age,budget:P.budget,ints:P.ints,traits:P.traits,step:P.step,stage:P.stage,seed:P.seed}))}catch(e){}}
 function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0)/4294967296}
 function score(){
+  var ac=P.age.charAt(0)||"a",acats={};(AGEB[P.age]||[]).forEach(function(k){GROUPS.forEach(function(g){if(g[0]===k)g[2].forEach(function(c){acats[c]=1})})});if(ac==="s")["seniors","grandparents","cosy2"].forEach(function(c){acats[c]=1});if(P.age==="a1")["students","students2","party"].forEach(function(c){acats[c]=1});
   var cats={},rcats={};P.ints.forEach(function(k){GROUPS.forEach(function(g){if(g[0]===k)g[2].forEach(function(c){cats[c]=1})})});
   RELS.forEach(function(r){if(r[0]===P.rel)r[2].forEach(function(c){rcats[c]=1})});
   var bb=bandOf(P.budget),out=[];
   ITEMS.forEach(function(it,i){var name=it[0],cat=it[1],band=it[2],ages=it[3],tr=it[4];
-    if(ages.indexOf(P.age)<0)return; if(band>bb)return;
-    if(P.age!=="a"&&P.age!=="s"&&/gin|wine|whisky|beer|prosecco|rum|tequila|vodka|liqueur|cocktail|spirit|champagne|bourbon|brandy|mead|cider|lottery|drinking/i.test(name))return;
-    var s=0; if(cats[cat])s+=8; if(rcats[cat])s+=3;
+    if(ages.indexOf(ac)<0)return; if(band>bb)return;
+    if(ac!=="a"&&ac!=="s"&&/gin|wine|whisky|beer|prosecco|rum|tequila|vodka|liqueur|cocktail|spirit|champagne|bourbon|brandy|mead|cider|lottery|drinking/i.test(name))return;
+    var s=0; if(cats[cat])s+=8; if(rcats[cat])s+=3; if(acats[cat])s+=P.ints.length?1.5:3.5;
     P.traits.forEach(function(t){if(tr.indexOf(t)>=0)s+=2});
     if(band===bb)s+=2; else if(band===bb-1)s+=1.5; else s-= (bb-band)*0.6;
     if(!P.ints.length&&!P.rel)s+=0;
@@ -1065,9 +1068,9 @@ function find(){if(!String(P.who).trim())P.who="Them";upsertPerson();P.res=score
   box.innerHTML='<div class="qload"><div class="qspin"></div><div class="qq" style="margin:14px 0 4px">Finding '+nm()+'’s perfect gift…</div><p class="meta" id="qlm">Searching '+ITEMS.length.toLocaleString()+' ideas</p></div>';
   setTimeout(function(){var m=document.getElementById("qlm");if(m)m.textContent="Matching budget and interests"},450);
   setTimeout(function(){PS_RENDER();window.scrollTo({top:0,behavior:"smooth"})},1150)}
-window.PS_START=function(){P.stage="";P.step=0;P.who="";P.rel="";P.age="a";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();if(location.hash!=="#shopper")location.hash="#shopper";PS_RENDER("qin-r");window.scrollTo(0,0);setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},80)};
+window.PS_START=function(){P.stage="";P.step=0;P.who="";P.rel="";P.age="";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();if(location.hash!=="#shopper")location.hash="#shopper";PS_RENDER("qin-r");window.scrollTo(0,0);setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},80)};
 window.PS_FOR=function(name){var p=findPerson(name);P.who=p?p.name:name||"";P.page=0;P.seed=Math.random();
-  if(p&&p.rel){P.rel=p.rel;P.age=p.age||"a";P.ints=(p.ints||[]).slice();P.traits=(p.traits||[]).slice();P.budget=p.budget||25;P.res=score();P.stage="res"}
+  if(p&&p.rel){P.rel=p.rel;P.age=p.age||"a2";P.ints=(p.ints||[]).slice();P.traits=(p.traits||[]).slice();P.budget=p.budget||25;P.res=score();P.stage="res"}
   else{P.res=null;P.stage="";P.step=P.who?1:0}
   keep();if(location.hash!=="#shopper")location.hash="#shopper";PS_RENDER();window.scrollTo(0,0)};
 /* ---------- the Find it sheet ---------- */
@@ -1158,7 +1161,7 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.pspick){P.who=d.pspick;var pp=findPerson(d.pspick);if(pp&&pp.rel){PS_FOR(pp.name);return}P.stage="";P.res=null;go(1,1);return}
   if(d.psnext){if(P.step===0){var w=document.getElementById("psWho");P.who=w?w.value.trim():P.who;if(!P.who){w.classList.add("shake");w.placeholder="Pop a name in first";setTimeout(function(){w.classList.remove("shake")},400);w.focus();return}}go(P.step+1,1);return}
   if(d.psback){go(Math.max(0,P.step-1),-1);return}
-  if(d.psrel){P.rel=d.psrel;if(d.psrel==="child"&&(P.age==="a"||P.age==="s"))P.age="t";if(d.psrel==="teen")P.age="y";if(d.psrel==="grand")P.age="s";if(["partner","mum","dad","work","teacher"].indexOf(d.psrel)>=0&&P.age!=="s")P.age="a";
+  if(d.psrel){P.rel=d.psrel;var ac0=P.age.charAt(0);if(d.psrel==="child"&&"as".indexOf(ac0)>=0)P.age="t";if(d.psrel==="teen")P.age="y";if(d.psrel==="grand"&&ac0!=="s")P.age="s1";if(["partner","mum","dad","work","teacher"].indexOf(d.psrel)>=0&&"kty".indexOf(ac0)>=0)P.age="a2";
     keep();t.parentNode.querySelectorAll(".qtile").forEach(function(x){x.classList.toggle("on",x===t)});adv();return}
   if(d.psage){P.age=d.psage;keep();t.parentNode.querySelectorAll(".qtile").forEach(function(x){x.classList.toggle("on",x===t)});adv();return}
   if(d.psbq){P.budget=+d.psbq;keep();PS_RENDER();return}
@@ -1167,7 +1170,7 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.pstrait){var k2=d.pstrait;if(P.traits.indexOf(k2)>=0)P.traits=P.traits.filter(function(x){return x!==k2});else if(P.traits.length<3)P.traits=P.traits.concat(k2);else{toast("Three is plenty");return}keep();t.classList.toggle("on",P.traits.indexOf(k2)>=0);return}
   if(d.psgo){find();return}
   if(d.psedit){P.stage="";P.step=1;keep();PS_RENDER("qin-r");return}
-  if(d.psnew){P.stage="";P.step=0;P.who="";P.rel="";P.age="a";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();PS_RENDER("qin-r");setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},50);return}
+  if(d.psnew){P.stage="";P.step=0;P.who="";P.rel="";P.age="";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();PS_RENDER("qin-r");setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},50);return}
   if(d.psshuffle){P.seed=Math.random();P.res=score();P.page=0;PS_RENDER();return}
   if(d.psmore){P.page++;var y=window.scrollY;PS_RENDER();window.scrollTo(0,y);return}
   if(d.pssave){var p=upsertPerson(),nm2=ITEMS[+d.pssave][0],ix=p.saved.indexOf(nm2);if(ix>=0)p.saved.splice(ix,1);else p.saved.push(nm2);save(true);
