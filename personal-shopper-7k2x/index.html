@@ -847,10 +847,14 @@ function trackInfo(v){v=String(v||"").trim();if(!v)return null;
   if(/^1Z[0-9A-Z]{16}$/.test(c))return {url:"https://www.ups.com/track?tracknum="+E,label:"Track with UPS"};
   if(/^H[0-9A-Z]{15}$/.test(c))return {url:"https://www.evri.com/track/parcel/"+E,label:"Track with Evri"};
   if(/^\d{14}$/.test(c))return {url:"https://track.dpd.co.uk/search?reference="+E,label:"Track with DPD"};
+  if(/^JD\d{16}$/.test(c))return {url:"https://www.yodel.co.uk/tracking/"+E,label:"Track with Yodel"};
+  if(/^JJD\d+$/.test(c))return {url:"https://www.dhl.com/gb-en/home/tracking.html?tracking-id="+E,label:"Track with DHL"};
+  if(/^\d{10}$/.test(c))return {url:"https://www.dhl.com/gb-en/home/tracking/tracking-express.html?submit=1&tracking-id="+E,label:"Track with DHL"};
+  if(/^[A-Z]{2}\d{7}$/.test(c))return {url:"https://www.parcelforce.com/track-trace?trackNumber="+E,label:"Track with Parcelforce"};
   if(/^(9[2-5])\d{18,24}$/.test(c))return {url:"https://tools.usps.com/go/TrackConfirmAction?tLabels="+E,label:"Track with USPS"};
   if(/^(\d{12}|\d{15})$/.test(c))return {url:"https://www.fedex.com/fedextrack/?trknbr="+E,label:"Track with FedEx"};
   if(/^TBA\d+/.test(c)||/^\d{3}-\d{7}-\d{7}$/.test(v))return {url:"https://"+BB.C().amz+"/gp/your-account/order-history",label:"Track in your Amazon orders"};
-  return {url:"https://www.google.com/search?q="+encodeURIComponent("track parcel "+c),label:"Look up this tracking number"}}
+  return {url:"https://www.google.com/search?q="+encodeURIComponent("track parcel "+c),label:"Search for this number"}}
 function findA(q){if(!q)return "";if(EXPERIENCE.test(q)&&!PRODUCT.test(q))return "";return `<a class="bbamz sm" href="${esc(BB.amzUrl(q))}" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>`}
 /* ---------- ideas helper ---------- */
 const ID={who:"",age:"adult",ints:[],budget:"",i:0,order:null};
@@ -1174,7 +1178,7 @@ function parseDate(t){var now=new Date(),y=now.getFullYear(),m;var low=t.toLower
   function mk(d,mo,yy){var Y=yy?+yy:y;var dt=new Date(Y,mo,d);if(!yy&&dt<new Date(now.getFullYear(),now.getMonth(),now.getDate()-60))dt.setFullYear(Y+1);return iso(dt)}
   function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}}
 function findTracking(t){var toks=t.replace(/[^\w\s-]/g," ").split(/\s+/);var joined=t.replace(/\s+/g," ");
-  var pats=[/\b[A-Z]{2}\d{9}GB\b/,/\b1Z[0-9A-Z]{16}\b/,/\bH[0-9A-Z]{15}\b/,/\bTBA\d{9,12}\b/,/\b9[1-5]\d{18,24}\b/,/\b\d{14}\b/,/\b\d{12}\b/,/\b\d{15}\b/,/\b\d{10}\b/];
+  var pats=[/\bJD\d{16}\b/,/\bJJD\d{10,}\b/,/\b[A-Z]{2}\d{9}GB\b/,/\b1Z[0-9A-Z]{16}\b/,/\bH[0-9A-Z]{15}\b/,/\bTBA\d{9,12}\b/,/\b9[1-5]\d{18,24}\b/,/\b\d{14}\b/,/\b\d{12}\b/,/\b\d{15}\b/,/\b\d{10}\b/];
   for(var p=0;p<pats.length;p++){var m=joined.toUpperCase().replace(/(\d)\s(?=\d)/g,"$1").match(pats[p]);if(m)return m[0]}
   var lab=t.match(/track(?:ing)?\s*(?:number|no\.?|#|id|code)?\s*[:#]?\s*([A-Z0-9-]{8,30})/i);return lab?lab[1].replace(/-/g,""):""}
 function parseShot(t){var o={item:"",from:"",due:"",track:"",order:""};
