@@ -263,6 +263,44 @@ main.wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 .confetti{position:fixed;inset:0;width:100vw;height:100vh;z-index:90;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.qstep,.pin,.scan i{animation:none!important}.pbar i,.ring .ringfill{transition:none}}
 .qbq{min-width:62px;font-size:14px!important}.qbq.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+/* v2: stronger nav, crumbs, tools, deliveries */
+#tabbar{background:var(--ink);border-top:0;box-shadow:0 -6px 20px -8px rgba(33,24,18,.45);padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+#tabbar a{color:rgba(252,247,236,.72);font-size:11px;font-weight:700;gap:3px}
+#tabbar a svg{padding:3px 14px;border-radius:999px;box-sizing:content-box;transition:background .2s,transform .25s}
+#tabbar a.on{color:#F1D9A6}#tabbar a.on svg{background:rgba(185,138,60,.32);transform:none}
+.crumb{display:inline-flex;align-items:center;gap:5px;font-family:var(--type);font-size:12px;color:var(--ink2);text-decoration:none;margin:-6px 0 10px;padding:6px 12px 6px 9px;border-radius:999px;background:rgba(252,247,236,.7);border:1px solid rgba(51,38,29,.12)}
+.crumb:active{transform:scale(.96)}
+.tile.ic svg{color:var(--cran);margin-bottom:6px;display:block}
+.qends{display:flex;justify-content:space-between;font-family:var(--type);font-size:11px;color:var(--ink2);margin-top:2px}
+.shgoo{display:flex;justify-content:center;align-items:center;width:100%;min-height:46px;margin:0;border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;background:#fff;color:var(--ink);text-decoration:none;font-family:var(--type);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase}
+.who{margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line)}.whos{display:flex;gap:6px;overflow-x:auto;margin-top:6px;padding-bottom:2px;scrollbar-width:none}
+.wchip{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-family:var(--serif);font-size:15px;color:var(--ink);cursor:pointer}
+.wchip.on{background:var(--ink);border-color:var(--ink);color:var(--card)}.wchip.add{border-style:dashed;color:var(--cran)}
+.tochips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.dvh{font-style:normal;color:var(--ink);font-size:20px;margin:22px 0 10px;display:flex;align-items:center;gap:8px}.dvh:before{content:"";width:6px;height:20px;background:var(--cran);border-radius:3px}
+.dvadd{text-align:center;padding:20px 16px}.dvai{width:56px;height:56px;border-radius:50%;background:#F3E3C3;color:var(--cran);display:grid;place-items:center;margin:0 auto 10px}
+.dvadd #shotOut{text-align:left}
+.dvman{background:none;border:0;margin-top:10px;font-family:var(--type);font-size:12.5px;color:var(--ink2);text-decoration:underline;cursor:pointer;padding:6px}
+.dvsum{display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border-radius:12px;padding:12px 4px;margin-bottom:12px;box-shadow:0 8px 14px -12px rgba(51,38,29,.55)}
+.dvsum div{text-align:center;border-left:1px dashed var(--line)}.dvsum div:first-child{border:0}.dvsum b{display:block;font-size:26px;font-weight:600;line-height:1.1}.dvsum span{font-family:var(--type);font-size:10.5px;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
+.dvsum .bad b{color:var(--cran)}
+.seg3{display:flex;background:#EADBC0;border-radius:999px;padding:3px;margin-bottom:14px}.seg3 button{flex:1;border:0;background:none;border-radius:999px;padding:9px 4px;font-family:var(--type);font-size:12.5px;color:var(--ink2);cursor:pointer;transition:background .2s}
+.seg3 button.on{background:var(--card);color:var(--ink);font-weight:700;box-shadow:0 2px 6px rgba(51,38,29,.15)}
+.dvc{display:flex;gap:12px;background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 8px 14px -12px rgba(51,38,29,.55);animation:pin .4s both}
+.dvc.done{opacity:.7}
+.dvdate{flex:none;width:52px;height:56px;border-radius:10px;background:var(--pine);color:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}.dvdate b{font-size:22px;line-height:1}.dvdate span{font-family:var(--type);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.dvdate.r{background:var(--cran)}.dvc.done .dvdate{background:#A9A08F}
+.dvm{flex:1;min-width:0}.dvt{font-weight:600;font-size:17px;line-height:1.2}
+.dvps{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.dvp{font-family:var(--type);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px;background:#EADBC0;color:var(--ink2)}
+.dvp.now{background:var(--pine);color:var(--card)}.dvp.soon{background:#DCE7DD;color:var(--pine)}.dvp.bad{background:#F6DCDA;color:var(--cran)}.dvp.ok{background:#DCE7DD;color:var(--pine)}
+.dvc .pact{margin-top:10px}.dved{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.cal{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 14px -12px rgba(51,38,29,.55)}
+.calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.calh b{font-size:18px}
+.calg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}.calg i{font-style:normal;font-family:var(--type);font-size:11px;color:var(--ink2);padding:4px 0}
+.cd2{position:relative;aspect-ratio:1;border:0;background:none;border-radius:10px;font-family:var(--serif);font-size:15px;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cd2.has{background:#F3E8D2;font-weight:700}.cd2.today{box-shadow:inset 0 0 0 1.5px var(--cran);color:var(--cran)}.cd2.sel{background:var(--ink);color:var(--card)}
+.cd2 em,.calk u{display:flex;gap:2px}.cd2 u,.calk u{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--pine)}.cd2 u.a,.calk u.a{background:#A9A08F}.cd2 u.r,.calk u.r{background:var(--cran)}
+.calk{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-family:var(--type);font-size:11px;color:var(--ink2)}.calk span{display:flex;align-items:center;gap:4px}
 </style>
 </head>
 <body>
@@ -341,10 +379,13 @@ main.wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 </section>
 
 <section id="orders">
-<h2>Online orders</h2>
-<p class="sub">What's coming, when, and the last day to send it back.</p>
-<div class="card"><b style="font-size:19px">Got a delivery email or text?</b><p class="meta" style="margin:4px 0 10px">Screenshot it and we’ll fill in the details for you. It’s read on your phone, never uploaded.</p><button class="bbbtn pine" data-shotbtn="1">Read a screenshot</button><input type="file" id="shotFile" accept="image/*" hidden><div id="shotOut" style="margin-top:10px"></div></div>
-<div class="add" id="addOrder"></div>
+<h2>Deliveries</h2>
+<p class="sub">Everything that’s coming, when, where to, and the last day to send it back.</p>
+<h3 class="dvh">Add a delivery</h3>
+<div class="card dvadd"><div class="dvai"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 7h6M9 10.5h6M9 14h3.5"/></svg></div><b style="font-size:19px">Screenshot it, we’ll fill it in</b><p class="meta" style="margin:4px 0 12px">Delivery email, text or app. It’s read on your phone, never uploaded.</p><button class="btn" style="width:100%" data-shotbtn="1">Read a screenshot</button><input type="file" id="shotFile" accept="image/*" hidden><div id="shotOut" style="margin-top:10px"></div>
+<button class="dvman" data-dvmanual="1">Type it in instead</button></div>
+<div class="add" id="addOrder" hidden></div>
+<h3 class="dvh">Your deliveries</h3>
 <div id="orderList"></div>
 </section>
 
@@ -666,7 +707,7 @@ function fieldHTML(coll, item, f){
   return `<div class="f ${sm?"sm":""} ${type==="cat"?"md":""} ${type==="area"?"full":""}"><label for="${id}">${lab}</label>${ctl}</div>`;
 }
 
-function renderList(coll){
+function renderList(coll){ if(coll==="orders"&&window.DV_RENDER){ if(!document.querySelector(".dved:not([hidden])")) DV_RENDER(); return; }
   const sc = SCHEMA[coll], box = $("#"+({gifts:"giftList",kids:"kidList",orders:"orderList",cards:"cardList",ideas:"ideaList",thanks:"thanksList"}[coll]));
   let items = S[coll];
   if(coll==="gifts"){
@@ -790,7 +831,7 @@ const HELP=[[/^Personal shopper$/,"Six quick taps: who it’s for, how you know 
  [/^The gift list$/,"One line per present: who it’s for, what, and the spend. Tick Bought and Wrapped as you go. Tap Find it on Amazon to shop for it, or Need ideas to get suggestions."],
  [/^Gift ideas$/,"Tell us who it’s for, the budget, their age and what they’re into, and we’ll suggest ideas from over 1,000. Find it on Amazon searches for it; Add to gift list saves it."],
  [/^Kids/,"Each child’s wish list, the big present and stocking fillers in one place."],
- [/^Online orders$/,"Track what’s coming and the last day to send it back. Paste the tracking number or link from your delivery email and you get a one-tap Track it button. It knows Royal Mail, Evri, DPD, UPS, FedEx and USPS numbers."],
+ [/^Deliveries$/,"Track what’s coming and the last day to send it back. Paste the tracking number or link from your delivery email and you get a one-tap Track it button. It knows Royal Mail, Evri, DPD, UPS, FedEx and USPS numbers."],
  [/^Cards/,"Who’s getting a card or a posted present, plus the last posting dates."],
  [/^Christmas Eve checklist$/,"The night-before list. Batteries, labels, hiding places."],
  [/^Thank-you tracker$/,"After Christmas, note who gave what. Say thanks on WhatsApp sends them a ready-made thank-you."],
@@ -973,20 +1014,21 @@ function upsertPerson(){var n=String(P.who||"").trim();if(!n)return null;var p=f
 window.PS_PEOPLE=people;window.PS_FIND=findPerson;
 var REL_LABEL={};RELS.forEach(function(r){REL_LABEL[r[0]]=r[1]});window.PS_REL=REL_LABEL;
 /* ---------- the quiz ---------- */
-var STEPS=6;
+var STEPS=6;var VALS=[];(function(){for(var v=5;v<=100;v+=5)VALS.push(v);for(v=125;v<=300;v+=25)VALS.push(v);for(v=350;v<=1000;v+=50)VALS.push(v)})();
+function vIdx(b){var i=0;VALS.forEach(function(v,k){if(Math.abs(v-b)<Math.abs(VALS[i]-b))i=k});return i}
 function cur(){return (typeof S!=='undefined'&&S.cur)||"£"}
 function nm(){return esc(P.who.trim()||"them")}
 function tiles(list,sel,attr,multi){return '<div class="qt">'+list.map(function(x){var on=multi?sel.indexOf(x[0])>=0:sel===x[0];return '<button class="qtile'+(on?" on":"")+'" data-'+attr+'="'+x[0]+'">'+esc(x[1])+'</button>'}).join("")+'</div>'}
 function stepHTML(){var s=P.step,h="",nx="";
   if(s===0){var ex=people().map(function(p){return '<button class="chip" data-pspick="'+esc(p.name)+'">'+esc(p.name)+'</button>'}).join("");
-    h='<div class="qq">Who are we shopping for?</div><input type="text" id="psWho" class="qin" value="'+esc(P.who)+'" placeholder="Their name, e.g. Dad" autocomplete="off" enterkeyhint="next">'+
+    h='<div class="qq">Who are we shopping for?</div><input type="text" id="psWho" class="qin" value="'+esc(P.who)+'" placeholder="Name, e.g. Mum, Sarah, the boss" autocomplete="off" enterkeyhint="next">'+
       (ex?'<p class="lab" style="margin:14px 0 6px">Or pick someone</p><div class="seg2">'+ex+'</div>':'');
     nx='<button class="bbbtn pine qnext" data-psnext="1">Next →</button>'}
   if(s===1){h='<div class="qq">'+nm()+' is your…</div>'+tiles(RELS,P.rel,"psrel")}
   if(s===2){h='<div class="qq">How old is '+nm()+'?</div>'+tiles(AGES,P.age,"psage")}
-  if(s===3){h='<div class="qq">What do you want to spend?</div><div class="qbig"><span id="psBudV">'+esc(cur())+P.budget+'</span><small>or less</small></div>'+
-      '<input type="range" id="psBud" min="5" max="250" step="5" value="'+P.budget+'" class="qrange">'+
-      '<div class="seg2" style="justify-content:center;margin-top:12px">'+[10,25,50,100].map(function(v){return '<button class="pa sm qbq'+(P.budget===v?" on":"")+'" data-psbq="'+v+'">'+esc(cur())+v+'</button>'}).join("")+'</div>';
+  if(s===3){h='<div class="qq">What do you want to spend?</div><div class="qbig"><span id="psBudV">'+esc(cur())+P.budget.toLocaleString()+'</span><small>or less</small></div>'+
+      '<input type="range" id="psBud" min="0" max="'+(VALS.length-1)+'" step="1" value="'+vIdx(P.budget)+'" class="qrange"><div class="qends"><span>'+esc(cur())+'5</span><span>'+esc(cur())+'1,000</span></div>'+
+      '<div class="seg2" style="justify-content:center;margin-top:12px">'+[25,50,100,250,500].map(function(v){return '<button class="pa sm qbq'+(P.budget===v?" on":"")+'" data-psbq="'+v+'">'+esc(cur())+v+'</button>'}).join("")+'</div>';
     nx='<button class="bbbtn pine qnext" data-psnext="1">Next →</button>'}
   if(s===4){h='<div class="qq">What’s '+nm()+' into?</div><p class="meta" style="margin:-6px 0 10px">Tap all that fit. <b id="psIntN">'+(P.ints.length?P.ints.length+" picked":"")+'</b></p>'+tiles(GROUPS,P.ints,"psint",1);
     nx='<button class="bbbtn pine qnext" data-psnext="1">'+(P.ints.length?"Next →":"Not sure, skip →")+'</button>'}
@@ -994,10 +1036,11 @@ function stepHTML(){var s=P.step,h="",nx="";
     nx='<button class="bbbtn pine qnext" data-psgo="1">Find '+nm()+'’s gifts →</button>'}
   return '<div class="qhead">'+(s>0?'<button class="qback" data-psback="1">← Back</button>':'<span></span>')+'<span class="lab">Step '+(s+1)+' of '+STEPS+'</span></div>'+
     '<div class="qbar"><i style="width:'+Math.round((s+1)/STEPS*100)+'%"></i></div><div class="qstep" id="qstep">'+h+nx+'</div>'}
+function switcher(){var ps=people();return '<div class="who"><span class="lab">Shopping for</span><div class="whos">'+ps.map(function(p){var on=p.name.toLowerCase()===String(P.who).trim().toLowerCase();return '<button class="wchip'+(on?" on":"")+'" data-pspick="'+esc(p.name)+'">'+esc(p.name)+'</button>'}).join("")+'<button class="wchip add" data-psnew="1">+ Someone new</button></div></div>'}
 function summary(){var bits=[REL_LABEL[P.rel],(AGES.find(function(a){return a[0]===P.age})||[])[1],"up to "+cur()+P.budget].filter(Boolean);
   var ints=P.ints.map(function(k){return (GROUPS.find(function(g){return g[0]===k})||[])[1]}).filter(Boolean);
   return '<div class="qsum"><div class="qav">'+esc((P.who.trim()||"?")[0].toUpperCase())+'</div><div style="flex:1;min-width:0"><b style="font-size:20px">'+nm()+'</b><div class="meta">'+esc(bits.join(" · "))+(ints.length?'<br>'+esc(ints.slice(0,4).join(", "))+(ints.length>4?" +"+(ints.length-4):""):"")+'</div></div></div>'+
-   '<div class="pact"><button class="pa sm" data-psedit="1">Edit answers</button><button class="pa sm" data-psshuffle="1">Shuffle</button><button class="pa sm" data-psnew="1">Someone else</button></div>'}
+   '<div class="pact"><button class="pa sm" data-psedit="1">Edit answers</button><button class="pa sm" data-psshuffle="1">Shuffle</button></div>'}
 function heart(on){return '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8c0 5.5-7.5 10.1-7.5 10.1z" fill="'+(on?"#9A2B2E":"none")+'" stroke="#9A2B2E" stroke-width="1.8"/></svg>'}
 function ideaCard(i,k){var it=ITEMS[i],p=findPerson(P.who),sv=p&&p.saved.indexOf(it[0])>=0;
   return '<div class="psi pin" style="animation-delay:'+(k*60)+'ms" data-card="'+i+'"><div class="psk">'+esc(CATS[it[1]]||"")+' · '+esc(bandLabel(it[2]))+'</div><div class="pst">'+esc(it[0])+'</div>'+(whyFor(i)?'<div class="psw">'+esc(whyFor(i))+'</div>':'')+
@@ -1009,7 +1052,7 @@ function whyFor(i){var it=ITEMS[i],bits=[];GROUPS.forEach(function(g){if(P.ints.
 function visible(){var p=findPerson(P.who),hid=p?p.hidden:[];return P.res.filter(function(i){return hid.indexOf(ITEMS[i][0])<0})}
 window.PS_RENDER=function(anim){var box=document.getElementById("psBox"),r=document.getElementById("psRes");if(!box)return;if(P.stage==="res"&&!P.res)P.res=score();
   if(P.stage!=="res"||!P.res){box.innerHTML=stepHTML();if(r)r.innerHTML="";if(anim){var q=document.getElementById("qstep");if(q)q.classList.add(anim)}return}
-  box.innerHTML=summary();
+  box.innerHTML=switcher()+summary();
   var v=visible(),n=Math.min(v.length,10+P.page*10),page=v.slice(0,n);
   r.innerHTML='<p class="lab" style="margin:4px 0 10px">'+n+' of '+v.length.toLocaleString()+' matches for '+nm()+'</p>'+
    (page.length?page.map(function(i,k){return ideaCard(i,k>=n-10?k-(n-10):0)}).join(""):'<div class="card">No matches. Try a bigger budget or fewer interests.</div>')+
@@ -1022,6 +1065,7 @@ function find(){if(!String(P.who).trim())P.who="Them";upsertPerson();P.res=score
   box.innerHTML='<div class="qload"><div class="qspin"></div><div class="qq" style="margin:14px 0 4px">Finding '+nm()+'’s perfect gift…</div><p class="meta" id="qlm">Searching '+ITEMS.length.toLocaleString()+' ideas</p></div>';
   setTimeout(function(){var m=document.getElementById("qlm");if(m)m.textContent="Matching budget and interests"},450);
   setTimeout(function(){PS_RENDER();window.scrollTo({top:0,behavior:"smooth"})},1150)}
+window.PS_START=function(){P.stage="";P.step=0;P.who="";P.rel="";P.age="a";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();if(location.hash!=="#shopper")location.hash="#shopper";PS_RENDER("qin-r");window.scrollTo(0,0);setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},80)};
 window.PS_FOR=function(name){var p=findPerson(name);P.who=p?p.name:name||"";P.page=0;P.seed=Math.random();
   if(p&&p.rel){P.rel=p.rel;P.age=p.age||"a";P.ints=(p.ints||[]).slice();P.traits=(p.traits||[]).slice();P.budget=p.budget||25;P.res=score();P.stage="res"}
   else{P.res=null;P.stage="";P.step=P.who?1:0}
@@ -1030,9 +1074,9 @@ window.PS_FOR=function(name){var p=findPerson(name);P.who=p?p.name:name||"";P.pa
 var SH=null;
 function sheet(o){SH=o;var el=document.getElementById("psSheet");if(!el){el=document.createElement("div");el.id="psSheet";document.body.appendChild(el)}
   var amz=o.exp?"":'<a class="bbamz" href="'+esc(BB.amzUrl(o.q))+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>';
-  var who=o.who?esc(o.who)+"’s":"your";
+  var who=o.who?esc(o.who)+"’s":"your";var goo=o.exp?"":'<a class="shgoo" href="https://www.google.com/search?tbm=shop&q='+encodeURIComponent(o.q)+'" target="_blank" rel="noopener">Compare prices on Google →</a>';
   el.innerHTML='<div class="shbg" data-shclose="1"></div><div class="shp" role="dialog" aria-label="Find it"><div class="shgrab"></div><div class="psk">'+esc(o.kick||"")+'</div><div class="pst" style="margin-bottom:12px">'+esc(o.n)+'</div>'+
-   '<p class="lab" style="margin-bottom:6px">Shop it</p>'+amz+'<div class="shs">'+shops(o.q,o.exp).map(function(s){return '<a class="bbbtn" href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'}).join("")+'</div>'+
+   '<p class="lab" style="margin-bottom:6px">Shop it</p>'+amz+goo+'<p class="lab" style="margin:12px 0 6px">Or go straight to</p><div class="shs">'+shops(o.q,o.exp).map(function(s){return '<a class="bbbtn" href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'}).join("")+'</div>'+
    '<div class="shrow"><button class="btn" data-shgift="1">Add to '+who+' gift list</button>'+(o.exp?'':'<button class="btn alt" data-shprice="1">Remind me to check the price</button>')+'</div>'+
    '<p class="meta" style="margin-top:8px;font-size:12px">'+(o.exp?'':'Price reminder pops up on Black Friday and Cyber Monday. ')+'Some links may earn us a small commission at no cost to you.</p>'+
    '<button class="shx" data-shclose="1">Close</button></div>';
@@ -1066,9 +1110,9 @@ function nthDow(y,m,dow,n){var d=new Date(y,m,1);while(d.getDay()!==dow)d.setDat
 function priceDates(){var now=new Date(),y=now.getFullYear();var tg=nthDow(y,10,4,4);var bf=new Date(tg);bf.setDate(tg.getDate()+1);bf.setHours(8,0,0,0);var cm=new Date(bf);cm.setDate(bf.getDate()+3);
   var out=[];if(bf>now)out.push([bf,"Black Friday"]);if(cm>now)out.push([cm,"Cyber Monday"]);
   if(!out.length){var w=new Date(now);w.setDate(now.getDate()+3);w.setHours(9,0,0,0);out.push([w,"in 3 days"])}return out}
-window.PS_PRICE=function(name){var ds=priceDates();ics(ds.map(function(x){return {at:x[0],t:"Check the price: "+name,d:"Price-check reminder from your gift planner ("+x[1]+"). Search: "+name}}),"price-check");
+window.PS_ICS=ics;window.PS_PRICE=function(name){var ds=priceDates();ics(ds.map(function(x){return {at:x[0],t:"Check the price: "+name,d:"Price-check reminder from your gift planner ("+x[1]+"). Search: "+name}}),"price-check");
   try{toast("Reminder ready: "+ds.map(function(x){return x[1]}).join(" & "))}catch(e){}};
-window.PS_ALERT=function(o){if(!o||!o.due)return;var d=new Date(o.due+"T08:00:00");ics([{at:d,t:"Delivery due: "+(o.item||"your order"),d:(o.from?"From "+o.from+". ":"")+(o.track?"Tracking: "+o.track:"")}],"delivery-alert");try{toast("Delivery alert ready to add")}catch(e){}};
+window.PS_ALERT=function(o){if(!o||!o.due)return;var d=new Date(o.due+"T08:00:00");ics([{at:d,t:"Delivery due: "+(o.item||"your order")+(o.to?" ("+o.to+")":""),d:(o.from?"From "+o.from+". ":"")+(o.to?"Going to: "+o.to+". ":"")+(o.track?"Tracking: "+o.track:"")}],"delivery-alert");try{toast("Delivery alert ready to add")}catch(e){}};
 /* ---------- screenshot reader ---------- */
 var MONTHS={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
 var SHOPS=["Amazon","John Lewis","Argos","Etsy","eBay","Next","Marks & Spencer","M&S","ASOS","Boots","Currys","Very","Smyths","Hamleys","The Entertainer","Lego","Apple","Nike","Adidas","Zara","H&M","JD Sports","Wayfair","IKEA","Dunelm","Notonthehighstreet","Selfridges","Harrods","Liberty","Superdrug","Lush","Waterstones","Sainsbury's","Tesco","Asda","Primark","Target","Walmart","Best Buy","Kohl's","Macy's","Costco","Sephora","Ulta","Temu","Shein","Uniqlo","Matalan","TK Maxx","The Works","Hobbycraft","Lakeland","Oliver Bonas","Ted Baker","Mango","River Island","New Look","Pandora","Gymshark"];
@@ -1102,15 +1146,16 @@ window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out
     var ti=o.track&&window.trackInfo?trackInfo(o.track):null;
     out.innerHTML='<div class="psi"><div class="psk">Here’s what we found. Check it, then add it.</div>'+
       '<div class="row"><div class="f"><label>Item</label><input type="text" id="shItem" value="'+esc(o.item)+'"></div><div class="f"><label>From</label><input type="text" id="shFrom" value="'+esc(o.from)+'"></div></div>'+
+      '<div class="f full" style="margin-top:8px"><label>Delivering to</label><div class="tochips">'+["Home","Work","Someone else","Locker / pickup"].map(function(x,i){return '<button class="pa sm'+(i?"":" on")+'" data-shto="'+x+'">'+x+'</button>'}).join("")+'</div></div>'+
       '<div class="row"><div class="f"><label>Due</label><input type="date" id="shDue" value="'+esc(o.due)+'"></div><div class="f"><label>Tracking</label><input type="text" id="shTrack" autocapitalize="characters" value="'+esc(o.track)+'"></div></div>'+
       (o.carrier?'<p class="meta" style="margin-top:6px">Courier: '+esc(o.carrier)+'</p>':'')+(!o.track?'<p class="meta" style="margin-top:6px">No tracking number spotted. Paste it in if you have one.</p>':'')+
       '<div class="psb"><button class="bbbtn pine" data-shadd="1">Add this order</button><button class="bbbtn" data-shadd="2">Add + delivery-day alert</button></div></div>';
   }).catch(function(){out.innerHTML='<p class="meta">Sorry, couldn’t read that one. Try a clearer screenshot, or type it in below.</p>'})});};
 /* ---------- events ---------- */
 function adv(){setTimeout(function(){go(P.step+1,1)},160)}
-window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-psnext],[data-psback],[data-pspick],[data-psbq],[data-psedit],[data-psshuffle],[data-psnew],[data-psmore],[data-pssave],[data-psfind],[data-psnope],[data-trfind],[data-shclose],[data-shgift],[data-shprice],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn]");if(!t)return;var d=t.dataset;
+window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-psnext],[data-psback],[data-pspick],[data-psbq],[data-psedit],[data-psshuffle],[data-psnew],[data-psmore],[data-pssave],[data-psfind],[data-psnope],[data-trfind],[data-shclose],[data-shgift],[data-shprice],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn],[data-shto]");if(!t)return;var d=t.dataset;
   if(d.ideasfor){var g=S.gifts.find(function(x){return x.id===d.ideasfor});e.stopImmediatePropagation();e.preventDefault();PS_FOR(g?g.who:"");return}
-  if(d.pspick){P.who=d.pspick;var pp=findPerson(d.pspick);if(pp&&pp.rel){PS_FOR(pp.name);return}go(1,1);return}
+  if(d.pspick){P.who=d.pspick;var pp=findPerson(d.pspick);if(pp&&pp.rel){PS_FOR(pp.name);return}P.stage="";P.res=null;go(1,1);return}
   if(d.psnext){if(P.step===0){var w=document.getElementById("psWho");P.who=w?w.value.trim():P.who;if(!P.who){w.classList.add("shake");w.placeholder="Pop a name in first";setTimeout(function(){w.classList.remove("shake")},400);w.focus();return}}go(P.step+1,1);return}
   if(d.psback){go(Math.max(0,P.step-1),-1);return}
   if(d.psrel){P.rel=d.psrel;if(d.psrel==="child"&&(P.age==="a"||P.age==="s"))P.age="t";if(d.psrel==="teen")P.age="y";if(d.psrel==="grand")P.age="s";if(["partner","mum","dad","work","teacher"].indexOf(d.psrel)>=0&&P.age!=="s")P.age="a";
@@ -1134,11 +1179,12 @@ window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel]
   if(d.shgift&&SH){addGift(SH.n,SH.who,SH.budget);closeSheet();return}
   if(d.shprice&&SH){PS_PRICE(SH.n);closeSheet();return}
   if(d.psalert){var o=S.orders.find(function(x){return x.id===d.psalert});PS_ALERT(o);return}
+  if(d.shto){t.parentNode.querySelectorAll("[data-shto]").forEach(function(x){x.classList.toggle("on",x===t)});return}
   if(d.shotbtn){document.getElementById("shotFile").click();return}
-  if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,arrived:false};
+  if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,to:(document.querySelector("[data-shto].on")||{dataset:{shto:""}}).dataset.shto,arrived:false};
     S.orders.push(o2);save(true);renderAll();document.getElementById("shotOut").innerHTML="";toast("Order added");if(d.shadd==="2")PS_ALERT(o2);return}
 },true);
-window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psBud"){P.budget=+t.value;keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget;
+window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psBud"){P.budget=VALS[+t.value];keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget.toLocaleString();
   document.querySelectorAll("[data-psbq]").forEach(function(c){c.classList.toggle("on",+c.dataset.psbq===P.budget)})}},true);
 window.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="psWho"){e.preventDefault();var b=document.querySelector("[data-psnext]");if(b)b.click()}if(e.key==="Escape")closeSheet()},true);
 window.addEventListener("change",function(e){var t=e.target;if(t.id==="shotFile"&&t.files&&t.files[0]){PS_SHOT(t.files[0]);t.value=""}},true);
@@ -1178,7 +1224,7 @@ function ring(spent,total){var r=52,c=2*Math.PI*r,p=total?Math.min(1,spent/total
 function countdown(){var n=new Date(),x=new Date(n.getFullYear(),11,25);if(n>new Date(n.getFullYear(),11,25,23,59))x=new Date(n.getFullYear()+1,11,25);
   return Math.round((x-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5)}
 function thisWeek(){var out=[];
-  S.orders.forEach(function(o){if(o.due&&!o.arrived){var d=daysTo(o.due);if(d<=7)out.push([d,'<b>'+esc(dShort(o.due))+'</b> '+(d<0?"Late: ":"Arriving: ")+esc(o.item||"an order")+(o.from?' <span class="meta">from '+esc(o.from)+'</span>':''),"#orders"])}
+  S.orders.forEach(function(o){if(o.due&&!o.arrived){var d=daysTo(o.due);if(d<=7)out.push([d,'<b>'+esc(dShort(o.due))+'</b> '+(d<0?"Late: ":"Arriving: ")+esc(o.item||"an order")+(o.from||o.to?' <span class="meta">'+esc([o.from?"from "+o.from:"",o.to?"to "+o.to:""].filter(Boolean).join(", "))+'</span>':''),"#orders"])}
     if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)out.push([r,'<b>'+esc(dShort(o.ret))+'</b> Last day to return '+esc(o.item||"an order"),"#orders"])}});
   var PD={second:"Second class",first:"First class",special:"Special delivery",intl:"International",other:"Courier"};
   Object.keys(S.postDates||{}).forEach(function(k){var v=S.postDates[k];if(v){var d=daysTo(v);if(d>=0&&d<=7)out.push([d,'<b>'+esc(dShort(v))+'</b> Last '+esc(PD[k]||k)+' posting day',"#cards"])}});
@@ -1189,19 +1235,25 @@ function thisWeek(){var out=[];
 function welcome(){var ex=ppl().map(function(p){return '<span class="chip on">'+esc(p.name)+'</span>'}).join("");
   return '<div class="card hero"><div class="lab">Welcome</div><div class="hh">Let’s get Christmas <em>sorted.</em></div>'+
    '<ol class="steps"><li><b>Add your people.</b> Everyone you’re buying for.</li><li><b>Find their gifts.</b> Six quick taps, ten great picks.</li><li><b>Track every delivery.</b> Screenshot it, we fill it in.</li></ol>'+
-   '<label for="shQuick" class="lab">Who are you buying for?</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
-   (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div>':'')+
+   '<label for="shQuick" class="lab">Name</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum, Sarah, the boss" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
+   (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div><p class="meta" style="margin-top:8px;font-size:12.5px">Add as many as you like. We’ll ask how you know them when you shop.</p>':'')+
    '<button class="btn" style="width:100%;margin-top:14px" data-shfirst="1">Find my first gift →</button></div>'}
 function review(){if(S.revDone||S.gifts.length<5)return "";
   return '<div class="card soft"><div class="hh" style="font-size:21px">Is this helping?</div><p class="meta" style="margin:4px 0 12px">We’re a tiny family shop. A quick review on Etsy helps other people find us, and it means the world.</p>'+
    '<div class="row"><a class="bbbtn pine" href="https://www.etsy.com/your/purchases" target="_blank" rel="noopener" data-shrev="1">Leave a review</a><button class="bbbtn" data-shrev="0">Not now</button></div></div>'}
+function tools(){var tr='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">';
+  return '<div class="ch" style="margin:18px 0 8px"><span class="hh" style="font-size:21px">Quick tools</span></div><div class="tiles">'+
+  '<a class="tile ic" href="#shopper" data-shfind="1">'+tr+'<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg><b>Find a gift</b><span>Six taps, ten picks</span></a>'+
+  '<a class="tile ic" href="#trending">'+tr+'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><b>Trending</b><span>What’s hot this week</span></a>'+
+  '<a class="tile ic" href="#orders" data-shscan="1">'+tr+'<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 7h6M9 10.5h6M9 14h3.5"/></svg><b>Read a screenshot</b><span>Track a delivery in seconds</span></a>'+
+  '<a class="tile ic" href="#budget">'+tr+'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.6 0-2.7.9-2.7 2.1 0 2.8 5.4 1.4 5.4 4.1 0 1.2-1.1 2.1-2.7 2.1-1.2 0-2.2-.5-2.7-1.4M12 6.5V8M12 16v1.5"/></svg><b>Budget</b><span>Set your limits</span></a></div>'}
 function moreFromUs(){return '<div class="card mfu"><div class="lab">More from us</div><div class="hh" style="font-size:20px;margin:4px 0 10px">Make the rest of December easier</div>'+
   '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>Secret Santa app</b><span>Draw names by WhatsApp. No one sees the list.</span></a>'+
   '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>Advent calendars</b><span>24 days of little activities for kids, families and couples.</span></a>'+
   '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>See the whole shop →</b></a></div>'}
 function renderHome(){var box=document.getElementById("homeBox");if(!box)return;var P=ppl();
   var days=countdown(),cd='<div class="cd"><b>'+days+'</b><span>'+(days===1?"day":"days")+' to<br>Christmas</span></div>';
-  if(!S.gifts.length){box.innerHTML='<div class="homehead">'+cd+'</div>'+welcome()+moreFromUs();BB.after(box);return}
+  if(!S.gifts.length){box.innerHTML='<div class="homehead">'+cd+'</div>'+welcome()+tools();BB.after(box);return}
   var spent=spentOf(S.gifts),tot=budgetTotal(),b=S.gifts.filter(function(g){return g.bought}).length,w=S.gifts.filter(function(g){return g.wrapped}).length;
   var h='<div class="card ringcard">'+ring(spent,tot)+'<div class="rside">'+cd+'<div class="rstat"><b>'+b+'</b> of '+S.gifts.length+' bought<br><b>'+w+'</b> wrapped</div>'+
     (tot?(spent>tot?'<div class="rwarn">'+esc(money(spent-tot))+' over budget</div>':'<div class="rok">'+esc(money(tot-spent))+' left</div>'):'<a class="rlink" href="#budget">Set a budget →</a>')+'</div></div>';
@@ -1210,7 +1262,7 @@ function renderHome(){var box=document.getElementById("homeBox");if(!box)return;
   h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">Your people</span><a class="rlink" href="#people">All →</a></div>'+P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length;
     return '<div class="prow">'+avatar(p.name)+'<div class="pmid"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
     '<button class="bbbtn" style="margin-top:10px" data-go="people">+ Add someone</button></div>';
-  h+=review()+moreFromUs();
+  h+=tools()+review();
   box.innerHTML='<div class="homehead"><div class="lab">Your Christmas</div></div>'+h;animate(box);BB.after(box)}
 /* ---------- People ---------- */
 function renderPeople(){var box=document.getElementById("peopleBox");if(!box)return;var P=ppl(),R=window.PS_REL||{};
@@ -1242,16 +1294,19 @@ window.SH_CHECK=function(it){if(!it||!it.who)return;var n=String(it.who).trim().
 window.SH_RENDER=function(){try{renderHome();renderPeople();renderMore()}catch(e){console.error(e)}};
 window.SH_SHOW=function(k){var t=tabFor(k);document.querySelectorAll("#tabbar a").forEach(function(a){a.classList.toggle("on",a.dataset.t===t)});
   document.body.dataset.tab=k;if(k==="home")renderHome();if(k==="people")renderPeople();window.scrollTo(0,0)};
+document.querySelectorAll("main section").forEach(function(sec){if(sec.id==="home")return;var a=document.createElement("a");a.className="crumb";a.href="#home";a.innerHTML=svg("home").replace('width="24" height="24"','width="16" height="16"')+'<span>Home</span>';sec.insertBefore(a,sec.firstChild)});
 var tb=document.createElement("div");tb.id="tabbar";tb.setAttribute("role","navigation");tb.setAttribute("aria-label","Main");
 tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'">'+svg(t[2])+'<span>'+t[1]+'</span></a>'}).join("");document.body.appendChild(tb);
 /* ---------- events ---------- */
 function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
   if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
   var e2=document.getElementById(id);if(e2)e2.focus()}
-document.addEventListener("click",function(e){var t=e.target.closest("[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shfind){e.preventDefault();PS_START();return}
+  if(d.shscan){setTimeout(function(){var f=document.getElementById("shotFile");if(f)f.click()},60);return}
   if(d.shquick){addPerson("shQuick");return}
   if(d.shpadd){addPerson("shPName");return}
-  if(d.shfirst){var p=ppl()[0];PS_FOR(p?p.name:"");return}
+  if(d.shfirst){PS_START();return}
   if(d.shideas){PS_FOR(d.shideas);return}
   if(d.go){location.hash="#"+d.go;return}
   if(d.shrev){S.revDone=true;save(true);if(d.shrev==="0")renderHome();else setTimeout(renderHome,500);return}
@@ -1264,6 +1319,65 @@ document.addEventListener("click",function(e){var t=e.target.closest("[data-shqu
     S.gifts.push({id:uid(),who:p4.name,idea:nm,cat:cat2,budget:p4.budget?String(p4.budget):"",spent:"",bought:false,wrapped:false});p4.saved.splice(+parts[1],1);save(true);renderAll();toast("Added to "+p4.name+"’s list");return}
 });
 document.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.target.id==="shQuick"||e.target.id==="shPName")){e.preventDefault();addPerson(e.target.id)}});
+})();
+</script>
+<script>/* ===== Deliveries: tracker + calendar (BrightBlueprintCo) ===== */
+(function(){
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var V={view:"up",m:null,sel:null};
+var TO=["Home","Work","Someone else","Locker / pickup"];
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dd(iso_){var d=new Date(iso_+"T12:00:00");return {day:d.getDate(),mon:d.toLocaleDateString(undefined,{month:"short"}),wk:d.toLocaleDateString(undefined,{weekday:"short"})}}
+function status(o){if(o.arrived)return ["Arrived","ok"];if(!o.due)return ["No date yet",""];var d=daysTo(o.due);
+  if(d<0)return ["Late by "+(-d)+" day"+(d===-1?"":"s"),"bad"];if(d===0)return ["Arriving today","now"];if(d===1)return ["Tomorrow","soon"];return ["In "+d+" days",""]}
+function toChips(o){return '<div class="tochips">'+TO.map(function(x){return '<button class="pa sm'+(o.to===x?" on":"")+'" data-dvto="'+o.id+'|'+x+'">'+esc(x)+'</button>'}).join("")+'</div>'}
+function card(o){var st=status(o),ti=o.track?trackInfo(o.track):null,dt=o.due?dd(o.due):null;
+  var ret="";if(o.ret&&!o.arrived){}if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)ret='<span class="dvp bad">Return in '+r+' day'+(r===1?"":"s")+'</span>';}
+  return '<div class="dvc'+(o.arrived?" done":"")+'"><div class="dvdate">'+(dt?'<b>'+dt.day+'</b><span>'+esc(dt.mon)+'</span>':'<b>?</b><span>date</span>')+'</div>'+
+   '<div class="dvm"><div class="dvt">'+esc(o.item||"Untitled order")+'</div><div class="meta">'+esc([o.from,o.to?"to "+o.to:""].filter(Boolean).join(" · ")||"Tap Edit to add details")+'</div>'+
+   '<div class="dvps"><span class="dvp '+st[1]+'">'+esc(st[0])+'</span>'+ret+'</div>'+
+   '<div class="pact">'+(ti&&!o.arrived?'<a class="pa main sm" href="'+esc(ti.url)+'" target="_blank" rel="noopener">'+esc(ti.label)+' →</a>':'')+
+   (o.due&&!o.arrived?'<button class="pa sm" data-psalert="'+o.id+'">Alert me</button>':'')+
+   '<button class="pa sm'+(o.arrived?" on":"")+'" data-dvarr="'+o.id+'">'+(o.arrived?"Arrived ✓":"Mark arrived")+'</button><button class="pa ghost sm" data-dvedit="'+o.id+'">Edit</button></div>'+
+   '<div class="dved" id="dved-'+o.id+'" hidden><div class="row">'+SCHEMA.orders.fields.map(function(f){return fieldHTML("orders",o,f)}).join("")+'</div>'+
+   '<label class="lab" style="display:block;margin-top:10px">Delivering to</label>'+toChips(o)+
+   '<div class="pact"><button class="pa sm" data-dvdone="'+o.id+'">Done</button><button class="x" data-del="orders" data-i="'+o.id+'">Remove</button></div></div></div></div>'}
+function cal(){var now=new Date();if(!V.m)V.m=new Date(now.getFullYear(),now.getMonth(),1);var y=V.m.getFullYear(),m=V.m.getMonth();
+  var first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate(),by={};
+  S.orders.forEach(function(o){if(o.due){(by[o.due]=by[o.due]||[]).push(["d",o])}if(o.ret){(by[o.ret]=by[o.ret]||[]).push(["r",o])}});
+  var h='<div class="cal"><div class="calh"><button class="pa ghost sm" data-dvmon="-1">‹</button><b>'+V.m.toLocaleDateString(undefined,{month:"long",year:"numeric"})+'</b><button class="pa ghost sm" data-dvmon="1">›</button></div><div class="calg">'+
+   ["M","T","W","T","F","S","S"].map(function(x){return '<i>'+x+'</i>'}).join("");
+  for(var i=0;i<first;i++)h+='<span></span>';
+  for(var d=1;d<=days;d++){var k=iso(new Date(y,m,d)),ev=by[k]||[],today=k===iso(now);
+    h+='<button class="cd2'+(today?" today":"")+(V.sel===k?" sel":"")+(ev.length?" has":"")+'" data-dvday="'+k+'">'+d+(ev.length?'<em>'+ev.map(function(e){return '<u class="'+(e[0]==="r"?"r":e[1].arrived?"a":"")+'"></u>'}).slice(0,3).join("")+'</em>':'')+'</button>'}
+  h+='</div><div class="calk"><span><u></u> Delivery</span><span><u class="a"></u> Arrived</span><span><u class="r"></u> Last day to return</span></div></div>';
+  var sel=V.sel&&by[V.sel];
+  h+=V.sel?'<p class="lab" style="margin:14px 0 8px">'+new Date(V.sel+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"})+'</p>'+
+    (sel?sel.map(function(e){return e[0]==="r"?'<div class="dvc"><div class="dvdate r"><b>!</b><span>return</span></div><div class="dvm"><div class="dvt">Last day to return '+esc(e[1].item||"an order")+'</div><div class="meta">'+esc(e[1].from||"")+'</div></div></div>':card(e[1])}).join(""):'<p class="meta">Nothing due this day.</p>'):'<p class="meta" style="margin-top:10px">Tap a day to see what’s due.</p>';
+  return h}
+window.DV_RENDER=function(){var box=document.getElementById("orderList");if(!box)return;
+  var up=S.orders.filter(function(o){return !o.arrived}).sort(function(a,b){return String(a.due||"9").localeCompare(String(b.due||"9"))}),
+      ar=S.orders.filter(function(o){return o.arrived}),today=up.filter(function(o){return o.due&&daysTo(o.due)===0}).length,late=up.filter(function(o){return o.due&&daysTo(o.due)<0}).length;
+  var h='<div class="dvsum"><div><b>'+up.length+'</b><span>on the way</span></div><div><b>'+today+'</b><span>today</span></div><div'+(late?' class="bad"':'')+'><b>'+late+'</b><span>late</span></div><div><b>'+ar.length+'</b><span>arrived</span></div></div>'+
+    '<div class="seg3">'+[["up","On the way"],["cal","Calendar"],["arr","Arrived"]].map(function(x){return '<button class="'+(V.view===x[0]?"on":"")+'" data-dvview="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div>';
+  if(V.view==="up")h+=up.length?up.map(card).join(""):'<div class="empty">Nothing on the way. Add your first delivery above.</div>';
+  if(V.view==="arr")h+=ar.length?ar.map(card).join(""):'<div class="empty">Nothing’s arrived yet.</div>';
+  if(V.view==="cal")h+=cal();
+  if(up.some(function(o){return o.due}))h+='<button class="btn alt" style="width:100%;margin-top:14px" data-dvall="1">Add all deliveries to my calendar</button><p class="meta" style="text-align:center;margin-top:6px;font-size:12px">Each one pops up at 8am on the day. Return deadlines get a reminder the day before.</p>';
+  box.innerHTML=h;BB.after(box)};
+document.addEventListener("click",function(e){var t=e.target.closest("[data-dvview],[data-dvmon],[data-dvday],[data-dvedit],[data-dvdone],[data-dvarr],[data-dvto],[data-dvall],[data-dvmanual]");if(!t)return;var d=t.dataset;
+  if(d.dvview){V.view=d.dvview;DV_RENDER();return}
+  if(d.dvmon){V.m=new Date(V.m.getFullYear(),V.m.getMonth()+(+d.dvmon),1);DV_RENDER();return}
+  if(d.dvday){V.sel=V.sel===d.dvday?null:d.dvday;DV_RENDER();return}
+  if(d.dvedit){var el=document.getElementById("dved-"+d.dvedit);el.hidden=!el.hidden;return}
+  if(d.dvdone){save(true);DV_RENDER();if(window.SH_RENDER)SH_RENDER();return}
+  if(d.dvarr){var o=S.orders.find(function(x){return x.id===d.dvarr});o.arrived=!o.arrived;save(true);DV_RENDER();if(window.SH_RENDER)SH_RENDER();if(o.arrived)toast("Nice. "+(o.item||"That one")+" has landed");return}
+  if(d.dvto){var p=d.dvto.split("|"),o2=S.orders.find(function(x){return x.id===p[0]});o2.to=o2.to===p[1]?"":p[1];save(true);t.parentNode.querySelectorAll("[data-dvto]").forEach(function(x){x.classList.toggle("on",x.dataset.dvto.split("|")[1]===o2.to)});return}
+  if(d.dvmanual){var a=document.getElementById("addOrder");a.hidden=!a.hidden;t.textContent=a.hidden?"Type it in instead":"Hide the form";if(!a.hidden){var f=a.querySelector("input");if(f)f.focus()}return}
+  if(d.dvall){var ev=[];S.orders.forEach(function(o){if(o.due&&!o.arrived)ev.push({at:new Date(o.due+"T08:00:00"),t:"Delivery due: "+(o.item||"your order")+(o.to?" ("+o.to+")":""),d:(o.from?"From "+o.from+". ":"")+(o.track?"Tracking: "+o.track:"")});
+    if(o.ret){var r=new Date(o.ret+"T09:00:00");r.setDate(r.getDate()-1);if(r>new Date())ev.push({at:r,t:"Last day to return tomorrow: "+(o.item||"an order"),d:o.from?"From "+o.from:""})}});
+    PS_ICS(ev,"deliveries");toast(ev.length+" reminder"+(ev.length===1?"":"s")+" ready to add");return}
+});
 })();
 </script>
 <script>renderAll();show();if(location.hash==="#trending")PS_TREND();</script>
