@@ -333,6 +333,9 @@ header.top h1 .holly{width:54px;height:34px;vertical-align:top;margin:-8px -6px 
 .wps{margin-top:14px;background:#F7EEDC}.wps textarea{width:100%;min-height:70px}
 .surp{margin-top:12px;padding:10px 12px;border-radius:10px;background:#F6DCDA;color:var(--cran)}.surp b{display:block;font-size:16px}.surp span{display:block;font-size:13.5px;color:var(--ink);margin-top:2px}
 .wpaste{display:block;width:100%;margin-top:6px;background:none;border:0;font-family:var(--type);font-size:11.5px;color:var(--ink2);text-decoration:underline;cursor:pointer;padding:6px;text-align:center}
+.st3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 18px}
+.st3 div{background:#F3E8D2;border-radius:10px;padding:10px 6px;text-align:center;font-size:13.5px;line-height:1.25;font-weight:600}
+.st3 b{display:block;width:24px;height:24px;line-height:24px;margin:0 auto 5px;border-radius:50%;background:var(--cran);color:var(--card);font-size:13px}
 </style>
 </head>
 <body>
@@ -1281,8 +1284,8 @@ function thisWeek(){var out=[];
   if(left)out.push([99,'<b>'+left+'</b> gift'+(left>1?"s":"")+' still to buy',"#people"]);
   return out}
 function welcome(){var ex=ppl().map(function(p){return '<button class="chip on" data-shperson="'+esc(p.id)+'">'+esc(p.name)+' →</button>'}).join("");
-  return '<div class="card hero"><div class="lab">Welcome</div><div class="hh">Let’s get Christmas <em>sorted.</em></div>'+
-   '<ol class="steps"><li><b>Add your people.</b> Everyone you’re buying for.</li><li><b>Find their gifts.</b> Six quick taps, ten great picks.</li><li><b>Track every delivery.</b> Screenshot it, we fill it in.</li></ol>'+
+  return '<div class="card hero"><div class="lab">'+(ppl().length?"Your people":"Welcome")+'</div><div class="hh">'+(ppl().length?"Who else are you <em>buying for?</em>":"Let’s get Christmas <em>sorted.</em>")+'</div>'+
+   (ppl().length?'':'<div class="st3"><div><b>1</b>Add your people</div><div><b>2</b>Find their gifts</div><div><b>3</b>Track deliveries</div></div>')+
    '<label for="shQuick" class="lab">Name</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum, Sarah, the boss" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
    (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div><p class="meta" style="margin-top:8px;font-size:12.5px">Tap a name to see their page. Add as many as you like.</p>':'')+
    '<button class="btn" style="width:100%;margin-top:14px" data-shfirst="1">Find my first gift →</button></div>'}
