@@ -163,6 +163,106 @@ section.bbhas>h2{padding-right:40px}
 .psw{font-family:var(--hand);color:var(--pine);font-size:20px;line-height:1.1;margin-top:2px}
 .psb{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.psb .bbamz{margin:0}
 #psBox .seg2{margin-top:6px}
+/* ---- premium shell ---- */
+#nav,nav:has(#nav),header.top .sum,header.top .bar,header.top .count{display:none!important}
+body:not([data-tab="home"]) header.top{display:none}
+header.top{padding-top:calc(18px + env(safe-area-inset-top))}
+main.wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.saved{bottom:calc(84px + env(safe-area-inset-bottom));opacity:0;visibility:hidden;transform:translateX(-50%) translateY(14px);transition:transform .25s,opacity .25s,visibility 0s .25s;border-radius:999px;padding:10px 18px;box-shadow:0 8px 24px -8px rgba(51,38,29,.5)}
+.saved.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);transition:transform .25s,opacity .25s}
+#tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;background:rgba(252,247,236,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(51,38,29,.14);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+#tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#8A7563;font-family:var(--type);font-size:10.5px;letter-spacing:.04em;padding:4px 0;-webkit-tap-highlight-color:transparent;transition:color .2s}
+#tabbar a svg{transition:transform .25s}
+#tabbar a.on{color:var(--cran)}#tabbar a.on svg{transform:translateY(-1px) scale(1.08)}
+#tabbar a:active svg{transform:scale(.9)}
+@media print{#tabbar{display:none}}
+/* quiz */
+#psBox{padding:18px 16px 20px;overflow:hidden}
+.qhead{display:flex;justify-content:space-between;align-items:center;min-height:22px}
+.qback{background:none;border:0;font-family:var(--type);font-size:13px;color:var(--ink2);padding:4px 0;cursor:pointer}
+.qbar{height:5px;background:#EADBC0;border-radius:9px;margin:8px 0 18px;overflow:hidden}
+.qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--pine),#5C7D63);border-radius:9px;transition:width .45s cubic-bezier(.3,.7,.3,1)}
+.qq{font-weight:600;font-size:27px;line-height:1.1;margin-bottom:14px;font-variation-settings:"SOFT" 100,"opsz" 72}
+.qin{width:100%;font-size:20px!important;padding:14px!important}
+.qt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qtile{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 10px;font-family:var(--serif);font-size:16px;color:var(--ink);cursor:pointer;text-align:center;transition:transform .12s,background .15s,border-color .15s,color .15s;-webkit-tap-highlight-color:transparent;min-height:52px}
+.qtile:active{transform:scale(.96)}
+.qtile.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.qnext{width:100%;margin-top:18px!important;font-size:14px!important;min-height:50px}
+.qbig{text-align:center;margin:6px 0 10px}.qbig span{font-weight:600;font-size:56px;color:var(--cran);line-height:1;font-variation-settings:"SOFT" 100,"opsz" 144}.qbig small{display:block;font-family:var(--type);font-size:12px;color:var(--ink2);margin-top:4px}
+.qrange{width:100%;accent-color:#9A2B2E;height:30px}
+.qstep{animation:qfade .3s ease both}.qstep.qin-r{animation:qinr .34s cubic-bezier(.2,.8,.3,1) both}.qstep.qin-l{animation:qinl .34s cubic-bezier(.2,.8,.3,1) both}
+@keyframes qinr{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes qinl{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+@keyframes qfade{from{opacity:0}to{opacity:1}}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+.qload{text-align:center;padding:26px 0 18px}
+.qspin{width:46px;height:46px;margin:0 auto;border-radius:50%;border:4px solid #EADBC0;border-top-color:var(--cran);animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.qsum{display:flex;gap:12px;align-items:center}
+.qav,.av{width:44px;height:44px;border-radius:50%;background:var(--pine);color:var(--card);display:grid;place-items:center;font-weight:600;font-size:20px;flex:none}
+.av.big{width:52px;height:52px;font-size:24px;background:var(--cran)}
+/* idea cards */
+.pin{animation:pin .45s cubic-bezier(.2,.8,.3,1) both}@keyframes pin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.psi.gone{transition:opacity .25s,transform .25s;opacity:0;transform:translateX(40px)}
+.pact{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.pa{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font-family:var(--type);font-size:12.5px;padding:9px 12px;border-radius:999px;cursor:pointer;min-height:40px;text-decoration:none;-webkit-tap-highlight-color:transparent;transition:transform .12s}
+.pa:active{transform:scale(.95)}
+.pa.main{background:var(--pine);border-color:var(--pine);color:var(--card);flex:1}
+.pa.ghost{border-color:transparent;background:transparent;color:var(--ink2)}
+.pa.on{border-color:#E7B9B6;background:#FBEDEC;color:var(--cran)}
+.pa.sm{min-height:34px;padding:6px 12px;font-size:12px;flex:none}
+.pa.pop svg{animation:pop .4s}@keyframes pop{40%{transform:scale(1.45)}}
+/* sheet */
+#psSheet{position:fixed;inset:0;z-index:80;pointer-events:none}
+#psSheet .shbg{position:absolute;inset:0;background:rgba(33,24,18,.45);opacity:0;transition:opacity .25s}
+#psSheet .shp{position:absolute;left:0;right:0;bottom:0;max-width:600px;margin:0 auto;background:var(--card);border-radius:20px 20px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .34s cubic-bezier(.2,.8,.3,1);max-height:88vh;overflow:auto;box-shadow:0 -10px 30px rgba(0,0,0,.2)}
+#psSheet.on{pointer-events:auto}#psSheet.on .shbg{opacity:1}#psSheet.on .shp{transform:none}
+.shgrab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
+.shp .bbamz{display:flex!important;width:100%;justify-content:center;margin:0 0 8px!important}
+.shs{display:grid;grid-template-columns:1fr 1fr;gap:6px}.shs .bbbtn{width:100%;justify-content:center;margin:0}
+.shrow{display:flex;flex-direction:column;gap:8px;margin-top:16px}.shrow .btn{width:100%;margin:0}
+.shx{display:block;width:100%;margin-top:12px;background:none;border:0;font-family:var(--type);font-size:13px;color:var(--ink2);padding:10px;cursor:pointer}
+/* home */
+.homehead{display:flex;justify-content:space-between;align-items:flex-end;margin:4px 0 10px}
+.hh{font-weight:600;font-size:26px;line-height:1.1;font-variation-settings:"SOFT" 100,"opsz" 72}.hh em{color:var(--cran)}
+.hero{padding:22px 18px}.hero .hh{font-size:30px;margin:4px 0 14px}
+.steps{margin:0 0 18px 20px;padding:0;display:grid;gap:8px}.steps li{padding-left:4px}
+.qadd{display:flex;gap:8px;margin-top:6px}.qadd input{flex:1;min-width:0}.qadd .bbbtn{margin:0;flex:none}
+.ringcard{display:flex;align-items:center;gap:16px}
+.ring .ringfill{transition:stroke-dashoffset 1.1s cubic-bezier(.3,.7,.3,1)}
+.rt1{font-family:var(--serif);font-weight:600;font-size:22px;fill:var(--ink)}.rt2{font-family:var(--type);font-size:11px;fill:#6B5544}
+.rside{flex:1;min-width:0}.rstat{font-size:14px;margin:8px 0 6px;line-height:1.5}
+.cd{display:flex;align-items:center;gap:8px}.cd b{font-weight:600;font-size:38px;color:var(--cran);line-height:1}.cd span{font-family:var(--type);font-size:11px;line-height:1.25;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em}
+.homehead .cd b{font-size:46px}
+.rok{font-family:var(--type);font-size:12px;color:var(--pine)}.rwarn{font-family:var(--type);font-size:12px;color:var(--cran);font-weight:700}
+.rlink{font-family:var(--type);font-size:12px;color:var(--cran);text-decoration:none}
+.ch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.tw{list-style:none;margin:0;padding:0}.tw li{border-top:1px dashed var(--line)}.tw li:first-child{border-top:0}
+.tw a{display:block;padding:9px 0;color:var(--ink);text-decoration:none;font-size:15px}.tw b{font-family:var(--type);font-size:11.5px;color:var(--cran);text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
+.prow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed var(--line)}.prow:first-of-type{border-top:0}
+.pmid{flex:1;min-width:0}.pn{display:flex;justify-content:space-between;gap:6px;font-weight:600;font-size:17px;margin-bottom:5px}.pn .meta{font-weight:400;font-size:12.5px}
+.pbar{height:7px;background:#EADBC0;border-radius:9px;overflow:hidden}.pbar i{display:block;height:100%;width:0;background:var(--pine);border-radius:9px;transition:width .9s cubic-bezier(.3,.7,.3,1)}
+.soft{background:#F7EEDC;border:1.5px dashed var(--gold)}
+.mfu .mfi{display:block;text-decoration:none;color:var(--ink);padding:10px 0;border-top:1px dashed var(--line)}.mfu .mfi b{display:block;font-size:16px}.mfu .mfi span{font-size:13px;color:var(--ink2)}
+/* people */
+.pcard .ph{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.pstat{display:flex;justify-content:space-between;font-family:var(--type);font-size:12px;color:var(--ink2);margin-bottom:6px}
+.gl,.svl{list-style:none;margin:10px 0 0;padding:0}.gl li,.svl li{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:15px;border-top:1px dashed var(--line)}
+.svl li span{flex:1}
+.gs{font-family:var(--type);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:999px;background:#EADBC0;color:var(--ink2);flex:none}
+.gs.bought{background:#DCE7DD;color:var(--pine)}.gs.wrapped{background:var(--pine);color:var(--card)}
+/* more */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:var(--card);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink);box-shadow:0 8px 14px -12px rgba(51,38,29,.55);min-height:86px;transition:transform .12s}
+.tile:active{transform:scale(.97)}.tile b{display:block;font-size:17px;margin-bottom:3px}.tile span{font-size:12.5px;color:var(--ink2);line-height:1.3;display:block}
+/* screenshot scan */
+.scan{position:relative;max-width:220px;margin:4px auto 10px;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
+.scan img{display:block;width:100%;max-height:300px;object-fit:cover;object-position:top;filter:saturate(.8)}
+.scan i{position:absolute;left:0;right:0;height:60px;top:-60px;background:linear-gradient(180deg,transparent,rgba(61,90,69,.35) 70%,#3D5A45 100%);border-bottom:2px solid #9FD3A8;animation:sweep 1.6s ease-in-out infinite}
+@keyframes sweep{0%{top:-60px}100%{top:100%}}
+.confetti{position:fixed;inset:0;width:100vw;height:100vh;z-index:90;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.qstep,.pin,.scan i{animation:none!important}.pbar i,.ring .ringfill{transition:none}}
+.qbq{min-width:62px;font-size:14px!important}.qbq.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
 </style>
 </head>
 <body>
@@ -182,8 +282,24 @@ section.bbhas>h2{padding-right:40px}
 
 <main class="wrap">
 
+<section id="home">
+<div id="homeBox"></div>
+</section>
+
+<section id="people">
+<h2>Your people</h2>
+<p class="sub">Everyone you’re buying for, and how each one’s going.</p>
+<div id="peopleBox"></div>
+</section>
+
+<section id="more">
+<h2>More</h2>
+<p class="sub">Everything else in your planner.</p>
+<div id="moreBox"></div>
+</section>
+
 <section id="shopper">
-<h2>Your personal shopper</h2>
+<h2>Personal shopper</h2>
 <p class="sub">Tell it about them. It finds the gift, then finds it in the shops.</p>
 <div class="card" id="psBox"></div>
 <div id="psRes"></div>
@@ -206,7 +322,7 @@ section.bbhas>h2{padding-right:40px}
 <h3>By category</h3>
 <div class="card" style="padding:8px 10px"><table><thead><tr><th>Category</th><th class="n" style="width:28%">Budget</th><th class="n">Spent</th><th class="n">Left</th></tr></thead><tbody id="catRows"></tbody></table></div>
 <h3>By person</h3>
-<div id="people"></div>
+<div id="perPerson"></div>
 </section>
 
 <section id="gifts">
@@ -500,7 +616,7 @@ var EXPERIENCE=/\bvouchers?\b|\bclass(es)?\b|\blessons?\b|\btickets?\b|\bexperie
 </script>
 <script>
 const KEY = "bbc-personal-shopper-v1";
-const TABS = [["shopper","Personal Shopper"],["trending","Trending"],["budget","Budget"],["gifts","Gift list"],["ideas","Mentioned"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save my page"]];
+const TABS = [["home","Home"],["people","People"],["more","More"],["shopper","Personal Shopper"],["trending","Trending"],["budget","Budget"],["gifts","Gift list"],["ideas","Mentioned"],["kids","Kids"],["orders","Orders"],["cards","Cards & posting"],["eve","Christmas Eve"],["thanks","Thank-yous"],["next","Next year"],["backup","Save my page"]];
 const CATS = ["Partner","Children","Parents","Brothers & sisters","Wider family","Friends","Work & Secret Santa","Teachers & thank-yous","Stocking fillers","Wrapping, cards & postage","Just in case"];
 const EVE = ["All presents wrapped and labelled","Labels checked: right name, right present","Batteries bought (AA, AAA, the odd ones)","Screwdriver for battery compartments","Spare tape, scissors and tags in one place","Hiding places emptied","Stockings filled","Presents for visitors set aside","Last-minute gift for the person you forgot","Phones and devices charged","Receipts and gift receipts filed","Thank-you list started"];
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -620,7 +736,7 @@ function renderPeople(){
   const m = {};
   S.gifts.forEach(g=>{ const k=String(g.who||"").trim()||"Not set"; (m[k]=m[k]||{n:0,b:0,s:0,bought:0,wrapped:0}); const p=m[k]; p.n++; p.b+=num(g.budget); p.s+=num(g.spent); p.bought+=g.bought?1:0; p.wrapped+=g.wrapped?1:0; });
   const keys = Object.keys(m).sort();
-  $("#people").innerHTML = keys.length ? keys.map(k=>{ const p=m[k]; const over=p.b&&p.s>p.b;
+  $("#perPerson").innerHTML = keys.length ? keys.map(k=>{ const p=m[k]; const over=p.b&&p.s>p.b;
     return `<div class="card"><div class="person"><b>${esc(k)}</b><span class="meta">${p.n} present${p.n>1?"s":""} · ${p.bought}/${p.n} bought · ${p.wrapped}/${p.n} wrapped</span></div>
     <div class="person" style="margin-top:6px"><span class="meta">Spent ${money(p.s)}${p.b?` of ${money(p.b)}`:""}</span>${over?`<span class="pill r">Over by ${money(p.s-p.b)}</span>`:p.n===p.wrapped?'<span class="pill">All done</span>':""}</div>
     <div class="mini ${over?"over":""}"><i style="width:${p.b?Math.min(100,p.s/p.b*100):0}%"></i></div></div>`; }).join("")
@@ -670,7 +786,7 @@ function renderHelper(){const box=$("#ideaHelper");if(!box)return;if(window.PS_R
   <div class="seg2">${[["kid","A kid"],["teen","A teen"],["adult","A grown-up"]].map(([k,l])=>`<button class="chip ${ID.age===k?"on":""}" data-ihage="${k}">${l}</button>`).join("")}</div>
   <label>What are they into? (tap all that fit)</label><div class="seg2">${INTS.map(([k,l])=>`<button class="chip ${ID.ints.includes(k)?"on":""}" data-ihint="${k}">${esc(l)}</button>`).join("")}</div>
 ${BB.AMZ_NOTE}`}
-const HELP=[[/^Your personal shopper$/,"Answer five quick questions: who it’s for, how you know them, their age, your budget and what they’re into. You get ten picks from over 5,000 ideas. Each one has Find it buttons for Amazon and other shops, Add to gift list, and a Price-check reminder that pops up on Black Friday and Cyber Monday."],[/^Trending this Christmas$/,"The gifts people are actually searching for and buying this season, from Etsy’s trend data and bestseller lists. It’s refreshed every morning through December."],[/^Budget at a glance$/,"Set one total, or split it across categories. Everything you log as spent on the gift list counts against it."],
+const HELP=[[/^Personal shopper$/,"Six quick taps: who it’s for, how you know them, their age, your budget, what they’re into and what they’re like. You get matched picks from over 5,000 ideas. Save the ones you like, tap Not for them to swap one out, and Find it to see where to buy it, add it to their list or set a price-check reminder for Black Friday."],[/^Your people$/,"Everyone you’re buying for. See how many gifts each person has, what you’ve spent, and their shortlist of saved ideas. Tap Find ideas to shop for them."],[/^Trending this Christmas$/,"The gifts people are actually searching for and buying this season, from Etsy’s trend data and bestseller lists. It’s refreshed every morning through December."],[/^Budget at a glance$/,"Set one total, or split it across categories. Everything you log as spent on the gift list counts against it."],
  [/^The gift list$/,"One line per present: who it’s for, what, and the spend. Tick Bought and Wrapped as you go. Tap Find it on Amazon to shop for it, or Need ideas to get suggestions."],
  [/^Gift ideas$/,"Tell us who it’s for, the budget, their age and what they’re into, and we’ll suggest ideas from over 1,000. Find it on Amazon searches for it; Add to gift list saves it."],
  [/^Kids/,"Each child’s wish list, the big present and stocking fillers in one place."],
@@ -690,7 +806,7 @@ function renderCount(){
 
 function renderAll(){
   renderCats(); renderFilter(); ["gifts","kids","orders","cards","ideas","thanks"].forEach(renderList);
-  renderPost(); renderEve(); renderNext(); renderSummary(); renderCount(); renderHelper();
+  renderPost(); renderEve(); renderNext(); renderSummary(); renderCount(); renderHelper(); if(window.SH_RENDER) SH_RENDER();
   $("#total").value=S.total; $("#cur").value=S.cur;
   const sb=$("#saveBox"); if(sb) sb.innerHTML=BB.saveCard();
   BB.after(document);
@@ -698,10 +814,10 @@ function renderAll(){
 
 /* ---------- tabs ---------- */
 $("#nav").innerHTML = TABS.map(([k,l])=>`<a href="#${k}" data-tab="${k}">${l}</a>`).join("");
-function show(){ const h=(location.hash||"#shopper").slice(1); const k=TABS.some(t=>t[0]===h)?h:"shopper";
+function show(){ const h=(location.hash||"#home").slice(1); const k=TABS.some(t=>t[0]===h)?h:"home";
   document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===k));
   document.querySelectorAll("nav a").forEach(a=>{ a.classList.toggle("on",a.dataset.tab===k); if(a.dataset.tab===k) a.scrollIntoView({block:"nearest",inline:"center"}); });
-  if(k==="next") renderNext(); if(k==="trending"&&window.PS_TREND) PS_TREND(); if(k==="shopper"&&window.PS_RENDER) PS_RENDER(); }
+  if(k==="next") renderNext(); if(k==="trending"&&window.PS_TREND) PS_TREND(); if(k==="shopper"&&window.PS_RENDER) PS_RENDER(); if(window.SH_SHOW) SH_SHOW(k); }
 window.addEventListener("hashchange", show);
 
 /* ---------- events ---------- */
@@ -723,7 +839,7 @@ document.addEventListener("change", e=>{
 });
 function toggle(el){
   const d=el.dataset;
-  if(d.t){ const it=S[d.c].find(x=>x.id===d.i); it[d.t]=!it[d.t]; save(); renderList(d.c); if(d.c==="gifts"){ renderFilter(); renderSummary(); } }
+  if(d.t){ const it=S[d.c].find(x=>x.id===d.i); it[d.t]=!it[d.t]; save(); renderList(d.c); if(d.c==="gifts"){ renderFilter(); renderSummary(); if(window.SH_CHECK) SH_CHECK(it); } if(window.SH_RENDER) SH_RENDER(); }
   else if(d.eve){ const e=S.eve.find(x=>x.id===d.eve); e.done=!e.done; save(); renderEve(); }
 }
 document.addEventListener("keydown", e=>{
@@ -819,9 +935,9 @@ var TRAITS=[["p","Practical"],["f","Fun"],["l","Loves a treat"],["s","Sentimenta
 var BANDS=[0,10,25,50,100,1e9];
 function bandOf(b){b=+b||0;for(var i=1;i<6;i++)if(b<=BANDS[i])return i;return 5}
 function bandLabel(n){var c=(typeof S!=='undefined'&&S.cur)||"£";return ["","Under "+c+"10",c+"10 to "+c+"25",c+"25 to "+c+"50",c+"50 to "+c+"100",c+"100+"][n]}
-var P={who:"",rel:"",age:"a",budget:25,ints:[],traits:[],page:0,res:null,seed:Math.random()};
+var P={who:"",rel:"",age:"a",budget:25,ints:[],traits:[],page:0,res:null,seed:Math.random(),step:0,stage:""};
 try{var sv=JSON.parse(localStorage.getItem("bbps-quiz")||"null");if(sv)Object.assign(P,sv,{page:0,res:null})}catch(e){}
-function keep(){try{localStorage.setItem("bbps-quiz",JSON.stringify({who:P.who,rel:P.rel,age:P.age,budget:P.budget,ints:P.ints,traits:P.traits}))}catch(e){}}
+function keep(){try{localStorage.setItem("bbps-quiz",JSON.stringify({who:P.who,rel:P.rel,age:P.age,budget:P.budget,ints:P.ints,traits:P.traits,step:P.step,stage:P.stage,seed:P.seed}))}catch(e){}}
 function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0)/4294967296}
 function score(){
   var cats={},rcats={};P.ints.forEach(function(k){GROUPS.forEach(function(g){if(g[0]===k)g[2].forEach(function(c){cats[c]=1})})});
@@ -847,44 +963,97 @@ function shops(q,isExp){var c=country(),E=encodeURIComponent(q);
   if(c==="AU")return [etsy,["eBay","https://www.ebay.com.au/sch/i.html?_nkw="+E]];
   if(c==="IE")return [etsy,["Argos","https://www.argos.ie/search/"+E+"/"],["eBay","https://www.ebay.ie/sch/i.html?_nkw="+E]];
   return [etsy,["John Lewis","https://www.johnlewis.com/search?search-term="+E],["Argos","https://www.argos.co.uk/search/"+E+"/"],["eBay","https://www.ebay.co.uk/sch/i.html?_nkw="+E]];}
-function ideaCard(i,why){var it=ITEMS[i],isExp=it[4].indexOf("e")>=0&&/voucher|class|experience|lesson|tickets|tour|day|session|course|trip|membership|night|visit|walk|workshop|taster/i.test(it[0]);
-  var amz=isExp?"":'<a class="bbamz sm" href="'+esc(BB.amzUrl(it[0]))+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>';
-  return '<div class="psi"><div class="psk">'+esc(CATS[it[1]]||"")+' · '+esc(bandLabel(it[2]))+'</div><div class="pst">'+esc(it[0])+'</div>'+(why?'<div class="psw">'+esc(why)+'</div>':'')+
-   '<div class="psb">'+amz+shops(it[0],isExp).map(function(s){return '<a class="bbbtn sm" href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'}).join("")+'</div>'+
-   '<div class="psb"><button class="btn sm" data-psadd="'+i+'">Add to gift list</button><button class="btn alt sm" data-psprice="'+i+'">Price-check reminder</button></div></div>';}
+/* ---------- people helpers ---------- */
+function people(){if(typeof S==='undefined')return [];if(!S.people)S.people=[];return S.people}
+function findPerson(n){n=String(n||"").trim().toLowerCase();return people().find(function(p){return p.name.toLowerCase()===n})}
+function upsertPerson(){var n=String(P.who||"").trim();if(!n)return null;var p=findPerson(n);
+  if(!p){p={id:uid(),name:n,saved:[],hidden:[]};people().push(p)}
+  p.rel=P.rel;p.age=P.age;p.ints=P.ints.slice();p.traits=P.traits.slice();p.budget=P.budget;if(!p.saved)p.saved=[];if(!p.hidden)p.hidden=[];
+  save(true);return p}
+window.PS_PEOPLE=people;window.PS_FIND=findPerson;
+var REL_LABEL={};RELS.forEach(function(r){REL_LABEL[r[0]]=r[1]});window.PS_REL=REL_LABEL;
+/* ---------- the quiz ---------- */
+var STEPS=6;
+function cur(){return (typeof S!=='undefined'&&S.cur)||"£"}
+function nm(){return esc(P.who.trim()||"them")}
+function tiles(list,sel,attr,multi){return '<div class="qt">'+list.map(function(x){var on=multi?sel.indexOf(x[0])>=0:sel===x[0];return '<button class="qtile'+(on?" on":"")+'" data-'+attr+'="'+x[0]+'">'+esc(x[1])+'</button>'}).join("")+'</div>'}
+function stepHTML(){var s=P.step,h="",nx="";
+  if(s===0){var ex=people().map(function(p){return '<button class="chip" data-pspick="'+esc(p.name)+'">'+esc(p.name)+'</button>'}).join("");
+    h='<div class="qq">Who are we shopping for?</div><input type="text" id="psWho" class="qin" value="'+esc(P.who)+'" placeholder="Their name, e.g. Dad" autocomplete="off" enterkeyhint="next">'+
+      (ex?'<p class="lab" style="margin:14px 0 6px">Or pick someone</p><div class="seg2">'+ex+'</div>':'');
+    nx='<button class="bbbtn pine qnext" data-psnext="1">Next →</button>'}
+  if(s===1){h='<div class="qq">'+nm()+' is your…</div>'+tiles(RELS,P.rel,"psrel")}
+  if(s===2){h='<div class="qq">How old is '+nm()+'?</div>'+tiles(AGES,P.age,"psage")}
+  if(s===3){h='<div class="qq">What do you want to spend?</div><div class="qbig"><span id="psBudV">'+esc(cur())+P.budget+'</span><small>or less</small></div>'+
+      '<input type="range" id="psBud" min="5" max="250" step="5" value="'+P.budget+'" class="qrange">'+
+      '<div class="seg2" style="justify-content:center;margin-top:12px">'+[10,25,50,100].map(function(v){return '<button class="pa sm qbq'+(P.budget===v?" on":"")+'" data-psbq="'+v+'">'+esc(cur())+v+'</button>'}).join("")+'</div>';
+    nx='<button class="bbbtn pine qnext" data-psnext="1">Next →</button>'}
+  if(s===4){h='<div class="qq">What’s '+nm()+' into?</div><p class="meta" style="margin:-6px 0 10px">Tap all that fit. <b id="psIntN">'+(P.ints.length?P.ints.length+" picked":"")+'</b></p>'+tiles(GROUPS,P.ints,"psint",1);
+    nx='<button class="bbbtn pine qnext" data-psnext="1">'+(P.ints.length?"Next →":"Not sure, skip →")+'</button>'}
+  if(s===5){h='<div class="qq">'+nm()+' is more…</div><p class="meta" style="margin:-6px 0 10px">Optional. Up to three.</p>'+tiles(TRAITS,P.traits,"pstrait",1);
+    nx='<button class="bbbtn pine qnext" data-psgo="1">Find '+nm()+'’s gifts →</button>'}
+  return '<div class="qhead">'+(s>0?'<button class="qback" data-psback="1">← Back</button>':'<span></span>')+'<span class="lab">Step '+(s+1)+' of '+STEPS+'</span></div>'+
+    '<div class="qbar"><i style="width:'+Math.round((s+1)/STEPS*100)+'%"></i></div><div class="qstep" id="qstep">'+h+nx+'</div>'}
+function summary(){var bits=[REL_LABEL[P.rel],(AGES.find(function(a){return a[0]===P.age})||[])[1],"up to "+cur()+P.budget].filter(Boolean);
+  var ints=P.ints.map(function(k){return (GROUPS.find(function(g){return g[0]===k})||[])[1]}).filter(Boolean);
+  return '<div class="qsum"><div class="qav">'+esc((P.who.trim()||"?")[0].toUpperCase())+'</div><div style="flex:1;min-width:0"><b style="font-size:20px">'+nm()+'</b><div class="meta">'+esc(bits.join(" · "))+(ints.length?'<br>'+esc(ints.slice(0,4).join(", "))+(ints.length>4?" +"+(ints.length-4):""):"")+'</div></div></div>'+
+   '<div class="pact"><button class="pa sm" data-psedit="1">Edit answers</button><button class="pa sm" data-psshuffle="1">Shuffle</button><button class="pa sm" data-psnew="1">Someone else</button></div>'}
+function heart(on){return '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.8c0 5.5-7.5 10.1-7.5 10.1z" fill="'+(on?"#9A2B2E":"none")+'" stroke="#9A2B2E" stroke-width="1.8"/></svg>'}
+function ideaCard(i,k){var it=ITEMS[i],p=findPerson(P.who),sv=p&&p.saved.indexOf(it[0])>=0;
+  return '<div class="psi pin" style="animation-delay:'+(k*60)+'ms" data-card="'+i+'"><div class="psk">'+esc(CATS[it[1]]||"")+' · '+esc(bandLabel(it[2]))+'</div><div class="pst">'+esc(it[0])+'</div>'+(whyFor(i)?'<div class="psw">'+esc(whyFor(i))+'</div>':'')+
+   '<div class="pact"><button class="pa'+(sv?" on":"")+'" data-pssave="'+i+'">'+heart(sv)+(sv?"Saved":"Save")+'</button><button class="pa main" data-psfind="'+i+'">Find it →</button><button class="pa ghost" data-psnope="'+i+'">Not for them</button></div></div>'}
+function isExpName(n,tr){return (tr||"").indexOf("e")>=0&&/voucher|class|experience|lesson|tickets|tour|day|session|course|trip|membership|night|visit|walk|workshop|taster/i.test(n)}
 function whyFor(i){var it=ITEMS[i],bits=[];GROUPS.forEach(function(g){if(P.ints.indexOf(g[0])>=0&&g[2].indexOf(it[1])>=0)bits.push(g[1])});
   TRAITS.forEach(function(t){if(P.traits.indexOf(t[0])>=0&&it[4].indexOf(t[0])>=0)bits.push(t[1])});
-  return bits.length?"Picked because: "+bits.slice(0,3).join(" · "):"";}
-function chips(list,sel,attr,multi){return list.map(function(x){var on=multi?sel.indexOf(x[0])>=0:sel===x[0];return '<button class="chip '+(on?"on":"")+'" data-'+attr+'="'+x[0]+'">'+esc(x[1])+'</button>'}).join("")}
-window.PS_RENDER=function(){var box=document.getElementById("psBox");if(!box)return;var cur=(typeof S!=='undefined'&&S.cur)||"£";
-  var h='<b style="font-size:21px">Five quick questions, <em style="color:var(--cran)">ten great picks</em></b><p class="meta" style="margin:4px 0 12px">From '+ITEMS.length.toLocaleString()+' gift ideas, matched to them.</p>'+
-  '<div class="row"><div class="f"><label for="psWho">1 · Who’s it for?</label><input type="text" id="psWho" value="'+esc(P.who)+'" placeholder="e.g. Dad"></div></div>'+
-  '<p class="lab" style="margin-top:12px">2 · They’re my…</p><div class="seg2">'+chips(RELS,P.rel,"psrel")+'</div>'+
-  '<p class="lab" style="margin-top:12px">3 · Their age</p><div class="seg2">'+chips(AGES,P.age,"psage")+'</div>'+
-  '<p class="lab" style="margin-top:12px">4 · Spend up to <b id="psBudV" style="color:var(--cran);font-size:15px">'+esc(cur)+P.budget+'</b></p><input type="range" id="psBud" min="5" max="250" step="5" value="'+P.budget+'" style="width:100%;accent-color:#9A2B2E">'+
-  '<p class="lab" style="margin-top:12px">5 · What are they into? <span style="text-transform:none;letter-spacing:0">(tap all that fit)</span></p><div class="seg2">'+chips(GROUPS,P.ints,"psint",1)+'</div>'+
-  '<p class="lab" style="margin-top:12px">Bonus · They’re more… <span style="text-transform:none;letter-spacing:0">(up to 3)</span></p><div class="seg2">'+chips(TRAITS,P.traits,"pstrait",1)+'</div>'+
-  '<div class="row" style="margin-top:14px"><button class="bbbtn pine" data-psgo="1">Find my 10 picks →</button><button class="bbbtn" data-pssurprise="1">Surprise me</button></div>';
-  box.innerHTML=h;
-  var r=document.getElementById("psRes");if(!r)return;
-  if(!P.res){r.innerHTML="";return}
-  var page=P.res.slice(P.page*10,P.page*10+10);
-  r.innerHTML='<h3>'+(P.who?"Picks for "+esc(P.who):"Your picks")+' <span class="meta" style="font-style:normal;font-size:13px">('+(P.page*10+1)+'–'+(P.page*10+page.length)+' of '+P.res.length+')</span></h3>'+
-   (page.length?page.map(function(i){return ideaCard(i,whyFor(i))}).join(""):'<div class="card">No matches. Try a bigger budget or fewer interests.</div>')+
-   '<div class="row" style="justify-content:center;margin:12px 0"><button class="bbbtn" data-psmore="1">Show me 10 more →</button><button class="bbbtn" data-psredo="1">Change answers</button></div>'+BB.AMZ_NOTE;
-  BB.after(r);};
+  return bits.length?"Because: "+bits.slice(0,3).join(" · "):""}
+function visible(){var p=findPerson(P.who),hid=p?p.hidden:[];return P.res.filter(function(i){return hid.indexOf(ITEMS[i][0])<0})}
+window.PS_RENDER=function(anim){var box=document.getElementById("psBox"),r=document.getElementById("psRes");if(!box)return;if(P.stage==="res"&&!P.res)P.res=score();
+  if(P.stage!=="res"||!P.res){box.innerHTML=stepHTML();if(r)r.innerHTML="";if(anim){var q=document.getElementById("qstep");if(q)q.classList.add(anim)}return}
+  box.innerHTML=summary();
+  var v=visible(),n=Math.min(v.length,10+P.page*10),page=v.slice(0,n);
+  r.innerHTML='<p class="lab" style="margin:4px 0 10px">'+n+' of '+v.length.toLocaleString()+' matches for '+nm()+'</p>'+
+   (page.length?page.map(function(i,k){return ideaCard(i,k>=n-10?k-(n-10):0)}).join(""):'<div class="card">No matches. Try a bigger budget or fewer interests.</div>')+
+   (n<v.length?'<div class="row" style="justify-content:center;margin:12px 0"><button class="bbbtn" data-psmore="1">Show 10 more</button></div>':'')+BB.AMZ_NOTE;
+  BB.after(r)};
+function go(step,dir){P.step=step;keep();PS_RENDER(dir<0?"qin-l":"qin-r");var b=document.getElementById("psBox");if(b&&b.getBoundingClientRect().top<0)b.scrollIntoView({behavior:"smooth"});
+  if(step===0)setTimeout(function(){var w=document.getElementById("psWho");if(w&&!P.who)w.focus()},50)}
+function find(){if(!String(P.who).trim())P.who="Them";upsertPerson();P.res=score();P.page=0;P.stage="res";keep();
+  var box=document.getElementById("psBox"),r=document.getElementById("psRes");r.innerHTML="";
+  box.innerHTML='<div class="qload"><div class="qspin"></div><div class="qq" style="margin:14px 0 4px">Finding '+nm()+'’s perfect gift…</div><p class="meta" id="qlm">Searching '+ITEMS.length.toLocaleString()+' ideas</p></div>';
+  setTimeout(function(){var m=document.getElementById("qlm");if(m)m.textContent="Matching budget and interests"},450);
+  setTimeout(function(){PS_RENDER();window.scrollTo({top:0,behavior:"smooth"})},1150)}
+window.PS_FOR=function(name){var p=findPerson(name);P.who=p?p.name:name||"";P.page=0;P.seed=Math.random();
+  if(p&&p.rel){P.rel=p.rel;P.age=p.age||"a";P.ints=(p.ints||[]).slice();P.traits=(p.traits||[]).slice();P.budget=p.budget||25;P.res=score();P.stage="res"}
+  else{P.res=null;P.stage="";P.step=P.who?1:0}
+  keep();if(location.hash!=="#shopper")location.hash="#shopper";PS_RENDER();window.scrollTo(0,0)};
+/* ---------- the Find it sheet ---------- */
+var SH=null;
+function sheet(o){SH=o;var el=document.getElementById("psSheet");if(!el){el=document.createElement("div");el.id="psSheet";document.body.appendChild(el)}
+  var amz=o.exp?"":'<a class="bbamz" href="'+esc(BB.amzUrl(o.q))+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>';
+  var who=o.who?esc(o.who)+"’s":"your";
+  el.innerHTML='<div class="shbg" data-shclose="1"></div><div class="shp" role="dialog" aria-label="Find it"><div class="shgrab"></div><div class="psk">'+esc(o.kick||"")+'</div><div class="pst" style="margin-bottom:12px">'+esc(o.n)+'</div>'+
+   '<p class="lab" style="margin-bottom:6px">Shop it</p>'+amz+'<div class="shs">'+shops(o.q,o.exp).map(function(s){return '<a class="bbbtn" href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'}).join("")+'</div>'+
+   '<div class="shrow"><button class="btn" data-shgift="1">Add to '+who+' gift list</button>'+(o.exp?'':'<button class="btn alt" data-shprice="1">Remind me to check the price</button>')+'</div>'+
+   '<p class="meta" style="margin-top:8px;font-size:12px">'+(o.exp?'':'Price reminder pops up on Black Friday and Cyber Monday. ')+'Some links may earn us a small commission at no cost to you.</p>'+
+   '<button class="shx" data-shclose="1">Close</button></div>';
+  requestAnimationFrame(function(){el.classList.add("on")})}
+function closeSheet(){var el=document.getElementById("psSheet");if(el)el.classList.remove("on")}
+window.PS_SHEET=sheet;
+function giftCat(){var want={partner:"Partner",mum:"Parents",dad:"Parents",grand:"Wider family",sib:"Brothers",child:"Children",teen:"Children",friend:"Friends",work:"Work",teacher:"Teachers",neighbour:"Friends"}[P.rel];
+  var c=want&&S.cats.find(function(c){return c.name.toLowerCase().indexOf(want.toLowerCase())>=0});return (c||S.cats.find(function(c){return c.name==="Friends"})||S.cats[0]).name}
+function addGift(name,who,budget){S.gifts.push({id:uid(),who:who||"",idea:name,cat:giftCat(),budget:budget?String(budget):"",spent:"",bought:false,wrapped:false});save(true);renderAll();
+  toast(who?"Added to "+who+"’s list":"Added to your gift list")}
 /* ---------- trending ---------- */
-var TR=null;
+var TR=null,TRI=[];
 window.PS_TREND=function(){var box=document.getElementById("trBox");if(!box)return;
   if(!TR){box.innerHTML='<div class="card">Loading this week’s trends…</div>';
     fetch("trends.json?d="+new Date().toISOString().slice(0,10)).then(function(r){return r.json()}).then(function(j){TR=j;PS_TREND()}).catch(function(){box.innerHTML='<div class="card">Couldn’t load trends right now. Check your connection and try again.</div>'});return}
-  var c=country();var groups=TR.groups||[];
+  var c=country();var groups=TR.groups||[];TRI=[];
   box.innerHTML='<p class="meta" style="margin-bottom:10px">Updated '+esc(TR.updated||"")+'. '+esc(TR.note||"")+'</p>'+groups.map(function(g){
     return '<h3>'+esc(g.title)+'</h3>'+(g.why?'<p class="meta" style="margin:-4px 0 10px">'+esc(g.why)+'</p>':'')+(g.items||[]).filter(function(x){return !x.c||x.c.indexOf(c)>=0}).map(function(x){
-      var isExp=!!x.exp;var amz=isExp?"":'<a class="bbamz sm" href="'+esc(BB.amzUrl(x.q||x.n))+'" target="_blank" rel="sponsored noopener">Find it on Amazon →</a>';
-      return '<div class="psi"><div class="psk">'+esc(x.tag||"Trending")+(x.b?' · '+esc(bandLabel(x.b)):'')+'</div><div class="pst">'+esc(x.n)+'</div>'+(x.w?'<div class="psw">'+esc(x.w)+'</div>':'')+
-       '<div class="psb">'+amz+shops(x.q||x.n,isExp).map(function(s){return '<a class="bbbtn sm" href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'}).join("")+'</div>'+
-       '<div class="psb"><button class="btn sm" data-tradd="'+esc(x.n)+'">Add to gift list</button></div></div>'}).join("")}).join("")+BB.AMZ_NOTE;
+      TRI.push(x);var ti=TRI.length-1;
+      return '<div class="psi pin" style="animation-delay:'+Math.min(ti,8)*50+'ms"><div class="psk">'+esc(x.tag||"Trending")+(x.b?' · '+esc(bandLabel(x.b)):'')+'</div><div class="pst">'+esc(x.n)+'</div>'+(x.w?'<div class="psw">'+esc(x.w)+'</div>':'')+
+       '<div class="pact"><button class="pa main" data-trfind="'+ti+'">Find it →</button></div></div>'}).join("")}).join("")+BB.AMZ_NOTE;
   BB.after(box);};
 /* ---------- calendar reminders ---------- */
 function loc(d){var p=function(n){return String(n).padStart(2,"0")};return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+"T"+p(d.getHours())+p(d.getMinutes())+"00"}
@@ -927,7 +1096,7 @@ function parseShot(t){var o={item:"",from:"",due:"",track:"",order:""};
   var il=lines.find(function(l){return l.length>12&&l.length<80&&!/order|deliver|arriv|track|dispatch|ship|total|price|£|\$|€|qty|quantity|address|hello|hi |thank|view|return|help|account|@|http|www|package|parcel|on its way|on the way|update|scheduled|expected|your |monday|tuesday|wednesday|thursday|friday|saturday|sunday|between|evri|dpd|ups|usps|fedex|royal mail|courier|driver/i.test(l)&&/[a-z]{3}/i.test(l)});
   o.item=il||(o.order?"Order "+o.order:"");return o}
 var TESS=null;function loadTess(cb){if(window.Tesseract)return cb();if(TESS){TESS.push(cb);return}TESS=[cb];var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";s.onload=function(){TESS.forEach(function(f){f()})};s.onerror=function(){var b=document.getElementById("shotOut");if(b)b.innerHTML='<p class="meta">Couldn’t load the reader. Check your connection and try again.</p>'};document.head.appendChild(s)}
-window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out||!file)return;out.innerHTML='<p class="meta" id="shotProg">Reading your screenshot… (the first time takes a few seconds)</p>';
+window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out||!file)return;var url=URL.createObjectURL(file);out.innerHTML='<div class="scan"><img src="'+url+'" alt=""><i></i></div><p class="meta" id="shotProg" style="text-align:center">Reading your screenshot… (the first time takes a few seconds)</p>';
   loadTess(function(){Tesseract.recognize(file,"eng",{logger:function(m){var p=document.getElementById("shotProg");if(p&&m.status&&m.progress!=null)p.textContent="Reading your screenshot… "+Math.round(m.progress*100)+"%"}}).then(function(r){
     var o=parseShot(r.data.text||"");window.PS_LAST=o;
     var ti=o.track&&window.trackInfo?trackInfo(o.track):null;
@@ -938,27 +1107,165 @@ window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out
       '<div class="psb"><button class="bbbtn pine" data-shadd="1">Add this order</button><button class="bbbtn" data-shadd="2">Add + delivery-day alert</button></div></div>';
   }).catch(function(){out.innerHTML='<p class="meta">Sorry, couldn’t read that one. Try a clearer screenshot, or type it in below.</p>'})});};
 /* ---------- events ---------- */
-window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-pssurprise],[data-psmore],[data-psredo],[data-psadd],[data-psprice],[data-tradd],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn]");if(!t)return;var d=t.dataset;
-  if(d.ideasfor){var g=S.gifts.find(function(x){return x.id===d.ideasfor});P.who=g?g.who||"":"";if(g&&g.budget)P.budget=Math.max(5,Math.min(250,Math.round((+g.budget||25)/5)*5));P.res=null;keep();e.stopImmediatePropagation();e.preventDefault();location.hash="#shopper";PS_RENDER();window.scrollTo(0,0);return}
-  if(d.psrel){P.rel=P.rel===d.psrel?"":d.psrel;if(d.psrel==="child"&&(P.age==="a"||P.age==="s"))P.age="t";if(d.psrel==="teen")P.age="y";if(d.psrel==="grand")P.age="s";keep();PS_RENDER();return}
-  if(d.psage){P.age=d.psage;keep();PS_RENDER();return}
-  if(d.psint){var k=d.psint;P.ints=P.ints.indexOf(k)>=0?P.ints.filter(function(x){return x!==k}):P.ints.concat(k);keep();PS_RENDER();return}
-  if(d.pstrait){var k2=d.pstrait;if(P.traits.indexOf(k2)>=0)P.traits=P.traits.filter(function(x){return x!==k2});else if(P.traits.length<3)P.traits=P.traits.concat(k2);keep();PS_RENDER();return}
-  if(d.psgo||d.pssurprise){if(d.pssurprise){P.seed=Math.random()}P.res=score();P.page=0;PS_RENDER();var r=document.getElementById("psRes");if(r)r.scrollIntoView({behavior:"smooth"});return}
-  if(d.psmore){P.page++;if(P.page*10>=P.res.length)P.page=0;PS_RENDER();document.getElementById("psRes").scrollIntoView({behavior:"smooth"});return}
-  if(d.psredo){document.getElementById("psBox").scrollIntoView({behavior:"smooth"});return}
-  if(d.psadd||d.tradd){var name=d.tradd||ITEMS[+d.psadd][0];var cat=(S.cats.find(function(c){return c.name==="Friends"})||S.cats[0]).name;
-    S.gifts.push({id:uid(),who:P.who||"",idea:name,cat:cat,budget:d.psadd?String(P.budget):"",spent:"",bought:false,wrapped:false});save();renderAll();toast("Added to your gift list");return}
-  if(d.psprice){PS_PRICE(ITEMS[+d.psprice][0]);return}
+function adv(){setTimeout(function(){go(P.step+1,1)},160)}
+window.addEventListener("click",function(e){var t=e.target.closest("[data-psrel],[data-psage],[data-psint],[data-pstrait],[data-psgo],[data-psnext],[data-psback],[data-pspick],[data-psbq],[data-psedit],[data-psshuffle],[data-psnew],[data-psmore],[data-pssave],[data-psfind],[data-psnope],[data-trfind],[data-shclose],[data-shgift],[data-shprice],[data-ideasfor],[data-shadd],[data-psalert],[data-shotbtn]");if(!t)return;var d=t.dataset;
+  if(d.ideasfor){var g=S.gifts.find(function(x){return x.id===d.ideasfor});e.stopImmediatePropagation();e.preventDefault();PS_FOR(g?g.who:"");return}
+  if(d.pspick){P.who=d.pspick;var pp=findPerson(d.pspick);if(pp&&pp.rel){PS_FOR(pp.name);return}go(1,1);return}
+  if(d.psnext){if(P.step===0){var w=document.getElementById("psWho");P.who=w?w.value.trim():P.who;if(!P.who){w.classList.add("shake");w.placeholder="Pop a name in first";setTimeout(function(){w.classList.remove("shake")},400);w.focus();return}}go(P.step+1,1);return}
+  if(d.psback){go(Math.max(0,P.step-1),-1);return}
+  if(d.psrel){P.rel=d.psrel;if(d.psrel==="child"&&(P.age==="a"||P.age==="s"))P.age="t";if(d.psrel==="teen")P.age="y";if(d.psrel==="grand")P.age="s";if(["partner","mum","dad","work","teacher"].indexOf(d.psrel)>=0&&P.age!=="s")P.age="a";
+    keep();t.parentNode.querySelectorAll(".qtile").forEach(function(x){x.classList.toggle("on",x===t)});adv();return}
+  if(d.psage){P.age=d.psage;keep();t.parentNode.querySelectorAll(".qtile").forEach(function(x){x.classList.toggle("on",x===t)});adv();return}
+  if(d.psbq){P.budget=+d.psbq;keep();PS_RENDER();return}
+  if(d.psint){var k=d.psint;P.ints=P.ints.indexOf(k)>=0?P.ints.filter(function(x){return x!==k}):P.ints.concat(k);keep();t.classList.toggle("on");
+    var n=document.getElementById("psIntN");if(n)n.textContent=P.ints.length?P.ints.length+" picked":"";var nb=document.querySelector("#qstep .qnext");if(nb)nb.textContent=P.ints.length?"Next →":"Not sure, skip →";return}
+  if(d.pstrait){var k2=d.pstrait;if(P.traits.indexOf(k2)>=0)P.traits=P.traits.filter(function(x){return x!==k2});else if(P.traits.length<3)P.traits=P.traits.concat(k2);else{toast("Three is plenty");return}keep();t.classList.toggle("on",P.traits.indexOf(k2)>=0);return}
+  if(d.psgo){find();return}
+  if(d.psedit){P.stage="";P.step=1;keep();PS_RENDER("qin-r");return}
+  if(d.psnew){P.stage="";P.step=0;P.who="";P.rel="";P.age="a";P.ints=[];P.traits=[];P.budget=25;P.res=null;keep();PS_RENDER("qin-r");setTimeout(function(){var w=document.getElementById("psWho");if(w)w.focus()},50);return}
+  if(d.psshuffle){P.seed=Math.random();P.res=score();P.page=0;PS_RENDER();return}
+  if(d.psmore){P.page++;var y=window.scrollY;PS_RENDER();window.scrollTo(0,y);return}
+  if(d.pssave){var p=upsertPerson(),nm2=ITEMS[+d.pssave][0],ix=p.saved.indexOf(nm2);if(ix>=0)p.saved.splice(ix,1);else p.saved.push(nm2);save(true);
+    var on=ix<0;t.classList.toggle("on",on);t.innerHTML=heart(on)+(on?"Saved":"Save");if(on){t.classList.add("pop");setTimeout(function(){t.classList.remove("pop")},400);toast("Saved to "+p.name+"’s shortlist")}return}
+  if(d.psnope){var p2=upsertPerson(),nm3=ITEMS[+d.psnope][0];if(p2.hidden.indexOf(nm3)<0)p2.hidden.push(nm3);save(true);var c=t.closest(".psi");c.classList.add("gone");setTimeout(function(){var y2=window.scrollY;PS_RENDER();window.scrollTo(0,y2)},260);return}
+  if(d.psfind){var it=ITEMS[+d.psfind];sheet({n:it[0],q:it[0],exp:isExpName(it[0],it[4]),kick:(CATS[it[1]]||"")+" · "+bandLabel(it[2]),who:P.who.trim(),budget:P.budget});return}
+  if(d.trfind){var x=TRI[+d.trfind];sheet({n:x.n,q:x.q||x.n,exp:!!x.exp,kick:(x.tag||"Trending")+(x.b?" · "+bandLabel(x.b):""),who:"",budget:""});return}
+  if(d.shclose){closeSheet();return}
+  if(d.shgift&&SH){addGift(SH.n,SH.who,SH.budget);closeSheet();return}
+  if(d.shprice&&SH){PS_PRICE(SH.n);closeSheet();return}
   if(d.psalert){var o=S.orders.find(function(x){return x.id===d.psalert});PS_ALERT(o);return}
   if(d.shotbtn){document.getElementById("shotFile").click();return}
   if(d.shadd){var o2={id:uid(),item:document.getElementById("shItem").value,from:document.getElementById("shFrom").value,due:document.getElementById("shDue").value,ret:"",track:document.getElementById("shTrack").value,arrived:false};
-    S.orders.push(o2);save();renderList("orders");document.getElementById("shotOut").innerHTML="";toast("Order added");if(d.shadd==="2")PS_ALERT(o2);return}
+    S.orders.push(o2);save(true);renderAll();document.getElementById("shotOut").innerHTML="";toast("Order added");if(d.shadd==="2")PS_ALERT(o2);return}
 },true);
-window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psBud"){P.budget=+t.value;keep();var v=document.getElementById("psBudV");if(v)v.textContent=((typeof S!=='undefined'&&S.cur)||"£")+P.budget}},true);
+window.addEventListener("input",function(e){var t=e.target;if(t.id==="psWho"){P.who=t.value;keep()}if(t.id==="psBud"){P.budget=+t.value;keep();var v=document.getElementById("psBudV");if(v)v.textContent=cur()+P.budget;
+  document.querySelectorAll("[data-psbq]").forEach(function(c){c.classList.toggle("on",+c.dataset.psbq===P.budget)})}},true);
+window.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="psWho"){e.preventDefault();var b=document.querySelector("[data-psnext]");if(b)b.click()}if(e.key==="Escape")closeSheet()},true);
 window.addEventListener("change",function(e){var t=e.target;if(t.id==="shotFile"&&t.files&&t.files[0]){PS_SHOT(t.files[0]);t.value=""}},true);
 })();
 </script>
-<script>renderHelper();PS_RENDER();if((location.hash||"#shopper")==="#trending")PS_TREND();</script>
+<script>/* ===== App shell: Home, People, More, bottom tabs, delight (BrightBlueprintCo) ===== */
+(function(){
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var C=function(){return S.cur||"£"};
+var money=function(n){n=Math.round(+n||0);return C()+n.toLocaleString()};
+var ETSY="https://www.etsy.com/shop/BrightBlueprintCo";
+var ICON={
+ home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',
+ shop:'<path d="M4 8h16l-1.3 11.5H5.3z"/><path d="M8.5 8V6.5a3.5 3.5 0 0 1 7 0V8"/>',
+ people:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.4 3-5.3 6-5.3s5.4 1.9 6 5.3"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.3c2.4.2 4 1.8 4.5 4.6"/>',
+ box:'<path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5 12 11.5l8.5-4M12 11.5v9"/>',
+ more:'<circle cx="5.5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18.5" cy="12" r="1.6"/>'};
+function svg(k){return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICON[k]+'</svg>'}
+var TABS5=[["home","Home","home"],["shopper","Shop","shop"],["people","People","people"],["orders","Deliveries","box"],["more","More","more"]];
+var GROUP={trending:"shopper",cards:"orders"};
+function tabFor(k){if(GROUP[k])return GROUP[k];return TABS5.some(function(t){return t[0]===k})?k:"more"}
+/* ---------- data ---------- */
+function ppl(){if(!S.people)S.people=[];var seen={},added=false;S.people.forEach(function(p){seen[p.name.toLowerCase()]=1});
+  S.gifts.forEach(function(g){var n=String(g.who||"").trim();if(n&&!seen[n.toLowerCase()]){seen[n.toLowerCase()]=1;S.people.push({id:uid(),name:n,saved:[],hidden:[]});added=true}});
+  if(added)save(true);return S.people}
+function giftsOf(p){var n=p.name.toLowerCase();return S.gifts.filter(function(g){return String(g.who||"").trim().toLowerCase()===n})}
+function spentOf(list){return list.reduce(function(a,g){return a+(num(g.spent)||0)},0)}
+function budgetTotal(){var t=num(S.total);if(t)return t;return S.gifts.reduce(function(a,g){return a+(num(g.budget)||0)},0)}
+function dShort(iso){var d=new Date(iso+"T12:00:00");var n=daysTo(iso);if(n===0)return "Today";if(n===1)return "Tomorrow";if(n<0)return "Overdue";return d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"})}
+function avatar(n,big){return '<div class="av'+(big?" big":"")+'">'+esc((n||"?").trim().charAt(0).toUpperCase())+'</div>'}
+function bar(p){return '<div class="pbar"><i data-w="'+Math.round(p*100)+'"></i></div>'}
+/* ---------- Home ---------- */
+function ring(spent,total){var r=52,c=2*Math.PI*r,p=total?Math.min(1,spent/total):0,over=total&&spent>total;
+  return '<svg class="ring" viewBox="0 0 128 128" width="128" height="128"><circle cx="64" cy="64" r="'+r+'" fill="none" stroke="#E6D5B8" stroke-width="11"/>'+
+   '<circle class="ringfill" cx="64" cy="64" r="'+r+'" fill="none" stroke="'+(over?"#9A2B2E":"#3D5A45")+'" stroke-width="11" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+c.toFixed(1)+'" data-off="'+(c*(1-p)).toFixed(1)+'" transform="rotate(-90 64 64)"/>'+
+   '<text x="64" y="60" text-anchor="middle" class="rt1">'+esc(money(spent))+'</text><text x="64" y="80" text-anchor="middle" class="rt2">'+(total?"of "+esc(money(total)):"spent")+'</text></svg>'}
+function countdown(){var n=new Date(),x=new Date(n.getFullYear(),11,25);if(n>new Date(n.getFullYear(),11,25,23,59))x=new Date(n.getFullYear()+1,11,25);
+  return Math.round((x-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5)}
+function thisWeek(){var out=[];
+  S.orders.forEach(function(o){if(o.due&&!o.arrived){var d=daysTo(o.due);if(d<=7)out.push([d,'<b>'+esc(dShort(o.due))+'</b> '+(d<0?"Late: ":"Arriving: ")+esc(o.item||"an order")+(o.from?' <span class="meta">from '+esc(o.from)+'</span>':''),"#orders"])}
+    if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)out.push([r,'<b>'+esc(dShort(o.ret))+'</b> Last day to return '+esc(o.item||"an order"),"#orders"])}});
+  var PD={second:"Second class",first:"First class",special:"Special delivery",intl:"International",other:"Courier"};
+  Object.keys(S.postDates||{}).forEach(function(k){var v=S.postDates[k];if(v){var d=daysTo(v);if(d>=0&&d<=7)out.push([d,'<b>'+esc(dShort(v))+'</b> Last '+esc(PD[k]||k)+' posting day',"#cards"])}});
+  out.sort(function(a,b){return a[0]-b[0]});
+  var left=S.gifts.filter(function(g){return !g.bought}).length;
+  if(left)out.push([99,'<b>'+left+'</b> gift'+(left>1?"s":"")+' still to buy',"#people"]);
+  return out}
+function welcome(){var ex=ppl().map(function(p){return '<span class="chip on">'+esc(p.name)+'</span>'}).join("");
+  return '<div class="card hero"><div class="lab">Welcome</div><div class="hh">Let’s get Christmas <em>sorted.</em></div>'+
+   '<ol class="steps"><li><b>Add your people.</b> Everyone you’re buying for.</li><li><b>Find their gifts.</b> Six quick taps, ten great picks.</li><li><b>Track every delivery.</b> Screenshot it, we fill it in.</li></ol>'+
+   '<label for="shQuick" class="lab">Who are you buying for?</label><div class="qadd"><input type="text" id="shQuick" placeholder="e.g. Mum" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shquick="1">Add</button></div>'+
+   (ex?'<div class="seg2" style="margin-top:10px">'+ex+'</div>':'')+
+   '<button class="btn" style="width:100%;margin-top:14px" data-shfirst="1">Find my first gift →</button></div>'}
+function review(){if(S.revDone||S.gifts.length<5)return "";
+  return '<div class="card soft"><div class="hh" style="font-size:21px">Is this helping?</div><p class="meta" style="margin:4px 0 12px">We’re a tiny family shop. A quick review on Etsy helps other people find us, and it means the world.</p>'+
+   '<div class="row"><a class="bbbtn pine" href="https://www.etsy.com/your/purchases" target="_blank" rel="noopener" data-shrev="1">Leave a review</a><button class="bbbtn" data-shrev="0">Not now</button></div></div>'}
+function moreFromUs(){return '<div class="card mfu"><div class="lab">More from us</div><div class="hh" style="font-size:20px;margin:4px 0 10px">Make the rest of December easier</div>'+
+  '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>Secret Santa app</b><span>Draw names by WhatsApp. No one sees the list.</span></a>'+
+  '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>Advent calendars</b><span>24 days of little activities for kids, families and couples.</span></a>'+
+  '<a class="mfi" href="'+ETSY+'" target="_blank" rel="noopener"><b>See the whole shop →</b></a></div>'}
+function renderHome(){var box=document.getElementById("homeBox");if(!box)return;var P=ppl();
+  var days=countdown(),cd='<div class="cd"><b>'+days+'</b><span>'+(days===1?"day":"days")+' to<br>Christmas</span></div>';
+  if(!S.gifts.length){box.innerHTML='<div class="homehead">'+cd+'</div>'+welcome()+moreFromUs();BB.after(box);return}
+  var spent=spentOf(S.gifts),tot=budgetTotal(),b=S.gifts.filter(function(g){return g.bought}).length,w=S.gifts.filter(function(g){return g.wrapped}).length;
+  var h='<div class="card ringcard">'+ring(spent,tot)+'<div class="rside">'+cd+'<div class="rstat"><b>'+b+'</b> of '+S.gifts.length+' bought<br><b>'+w+'</b> wrapped</div>'+
+    (tot?(spent>tot?'<div class="rwarn">'+esc(money(spent-tot))+' over budget</div>':'<div class="rok">'+esc(money(tot-spent))+' left</div>'):'<a class="rlink" href="#budget">Set a budget →</a>')+'</div></div>';
+  var tw=thisWeek();
+  h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">This week</span></div>'+(tw.length?'<ul class="tw">'+tw.slice(0,6).map(function(x){return '<li><a href="'+x[2]+'">'+x[1]+'</a></li>'}).join("")+'</ul>':'<p class="meta">Nothing urgent this week. Nice.</p>')+'</div>';
+  h+='<div class="card"><div class="ch"><span class="hh" style="font-size:21px">Your people</span><a class="rlink" href="#people">All →</a></div>'+P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length;
+    return '<div class="prow">'+avatar(p.name)+'<div class="pmid"><div class="pn">'+esc(p.name)+'<span class="meta">'+(g.length?bt+" of "+g.length+" bought":"No gifts yet")+'</span></div>'+bar(g.length?bt/g.length:0)+'</div><button class="pa main sm" data-shideas="'+esc(p.name)+'">Ideas</button></div>'}).join("")+
+    '<button class="bbbtn" style="margin-top:10px" data-go="people">+ Add someone</button></div>';
+  h+=review()+moreFromUs();
+  box.innerHTML='<div class="homehead"><div class="lab">Your Christmas</div></div>'+h;animate(box);BB.after(box)}
+/* ---------- People ---------- */
+function renderPeople(){var box=document.getElementById("peopleBox");if(!box)return;var P=ppl(),R=window.PS_REL||{};
+  var h='<div class="card"><label class="lab" for="shPName">Add someone</label><div class="qadd"><input type="text" id="shPName" placeholder="Name" autocomplete="off" enterkeyhint="done"><button class="bbbtn pine" data-shpadd="1">Add</button></div></div>';
+  if(!P.length)h+='<div class="card"><p class="meta">No one yet. Add the people you’re buying for and we’ll keep each of them on track.</p></div>';
+  h+=P.map(function(p){var g=giftsOf(p),bt=g.filter(function(x){return x.bought}).length,sp=spentOf(g),bud=g.reduce(function(a,x){return a+(num(x.budget)||0)},0);
+    var gl=g.map(function(x){var st=x.wrapped?"Wrapped":x.bought?"Bought":"To buy";return '<li><span class="gs '+st.replace(/ /g,"").toLowerCase()+'">'+st+'</span>'+esc(x.idea||"Gift")+'</li>'}).join("");
+    var sv=(p.saved||[]).map(function(n,i){return '<li><span>'+esc(n)+'</span><button class="pa sm" data-shsvadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
+    return '<div class="card pcard">'+'<div class="ph">'+avatar(p.name,1)+'<div style="flex:1;min-width:0"><div class="hh" style="font-size:22px">'+esc(p.name)+'</div><div class="meta">'+esc([R[p.rel],p.budget?"up to "+C()+p.budget+" each":""].filter(Boolean).join(" · ")||"Gift ideas not set up yet")+'</div></div></div>'+
+     '<div class="pstat"><span>'+bt+' of '+g.length+' bought</span><span>'+esc(money(sp))+(bud?' of '+esc(money(bud)):' spent')+'</span></div>'+bar(g.length?bt/g.length:0)+
+     (gl?'<ul class="gl">'+gl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
+     '<div class="pact"><button class="pa main" data-shideas="'+esc(p.name)+'">Find ideas →</button><button class="pa" data-shpgift="'+esc(p.id)+'">Add a gift</button><button class="pa ghost" data-shpdel="'+esc(p.id)+'">Remove</button></div></div>'}).join("");
+  box.innerHTML=h;animate(box);BB.after(box)}
+/* ---------- More ---------- */
+var MORE=[["budget","Budget","Set limits per group"],["gifts","Gift list","Every gift in one place"],["ideas","Mentioned","Hints they’ve dropped"],["trending","Trending","What’s hot this week"],["kids","Kids","Stockings and Santa gifts"],["cards","Cards & posting","Last posting dates"],["eve","Christmas Eve","The night-before list"],["thanks","Thank-yous","Who sent what"],["next","Next year","Notes for future you"],["backup","Save my page","Backup link and reset"]];
+function renderMore(){var box=document.getElementById("moreBox");if(!box)return;
+  box.innerHTML='<div class="tiles">'+MORE.map(function(m){return '<a class="tile" href="#'+m[0]+'"><b>'+esc(m[1])+'</b><span>'+esc(m[2])+'</span></a>'}).join("")+'</div>'+moreFromUs()}
+/* ---------- animation helpers ---------- */
+function animate(root){requestAnimationFrame(function(){requestAnimationFrame(function(){
+  root.querySelectorAll(".pbar i[data-w]").forEach(function(i){i.style.width=i.dataset.w+"%"});
+  root.querySelectorAll(".ringfill").forEach(function(c){c.style.strokeDashoffset=c.dataset.off})})})}
+function confetti(){var cv=document.createElement("canvas");cv.className="confetti";document.body.appendChild(cv);var W=cv.width=innerWidth*2,H=cv.height=innerHeight*2,x=cv.getContext("2d");
+  var cols=["#9A2B2E","#3D5A45","#B98A3C","#FCF7EC","#C9A15A"],ps=[];for(var i=0;i<140;i++)ps.push({x:W/2+(Math.random()-.5)*W*.3,y:H*.55,vx:(Math.random()-.5)*28,vy:-Math.random()*38-14,r:Math.random()*6+5,a:Math.random()*6,va:(Math.random()-.5)*.4,c:cols[i%5]});
+  var t=0;(function f(){x.clearRect(0,0,W,H);ps.forEach(function(p){p.vy+=1.1;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r,-p.r/2,p.r*2,p.r);x.restore()});
+    if(++t<110)requestAnimationFrame(f);else cv.remove()})()}
+window.SH_CHECK=function(it){if(!it||!it.who)return;var n=String(it.who).trim().toLowerCase();var g=S.gifts.filter(function(x){return String(x.who||"").trim().toLowerCase()===n});
+  if(g.length&&g.every(function(x){return x.bought&&x.wrapped})&&it.wrapped){confetti();toast("All of "+it.who.trim()+"’s gifts are wrapped!")}};
+/* ---------- render + tabs ---------- */
+window.SH_RENDER=function(){try{renderHome();renderPeople();renderMore()}catch(e){console.error(e)}};
+window.SH_SHOW=function(k){var t=tabFor(k);document.querySelectorAll("#tabbar a").forEach(function(a){a.classList.toggle("on",a.dataset.t===t)});
+  document.body.dataset.tab=k;if(k==="home")renderHome();if(k==="people")renderPeople();window.scrollTo(0,0)};
+var tb=document.createElement("div");tb.id="tabbar";tb.setAttribute("role","navigation");tb.setAttribute("aria-label","Main");
+tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'">'+svg(t[2])+'<span>'+t[1]+'</span></a>'}).join("");document.body.appendChild(tb);
+/* ---------- events ---------- */
+function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
+  if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
+  var e2=document.getElementById(id);if(e2)e2.focus()}
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shquick){addPerson("shQuick");return}
+  if(d.shpadd){addPerson("shPName");return}
+  if(d.shfirst){var p=ppl()[0];PS_FOR(p?p.name:"");return}
+  if(d.shideas){PS_FOR(d.shideas);return}
+  if(d.go){location.hash="#"+d.go;return}
+  if(d.shrev){S.revDone=true;save(true);if(d.shrev==="0")renderHome();else setTimeout(renderHome,500);return}
+  if(d.shpdel){var p2=S.people.find(function(x){return x.id===d.shpdel});ask("Remove "+p2.name+"?","They’ll come off your people list. Their gifts stay on your gift list.",function(){S.people=S.people.filter(function(x){return x!==p2});
+    S.gifts.forEach(function(g){if(String(g.who||"").trim().toLowerCase()===p2.name.toLowerCase())g.who=""});save(true);renderAll()});return}
+  if(d.shpgift){var p3=S.people.find(function(x){return x.id===d.shpgift});var cat=(S.cats.find(function(c){return c.name==="Friends"})||S.cats[0]).name;
+    S.gifts.push({id:uid(),who:p3.name,idea:"",cat:cat,budget:p3.budget?String(p3.budget):"",spent:"",bought:false,wrapped:false});save(true);renderAll();location.hash="#gifts";toast("New gift for "+p3.name+". Fill it in below");return}
+  if(d.shsvadd){var parts=d.shsvadd.split("|"),p4=S.people.find(function(x){return x.id===parts[0]});if(!p4)return;var nm=p4.saved[+parts[1]];
+    var cat2=(S.cats.find(function(c){return c.name==="Friends"})||S.cats[0]).name;
+    S.gifts.push({id:uid(),who:p4.name,idea:nm,cat:cat2,budget:p4.budget?String(p4.budget):"",spent:"",bought:false,wrapped:false});p4.saved.splice(+parts[1],1);save(true);renderAll();toast("Added to "+p4.name+"’s list");return}
+});
+document.addEventListener("keydown",function(e){if(e.key==="Enter"&&(e.target.id==="shQuick"||e.target.id==="shPName")){e.preventDefault();addPerson(e.target.id)}});
+})();
+</script>
+<script>renderAll();show();if(location.hash==="#trending")PS_TREND();</script>
 </body>
 </html>
