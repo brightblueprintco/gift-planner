@@ -1189,7 +1189,13 @@ function parseShot(t){var o={item:"",from:"",due:"",track:"",order:""};
   for(var i=0;i<dl.length&&!o.due;i++){o.due=parseDate(dl[i]+" "+(lines[lines.indexOf(dl[i])+1]||""))} if(!o.due)o.due=parseDate(t);
   o.track=findTracking(t);
   var om=t.match(/order\s*(?:number|no\.?|#|id)?\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{5,24})/i);if(om&&!/^(details|summary|confirm)/i.test(om[1]))o.order=om[1];
-  var il=lines.find(function(l){return l.length>12&&l.length<80&&!/order|deliver|arriv|track|dispatch|ship|total|price|£|\$|€|qty|quantity|address|hello|hi |thank|view|return|help|account|@|http|www|package|parcel|on its way|on the way|update|scheduled|expected|your |monday|tuesday|wednesday|thursday|friday|saturday|sunday|between|evri|dpd|ups|usps|fedex|royal mail|courier|driver/i.test(l)&&/[a-z]{3}/i.test(l)});
+  var il=lines.find(function(l){if(l.length<10||l.length>90)return false;
+    if(/order|deliver|arriv|track|dispatch|ship|total|price|£|\$|€|qty|quantity|address|hello|hi |thank|view|return|help|account|@|http|www|\.co|\.com|package|parcel|on its way|on the way|update|scheduled|expected|your |monday|tuesday|wednesday|thursday|friday|saturday|sunday|between|evri|dpd|ups|usps|fedex|royal mail|courier|driver|search|ask a question|sign in|menu|basket|cart|buy again|prime|inbox|reply|forward|unsubscribe|today|tomorrow|yesterday|am$|pm$/i.test(l))return false;
+    var letters=(l.match(/[a-z]/gi)||[]).length,words=(l.match(/[a-z]{3,}/gi)||[]);
+    if(letters/l.length<.7||words.length<2)return false;
+    if(/[{}|\\<>~^_=]/.test(l))return false;
+    if(SHOPS.some(function(sh){return l.toLowerCase().replace(/[^a-z& ]/g,"").trim()===sh.toLowerCase()}))return false;
+    return true});
   o.item=il||(o.order?"Order "+o.order:"");return o}
 var TESS=null;function loadTess(cb){if(window.Tesseract)return cb();if(TESS){TESS.push(cb);return}TESS=[cb];var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";s.onload=function(){TESS.forEach(function(f){f()})};s.onerror=function(){var b=document.getElementById("shotOut");if(b)b.innerHTML='<p class="meta">Couldn’t load the reader. Check your connection and try again.</p>'};document.head.appendChild(s)}
 window.PS_SHOT=function(file){var out=document.getElementById("shotOut");if(!out||!file)return;var url=URL.createObjectURL(file);out.innerHTML='<div class="scan"><img src="'+url+'" alt=""><i></i></div><p class="meta" id="shotProg" style="text-align:center">Reading your screenshot… (the first time takes a few seconds)</p>';
@@ -1398,7 +1404,13 @@ function dd(iso_){var d=new Date(iso_+"T12:00:00");return {day:d.getDate(),mon:d
 function status(o){if(o.arrived)return ["Arrived","ok"];if(!o.due)return ["No date yet",""];var d=daysTo(o.due);
   if(d<0)return ["Late by "+(-d)+" day"+(d===-1?"":"s"),"bad"];if(d===0)return ["Arriving today","now"];if(d===1)return ["Tomorrow","soon"];return ["In "+d+" days",""]}
 function toChips(o){return '<div class="tochips">'+TO.map(function(x){return '<button class="pa sm'+(o.to===x?" on":"")+'" data-dvto="'+o.id+'|'+x+'">'+esc(x)+'</button>'}).join("")+'</div>'}
-function card(o){var st=status(o),ti=o.track?trackInfo(o.track):null,dt=o.due?dd(o.due):null;
+function shopLink(f){f=String(f||"").toLowerCase();var amz=(function(){try{return BB.C().amz}catch(e){return "www.amazon.co.uk"}})();
+  if(/amazon/.test(f))return {url:"https://"+amz+"/gp/your-account/order-history",label:"Open your Amazon orders"};
+  if(/etsy/.test(f))return {url:"https://www.etsy.com/your/purchases",label:"Open your Etsy purchases"};
+  if(/ebay/.test(f))return {url:"https://www.ebay.co.uk/mye/myebay/purchase",label:"Open your eBay purchases"};
+  return null}
+function card(o){var st=status(o),ti=o.track?trackInfo(o.track):null,dt=o.due?dd(o.due):null;var shop=shopLink(o.from);
+  if(shop&&(!ti||/^Search/.test(ti.label)))ti=shop;
   var ret="";if(o.ret&&!o.arrived){}if(o.ret){var r=daysTo(o.ret);if(r>=0&&r<=7)ret='<span class="dvp bad">Return in '+r+' day'+(r===1?"":"s")+'</span>';}
   return '<div class="dvc'+(o.arrived?" done":"")+'"><div class="dvdate">'+(dt?'<b>'+dt.day+'</b><span>'+esc(dt.mon)+'</span>':'<b>?</b><span>date</span>')+'</div>'+
    '<div class="dvm"><div class="dvt">'+esc(o.item||"Untitled order")+'</div><div class="meta">'+esc([o.from,o.to?"to "+o.to:""].filter(Boolean).join(" · ")||"Tap Edit to add details")+'</div>'+
