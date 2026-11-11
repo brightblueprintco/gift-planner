@@ -330,6 +330,9 @@ header.top h1 .holly{width:54px;height:34px;vertical-align:top;margin:-8px -6px 
 .snow i{position:absolute;top:-10px;border-radius:50%;background:#fff;animation:fall linear infinite;box-shadow:0 0 3px rgba(255,255,255,.8)}
 @keyframes fall{0%{transform:translate(0,-10px)}50%{transform:translate(14px,140px)}100%{transform:translate(-6px,300px)}}
 .foot .flake{color:var(--gold);font-size:14px;margin:0 6px}
+.wps{margin-top:14px;background:#F7EEDC}.wps textarea{width:100%;min-height:70px}
+.surp{margin-top:12px;padding:10px 12px;border-radius:10px;background:#F6DCDA;color:var(--cran)}.surp b{display:block;font-size:16px}.surp span{display:block;font-size:13.5px;color:var(--ink);margin-top:2px}
+.wpaste{display:block;width:100%;margin-top:6px;background:none;border:0;font-family:var(--type);font-size:11.5px;color:var(--ink2);text-decoration:underline;cursor:pointer;padding:6px;text-align:center}
 </style>
 </head>
 <body>
@@ -1319,8 +1322,9 @@ function renderPeople(){var box=document.getElementById("peopleBox");if(!box)ret
     var sv=(p.saved||[]).map(function(n,i){return '<li><span>'+esc(n)+'</span><button class="pa sm" data-shsvadd="'+esc(p.id)+'|'+i+'">Add</button></li>'}).join("");
     return '<div class="card pcard" id="pc-'+esc(p.id)+'">'+'<div class="ph">'+avatar(p.name,1)+'<div style="flex:1;min-width:0"><div class="hh" style="font-size:22px">'+esc(p.name)+'</div><div class="meta">'+esc([R[p.rel],p.budget?"up to "+C()+p.budget+" each":""].filter(Boolean).join(" · ")||"Gift ideas not set up yet")+'</div></div></div>'+
      '<div class="pstat"><span>'+bt+' of '+g.length+' bought</span><span>'+esc(money(sp))+(bud?' of '+esc(money(bud)):' spent')+'</span></div>'+bar(g.length?bt/g.length:0)+
-     (gl?'<ul class="gl">'+gl+'</ul>':'')+(wl?'<p class="lab" style="margin:12px 0 4px;color:var(--cran)">Their wish list</p><ul class="svl">'+wl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
+     (gl?'<ul class="gl">'+gl+'</ul>':'')+(p.surprise||p.hints?'<div class="surp">'+(p.surprise?'<b>'+esc(p.name)+' says: surprise me!</b>':'')+(p.hints?'<span>Hints: '+esc(p.hints)+'</span>':'')+'</div>':'')+(wl?'<p class="lab" style="margin:12px 0 4px;color:var(--cran)">Their wish list</p><ul class="svl">'+wl+'</ul>':'')+(sv?'<p class="lab" style="margin:12px 0 4px">Shortlist</p><ul class="svl">'+sv+'</ul>':'')+
      '<button class="wask" data-shwask="'+esc(p.name)+'"><b>Ask '+esc(p.name)+' for a wish list</b><span>Send a WhatsApp link. They add ideas, it lands here.</span></button>'+
+     '<button class="wpaste" data-shwpaste="1">Got their reply? Copy it in WhatsApp, then tap here to paste</button>'+
      '<div class="pact"><button class="pa main" data-shideas="'+esc(p.name)+'">Find ideas →</button><button class="pa" data-shpgift="'+esc(p.id)+'">Add a gift</button><button class="pa ghost" data-shpdel="'+esc(p.id)+'">Remove</button></div></div>'}).join("");
   box.innerHTML=h;animate(box);BB.after(box)}
 /* ---------- More ---------- */
@@ -1351,7 +1355,8 @@ tb.innerHTML=TABS5.map(function(t){return '<a href="#'+t[0]+'" data-t="'+t[0]+'"
 function addPerson(id){var el=document.getElementById(id);var n=el?el.value.trim():"";if(!n){if(el){el.focus();el.placeholder="Type a name first"}return}
   if(PS_FIND(n)){toast(n+" is already on your list");el.value="";return}S.people.push({id:uid(),name:n,saved:[],hidden:[]});save(true);el.value="";renderHome();renderPeople();toast(n+" added");
   var e2=document.getElementById(id);if(e2)e2.focus()}
-document.addEventListener("click",function(e){var t=e.target.closest("[data-shperson],[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+document.addEventListener("click",function(e){var t=e.target.closest("[data-shwpaste],[data-shperson],[data-shwask],[data-shwfind],[data-shwadd],[data-shfind],[data-shscan],[data-shquick],[data-shfirst],[data-shideas],[data-shpadd],[data-shpdel],[data-shpgift],[data-shsvadd],[data-shrev],[data-go]");if(!t)return;var d=t.dataset;
+  if(d.shwpaste){WL_PASTE();return}
   if(d.shperson){location.hash="#people";setTimeout(function(){var c=document.getElementById("pc-"+d.shperson);if(c){c.scrollIntoView({behavior:"smooth",block:"start"});c.classList.add("flash");setTimeout(function(){c.classList.remove("flash")},1400)}},120);return}
   if(d.shwask){WL_ASK(d.shwask);return}
   if(d.shwfind||d.shwadd){var q=(d.shwfind||d.shwadd).split("|"),pw=S.people.find(function(x){return x.id===q[0]});if(!pw)return;var w=pw.wish[+q[1]];
@@ -1458,7 +1463,7 @@ window.WL_POSTCARD=function(){var L=PD[cc()];if(!L)return "";var rows=L.filter(f
 window.WL_ASK=function(name){var link=base()+"#wish="+enc({t:name});
   BB.openWA("","Hi "+name+"! What would you like for Christmas this year? Pop a few ideas in here and send it back to me\n\n"+link)};
 /* ---------- the recipient's page ---------- */
-var WI=[];
+var WI=[],HINT="";
 function wishPage(o){document.body.classList.add("wishmode");var el=document.createElement("div");el.id="wishPage";document.body.appendChild(el);
   if(!WI.length)WI=[{n:"",u:"",p:""},{n:"",u:"",p:""},{n:"",u:"",p:""}];
   function draw(){el.innerHTML='<div class="wp"><div class="kick" style="text-align:center">BrightBlueprintCo</div><div class="hh wph">'+esc(o.t?o.t+", what would you like":"What would you like")+' <em>this Christmas?</em></div>'+
@@ -1466,23 +1471,30 @@ function wishPage(o){document.body.classList.add("wishmode");var el=document.cre
    WI.map(function(w,i){return '<div class="card wpi"><div class="lab">Wish '+(i+1)+'</div><input type="text" data-wn="'+i+'" value="'+esc(w.n)+'" placeholder="e.g. Green wool scarf" autocomplete="off">'+
      '<div class="row" style="margin-top:6px"><input type="text" inputmode="url" autocapitalize="off" data-wu="'+i+'" value="'+esc(w.u)+'" placeholder="Link (optional)" style="flex:2;min-width:0"><input type="text" inputmode="decimal" data-wp="'+i+'" value="'+esc(w.p)+'" placeholder="Rough price" style="flex:1;min-width:0"></div></div>'}).join("")+
    '<button class="bbbtn" style="width:100%" data-wadd="1">+ Add another</button>'+
+   '<div class="card wps"><b style="font-size:18px">Rather be surprised?</b><p class="meta" style="margin:2px 0 8px">Leave a hint or two if you like: sizes, colours, things you’d rather not get.</p><textarea data-whint="1" placeholder="e.g. Size 12, loves green, no more candles!">'+esc(HINT)+'</textarea><button class="btn alt" style="width:100%;margin-top:8px" data-wsurp="1">Just surprise me</button></div>'+
    '<button class="btn" style="width:100%;margin-top:12px;min-height:52px" data-wsend="1">Send my wish list</button>'+
    '<p class="meta" style="text-align:center;margin-top:10px;font-size:12px">It goes back by WhatsApp. Nothing is stored anywhere.</p>'+
    '<a class="wpad" href="'+ETSY+'" target="_blank" rel="noopener">Made with the <b>Personal Shopper &amp; Gift Planner</b> by BrightBlueprintCo. Get your own on Etsy →</a></div>'}
   draw();
-  el.addEventListener("input",function(e){var d=e.target.dataset;if(d.wn)WI[+d.wn].n=e.target.value;if(d.wu)WI[+d.wu].u=e.target.value;if(d.wp)WI[+d.wp].p=e.target.value});
-  el.addEventListener("click",function(e){var t=e.target.closest("[data-wadd],[data-wsend]");if(!t)return;
+  el.addEventListener("input",function(e){var d=e.target.dataset;if(d.wn)WI[+d.wn].n=e.target.value;if(d.wu)WI[+d.wu].u=e.target.value;if(d.wp)WI[+d.wp].p=e.target.value;if(d.whint)HINT=e.target.value});
+  el.addEventListener("click",function(e){var t=e.target.closest("[data-wadd],[data-wsend],[data-wsurp]");if(!t)return;
+    if(t.dataset.wsurp){var hint=HINT.trim().slice(0,240);BB.openWA("","Surprise me! I’m happy with anything."+(hint?"\nA few hints: "+hint:"")+"\n\nTap to add it to your planner:\n"+base()+"#wl="+enc({t:o.t||"",i:[],s:1,h:hint}));return}
     if(t.dataset.wadd){WI.push({n:"",u:"",p:""});draw();var ins=el.querySelectorAll("[data-wn]");ins[ins.length-1].focus();return}
     var items=WI.filter(function(w){return w.n.trim()}).map(function(w){return {n:w.n.trim().slice(0,90),u:w.u.trim().slice(0,300),p:w.p.trim().slice(0,12)}});
     if(!items.length){var f=el.querySelector("[data-wn]");f.focus();f.placeholder="Add at least one wish";return}
-    var txt="My Christmas wish list\n"+items.map(function(w,i){return (i+1)+". "+w.n+(w.p?" (about "+w.p+")":"")}).join("\n")+"\n\nTap to add it to your planner:\n"+base()+"#wl="+enc({t:o.t||"",i:items});
+    var hint=HINT.trim().slice(0,240);var txt="My Christmas wish list\n"+items.map(function(w,i){return (i+1)+". "+w.n+(w.p?" (about "+w.p+")":"")}).join("\n")+(hint?"\nHints: "+hint:"")+"\n\nTap to add it to your planner:\n"+base()+"#wl="+enc({t:o.t||"",i:items,h:hint});
     BB.openWA("",txt)})}
 /* ---------- importing a returned list ---------- */
-function importList(o){if(!o||!o.i||!o.i.length)return;var name=(o.t||"Someone").trim();var p=PS_FIND(name);
+function importList(o,quiet){if(!o||!o.i||(!o.i.length&&!o.s&&!o.h))return false;var name=(o.t||"Someone").trim();var p=PS_FIND(name);
   if(!p){p={id:uid(),name:name,saved:[],hidden:[]};S.people.push(p)}if(!p.wish)p.wish=[];var n=0;
   o.i.forEach(function(w){if(!p.wish.some(function(x){return x.n.toLowerCase()===String(w.n).toLowerCase()})){p.wish.push({n:String(w.n),u:String(w.u||""),p:String(w.p||"")});n++}});
-  save(true);try{history.replaceState(null,"",location.pathname+"#people")}catch(e){location.hash="#people"}
-  setTimeout(function(){toast(n?name+"’s wish list is in: "+n+" idea"+(n===1?"":"s"):"Already got that list")},400)}
+  if(o.s)p.surprise=true;if(o.h)p.hints=String(o.h);
+  save(true);var msg=o.s&&!n?name+" says: surprise me!":n?name+"’s wish list is in: "+n+" idea"+(n===1?"":"s"):"Already got that list";
+  if(quiet){renderAll();location.hash="#people";toast(msg);return true}
+  try{history.replaceState(null,"",location.pathname+"#people")}catch(e){location.hash="#people"}
+  setTimeout(function(){toast(msg)},400);return true}
+window.WL_PASTE=function(){function go(tx){var m=String(tx||"").match(/#wl=([A-Za-z0-9_-]+)/);if(!m){toast("Copy their whole WhatsApp reply first, then tap Paste");return}if(!importList(dec(m[1]),true))toast("Couldn’t read that one. Try copying it again")}
+  try{navigator.clipboard.readText().then(go).catch(function(){var t=prompt("Paste their WhatsApp reply here");if(t)go(t)})}catch(e){var t=prompt("Paste their WhatsApp reply here");if(t)go(t)}};
 var h=location.hash;
 if(h.indexOf("#wish=")===0){var o=dec(h.slice(6));wishPage(o||{});try{history.replaceState(null,"",location.pathname+"#wishlist")}catch(e){}}
 else if(h.indexOf("#wl=")===0){if(!S.people)S.people=[];importList(dec(h.slice(4)))}
