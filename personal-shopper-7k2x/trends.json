@@ -1,286 +1,443 @@
 {
- "updated": "10 November 2026",
- "note": "What people are actually searching for and buying this season. Refreshed every morning in December.",
+ "updated": "12 November 2026",
+ "note": "Viral blind boxes, cosy nights in and practical tech are leading early Christmas shopping.",
  "groups": [
   {
-   "title": "Gifts for the whole friend group",
-   "why": "Searches for personalised friend gifts are up hugely this season, and 'Friendsmas' supplies are up too.",
+   "title": "Viral stocking fillers",
+   "why": "Blind boxes, mini plushies and quick card games are topping wish lists and best-seller charts.",
    "items": [
     {
-     "n": "Personalised friend group print",
-     "b": 2,
-     "tag": "Friendsmas",
-     "k": [
-      "sentimental",
-      "home"
-     ]
-    },
-    {
-     "n": "Matching friendship bracelets set",
+     "n": "Mystery blind-box mini figure",
      "b": 1,
-     "tag": "Friendsmas",
+     "tag": "Blind box",
      "k": [
-      "fashion",
-      "sentimental"
+      "toys",
+      "funny"
      ]
     },
     {
-     "n": "Friendsmas party game",
+     "n": "Plush snack basket with mini plushies",
      "b": 2,
-     "tag": "Friendsmas",
+     "tag": "Viral plush",
      "k": [
-      "funny",
-      "puzzles"
+      "toys",
+      "funny"
      ]
     },
     {
-     "n": "Best friend book to fill in",
+     "n": "Wearable virtual pet keyring",
+     "b": 2,
+     "tag": "Retro tech",
+     "k": [
+      "toys",
+      "gaming"
+     ]
+    },
+    {
+     "n": "Press-your-luck card game",
      "b": 1,
-     "tag": "Friendsmas",
+     "tag": "Card games",
      "k": [
-      "sentimental",
-      "books"
+      "gaming",
+      "puzzles",
+      "funny"
      ]
     },
     {
-     "n": "Custom pet portrait",
-     "b": 3,
-     "tag": "Pet gifts",
-     "k": [
-      "pets",
-      "sentimental"
-     ]
-    },
-    {
-     "n": "Pet Christmas bauble with their name",
+     "n": "Pet paw cleaner cup",
      "b": 1,
      "tag": "Pet gifts",
      "k": [
-      "pets",
+      "pets"
+     ]
+    },
+    {
+     "n": "Light-up mini scene blind box",
+     "b": 2,
+     "tag": "Blind box",
+     "k": [
+      "toys",
       "home"
      ]
     }
    ]
   },
   {
-   "title": "Craftmas: make it together",
-   "why": "Festive craft nights are the new Christmas party. DIY activity searches have exploded.",
+   "title": "Cosy nights in",
+   "why": "Comfort gifts are winning as people plan more nights at home this winter.",
    "items": [
     {
-     "n": "Paint your own bauble kit",
-     "b": 2,
-     "tag": "Craftmas",
-     "k": [
-      "crafts"
-     ]
-    },
-    {
-     "n": "Needlepoint bag kit",
+     "n": "Heated electric throw",
      "b": 3,
-     "tag": "Craftmas",
+     "tag": "Cosy",
      "k": [
-      "crafts",
-      "fashion"
+      "home"
      ]
     },
     {
-     "n": "Beginner sewing pattern",
-     "b": 1,
-     "tag": "Craftmas",
-     "k": [
-      "crafts",
-      "diy"
-     ]
-    },
-    {
-     "n": "Bead bracelet making kit",
-     "b": 2,
-     "tag": "Craftmas",
-     "k": [
-      "crafts",
-      "toys"
-     ]
-    },
-    {
-     "n": "Wreath making workshop",
+     "n": "Wool-covered hot water bottle",
      "b": 3,
-     "tag": "Craftmas",
-     "exp": 1,
-     "k": [
-      "exp",
-      "crafts",
-      "garden"
-     ]
-    },
-    {
-     "n": "Embroidery starter kit",
-     "b": 2,
-     "tag": "Craftmas",
-     "k": [
-      "crafts"
-     ]
-    }
-   ]
-  },
-  {
-   "title": "Maximalist, sparkly and a bit extra",
-   "why": "'Merrymaxxing' is the mood: rhinestones, bold colour and baubles with personality.",
-   "items": [
-    {
-     "n": "Bedazzled rhinestone kit",
-     "b": 2,
-     "tag": "Merrymaxxing",
-     "k": [
-      "crafts",
-      "fashion"
-     ]
-    },
-    {
-     "n": "Whimsical Christmas tree decorations",
-     "b": 2,
-     "tag": "Merrymaxxing",
-     "k": [
-      "home"
-     ]
-    },
-    {
-     "n": "Statement glitter bauble set",
-     "b": 2,
-     "tag": "Merrymaxxing",
-     "k": [
-      "home"
-     ]
-    },
-    {
-     "n": "Velvet bow tree decorations",
-     "b": 1,
-     "tag": "Merrymaxxing",
-     "k": [
-      "home"
-     ]
-    }
-   ]
-  },
-  {
-   "title": "Handmade you can see",
-   "why": "Visible brushstrokes and hand stitching are a sign of quality, not a flaw. Hand-painted and hand-woven searches are way up.",
-   "items": [
-    {
-     "n": "Hand-painted mug",
-     "b": 2,
-     "tag": "Mark of the maker",
-     "k": [
-      "coffee",
-      "home"
-     ]
-    },
-    {
-     "n": "Hand-woven throw",
-     "b": 4,
-     "tag": "Mark of the maker",
-     "k": [
-      "home"
-     ]
-    },
-    {
-     "n": "Hand-thrown ceramic vase",
-     "b": 3,
-     "tag": "Mark of the maker",
+     "tag": "Cosy",
      "k": [
       "home",
-      "garden"
+      "eco"
      ]
     },
     {
-     "n": "Hand-embroidered cushion",
-     "b": 3,
-     "tag": "Mark of the maker",
-     "k": [
-      "home"
-     ]
-    }
-   ]
-  },
-  {
-   "title": "For the host",
-   "why": "People are dressing their tables like outfits: ruffles, lace and custom napkins.",
-   "items": [
-    {
-     "n": "Ruffle tablecloth",
-     "b": 3,
-     "tag": "Table dressing",
-     "k": [
-      "home",
-      "food",
-      "cook"
-     ]
-    },
-    {
-     "n": "Custom embroidered napkins",
-     "b": 3,
-     "tag": "Table dressing",
-     "k": [
-      "home",
-      "food",
-      "cook"
-     ]
-    },
-    {
-     "n": "Lace table runner",
+     "n": "Fuzzy cloud slippers",
      "b": 2,
-     "tag": "Table dressing",
-     "k": [
-      "home",
-      "food"
-     ]
-    },
-    {
-     "n": "Personalised place cards",
-     "b": 1,
-     "tag": "Table dressing",
-     "k": [
-      "home",
-      "food",
-      "drinks"
-     ]
-    }
-   ]
-  },
-  {
-   "title": "Party dressing with drama",
-   "why": "Capelets, vintage jewellery and brooches are back for the festive party season.",
-   "items": [
-    {
-     "n": "Vintage brooch",
-     "b": 2,
-     "tag": "Party season",
-     "k": [
-      "fashion"
-     ]
-    },
-    {
-     "n": "Velvet capelet",
-     "b": 3,
-     "tag": "Party season",
-     "k": [
-      "fashion"
-     ]
-    },
-    {
-     "n": "Statement earrings",
-     "b": 2,
-     "tag": "Party season",
+     "tag": "TikTok fave",
      "k": [
       "fashion",
+      "home"
+     ]
+    },
+    {
+     "n": "Sunrise alarm clock",
+     "b": 5,
+     "tag": "Wellness",
+     "k": [
+      "tech",
+      "home"
+     ]
+    },
+    {
+     "n": "Overnight lip mask",
+     "b": 2,
+     "tag": "Self-care",
+     "k": [
       "beauty"
      ]
     },
     {
-     "n": "Men's lapel brooch",
+     "n": "Gratitude journal",
      "b": 1,
-     "tag": "Party season",
+     "tag": "Self-care",
+     "k": [
+      "books",
+      "sentimental"
+     ]
+    },
+    {
+     "n": "Scented candle trio",
+     "b": 2,
+     "tag": "Home fragrance",
+     "k": [
+      "home",
+      "beauty"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "For the foodie and the drinks fan",
+   "why": "Kitchen kit that makes nights in feel like a treat is selling fast.",
+   "items": [
+    {
+     "n": "Stovetop espresso maker",
+     "b": 3,
+     "tag": "Coffee at home",
+     "k": [
+      "coffee",
+      "cook"
+     ]
+    },
+    {
+     "n": "Personalised engraved cutting board",
+     "b": 3,
+     "tag": "Etsy rising",
+     "k": [
+      "cook",
+      "sentimental",
+      "home"
+     ]
+    },
+    {
+     "n": "Fine zester grater",
+     "b": 2,
+     "tag": "Cook's kit",
+     "k": [
+      "cook"
+     ]
+    },
+    {
+     "n": "Hot-air popcorn maker",
+     "b": 2,
+     "tag": "Film night",
+     "k": [
+      "food",
+      "film"
+     ]
+    },
+    {
+     "n": "Pour-through wine aerator",
+     "b": 1,
+     "tag": "Wine lover",
+     "k": [
+      "drinks"
+     ]
+    },
+    {
+     "n": "Chunky flavoured chocolate bar bundle",
+     "b": 1,
+     "tag": "Treat",
+     "k": [
+      "food"
+     ]
+    },
+    {
+     "n": "Cocktail making class for two",
+     "b": 4,
+     "tag": "Experience",
+     "k": [
+      "drinks",
+      "exp"
+     ],
+     "exp": true
+    }
+   ]
+  },
+  {
+   "title": "Tech that actually gets used",
+   "why": "Practical gadgets and travel tech lead the gift guides over flashy gizmos.",
+   "items": [
+    {
+     "n": "Foldable USB-C fast charger",
+     "b": 1,
+     "tag": "Travel tech",
+     "k": [
+      "tech",
+      "travel"
+     ]
+    },
+    {
+     "n": "Universal travel adaptor with USB",
+     "b": 2,
+     "tag": "Travel tech",
+     "k": [
+      "travel",
+      "tech"
+     ]
+    },
+    {
+     "n": "Bluetooth item tracker 4-pack",
+     "b": 4,
+     "tag": "Never lose it",
+     "k": [
+      "tech",
+      "travel"
+     ]
+    },
+    {
+     "n": "Waterproof e-reader",
+     "b": 5,
+     "tag": "Reading",
+     "k": [
+      "books",
+      "tech"
+     ]
+    },
+    {
+     "n": "Noise-cancelling wireless earbuds",
+     "b": 5,
+     "tag": "Audio",
+     "k": [
+      "music",
+      "tech"
+     ]
+    },
+    {
+     "n": "Screenless fitness tracker band",
+     "b": 5,
+     "tag": "Wellness tech",
+     "k": [
+      "fitness",
+      "tech"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Heirloom and celestial",
+   "why": "Etsy shoppers are after nostalgic keepsakes, tartan, moons and woodland motifs.",
+   "items": [
+    {
+     "n": "Personalised embroidered stocking",
+     "b": 2,
+     "tag": "Heirloom",
+     "k": [
+      "sentimental",
+      "home"
+     ]
+    },
+    {
+     "n": "Embroidered name ornament",
+     "b": 1,
+     "tag": "Heirloom",
+     "k": [
+      "sentimental",
+      "home"
+     ]
+    },
+    {
+     "n": "Moon and star necklace",
+     "b": 2,
+     "tag": "Celestial",
      "k": [
       "fashion"
+     ]
+    },
+    {
+     "n": "Moth or butterfly brooch",
+     "b": 2,
+     "tag": "Winter garden",
+     "k": [
+      "fashion"
+     ]
+    },
+    {
+     "n": "Mushroom ceramic decoration",
+     "b": 2,
+     "tag": "Winter garden",
+     "k": [
+      "home",
+      "garden"
+     ]
+    },
+    {
+     "n": "Tartan wool cushion",
+     "b": 3,
+     "tag": "Classic heritage",
+     "k": [
+      "home"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Active, outdoors and garden",
+   "why": "Pilates, running and getting outside are driving fitness and nature gifts.",
+   "items": [
+    {
+     "n": "Pilates grip socks",
+     "b": 1,
+     "tag": "Pilates",
+     "k": [
+      "fitness"
+     ]
+    },
+    {
+     "n": "Lightweight running vest",
+     "b": 2,
+     "tag": "Running",
+     "k": [
+      "sport",
+      "fitness"
+     ]
+    },
+    {
+     "n": "Indoor golf putting mat",
+     "b": 3,
+     "tag": "Golf",
+     "k": [
+      "sport",
+      "funny"
+     ]
+    },
+    {
+     "n": "Pocket bird guide",
+     "b": 1,
+     "tag": "Nature",
+     "k": [
+      "outdoors",
+      "books"
+     ]
+    },
+    {
+     "n": "Solar garden fairy lights",
+     "b": 2,
+     "tag": "Garden glow",
+     "k": [
+      "garden",
+      "eco"
+     ]
+    },
+    {
+     "n": "Lifetime-warranty hiking socks",
+     "b": 3,
+     "tag": "Outdoors",
+     "k": [
+      "outdoors",
+      "fashion"
+     ]
+    },
+    {
+     "n": "Foldable mini trampoline",
+     "b": 4,
+     "tag": "Home workout",
+     "k": [
+      "fitness"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Build it, play it",
+   "why": "Light-up building sets, adult botanical builds and trading cards are this year's big toy stories.",
+   "items": [
+    {
+     "n": "Light-up interactive building set",
+     "b": 4,
+     "tag": "Smart bricks",
+     "k": [
+      "toys",
+      "tech"
+     ]
+    },
+    {
+     "n": "Botanical flower building set",
+     "b": 3,
+     "tag": "Adult builds",
+     "k": [
+      "puzzles",
+      "home",
+      "crafts"
+     ]
+    },
+    {
+     "n": "Marble run starter set",
+     "b": 4,
+     "tag": "STEM",
+     "k": [
+      "toys",
+      "puzzles"
+     ]
+    },
+    {
+     "n": "Trading card starter deck",
+     "b": 2,
+     "tag": "Collectables",
+     "k": [
+      "gaming",
+      "toys"
+     ]
+    },
+    {
+     "n": "Kids' magic tricks set",
+     "b": 2,
+     "tag": "Magic",
+     "k": [
+      "toys",
+      "funny"
+     ]
+    },
+    {
+     "n": "Toy record player",
+     "b": 2,
+     "tag": "Music toys",
+     "k": [
+      "toys",
+      "music"
      ]
     }
    ]
