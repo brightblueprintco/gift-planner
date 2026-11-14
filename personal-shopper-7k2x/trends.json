@@ -1,89 +1,92 @@
 {
- "updated": "13 November 2026",
- "note": "Heirloom-style keepsakes, cosy self-care and small useful gadgets are leading gift guides as Christmas shopping picks up.",
+ "updated": "14 November 2026",
+ "note": "With Black Friday days away, shoppers are hunting heirloom-style keepsakes, viral comfort buys and well-made gifts from independent makers.",
  "groups": [
   {
-   "title": "Heirloom & personalised",
-   "why": "Etsy shoppers are choosing keepsakes meant to come out every year, not just once.",
+   "title": "Heirloom & heritage",
+   "why": "Etsy's holiday trends favour tartan, gingham and personalised pieces that come out every year.",
    "items": [
     {"n": "Custom-engraved wooden chopping board", "b": 3, "tag": "Heirloom", "k": ["cook", "home", "sentimental"]},
-    {"n": "Embroidered name Christmas stocking", "b": 2, "tag": "Heirloom", "k": ["home", "sentimental"]},
-    {"n": "Monogrammed cocktail glasses set", "b": 3, "tag": "Glam hosting", "k": ["drinks", "home"]},
-    {"n": "Personalised pet portrait print", "b": 2, "tag": "Pet gifts", "k": ["pets", "sentimental"]},
-    {"n": "Gold birthstone bracelet", "b": 4, "tag": "Keepsake", "k": ["fashion", "sentimental"]},
-    {"n": "Mushroom and insect glass ornament set", "b": 2, "tag": "Woodland whimsy", "k": ["home", "garden"]}
+    {"n": "Tartan Christmas stocking with embroidered name", "b": 2, "tag": "Classic heritage", "k": ["home", "sentimental"]},
+    {"n": "Red gingham tablecloth", "b": 2, "tag": "Heirloom", "k": ["home", "food"]},
+    {"n": "Personalised family name tree ornament", "b": 1, "tag": "Keepsake", "k": ["sentimental", "home"]},
+    {"n": "Leather-bound recipe journal", "b": 3, "tag": "Classic heritage", "k": ["cook", "books", "sentimental"]},
+    {"n": "Custom pet portrait print", "b": 2, "tag": "Pet gifts", "k": ["pets", "sentimental"]}
    ]
   },
   {
-   "title": "Viral stocking fillers",
-   "why": "Blind boxes, quirky plush and pocket gadgets keep topping TikTok and toy charts.",
+   "title": "Frosted silver & woodland sparkle",
+   "why": "Icy blue-and-silver and moth, mushroom and butterfly motifs are this season's fresh looks.",
    "items": [
-    {"n": "Mystery blind-box mini figure", "b": 1, "tag": "Blind box", "k": ["toys", "funny"]},
-    {"n": "Quirky collectible plush toy", "b": 2, "tag": "Viral plush", "k": ["toys", "funny"]},
+    {"n": "Moon and stars celestial pendant necklace", "b": 2, "tag": "Celestial", "k": ["fashion", "sentimental"]},
+    {"n": "Baroque pearl drop earrings", "b": 3, "tag": "Blue & silver", "k": ["fashion", "beauty"]},
+    {"n": "Pearl and satin hair bow clip set", "b": 1, "tag": "Party hair", "k": ["beauty", "fashion"]},
+    {"n": "Frosted glass star ornament set", "b": 2, "tag": "Blue & silver", "k": ["home"]},
+    {"n": "Moth brooch in antique gold", "b": 2, "tag": "Woodland whimsy", "k": ["fashion", "garden"]},
+    {"n": "Pressed botanical framed print", "b": 3, "tag": "Woodland whimsy", "k": ["home", "garden", "eco"]}
+   ]
+  },
+  {
+   "title": "Viral comfort buys",
+   "why": "TikTok's favourite gifts this week are all about warmth, calm and little luxuries.",
+   "items": [
+    {"n": "Heated compression foot massager", "b": 4, "tag": "TikTok pick", "k": ["fitness", "home"]},
+    {"n": "Colour-changing cloud humidifier", "b": 3, "tag": "TikTok pick", "k": ["home", "tech"]},
+    {"n": "Wool-lined suede slippers", "b": 4, "tag": "Cosy", "k": ["fashion", "home"]},
+    {"n": "Oversized fleece throw blanket", "b": 2, "tag": "Cosy", "k": ["home"]},
+    {"n": "Korean skincare gift set", "b": 3, "tag": "K-beauty", "k": ["beauty"]},
+    {"n": "Large insulated tumbler with straw", "b": 3, "tag": "Viral cup", "k": ["drinks", "fitness"]},
+    {"n": "Cuffed chunky knit beanie", "b": 1, "tag": "Stocking filler", "k": ["fashion", "outdoors"]}
+   ]
+  },
+  {
+   "title": "Foodie, drinks & hosting",
+   "why": "Glamorous entertaining at home is back, so hosting kit and kitchen upgrades are flying.",
+   "items": [
+    {"n": "Stovetop moka coffee pot", "b": 3, "tag": "Home barista", "k": ["coffee", "cook"]},
+    {"n": "Pre-loved vintage cocktail glasses set", "b": 3, "tag": "Second-hand", "k": ["drinks", "eco", "home"]},
+    {"n": "Personalised-wrapper giant chocolate bar", "b": 1, "tag": "Stocking filler", "k": ["food", "funny"]},
+    {"n": "Fine stainless zester grater", "b": 2, "tag": "Kitchen staple", "k": ["cook"]},
+    {"n": "Small-batch hot sauce tasting set", "b": 2, "tag": "Indie makers", "k": ["food", "cook"]},
+    {"n": "Cocktail masterclass for two", "b": 4, "tag": "Experience", "k": ["drinks", "exp"], "exp": true}
+   ]
+  },
+  {
+   "title": "Gadgets that get used",
+   "why": "Practical tech under £50 dominates best-seller lists ahead of the sales.",
+   "items": [
+    {"n": "Compact 30W USB-C fast charger", "b": 1, "tag": "Practical", "k": ["tech"]},
+    {"n": "Mini wireless portable projector", "b": 4, "tag": "Movie night", "k": ["film", "tech"]},
+    {"n": "Retro handheld games console", "b": 3, "tag": "Retro gaming", "k": ["gaming", "tech"]},
     {"n": "Keychain mini digital camera", "b": 3, "tag": "Retro tech", "k": ["photo", "tech"]},
-    {"n": "Beaded phone strap", "b": 2, "tag": "TikTok pick", "k": ["fashion", "tech"]},
-    {"n": "Retro trading card game starter deck", "b": 2, "tag": "Nostalgia", "k": ["gaming", "toys"]},
-    {"n": "Muddy dog paw cleaner cup", "b": 1, "tag": "Best-seller", "k": ["pets"]}
+    {"n": "Multi-device travel adaptor", "b": 2, "tag": "Travel kit", "k": ["travel", "tech"]},
+    {"n": "Cordless drill with quick-change bits", "b": 4, "tag": "DIY", "k": ["diy"]},
+    {"n": "Car boot organiser with cool bag", "b": 2, "tag": "Practical", "k": ["cars", "travel"]}
    ]
   },
   {
-   "title": "Cosy nights in",
-   "why": "Comfort and slow evenings at home are a steady theme across UK and US guides.",
+   "title": "Active, outdoors & nature",
+   "why": "Walking, home workouts and birdwatching gifts keep topping UK gift-guide clicks.",
    "items": [
-    {"n": "Candle warmer lamp", "b": 2, "tag": "Cosy", "k": ["home"]},
-    {"n": "Soft long-sleeve pyjama set", "b": 3, "tag": "Cosy", "k": ["fashion", "home"]},
-    {"n": "Tartan wool throw blanket", "b": 3, "tag": "Classic heritage", "k": ["home"]},
-    {"n": "Hot-air popcorn maker", "b": 2, "tag": "Movie night", "k": ["film", "food"]},
-    {"n": "Mini portable projector", "b": 4, "tag": "Movie night", "k": ["film", "tech"]},
-    {"n": "Cosy wool-blend sock gift set", "b": 2, "tag": "Cosy", "k": ["fashion"]}
-   ]
-  },
-  {
-   "title": "Foodie & drinks favourites",
-   "why": "Kitchen upgrades and treats are among the most-clicked gifts in UK roundups.",
-   "items": [
-    {"n": "Stovetop moka coffee pot", "b": 3, "tag": "Coffee ritual", "k": ["coffee", "cook"]},
-    {"n": "Fine zester grater", "b": 2, "tag": "Best-seller", "k": ["cook"]},
-    {"n": "Pour-through wine aerator", "b": 1, "tag": "Stocking filler", "k": ["drinks"]},
-    {"n": "Gourmet flavoured vinegar and oil duo", "b": 3, "tag": "Foodie", "k": ["food", "cook"]},
-    {"n": "Giant multi-flavour chocolate bar", "b": 1, "tag": "Classic treat", "k": ["food", "funny"]},
-    {"n": "Ceramic travel mug", "b": 2, "tag": "Everyday luxe", "k": ["coffee", "travel"]}
-   ]
-  },
-  {
-   "title": "Useful tech that gets used",
-   "why": "Practical gadgets that solve small daily annoyances are beating big-ticket tech.",
-   "items": [
-    {"n": "Compact 30W USB-C fast charger", "b": 2, "tag": "Practical tech", "k": ["tech"]},
-    {"n": "Bluetooth item tracker tag", "b": 2, "tag": "Practical tech", "k": ["tech", "travel"]},
-    {"n": "Pocket e-ink e-reader", "b": 4, "tag": "Reading", "k": ["books", "tech"]},
-    {"n": "Multi-device travel adaptor", "b": 2, "tag": "Travel", "k": ["travel", "tech"]},
-    {"n": "Rechargeable LED make-up mirror", "b": 3, "tag": "Beauty tech", "k": ["beauty", "tech"]},
-    {"n": "Light-up smart building brick set", "b": 4, "tag": "Interactive toys", "k": ["toys", "tech"]}
-   ]
-  },
-  {
-   "title": "Active & outdoors",
-   "why": "Pilates, running and home golf practice are driving fitness gift searches.",
-   "items": [
-    {"n": "Non-slip Pilates grip socks", "b": 1, "tag": "Pilates", "k": ["fitness"]},
-    {"n": "Lightweight running vest with pockets", "b": 2, "tag": "Running", "k": ["fitness", "sport", "outdoors"]},
-    {"n": "Indoor golf putting mat", "b": 3, "tag": "Home golf", "k": ["sport"]},
-    {"n": "Pocket UK garden birds guide", "b": 1, "tag": "Nature", "k": ["books", "outdoors", "garden"], "c": ["GB"]},
+    {"n": "Non-slip Pilates grip socks", "b": 1, "tag": "Wellness", "k": ["fitness"]},
+    {"n": "Foldable mini trampoline", "b": 4, "tag": "Home workout", "k": ["fitness", "sport"]},
+    {"n": "Indoor golf putting mat", "b": 3, "tag": "Home golf", "k": ["sport", "funny"]},
+    {"n": "Pocket UK garden birds guide", "b": 1, "tag": "Nature", "k": ["outdoors", "books", "garden"], "c": ["GB"]},
     {"n": "Solar garden fairy lights", "b": 2, "tag": "Garden glow", "k": ["garden", "eco"]},
-    {"n": "Wildlife photography day out", "b": 5, "tag": "Experience", "k": ["exp", "photo", "outdoors"], "exp": true}
+    {"n": "Silicone dog paw cleaner cup", "b": 1, "tag": "Pet gifts", "k": ["pets", "outdoors"]}
    ]
   },
   {
-   "title": "Build, craft & play",
-   "why": "Adult build kits and hands-on hobbies are a big crossover trend for all ages.",
+   "title": "Kids' wishlist toys",
+   "why": "Light-up builds, electronic pets and collectibles lead this year's toy-trend lists.",
    "items": [
-    {"n": "Botanical flower brick-build set", "b": 3, "tag": "Adult builds", "k": ["toys", "puzzles", "home"]},
-    {"n": "Marble run starter kit", "b": 4, "tag": "STEM toys", "k": ["toys", "puzzles"]},
-    {"n": "Beginner embroidery kit", "b": 2, "tag": "Slow craft", "k": ["crafts"]},
-    {"n": "1000-piece vintage art jigsaw", "b": 2, "tag": "Nights in", "k": ["puzzles"]},
-    {"n": "Wooden play food and kitchen set", "b": 3, "tag": "Role play", "k": ["toys"]},
-    {"n": "Pottery taster class for two", "b": 4, "tag": "Experience", "k": ["exp", "crafts"], "exp": true}
+    {"n": "Light-up interactive building set", "b": 4, "tag": "Smart build", "k": ["toys", "puzzles"]},
+    {"n": "Hatching dinosaur electronic pet", "b": 2, "tag": "Electronic pets", "k": ["toys"]},
+    {"n": "Working toy record player", "b": 2, "tag": "Retro play", "k": ["toys", "music"]},
+    {"n": "Wooden magic tricks set", "b": 2, "tag": "Magic", "k": ["toys", "funny"]},
+    {"n": "Magnetic tiles with ball run", "b": 3, "tag": "STEM play", "k": ["toys", "puzzles"]},
+    {"n": "Mystery blind-box mini figure", "b": 1, "tag": "Blind box", "k": ["toys", "funny"]},
+    {"n": "Beginner embroidery kit", "b": 2, "tag": "Slow craft", "k": ["crafts"]}
    ]
   }
  ]
