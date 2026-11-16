@@ -190,6 +190,7 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
  .slip .bot .h{font-size:8.5pt;font-style:italic;margin-top:1mm}
  .slip .bot .k{font-family:var(--type);font-size:8pt;letter-spacing:.1em;text-transform:uppercase}
 }
+.sbar{position:sticky;top:0;z-index:30;display:flex;gap:4px;overflow-x:auto;padding:10px 2px;margin:0 -4px 8px;background:var(--kraft);-webkit-overflow-scrolling:touch;scrollbar-width:none}.sbar::-webkit-scrollbar{display:none}.sbar button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:6px 2px;font:600 11.5px/1.1 var(--serif,Georgia,serif);cursor:pointer;white-space:nowrap}.sbar button i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--line);color:var(--ink);font:700 11px/1 var(--type,monospace)}.sbar button.on{background:var(--cran);border-color:var(--cran);color:#fff}.sbar button.on i{background:#fff;color:var(--cran)}.sbar button.ok i{background:var(--pine);color:#fff}.tag.folded>*:not(.step):not(.fsum){display:none!important}.tag.folded .step{margin-bottom:8px}.fsum{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:15px}.fsum span{flex:1;min-width:0}
 </style>
 </head>
 <body>
@@ -661,11 +662,40 @@ function render(){
     $("#main").innerHTML=rReveal();
     $("#foot").innerHTML='Organising your own? <a href="'+SHOP+'" target="_blank" rel="noopener">Get the organiser</a><br><br>Made with love by BrightBlueprintCo';
   }else{
-    $("#main").innerHTML=rOrganiser();
+    $("#main").innerHTML=rOrganiser();enhance();
     var rb=$("#rb");if(rb&&rb.options.length>1)rb.selectedIndex=1;
   }
   addHelp(document.getElementById("main"));
 }
+
+/* ---------- step bar + folding (Nov 26) ---------- */
+ui.exp=ui.exp||{};
+function secId(h){h=h.toLowerCase();if(/the group/.test(h))return"group";if(/who.s in/.test(h))return"people";if(/chat/.test(h))return"chat";if(/house rules/.test(h))return"rules";if(/draw the/.test(h))return"draw";if(/keep it/.test(h))return"going";if(/save my/.test(h))return"save";return""}
+function foldSum(id){var n=S.people.length,nm=S.people.slice(0,3).map(function(p){return p.name.split(/\s+/)[0]}).join(", ");
+  if(id==="group")return esc((S.group||"Secret Santa")+" · "+money()+(S.date?" · "+fmtDate(S.date):"")+(S.place?" · "+S.place:""));
+  if(id==="people")return esc(n+" people: "+nm+(n>3?" +"+(n-3):""));
+  if(id==="chat")return validChat()?"Group chat linked":"No group chat (that’s fine)";
+  if(id==="rules")return S.rules.length?esc(S.rules.length+" rule"+(S.rules.length>1?"s":"")):"No rules";
+  if(id==="save")return"Backup link, home-screen shortcut, restore, start a new group";return""}
+function enhance(){
+  var main=$("#main");if(!main||R)return;
+  var secs=[].slice.call(main.querySelectorAll("section.tag")),map={};
+  secs.forEach(function(sec){var h=sec.querySelector(".step h2");if(!h)return;var id=secId(h.textContent);if(!id)return;sec.id="s-"+id;map[id]=sec;
+    var fold=!ui.exp[id]&&((S.draw&&/^(group|people|chat|rules)$/.test(id))||(id==="save"&&!ui.hsGuide&&!ui.pend));
+    if(fold){sec.classList.add("folded");var f=document.createElement("div");f.className="fsum";
+      f.innerHTML='<span>'+foldSum(id)+'</span><button class="btn sm" data-exp="'+id+'">'+(id==="save"?"Open":"Edit")+'</button>';
+      sec.querySelector(".step").insertAdjacentElement("afterend",f)}});
+  var D={group:!!(S.group&&S.date),people:S.people.length>=3,rules:!!S.draw,draw:!!S.draw};
+  var steps=[["group","Group"],["people","Who’s in"],["rules","Rules"],["draw",S.draw?"Send":"Draw"],["save","More"]];
+  var cur=null;steps.forEach(function(st){if(!cur&&st[0]!=="save"&&!D[st[0]])cur=st[0]});if(!cur)cur=S.draw?"draw":"group";
+  var bar=document.createElement("nav");bar.className="sbar";bar.setAttribute("aria-label","Steps");
+  bar.innerHTML=steps.filter(function(st){return map[st[0]]}).map(function(st,ix){var done=D[st[0]]&&!(S.draw&&st[0]==="draw"&&Object.keys(S.draw.sent||{}).length<S.people.length);
+    return '<button data-jump="'+st[0]+'" class="'+(st[0]===cur?"on ":"")+(done?"ok":"")+'"><i>'+(done?"✓":(st[0]==="save"?"…":ix+1))+'</i>'+st[1]+'</button>'}).join("");
+  main.insertBefore(bar,main.firstChild);
+}
+document.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest("[data-exp],[data-jump]");if(!t)return;
+  if(t.dataset.exp){e.preventDefault();ui.exp[t.dataset.exp]=1;render();var s=document.getElementById("s-"+t.dataset.exp);if(s)s.scrollIntoView({block:"start",behavior:"smooth"});return}
+  var id=t.dataset.jump;if(id==="save"&&!ui.exp.save){ui.exp.save=1;render()}var s2=document.getElementById("s-"+id);if(s2){var y=s2.getBoundingClientRect().top+window.scrollY-64;window.scrollTo({top:y,behavior:"smooth"})}},true);
 
 /* ---------- sending ---------- */
 function post(kind){
