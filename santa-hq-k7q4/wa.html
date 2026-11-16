@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex"><title>Sample chat</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font:16px/1.38 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#EFE7DD;color:#111;display:flex;flex-direction:column;
+background-image:radial-gradient(rgba(0,0,0,.035) 1px,transparent 1px);background-size:18px 18px}
+.hd{background:#F7F7F7;border-bottom:1px solid #ddd;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;display:flex;align-items:center;gap:10px}
+.bk{border:0;background:none;font-size:30px;line-height:1;color:#0A7CFF;padding:0 6px;cursor:pointer}
+.av{width:38px;height:38px;border-radius:50%;background:#9A2B2E;color:#fff;display:grid;place-items:center;font-weight:700}
+.nm b{display:block;font-size:16px}.nm span{font-size:12.5px;color:#777}
+.demo{align-self:center;margin:10px auto 0;background:#FFF6D6;color:#6B521A;font-size:12px;padding:5px 10px;border-radius:8px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.wrap{flex:1;overflow:auto;padding:10px 12px 18px;display:flex;flex-direction:column}
+.day{align-self:center;background:#fff;color:#555;font-size:12px;padding:4px 10px;border-radius:8px;margin:10px 0;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.msg{align-self:flex-end;max-width:84%;background:#D9FDD3;border-radius:12px 12px 4px 12px;padding:8px 10px 6px;white-space:pre-wrap;word-break:break-word;box-shadow:0 1px 1px rgba(0,0,0,.1);opacity:0;transform:translateY(10px);transition:.35s}
+.msg.on{opacity:1;transform:none}
+.msg a{color:#027EB5;text-decoration:underline}
+.meta{display:block;text-align:right;font-size:11px;color:#667;margin-top:2px}.ticks{color:#34B7F1;margin-left:3px}
+.bar{background:#F7F7F7;border-top:1px solid #ddd;padding:8px 10px calc(8px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center}
+.in{flex:1;background:#fff;border:1px solid #ddd;border-radius:18px;padding:9px 14px;color:#999;font-size:15px}
+.snd{width:38px;height:38px;border-radius:50%;background:#1F8F5F;color:#fff;display:grid;place-items:center;font-size:17px}
+.empty{align-self:center;margin-top:30px;color:#777;font-size:14px;text-align:center}
+</style></head><body>
+<div class="hd"><button class="bk" onclick="history.length>1?history.back():location.href='./'" aria-label="Back">&#8249;</button><div class="av" id="av">S</div><div class="nm"><b id="to">Secret Santa</b><span>tap here for info</span></div></div>
+<div class="demo">Sample chat for demo purposes</div>
+<div class="wrap" id="wrap"><div class="day">Today</div></div>
+<div class="bar"><div class="in">Message</div><div class="snd">&#10148;</div></div>
+<script>
+var q=new URLSearchParams(location.search),to=q.get("to")||"Secret Santa",t=decodeURIComponent(location.hash.slice(1)||"");
+document.getElementById("to").textContent=to;document.getElementById("av").textContent=to.replace(/[^A-Za-z]/g,"").charAt(0)||"S";
+function esc(s){return s.replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+var w=document.getElementById("wrap");
+if(t){var d=new Date(),hm=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+  var m=document.createElement("div");m.className="msg";m.innerHTML=esc(t).replace(/(https?:\/\/[^\s]+)/g,'<a href="$1">$1</a>')+'<span class="meta">'+hm+'<span class="ticks">&#10003;&#10003;</span></span>';
+  w.appendChild(m);setTimeout(function(){m.classList.add("on")},350);
+  m.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();if(/chat\.whatsapp\.com/.test(a.href))return;location.href=a.href})}
+else{var e=document.createElement("div");e.className="empty";e.textContent="Welcome to the group chat! Reminders and banter live here.";w.appendChild(e)}
+</script></body></html>

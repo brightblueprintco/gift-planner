@@ -204,7 +204,8 @@ textarea.copy{width:100%;min-height:64px;margin-top:8px;font-family:var(--type);
 <script>
 (function(){
 "use strict";
-var KEY="bbco-secret-santa-v1", SHOP="https://brightblueprintco.etsy.com";
+var DEMO=(function(){var q=location.search;try{if(/[?&]demo=1/.test(q))localStorage.setItem("bbss-demo","1");if(/[?&]demo=0/.test(q))localStorage.removeItem("bbss-demo");return localStorage.getItem("bbss-demo")==="1"}catch(e){return /[?&]demo=1/.test(q)}})();
+var KEY=DEMO?"bbco-secret-santa-demo":"bbco-secret-santa-v1", SHOP="https://brightblueprintco.etsy.com";
 var XK="bbco-santa-2026";
 var uid=function(){return Math.random().toString(36).slice(2,9)};
 function $(s){return document.querySelector(s)}
@@ -293,6 +294,12 @@ function C(){return CTRY[S.country]||CTRY.GB}
 /* ---------- state ---------- */
 function defaults(){return{country:guessCountry(),group:"",budget:"20",cur:CTRY[guessCountry()].cur||"£",date:"",place:"",note:"",chat:"",people:[],rules:[],draw:null}}
 var S=load(KEY)||defaults();(S.people||[]).forEach(function(p){p.name=noEmoji(p.name)});if(!S.countrySet){var gc=guessCountry();if(S.country!==gc){S.country=gc;if(CTRY[gc].cur)S.cur=CTRY[gc].cur}}var D0=defaults();for(var k in D0){if(S[k]===undefined)S[k]=D0[k]}
+function demoSeed(){var t=new Date(),td=t.toISOString().slice(0,10),f=new Date(t);f.setDate(f.getDate()+((5-f.getDay()+7)%7)+14);
+  var m=location.search.match(/[?&]cur=(gbp|usd|eur)/i),cur=m?{gbp:"\u00a3",usd:"$",eur:"\u20ac"}[m[1].toLowerCase()]:(C().cur||"\u00a3");if(m)S.country={gbp:"GB",usd:"US",eur:"IE"}[m[1].toLowerCase()];
+  var P=[["Linda","Gin, gardening, anything cosy"],["Raza","Board games and good coffee"],["Priya","Candles, reading, a nice notebook"],["Joe","Football, socks, snacks"],["Sofia","Yoga, plants, tea"],["Dan","Cooking, craft beer, gadgets"]];
+  if(m){S.country={gbp:"GB",usd:"US",eur:"IE"}[m[1].toLowerCase()]}S.countrySet=true;S.group="The Office";S.budget="25";S.cur=cur;S.date=f.toISOString().slice(0,10);S.place="Friday drinks";S.note="";S.chat="https://chat.whatsapp.com/SampleOfficeSanta";S.rules=[];S.draw=null;
+  S.people=P.map(function(p,i){return{id:"d"+i,name:p[0],hint:p[1],phone:"07700 900"+(120+i*7)}});S.seeded=td;S.backedUp=true;save()}
+if(DEMO){var _td=new Date().toISOString().slice(0,10);if(!S.people.length||S.seeded!==_td||/[?&]reset=1/.test(location.search))demoSeed()}
 function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
 var canSave=true;
 var ui={openHint:null,wipe:false,pend:null};
@@ -687,7 +694,7 @@ function send(kind,id){
     return;
   }
   var num=intl(p.phone);
-  if(kind==="wa"){S.draw.sent[id]=true;save();openWA(num,m);return}
+  if(kind==="wa"){S.draw.sent[id]=true;save();ui.waTo=p.name;openWA(num,m);return}
   var url=kind==="sms"?"sms:"+(num?"+"+num:"")+"&body="+encodeURIComponent(m):"mailto:?subject="+encodeURIComponent("Your Secret Santa"+(S.group?" \u2013 "+S.group:""))+"&body="+encodeURIComponent(m);
   var a=document.createElement("a");a.href=url;a.target="_self";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
   markSent(id);
@@ -707,7 +714,7 @@ function groupCard(stage){
   $("#ov").classList.add("open");
 }
 function openGroup(code,text){
-  openWA("",text);return;
+  ui.waTo=(S.group||(R&&R.g)||"Secret Santa")+" \ud83c\udf85";openWA("",text);return;
   ui.grp={code:code,text:text};ui.lastText=text;groupCard("ready");
 }
 function postGroup(){
@@ -717,6 +724,7 @@ function postGroup(){
   window.location.href="whatsapp://chat?code="+g.code;
 }
 function openWA(num,text){
+  if(DEMO||/[?&]demo=1/.test(location.search)){var to=ui.waTo||"Secret Santa";ui.waTo=null;location.href=dirUrl()+"wa.html?to="+encodeURIComponent(to)+"#"+encodeURIComponent(text);return}
   var q=encodeURIComponent(text);
   var app="whatsapp://send?"+(num?"phone="+num+"&":"")+"text="+q;
   var web="https://wa.me/"+(num||"")+"?text="+q;
@@ -865,6 +873,7 @@ function boot(){
   }
   render();
 }
+if(DEMO)document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="chat.whatsapp.com"]');if(a){e.preventDefault();location.href=dirUrl()+"wa.html?to="+encodeURIComponent((S.group||"Secret Santa")+" \ud83c\udf85")}},true);
 window.addEventListener("hashchange",boot);
 boot();
 })();
