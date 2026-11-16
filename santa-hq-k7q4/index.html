@@ -298,7 +298,7 @@ function demoSeed(){var t=new Date(),td=t.toISOString().slice(0,10),f=new Date(t
   var m=location.search.match(/[?&]cur=(gbp|usd|eur)/i),cur=m?{gbp:"\u00a3",usd:"$",eur:"\u20ac"}[m[1].toLowerCase()]:(C().cur||"\u00a3");if(m)S.country={gbp:"GB",usd:"US",eur:"IE"}[m[1].toLowerCase()];
   var P=[["Linda","Gin, gardening, anything cosy"],["Raza","Board games and good coffee"],["Priya","Candles, reading, a nice notebook"],["Joe","Football, socks, snacks"],["Sofia","Yoga, plants, tea"],["Dan","Cooking, craft beer, gadgets"]];
   if(m){S.country={gbp:"GB",usd:"US",eur:"IE"}[m[1].toLowerCase()]}S.countrySet=true;S.group="The Office";S.budget="25";S.cur=cur;S.date=f.toISOString().slice(0,10);S.place="Friday drinks";S.note="";S.chat="https://chat.whatsapp.com/SampleOfficeSanta";S.rules=[];S.draw=null;
-  S.people=P.map(function(p,i){return{id:"d"+i,name:p[0],hint:p[1],phone:"07700 900"+(120+i*7)}});S.seeded=td;S.backedUp=true;save()}
+  var US=S.country==="US"||S.country==="CA";S.people=P.map(function(p,i){return{id:"d"+i,name:p[0],hint:p[1],phone:US?"(212) 555-01"+(20+i*7):"07700 900"+(120+i*7)}});S.seeded=td;S.backedUp=true;save()}
 if(DEMO){var _td=new Date().toISOString().slice(0,10);if(!S.people.length||S.seeded!==_td||/[?&]reset=1/.test(location.search))demoSeed()}
 function save(){if(!store(KEY,S)){canSave=false;return}var b=document.getElementById("saved");if(b){b.classList.add("show");clearTimeout(save._t);save._t=setTimeout(function(){b.classList.remove("show")},1300)}}
 var canSave=true;
@@ -873,6 +873,7 @@ function boot(){
   }
   render();
 }
+if(DEMO){var _fx=function(){var n=document.getElementById("pname");if(n&&!n.dataset.dm){n.dataset.dm=1;n.setAttribute("autocomplete","off");n.setAttribute("autocorrect","off");n.setAttribute("name","q"+Date.now());n.setAttribute("placeholder","Who else?")}};new MutationObserver(_fx).observe(document.body,{childList:true,subtree:true});_fx()}
 if(DEMO)document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="chat.whatsapp.com"]');if(a){e.preventDefault();location.href=dirUrl()+"wa.html?to="+encodeURIComponent((S.group||"Secret Santa")+" \ud83c\udf85")}},true);
 window.addEventListener("hashchange",boot);
 boot();
