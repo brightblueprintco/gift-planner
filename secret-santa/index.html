@@ -342,7 +342,7 @@ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();def
 window.addEventListener("appinstalled",function(){deferredInstall=null;S.hsDone=true;save();if(!R)render();toast("Added to your home screen ✔")});
 var ICONK="bbco-ss-icon";
 function canPhoto(){var ic=load(ICONK);if(!ic||!ic.url||!navigator.canShare)return false;try{return navigator.canShare({files:[new File([new Blob(["x"],{type:"image/jpeg"})],"t.jpg",{type:"image/jpeg"})]})}catch(e){return false}}
-function iconKey(){return R&&RK?ICONK+"-"+RK.slice(13):ICONK}
+function iconKey(){return (DEMO?"demo-":"")+(R&&RK?ICONK+"-"+RK.slice(13):ICONK)}
 function setAppIcon(){var d=load(iconKey());var l=document.getElementById("appicon");if(l)l.href=d&&d.url?d.url:"icon-180.png";
   if(R){var mf=document.querySelector('link[rel="manifest"]');if(mf)mf.parentNode.removeChild(mf)}}
 function drawIcon(img,kind,N,t){var c=document.createElement("canvas");c.width=c.height=N;var x=c.getContext("2d"),k=N/180;
