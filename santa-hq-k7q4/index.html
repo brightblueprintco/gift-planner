@@ -586,6 +586,11 @@ function rReveal(){
      (R.h&&G.ints&&G.ints.length?'<p class="small" style="margin-top:6px">Picked from '+esc(R.r)+'’s hints. Change them if you like.</p>':'')+'</div>':'')+
    (fu?AMZ_NOTE:'')+'</section>';
   if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))h+='<section class="tag l"><div class="step"><div class="stamp">\u2709</div><h2>The group <em>chat</em></h2></div><p class="small">Reminders and banter live here. Don\u2019t spill who you got!</p><div class="row" style="margin-top:10px"><a class="btn pine" href="whatsapp://chat?code='+esc(R.w.split("/").pop())+'">Join on WhatsApp</a></div><p class="small" style="margin-top:8px">No WhatsApp app? <a href="'+esc(R.w)+'" style="color:var(--cran)">Open it in the browser</a></p></section>';
+  h+='<section class="tag l"><div class="step"><div class="stamp">\u2605</div><h2>My <em>wish list</em></h2></div>'+
+   '<p class="small">Help whoever drew you. Pop in a few ideas and share them with the group. It only says what you\u2019d like, not who\u2019s buying.</p>'+
+   '<textarea id="g-wish" class="copy" maxlength="240" placeholder="One idea per line, e.g.\nA cosy throw\nGin\nGardening gloves" style="margin-top:10px;min-height:96px;font-family:inherit">'+esc(G.wish||"")+'</textarea>'+
+   '<div class="row" style="margin-top:10px"><button class="btn pine" id="wishsend">'+(G.wishSent?'Share it again':'Share with the group')+'</button></div>'+
+   (G.wishSent?'<p class="small" style="margin-top:6px">Shared \u2713 Your Santa can see it in the chat.</p>':'')+'</section>';
   h+='<section class="tag r"><div class="step"><div class="stamp">✔</div><h2>My <em>gift</em></h2></div>'+
    '<div class="field" style="display:block"><span class="label">I’m getting them</span><input id="g-idea" placeholder="Write it here…" maxlength="80" value="'+esc(G.idea||"")+'" style="width:100%;text-align:left;margin-top:4px"></div>'+
    (G.idea&&!G.bought&&findBtn(G.idea)?'<div class="row" style="margin:10px 0 4px">'+findBtn(G.idea,"sm pine")+'</div>':'')+
@@ -691,6 +696,13 @@ document.addEventListener("click",function(e){var t=e.target.closest&&e.target.c
   if(t.dataset.exp){e.preventDefault();ui.exp[t.dataset.exp]=1;render();var s=document.getElementById("s-"+t.dataset.exp);if(s)s.scrollIntoView({block:"start",behavior:"smooth"});return}
   var id=t.dataset.jump;if(id==="save"&&!ui.exp.save){ui.exp.save=1;render()}var s2=document.getElementById("s-"+id);if(s2){var y=s2.getBoundingClientRect().top+window.scrollY-64;window.scrollTo({top:y,behavior:"smooth"})}},true);
 
+function wishText(){var first=(R.n||"").trim().split(/\s+/)[0]||"My";var items=(G.wish||"").split(/\n|,/).map(function(x){return x.trim()}).filter(Boolean);
+  return "\ud83c\udf81 "+first+"\u2019s Secret Santa wish list"+(R.g?" ("+R.g+")":"")+"\n\n"+items.map(function(x){return"\u2022 "+x}).join("\n")+"\n\nWhoever\u2019s got me, no pressure \ud83d\ude09\ud83c\udf85"}
+document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#wishsend")||!R)return;e.preventDefault();
+  var w=document.getElementById("g-wish");if(w){G.wish=w.value;store(RK,G)}
+  if(!(G.wish||"").trim()){toast("Add an idea or two first");if(w)w.focus();return}
+  G.wishSent=true;store(RK,G);var t=wishText();
+  if(R.w&&/^https:\/\/chat\.whatsapp\.com\//.test(R.w))openGroup(R.w.split("/").pop(),t);else{ui.waTo=(R.g||"Secret Santa")+" \ud83c\udf85";openWA("",t)}},true);
 /* ---------- sending ---------- */
 function post(kind){
   var g=S.group?": "+S.group:"",d=S.date?fmtDate(S.date):"TBC";
@@ -774,7 +786,7 @@ function fallback(m,id){
 var main=$("#main");
 main.addEventListener("input",function(e){
   var t=e.target,id=t.id;
-  if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}return}
+  if(R){if(id==="g-idea"){G.idea=t.value;store(RK,G)}if(id==="g-wish"){G.wish=t.value;store(RK,G)}return}
   var map={"f-chat":"chat","f-group":"group","f-budget":"budget","f-date":"date","f-place":"place","f-note":"note","f-cur":"cur"};
   if(map[id]){S[map[id]]=t.value;save()}
   if(t.dataset.phone){var pp=S.people.find(function(x){return x.id===t.dataset.phone});if(pp){pp.phone=t.value.trim();save()}}
@@ -904,7 +916,7 @@ function boot(){
   render();
 }
 if(DEMO){var _fx=function(){var n=document.getElementById("pname");if(n&&!n.dataset.dm){n.dataset.dm=1;n.setAttribute("autocomplete","off");n.setAttribute("autocorrect","off");n.setAttribute("name","q"+Date.now());n.setAttribute("placeholder","Who else?")}};new MutationObserver(_fx).observe(document.body,{childList:true,subtree:true});_fx()}
-if(DEMO)document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="chat.whatsapp.com"]');if(a){e.preventDefault();location.href=dirUrl()+"wa.html?to="+encodeURIComponent((S.group||"Secret Santa")+" \ud83c\udf85")}},true);
+if(DEMO)document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="chat.whatsapp.com"],a[href^="whatsapp:"]');if(a){e.preventDefault();location.href=dirUrl()+"wa.html?to="+encodeURIComponent(((R&&R.g)||S.group||"Secret Santa")+" \ud83c\udf85")}},true);
 window.addEventListener("hashchange",boot);
 boot();
 })();
