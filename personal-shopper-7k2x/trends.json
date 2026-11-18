@@ -1,81 +1,95 @@
 {
- "updated": "17 November 2026",
- "note": "Google's Holiday 100 breakout searches are lifting beauty samplers, retro fashion and screen-free toys, while UK guides lean on practical under-£30 picks.",
+ "updated": "18 November 2026",
+ "note": "Early Black Friday markdowns are pulling wearables, beauty tech and kitchen gadgets forward, while Etsy's heirloom and woodland looks lead handmade picks.",
  "groups": [
   {
-   "title": "Breakout searches",
-   "why": "The fastest-rising gift searches this month, led by beauty tools and retro style.",
+   "title": "Black Friday tech steals",
+   "why": "Early deals are knocking 15-40% off this year's most-wanted gadgets.",
    "items": [
-    {"n": "Perfume discovery sampler set", "b": 3, "tag": "Top search", "k": ["beauty"]},
-    {"n": "Lymphatic face sculpting brush", "b": 1, "tag": "Viral beauty", "k": ["beauty"]},
-    {"n": "Low kitten heel party shoes", "b": 4, "tag": "Party season", "k": ["fashion"], "c": ["US"]},
-    {"n": "Retro 2000s-style running trainers", "b": 4, "tag": "Retro runner", "k": ["fashion", "sport"]},
-    {"n": "Boxy utility jacket with cargo pockets", "b": 4, "tag": "All-time high", "k": ["fashion", "outdoors"]},
-    {"n": "Après-ski enamel mug", "b": 2, "tag": "Breakout", "k": ["coffee", "home"]},
-    {"n": "USB podcast microphone", "b": 5, "tag": "Creator kit", "k": ["tech", "music"]}
+    {"n": "Smart sleep and recovery ring", "b": 5, "tag": "Wearable of the year", "k": ["tech", "fitness"]},
+    {"n": "Colour-screen e-reader", "b": 5, "tag": "Early deal", "k": ["books", "tech"]},
+    {"n": "Noise-cancelling wireless earbuds", "b": 5, "tag": "Most wanted", "k": ["tech", "music"]},
+    {"n": "Mini Bluetooth movie projector", "b": 4, "tag": "Price drop", "k": ["film", "tech", "home"]},
+    {"n": "Pocket instant photo printer", "b": 4, "tag": "Teen favourite", "k": ["photo", "tech"]},
+    {"n": "Retro handheld games console", "b": 3, "tag": "Retro gaming", "k": ["gaming", "tech"]},
+    {"n": "Slim magnetic power bank", "b": 2, "tag": "Under £25", "k": ["tech", "travel"]}
    ]
   },
   {
-   "title": "Glamorous entertaining",
-   "why": "Art Deco cocktail parties and home bars are a top Etsy holiday look this year.",
+   "title": "Glow & wellness",
+   "why": "LED skincare, sleep gadgets and calm-at-home kit are dominating gift guides.",
    "items": [
-    {"n": "Monogrammed crystal tumbler pair", "b": 3, "tag": "Home bar", "k": ["drinks", "home", "sentimental"]},
-    {"n": "Vintage-style cocktail shaker set", "b": 3, "tag": "Art Deco", "k": ["drinks"]},
-    {"n": "Pour-through wine aerator", "b": 1, "tag": "Under £15", "k": ["drinks"]},
-    {"n": "Personalised drink charms set", "b": 1, "tag": "Party detail", "k": ["drinks", "funny"]},
-    {"n": "Mixed-flavour chocolate bar bundle", "b": 1, "tag": "Stocking filler", "k": ["food"]},
-    {"n": "Hot-air popcorn maker", "b": 2, "tag": "Movie night", "k": ["food", "film"]},
-    {"n": "Gin tasting experience for two", "b": 4, "tag": "Experience", "k": ["drinks", "exp"], "exp": true}
+    {"n": "LED light therapy face mask", "b": 5, "tag": "Splurge pick", "k": ["beauty"]},
+    {"n": "Sunrise alarm clock and sleep light", "b": 5, "tag": "Better sleep", "k": ["home", "tech"]},
+    {"n": "Viral hair and body fragrance mist", "b": 2, "tag": "TikTok scent", "k": ["beauty"]},
+    {"n": "Candle warmer lamp", "b": 2, "tag": "Cosy glow", "k": ["home"]},
+    {"n": "Weighted wrist and ankle bangles", "b": 4, "tag": "Pilates girlie", "k": ["fitness"]},
+    {"n": "Non-slip Pilates grip socks", "b": 1, "tag": "Stocking filler", "k": ["fitness", "fashion"]},
+    {"n": "Illuminated cordless make-up mirror", "b": 3, "tag": "Vanity upgrade", "k": ["beauty", "home"]}
    ]
   },
   {
-   "title": "Kitchen & coffee upgrades",
-   "why": "Black Friday previews keep kitchen staples and home-barista kit near the top.",
+   "title": "Foodie & kitchen upgrades",
+   "why": "Multi-function gadgets and pantry upgrades are the most-clicked kitchen gifts.",
    "items": [
+    {"n": "Frozen drink and slushie maker", "b": 5, "tag": "Party machine", "k": ["drinks", "cook", "funny"]},
+    {"n": "Chilli crisp condiment gift bundle", "b": 3, "tag": "Pantry upgrade", "k": ["food", "cook"]},
+    {"n": "Artisan olive oil gift trio", "b": 4, "tag": "Foodie favourite", "k": ["food", "cook"]},
     {"n": "Stovetop moka coffee pot", "b": 3, "tag": "Home barista", "k": ["coffee", "cook"]},
     {"n": "Fine stainless zester grater", "b": 2, "tag": "Chef's pick", "k": ["cook"]},
-    {"n": "Personalised engraved wooden chopping board", "b": 3, "tag": "Heirloom", "k": ["cook", "home", "sentimental"]},
-    {"n": "Enamelled cast iron casserole dish", "b": 4, "tag": "Kitchen hero", "k": ["cook", "home"]},
-    {"n": "Hot chocolate flavour sampler box", "b": 2, "tag": "Cosy treat", "k": ["food", "drinks"]}
+    {"n": "Hot-air popcorn maker", "b": 2, "tag": "Secret Santa hit", "k": ["food", "film"]},
+    {"n": "Mixed-flavour chocolate bar bundle", "b": 1, "tag": "Under £10", "k": ["food"]}
    ]
   },
   {
-   "title": "Heritage, woodland & icy blue",
-   "why": "Tartan, moths and mushrooms, and frosted blue-and-silver lead Etsy's trend reports.",
+   "title": "Heirloom & woodland handmade",
+   "why": "Etsy's top looks this season are nostalgic keepsakes, tartan and moths-and-mushrooms whimsy.",
    "items": [
+    {"n": "Embroidered personalised name ornament", "b": 2, "tag": "Heirloom holidays", "k": ["sentimental", "home"]},
     {"n": "Tartan stocking with embroidered name", "b": 2, "tag": "Classic heritage", "k": ["home", "sentimental"]},
-    {"n": "Moth or beetle enamel brooch", "b": 1, "tag": "Woodland whimsy", "k": ["fashion", "garden"]},
-    {"n": "Frosted icy-blue glass bauble set", "b": 2, "tag": "Cool blue", "k": ["home"]},
-    {"n": "Celestial moon and star pendant", "b": 2, "tag": "Celestial", "k": ["fashion", "sentimental"]},
+    {"n": "Glass mushroom tree ornament set", "b": 2, "tag": "Woodland whimsy", "k": ["home", "garden"]},
+    {"n": "Moth or butterfly enamel brooch", "b": 1, "tag": "Wilderkind", "k": ["fashion", "garden"]},
+    {"n": "Baroque pearl celestial charm earrings", "b": 3, "tag": "Blue & silver", "k": ["fashion", "sentimental"]},
     {"n": "Custom pet portrait in a vintage frame", "b": 3, "tag": "Pet gifts", "k": ["pets", "sentimental"]},
+    {"n": "Monogrammed crystal tumbler pair", "b": 3, "tag": "Home bar", "k": ["drinks", "home", "sentimental"]}
+   ]
+  },
+  {
+   "title": "Kidults & kids' wishlist",
+   "why": "Screen-free play, maker kits and brick builds for grown-ups top this year's toy lists.",
+   "items": [
+    {"n": "Magnetic building tiles set", "b": 3, "tag": "Build & play", "k": ["toys", "puzzles"]},
+    {"n": "Screen-free kids' audio story player", "b": 4, "tag": "Screen-free", "k": ["toys", "books", "music"]},
+    {"n": "Beginner learn-to-knit kit", "b": 2, "tag": "Little makers", "k": ["crafts", "toys"]},
+    {"n": "3D drawing pen starter set", "b": 3, "tag": "STEM pick", "k": ["crafts", "toys", "tech"]},
+    {"n": "Brick-build orchid for adults", "b": 3, "tag": "Mindful build", "k": ["puzzles", "home", "garden"]},
+    {"n": "Draw-and-guess party board game", "b": 2, "tag": "Family game night", "k": ["toys", "funny", "puzzles"]},
+    {"n": "Glow-in-the-dark science dissection kit", "b": 2, "tag": "Curious kids", "k": ["toys", "books"]}
+   ]
+  },
+  {
+   "title": "Practical stocking fillers",
+   "why": "Consumer guides keep backing useful under-£30 picks that get used every day.",
+   "items": [
+    {"n": "Compact 30W USB-C fast charger", "b": 1, "tag": "Under £15", "k": ["tech"]},
+    {"n": "Universal travel adaptor with USB ports", "b": 2, "tag": "Travel essential", "k": ["travel", "tech"]},
+    {"n": "Compression packing cubes set", "b": 2, "tag": "Carry-on hero", "k": ["travel"]},
     {"n": "Portable dog paw cleaner cup", "b": 1, "tag": "Muddy walks", "k": ["pets", "outdoors"]},
+    {"n": "Reflective lightweight running vest", "b": 2, "tag": "Winter runs", "k": ["sport", "fitness", "outdoors"]},
+    {"n": "Roll-up indoor golf putting mat", "b": 3, "tag": "Desk sport", "k": ["sport", "funny"]},
     {"n": "Solar garden fairy lights", "b": 2, "tag": "Green fingers", "k": ["garden", "eco"]}
    ]
   },
   {
-   "title": "Useful tech & active",
-   "why": "Consumer guides are favouring practical, under-£30 kit that gets used every day.",
+   "title": "Gallery-shop finds & days out",
+   "why": "Museum shops and experiences are winning with limited-run, meaningful gifts.",
    "items": [
-    {"n": "Compact 30W USB-C fast charger", "b": 1, "tag": "Under £15", "k": ["tech"]},
-    {"n": "Universal travel adaptor with USB ports", "b": 2, "tag": "Travel essential", "k": ["tech", "travel"]},
-    {"n": "Retro handheld games console", "b": 3, "tag": "Retro gaming", "k": ["gaming", "tech"]},
-    {"n": "Non-slip Pilates grip socks", "b": 1, "tag": "Studio staple", "k": ["fitness"]},
-    {"n": "Reflective lightweight running vest", "b": 2, "tag": "Winter runs", "k": ["sport", "fitness", "outdoors"]},
-    {"n": "Indoor golf putting mat", "b": 3, "tag": "Desk sport", "k": ["sport", "funny"]},
-    {"n": "Pocket garden birds guide", "b": 1, "tag": "Nature lover", "k": ["books", "garden", "outdoors"]}
-   ]
-  },
-  {
-   "title": "Kids' wishlist & makers",
-   "why": "Screen-free classics like wooden trains and skates are among the year's biggest search risers.",
-   "items": [
-    {"n": "Classic wooden toy train starter set", "b": 4, "tag": "Screen-free", "k": ["toys"]},
-    {"n": "Adjustable kids' roller skates", "b": 3, "tag": "Grows with them", "k": ["toys", "sport"]},
-    {"n": "Wooden breakfast-in-bed play food set", "b": 2, "tag": "Top toy list", "k": ["toys", "cook"]},
-    {"n": "Wooden magic tricks set", "b": 3, "tag": "Top toy list", "k": ["toys", "funny"]},
-    {"n": "Blind-box wooden message doll", "b": 2, "tag": "Collectable", "k": ["toys", "sentimental"]},
-    {"n": "Magnetic tile and ball run set", "b": 4, "tag": "Build & play", "k": ["toys", "puzzles"]},
-    {"n": "Botanical brick-build flower set for adults", "b": 3, "tag": "Adult builds", "k": ["puzzles", "home", "crafts"]}
+    {"n": "2027 night sky guide with planisphere", "b": 2, "tag": "Museum shop", "k": ["books", "outdoors"], "c": ["GB"]},
+    {"n": "Illustrated winter landscape jigsaw", "b": 2, "tag": "Limited run", "k": ["puzzles", "home"]},
+    {"n": "Wrapping cloth reusable gift wrap", "b": 2, "tag": "Low-waste", "k": ["eco", "crafts"]},
+    {"n": "Woven lambswool scarf", "b": 4, "tag": "Design classic", "k": ["fashion"]},
+    {"n": "Gin tasting experience for two", "b": 4, "tag": "Experience", "k": ["drinks", "exp"], "exp": true},
+    {"n": "Half-day cookery class voucher", "b": 4, "tag": "Experience", "k": ["cook", "exp"], "exp": true}
    ]
   }
  ]
