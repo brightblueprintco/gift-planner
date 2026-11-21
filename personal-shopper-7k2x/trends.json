@@ -1,94 +1,56 @@
-{
- "updated": "20 November 2026",
- "note": "Black Friday week deals are live a week early, so shoppers are snapping up big-ticket tech and beauty now while ordering personalised Etsy pieces before handmade cut-offs.",
- "groups": [
-  {
-   "title": "Black Friday week tech",
-   "why": "Early Black Friday pricing is pulling wish-list gadgets into baskets right now.",
-   "items": [
-    {"n": "Noise-cancelling over-ear headphones", "b": 5, "tag": "Early deal", "k": ["tech", "music", "travel"]},
-    {"n": "Smart sleep and recovery ring", "b": 5, "tag": "Wearable of the year", "k": ["tech", "fitness"]},
-    {"n": "Colour-screen e-reader", "b": 5, "tag": "Price drop", "k": ["books", "tech"]},
-    {"n": "Retro handheld games console", "b": 3, "tag": "Retro gaming", "k": ["gaming", "tech"]},
-    {"n": "Mini Bluetooth speaker with clip", "b": 2, "tag": "Stocking hero", "k": ["music", "tech", "outdoors"]},
-    {"n": "Smart bird feeder with camera", "b": 4, "tag": "Viral gadget", "k": ["garden", "tech", "photo"]},
-    {"n": "Mechanical keyboard with hot-swap keys", "b": 4, "tag": "Desk upgrade", "k": ["gaming", "tech"]}
-   ]
-  },
-  {
-   "title": "Glow, hair & self-care",
-   "why": "Hair tools and skincare are the most-discounted beauty gifts in the early sales.",
-   "items": [
-    {"n": "Multi-styler hot air brush", "b": 5, "tag": "Black Friday star", "k": ["beauty"]},
-    {"n": "LED light therapy face mask", "b": 5, "tag": "Splurge pick", "k": ["beauty"]},
-    {"n": "Viral hair and body fragrance mist", "b": 2, "tag": "TikTok favourite", "k": ["beauty"]},
-    {"n": "Beauty advent-style mini skincare set", "b": 3, "tag": "Sell-out risk", "k": ["beauty"]},
-    {"n": "Silk pillowcase and sleep mask set", "b": 3, "tag": "Sleep-care", "k": ["beauty", "home"]},
-    {"n": "Non-slip Pilates grip socks", "b": 1, "tag": "Reformer craze", "k": ["fitness", "fashion"]}
-   ]
-  },
-  {
-   "title": "Foodie, coffee & kitchen",
-   "why": "Countertop gadgets and treat bundles are top sellers as people plan festive hosting.",
-   "items": [
-    {"n": "Dual-basket air fryer", "b": 4, "tag": "Bestseller", "k": ["cook", "home"]},
-    {"n": "Frozen drink and slushie maker", "b": 5, "tag": "Viral appliance", "k": ["drinks", "home"]},
-    {"n": "Chilli crisp condiment gift bundle", "b": 2, "tag": "Foodie fave", "k": ["food", "cook"]},
-    {"n": "Handheld milk frother and syrup set", "b": 2, "tag": "Home barista", "k": ["coffee"]},
-    {"n": "Mini cocktail smoker kit", "b": 3, "tag": "Bar cart pick", "k": ["drinks"]},
-    {"n": "Dubai-style pistachio chocolate bar", "b": 1, "tag": "Still viral", "k": ["food", "funny"]},
-    {"n": "Sourdough starter kit with banneton", "b": 2, "tag": "Bake at home", "k": ["cook", "food", "crafts"]}
-   ]
-  },
-  {
-   "title": "Personalised & handmade",
-   "why": "Etsy shoppers are locking in custom orders before handmade shipping cut-offs.",
-   "items": [
-    {"n": "Embroidered personalised name ornament", "b": 2, "tag": "Etsy trending", "k": ["sentimental", "home"]},
-    {"n": "Personalised football stadium-style print", "b": 2, "tag": "Fan gift", "k": ["sport", "sentimental"]},
-    {"n": "Custom pet portrait in a vintage frame", "b": 3, "tag": "Pet parent pick", "k": ["pets", "sentimental"]},
-    {"n": "Family recipe engraved chopping board", "b": 3, "tag": "Heirloom", "k": ["cook", "sentimental"]},
-    {"n": "Birth-flower initial necklace", "b": 3, "tag": "Etsy bestseller", "k": ["fashion", "sentimental"]},
-    {"n": "Custom star map of a special date", "b": 2, "tag": "Meaningful", "k": ["sentimental", "home"]}
-   ]
-  },
-  {
-   "title": "Kidults & kids' wishlist",
-   "why": "Brick sets, building tiles and screen-free play top toy charts this week.",
-   "items": [
-    {"n": "Brick-build botanical bouquet", "b": 3, "tag": "Kidult craze", "k": ["toys", "crafts", "home"]},
-    {"n": "Magnetic building tiles set", "b": 3, "tag": "Top toy", "k": ["toys"]},
-    {"n": "Screen-free kids' audio story player", "b": 4, "tag": "Parent approved", "k": ["toys", "books", "music"]},
-    {"n": "Kids' digital instant-print camera", "b": 2, "tag": "Viral toy", "k": ["toys", "photo"]},
-    {"n": "Beginner learn-to-crochet kit", "b": 2, "tag": "Craft revival", "k": ["crafts"]},
-    {"n": "Draw-and-guess party board game", "b": 2, "tag": "Game night", "k": ["puzzles", "funny"]}
-   ]
-  },
-  {
-   "title": "Cosy, practical & outdoors",
-   "why": "Cold snaps are pushing slipper boots, heated layers and outdoor kit up the charts.",
-   "items": [
-    {"n": "Sheepskin-style ankle slipper boots", "b": 3, "tag": "Cosy classic", "k": ["fashion", "home"]},
-    {"n": "Heated insulated gilet", "b": 4, "tag": "Winter must-have", "k": ["outdoors", "fashion"]},
-    {"n": "Insulated stainless steel tumbler", "b": 2, "tag": "Everyday carry", "k": ["drinks", "outdoors", "eco"]},
-    {"n": "Portable dog paw cleaner cup", "b": 1, "tag": "Muddy walks", "k": ["pets"]},
-    {"n": "Magnetic phone mount for the car", "b": 1, "tag": "Stocking filler", "k": ["cars", "tech"]},
-    {"n": "Solar garden fairy lights", "b": 1, "tag": "Garden glow", "k": ["garden", "eco"]},
-    {"n": "Compression packing cubes set", "b": 2, "tag": "Travel hack", "k": ["travel"]}
-   ]
-  },
-  {
-   "title": "Puzzles, film & days out",
-   "why": "Experience gifts and slow-hobby picks are rising as people buy for the 'have everything' crowd.",
-   "items": [
-    {"n": "Illustrated winter landscape jigsaw", "b": 2, "tag": "Slow hobby", "k": ["puzzles"]},
-    {"n": "Retro film camera with colour film", "b": 3, "tag": "Analogue revival", "k": ["photo"]},
-    {"n": "Mini home cinema projector", "b": 4, "tag": "Movie nights", "k": ["film", "tech", "home"]},
-    {"n": "Vinyl record of the month subscription", "b": 3, "tag": "Vinyl boom", "k": ["music"]},
-    {"n": "Gin tasting experience for two", "b": 4, "tag": "Experience gift", "k": ["drinks", "exp"], "exp": true},
-    {"n": "Half-day cookery class voucher", "b": 4, "tag": "Learn something", "k": ["cook", "exp"], "exp": true},
-    {"n": "Supercar driving experience", "b": 5, "tag": "Bucket list", "k": ["cars", "exp"], "exp": true}
-   ]
-  }
- ]
-}
+{"updated":"21 November 2026","note":"With Black Friday six days out, early deals are moving cosy comfort, screen-free toys and analogue gadgets, while Etsy buyers race for personalised heirloom pieces.",
+"groups":[
+{"title":"Early-deal tech & gadgets","why":"Pre-Black Friday prices are pulling wish-list tech and clever stocking-filler gadgets into baskets.","items":[
+{"n":"Noise-cancelling over-ear headphones","b":5,"tag":"Early deal","k":["tech","music","travel"]},
+{"n":"Keychain mini digital camera","b":2,"tag":"Viral travel gadget","k":["photo","tech","travel"]},
+{"n":"3-in-1 wireless charging station","b":3,"tag":"TikTok bestseller","k":["tech","home"]},
+{"n":"Sunrise alarm and sleep clock","b":4,"tag":"Sleep upgrade","k":["tech","home"]},
+{"n":"Retro handheld games console","b":3,"tag":"Retro gaming","k":["gaming","tech"]},
+{"n":"Compact 30W USB-C fast charger","b":1,"tag":"Stocking filler","k":["tech","travel"]},
+{"n":"Mini home cinema projector","b":4,"tag":"Movie nights","k":["film","tech","home"]}]},
+{"title":"Cosy comfort & self-care","why":"Cold snaps and wellness gifting have made warm layers, slippers and massage tools top sellers.","items":[
+{"n":"Sherpa-lined gripper slipper booties","b":3,"tag":"Cosy classic","k":["fashion","home"]},
+{"n":"Rechargeable heated glove liners","b":4,"tag":"Winter must-have","k":["outdoors","tech","fashion"]},
+{"n":"Fleece-lined thermal leggings","b":2,"tag":"TikTok favourite","k":["fashion","fitness"]},
+{"n":"Neck and shoulder massager","b":3,"tag":"Desk relief","k":["beauty","tech"]},
+{"n":"Wearable oversized sherpa blanket","b":2,"tag":"Sofa season","k":["home","funny"]},
+{"n":"Non-slip Pilates grip socks","b":1,"tag":"Reformer craze","k":["fitness","fashion"]}]},
+{"title":"Beauty & fragrance","why":"Discovery sets and skincare bundles lead beauty sales as people try before they commit.","items":[
+{"n":"Fragrance discovery sampler set","b":4,"tag":"Try-before-you-buy","k":["beauty"]},
+{"n":"Multi-step skincare gift set","b":4,"tag":"Top TikTok Shop seller","k":["beauty"]},
+{"n":"Tinted lip oil trio","b":2,"tag":"Stocking hero","k":["beauty","fashion"]},
+{"n":"Heated eyelash curler or facial tool","b":2,"tag":"Viral tool","k":["beauty","tech"]},
+{"n":"Silk pillowcase and sleep mask set","b":3,"tag":"Sleep-care","k":["beauty","home"]}]},
+{"title":"Foodie, coffee & hosting","why":"Festive hosting and treat-yourself food gifts are driving kitchen and drinks picks.","items":[
+{"n":"Stove-top espresso pot","b":3,"tag":"Home barista","k":["coffee","cook"]},
+{"n":"Fine rasp grater for zest and cheese","b":2,"tag":"Chef's staple","k":["cook"]},
+{"n":"Fairtrade chocolate bar bundle","b":2,"tag":"Crowd-pleaser","k":["food","eco"]},
+{"n":"Wine aerator pourer","b":2,"tag":"Host gift","k":["drinks"]},
+{"n":"Monogrammed cocktail glasses pair","b":3,"tag":"Glam entertaining","k":["drinks","sentimental","home"]},
+{"n":"Axe-shaped novelty pizza cutter","b":2,"tag":"Gag gift","k":["cook","food","funny"]},
+{"n":"Non-toxic ceramic mini pan set","b":5,"tag":"Kitchen upgrade","k":["cook","home"]}]},
+{"title":"Personalised & Etsy heirloom","why":"Etsy shoppers are ordering custom pieces now to beat handmade shipping cut-offs.","items":[
+{"n":"Embroidered personalised Christmas stocking","b":3,"tag":"Heirloom holidays","k":["sentimental","home"]},
+{"n":"Family name embroidered ornament","b":2,"tag":"Etsy trending","k":["sentimental","home"]},
+{"n":"Custom engraved family recipe board","b":3,"tag":"Kitchen keepsake","k":["cook","sentimental"]},
+{"n":"Personalised football stadium-style print","b":2,"tag":"Fan gift","k":["sport","sentimental"]},
+{"n":"Moon and star celestial necklace","b":2,"tag":"Celestial trend","k":["fashion","sentimental"]},
+{"n":"Custom pet portrait print","b":3,"tag":"Pet parent pick","k":["pets","sentimental"]},
+{"n":"Moth or butterfly brooch","b":2,"tag":"Winter-garden whimsy","k":["fashion","crafts"]}]},
+{"title":"Kids & kidults","why":"Screen-free play, building sets and surprise-reveal toys top this year's toy hotlists.","items":[
+{"n":"Screen-free kids' audio player","b":4,"tag":"Hotlist #1","k":["toys","books","music"]},
+{"n":"Magnetic building tiles travel set","b":2,"tag":"Portable play","k":["toys","travel"]},
+{"n":"Marble run construction starter set","b":3,"tag":"STEM pick","k":["toys","puzzles"]},
+{"n":"Brick-build botanical orchid","b":3,"tag":"Mindful build","k":["toys","crafts","home"]},
+{"n":"Water-reveal plush blind box","b":1,"tag":"Viral surprise","k":["toys","funny"]},
+{"n":"Light-up LED drawing board","b":2,"tag":"Screen-free","k":["toys","crafts"]},
+{"n":"Hatching interactive dinosaur egg","b":4,"tag":"Sell-out risk","k":["toys"]}]},
+{"title":"Hobbies, outdoors & days out","why":"Slow hobbies and experiences are winning for the people who have everything.","items":[
+{"n":"Indoor golf putting mat","b":3,"tag":"Desk sport","k":["sport","funny"]},
+{"n":"Lightweight reflective running vest","b":3,"tag":"Runner's pick","k":["fitness","sport","outdoors"]},
+{"n":"Pocket field guide to British birds","b":1,"tag":"Nature hobby","k":["books","garden","outdoors"],"c":["GB"]},
+{"n":"Portable dog paw cleaner cup","b":1,"tag":"Muddy walks","k":["pets"]},
+{"n":"Illustrated winter landscape jigsaw","b":2,"tag":"Slow hobby","k":["puzzles"]},
+{"n":"Car detailing gift kit","b":2,"tag":"Weekend project","k":["cars","diy"]},
+{"n":"Cookery class voucher for two","b":4,"tag":"Experience gift","k":["cook","exp"],"exp":true}]}
+]}
