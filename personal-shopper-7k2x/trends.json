@@ -1,52 +1,47 @@
-{"updated":"24 November 2026","note":"Black Friday week is pushing deal-priced tech and cosy 'homebody' comforts, while heirloom-style personalised gifts need ordering now to beat maker cut-offs.",
+{"updated":"25 November 2026","note":"With Black Friday two days out and US Thanksgiving tomorrow, early deals on tech and kitchen kit are leading, while personalised gifts need ordering this week.",
 "groups":[
-{"title":"Black Friday tech deals","why":"Discounts of 20-65% are pulling practical gadgets into baskets this week.","items":[
-{"n":"Wi-Fi photo frame family can share into","b":4,"tag":"Family favourite","k":["photo","sentimental","tech"]},
-{"n":"Compact USB-C fast charger","b":1,"tag":"Which? pick","k":["tech","travel"]},
+{"title":"Black Friday tech worth grabbing","why":"Early deals have practical gadgets topping wish lists on both sides of the Atlantic.","items":[
 {"n":"Noise-cancelling wireless earbuds","b":4,"tag":"Deal favourite","k":["tech","music","fitness"]},
+{"n":"Wi-Fi photo frame family can share into","b":4,"tag":"Most wished for","k":["photo","sentimental","tech"]},
 {"n":"Retro handheld games console","b":3,"tag":"Retro gaming","k":["gaming","tech"]},
 {"n":"Mini portable projector","b":4,"tag":"TikTok pick","k":["film","tech","gaming"]},
-{"n":"Pet GPS tracker","b":4,"tag":"Pet tech","k":["pets","tech"]}]},
-{"title":"Cosymaxxing at home","why":"A calmer 'homebody' mood has loungewear and self-care topping wish lists.","items":[
+{"n":"Bluetooth item tracker tags","b":2,"tag":"Stocking upgrade","k":["tech","travel"]},
+{"n":"Instant print camera","b":3,"tag":"Gen Z favourite","k":["photo","tech"]},
+{"n":"Compact USB-C fast charger","b":1,"tag":"Which? pick","k":["tech","travel"]}]},
+{"title":"Cosy homebody comforts","why":"Staying in is the mood, so loungewear, scent and self-care are flying.","items":[
 {"n":"Sherpa-lined slipper boots","b":3,"tag":"Cosy classic","k":["fashion","home"]},
 {"n":"Fragrance discovery set","b":2,"tag":"Signature scent","k":["beauty"]},
+{"n":"Wearable fleece blanket hoodie","b":2,"tag":"TikTok viral","k":["home","fashion","funny"]},
 {"n":"Heated foot massager","b":4,"tag":"Wellness win","k":["fitness","beauty","home"]},
-{"n":"Cashmere-blend scarf","b":3,"tag":"Affordable luxury","k":["fashion"]},
-{"n":"Rechargeable hand warmer","b":2,"tag":"Winter staple","k":["outdoors","tech","sport"]},
-{"n":"Light therapy eye mask","b":5,"tag":"Self-care tech","k":["beauty","tech"]}]},
-{"title":"Heirloom personalised keepsakes","why":"Etsy's 'heirloom holidays' trend favours names, wood and tartan - order before cut-offs.","items":[
+{"n":"Lip oil and gloss gift set","b":1,"tag":"Beauty stocking filler","k":["beauty"]},
+{"n":"Cashmere-blend scarf","b":3,"tag":"Affordable luxury","k":["fashion"]}]},
+{"title":"Personalised keepsakes (order now)","why":"Etsy makers' cut-offs are approaching, so heirloom-style gifts need ordering this week.","items":[
 {"n":"Personalised family stocking","b":2,"tag":"Etsy heirloom","k":["sentimental","home"]},
 {"n":"Engraved wooden chopping board","b":3,"tag":"Personalised","k":["cook","home","sentimental"]},
 {"n":"Embroidered name tree ornament","b":1,"tag":"Etsy bestseller","k":["sentimental","crafts"]},
-{"n":"Personalised chocolate bar","b":1,"tag":"Which? pick","k":["food","funny"]},
-{"n":"Celestial moon and star necklace","b":2,"tag":"Cool-blue trend","k":["fashion","sentimental"]},
-{"n":"Moth or mushroom botanical art print","b":2,"tag":"Woodland quirk","k":["home","garden","crafts"]}]},
-{"title":"Kitchen and hosting","why":"Retro entertaining and dinner-party glamour are driving food and drink gifts.","items":[
+{"n":"Custom house or street illustration","b":3,"tag":"Etsy favourite","k":["home","sentimental"]},
+{"n":"Initial birthstone necklace","b":2,"tag":"Personal sparkle","k":["fashion","sentimental"]},
+{"n":"Personalised pet portrait print","b":2,"tag":"Pet parent pick","k":["pets","sentimental","home"]}]},
+{"title":"Hosting season kitchen","why":"Thanksgiving and party season are lifting cookware, coffee and drinks gifts.","items":[
+{"n":"Compact air fryer","b":4,"tag":"Deal favourite","k":["cook","food","home"]},
 {"n":"Stovetop espresso maker","b":3,"tag":"Which? pick","k":["coffee","cook"]},
 {"n":"Mini enamel cast-iron pot","b":2,"tag":"Stocking filler","k":["cook","home"]},
-{"n":"Hot-air popcorn maker","b":2,"tag":"Secret Santa","k":["food","film","funny"]},
-{"n":"Monogrammed vintage-style cocktail glasses","b":3,"tag":"Art Deco hosting","k":["drinks","home","sentimental"]},
-{"n":"Pizza oven tool and peel set","b":3,"tag":"Home pizza","k":["cook","food","outdoors"]},
-{"n":"Fine microplane grater","b":2,"tag":"Cook's essential","k":["cook"]},
+{"n":"Cocktail shaker gift set","b":2,"tag":"Home bartender","k":["drinks","home"]},
+{"n":"Hot sauce tasting set","b":2,"tag":"Foodie fave","k":["food","funny"]},
 {"n":"Bestselling new cookbook","b":2,"tag":"Bookish pick","k":["books","cook"]}]},
-{"title":"Kids' wishlist hits","why":"Blind boxes, building sets and motorsport are leading this year's toy awards.","items":[
+{"title":"Kids' wishlist hits","why":"Blind boxes, building sets and creative kits are leading this year's toy lists.","items":[
 {"n":"Mystery figure blind box","b":1,"tag":"Collectable craze","k":["toys","funny"]},
 {"n":"Magnetic building tiles set","b":3,"tag":"Wishlist award","k":["toys","diy"]},
-{"n":"Marble run starter set","b":3,"tag":"STEM favourite","k":["toys","puzzles"]},
+{"n":"Kids' instant print camera","b":3,"tag":"Creative tech","k":["toys","photo","tech"]},
 {"n":"LED drawing and writing board","b":1,"tag":"Stocking filler","k":["toys","crafts"]},
 {"n":"Motor racing car building set","b":4,"tag":"F1 fever","k":["toys","cars","sport"]},
-{"n":"Electric ride-on go-kart","b":5,"tag":"Big-ticket hit","k":["toys","cars","outdoors"]}]},
-{"title":"Hobby and adventure picks","why":"Practical gifts that feed a hobby or a day out are outselling novelty buys.","items":[
+{"n":"Crystal growing science kit","b":2,"tag":"STEM favourite","k":["toys","puzzles","crafts"]}]},
+{"title":"Hobbies, outdoors and days out","why":"Gifts that feed a hobby or make a memory are outselling novelty buys.","items":[
 {"n":"Indoor golf putting mat","b":3,"tag":"Which? pick","k":["sport","funny"]},
-{"n":"Lightweight running vest","b":2,"tag":"Runner's pick","k":["fitness","sport","outdoors"]},
-{"n":"Pocket bird identification guide","b":1,"tag":"Nature trend","k":["books","garden","outdoors"]},
-{"n":"Adult mindful building set","b":3,"tag":"Wellness build","k":["puzzles","diy","home"]},
-{"n":"Brain-teaser puzzle set","b":1,"tag":"Puzzle craze","k":["puzzles","funny"]},
-{"n":"Multi-device travel adaptor","b":2,"tag":"Travel essential","k":["travel","tech"]},
-{"n":"Afternoon tea or tasting experience","b":4,"tag":"Experience gift","k":["exp","food","drinks"],"exp":true}]},
-{"title":"Eco and pet-friendly","why":"Clean, PFAS-free and pet-minded gifts keep climbing in searches.","items":[
-{"n":"Pet paw cleaner cup","b":1,"tag":"Which? pick","k":["pets"]},
-{"n":"Organic cotton bedding set","b":4,"tag":"Clean living","k":["eco","home"]},
-{"n":"Reusable beeswax food wraps","b":1,"tag":"Low-waste","k":["eco","cook"]},
-{"n":"Personalised pet portrait print","b":2,"tag":"Etsy favourite","k":["pets","sentimental","home"]}]}
+{"n":"Insulated stainless steel water bottle","b":2,"tag":"Gym staple","k":["fitness","outdoors","eco"]},
+{"n":"Adult botanical building set","b":3,"tag":"Mindful build","k":["puzzles","diy","garden"]},
+{"n":"1000-piece illustrated jigsaw","b":2,"tag":"Puzzle craze","k":["puzzles","home"]},
+{"n":"Seed and grow-your-own herb kit","b":1,"tag":"Green thumb","k":["garden","eco","cook"]},
+{"n":"Rechargeable hand warmer","b":2,"tag":"Winter staple","k":["outdoors","tech","sport"]},
+{"n":"Afternoon tea or tasting experience","b":4,"tag":"Experience gift","k":["exp","food","drinks"],"exp":true}]}
 ]}
