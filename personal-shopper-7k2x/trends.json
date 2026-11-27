@@ -1,46 +1,52 @@
-{"updated":"26 November 2026","note":"It's US Thanksgiving and Black Friday lands tomorrow, so deal-driven tech, kitchen kit and beauty sets are leading while personalised orders need placing now.",
+{"updated":"27 November 2026","note":"It's Black Friday, so discounted tech, beauty sets and kitchen gadgets are leading, with Cyber Monday and personalised-order cut-offs close behind.",
 "groups":[
-{"title":"Black Friday weekend tech","why":"Doorbuster deals are pulling practical gadgets to the top of best-seller charts.","items":[
-{"n":"Noise-cancelling over-ear headphones","b":5,"tag":"Deal of the weekend","k":["tech","music","travel"]},
-{"n":"Smart LED strip lights for gaming setups","b":2,"tag":"TikTok viral","k":["gaming","tech","home"]},
+{"title":"Black Friday tech steals","why":"Headline deals are pushing everyday gadgets to the top of best-seller charts today.","items":[
+{"n":"Noise-cancelling wireless earbuds","b":4,"tag":"Doorbuster deal","k":["tech","music","fitness"]},
 {"n":"Retro handheld games console","b":3,"tag":"Retro gaming","k":["gaming","tech"]},
-{"n":"Digital photo frame with app sharing","b":4,"tag":"Most wished for","k":["photo","sentimental","tech"]},
+{"n":"Instant print camera","b":3,"tag":"Gen Z favourite","k":["photo","tech","sentimental"]},
 {"n":"E-reader with warm-light screen","b":4,"tag":"Bookworm upgrade","k":["books","tech","travel"]},
-{"n":"Magnetic wireless power bank","b":2,"tag":"Stocking upgrade","k":["tech","travel"]}]},
-{"title":"Kitchen kit at deal prices","why":"Hosting season plus big discounts make cooking gadgets a top pick.","items":[
-{"n":"Dual-basket air fryer","b":4,"tag":"Best seller","k":["cook","food","home"]},
-{"n":"Bean-to-cup style milk frother","b":2,"tag":"Café at home","k":["coffee","home"]},
-{"n":"Japanese-style chef's knife","b":3,"tag":"Foodie favourite","k":["cook","food"]},
-{"n":"Craft gin or rum tasting set","b":3,"tag":"Advent swap","k":["drinks"]},
-{"n":"Chilli oil and hot sauce trio","b":2,"tag":"Spice lovers","k":["food","cook","funny"]},
-{"n":"Viral pizza oven for the garden","b":5,"tag":"Big-ticket hit","k":["cook","garden","outdoors"]}]},
-{"title":"Beauty and cosy self-care","why":"Value gift sets and staying-in comfort are flying off shelves.","items":[
-{"n":"Skincare advent-style gift set","b":3,"tag":"Value set","k":["beauty"]},
-{"n":"Heated eye mask","b":2,"tag":"Wellness win","k":["beauty","travel"]},
-{"n":"Satin pillowcase and scrunchie set","b":1,"tag":"Stocking filler","k":["beauty","fashion"]},
-{"n":"Wearable fleece blanket hoodie","b":2,"tag":"TikTok viral","k":["home","fashion","funny"]},
-{"n":"Cashmere-blend beanie and gloves","b":3,"tag":"Winter staple","k":["fashion","outdoors"]},
-{"n":"Soy candle in a ceramic jar","b":2,"tag":"Etsy trending","k":["home","eco"]}]},
-{"title":"Personalised picks (order this week)","why":"Etsy makers are flagging end-of-month cut-offs for custom Christmas orders.","items":[
+{"n":"Smart plug and bulb starter kit","b":2,"tag":"Smart home deal","k":["tech","home"]},
+{"n":"Mini portable projector","b":4,"tag":"TikTok viral","k":["film","tech","home"]}]},
+{"title":"Kitchen and drinks deals","why":"Hosting season plus deep discounts make cooking gadgets and drinks sets top sellers.","items":[
+{"n":"Dual-zone air fryer","b":4,"tag":"Best seller","k":["cook","food","home"]},
+{"n":"Handheld milk frother and syrup set","b":2,"tag":"Café at home","k":["coffee"]},
+{"n":"Cast-iron casserole dish","b":4,"tag":"Heirloom kitchen","k":["cook","home"]},
+{"n":"Craft gin tasting set","b":3,"tag":"Advent swap","k":["drinks"]},
+{"n":"Hot sauce sampler box","b":2,"tag":"Spice lovers","k":["food","funny"]},
+{"n":"Speciality coffee bean subscription","b":3,"tag":"Gift that lasts","k":["coffee","drinks"]}]},
+{"title":"Beauty sets and cosy comfort","why":"Value gift sets and staying-in comfort are among the most-bought Black Friday picks.","items":[
+{"n":"Fragrance discovery mini set","b":3,"tag":"Value set","k":["beauty"]},
+{"n":"Ionic hair dryer brush","b":4,"tag":"Deal favourite","k":["beauty","tech"]},
+{"n":"Lip oil and gloss trio","b":1,"tag":"Stocking filler","k":["beauty"]},
+{"n":"Fluffy cloud-style slippers","b":2,"tag":"TikTok viral","k":["fashion","home"]},
+{"n":"Chunky knit throw blanket","b":3,"tag":"Cosy night in","k":["home"]},
+{"n":"Soy candle in a reusable jar","b":2,"tag":"Etsy trending","k":["home","eco"]}]},
+{"title":"Personalised picks (order now)","why":"Etsy makers are flagging custom Christmas cut-offs starting next week.","items":[
 {"n":"Personalised football print","b":2,"tag":"Etsy trending","k":["sport","sentimental"]},
 {"n":"Custom pet portrait illustration","b":3,"tag":"Pet parent pick","k":["pets","sentimental"]},
-{"n":"Engraved recipe chopping board","b":3,"tag":"Heirloom gift","k":["cook","sentimental","home"]},
-{"n":"Embroidered name Christmas ornament","b":1,"tag":"First Christmas","k":["sentimental","home"]},
-{"n":"Star map of a special night print","b":2,"tag":"Romantic pick","k":["sentimental","home"]},
+{"n":"Engraved family recipe chopping board","b":3,"tag":"Heirloom gift","k":["cook","sentimental"]},
+{"n":"Birth flower name necklace","b":2,"tag":"Etsy best seller","k":["fashion","sentimental"]},
+{"n":"Illustrated family house portrait","b":3,"tag":"New home gift","k":["home","sentimental"]},
 {"n":"Personalised number plate keyring","b":1,"tag":"Car lovers","k":["cars","funny"]}]},
-{"title":"Toys topping the lists","why":"Collectables and build-it sets lead the UK and US toy charts.","items":[
-{"n":"Mystery collectable figure blind box","b":1,"tag":"Unboxing craze","k":["toys","funny"]},
+{"title":"Toys topping the charts","why":"Collectables, build sets and screen-free play lead the UK and US toy lists.","items":[
+{"n":"Mystery collectable plush blind box","b":1,"tag":"Unboxing craze","k":["toys","funny"]},
 {"n":"Magnetic building tiles set","b":3,"tag":"Toy chart topper","k":["toys","crafts"]},
-{"n":"Remote-control stunt car","b":2,"tag":"Kids' wishlist","k":["toys","cars"]},
-{"n":"Kids' karaoke microphone speaker","b":2,"tag":"Party pick","k":["toys","music"]},
-{"n":"Air-dry clay craft kit","b":2,"tag":"Screen-free play","k":["crafts","toys"]},
-{"n":"Family board game for game nights","b":2,"tag":"Game night","k":["puzzles","toys","funny"]}]},
-{"title":"Hobbies, fitness and days out","why":"Gifts that get people doing something are a big theme for the new year.","items":[
-{"n":"Adjustable dumbbell set","b":4,"tag":"New-year ready","k":["fitness","sport"]},
+{"n":"Kids' interactive pet toy","b":3,"tag":"Kids' wishlist","k":["toys","pets"]},
+{"n":"Remote-control stunt car","b":2,"tag":"Black Friday deal","k":["toys","cars"]},
+{"n":"Friendship bracelet making kit","b":1,"tag":"Screen-free play","k":["crafts","toys"]},
+{"n":"Party card game for family nights","b":1,"tag":"Game night","k":["puzzles","funny"]}]},
+{"title":"Hobbies, fitness and the outdoors","why":"Gifts that kick-start new-year habits are a big theme alongside the deals.","items":[
+{"n":"Under-desk walking pad","b":5,"tag":"New-year ready","k":["fitness","tech"]},
 {"n":"Smart running watch","b":5,"tag":"Deal favourite","k":["fitness","sport","tech"]},
-{"n":"Pickleball paddle set","b":3,"tag":"Fastest-growing sport","k":["sport","outdoors"],"c":["US"]},
+{"n":"Pickleball paddle set","b":3,"tag":"Fastest-growing sport","k":["sport","outdoors"]},
+{"n":"Insulated stainless travel tumbler","b":2,"tag":"Viral cup","k":["outdoors","travel","coffee"]},
 {"n":"Adult botanical building set","b":3,"tag":"Kidult trend","k":["crafts","home","puzzles"]},
-{"n":"Indoor herb garden kit","b":2,"tag":"Grow your own","k":["garden","cook","eco"]},
-{"n":"1000-piece illustrated jigsaw","b":2,"tag":"Puzzle revival","k":["puzzles"]},
-{"n":"Cookery class or tasting day out","b":4,"tag":"Experience gift","k":["exp","cook","food"],"exp":true}]}
+{"n":"Bulb forcing and indoor bulb kit","b":2,"tag":"Grow your own","k":["garden","eco"]},
+{"n":"Gaming headset with mic","b":3,"tag":"Gamer upgrade","k":["gaming","music"]}]},
+{"title":"Experiences and days out","why":"Shoppers are buying memories as well as things, with vouchers easy to send last minute.","items":[
+{"n":"Pottery wheel taster class","b":4,"tag":"Experience gift","k":["exp","crafts"],"exp":true},
+{"n":"Distillery or brewery tour for two","b":4,"tag":"Day out","k":["exp","drinks"],"exp":true},
+{"n":"Theatre or gig ticket voucher","b":4,"tag":"Night out","k":["exp","music","film"],"exp":true},
+{"n":"Track day driving experience","b":5,"tag":"Bucket list","k":["exp","cars"],"exp":true},
+{"n":"Spa day for two","b":5,"tag":"Pamper pick","k":["exp","beauty"],"exp":true}]}
 ]}
